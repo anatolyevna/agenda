@@ -94,6 +94,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .fb{flex:none;width:30px;height:30px;border-radius:15px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--muted)}
 .fb.th{background:color-mix(in srgb,var(--d) 22%,var(--card));border-color:color-mix(in srgb,var(--d) 45%,var(--card));color:color-mix(in srgb,var(--d) 50%,var(--ink))}
 .fb.on{box-shadow:0 0 0 2px color-mix(in srgb,var(--d,#7C6A63) 75%,var(--ink));background:color-mix(in srgb,var(--d,#CEC3BB) 40%,var(--card));color:var(--ink)}
+.fb{position:relative}.fb{margin-top:6px}.fbn{position:absolute;top:-7px;right:-4px;min-width:15px;height:15px;padding:0 4px;border-radius:8px;background:var(--card);color:var(--ink);font-size:9.5px;font-weight:700;line-height:15px;text-align:center;box-shadow:0 1px 3px rgba(75,50,45,.18)}
 .fb.all{width:auto;padding:0 8px;font-size:12px;font-weight:700}
 .fname{font-size:12px;font-weight:700;color:var(--muted)}
 .task{display:grid;grid-template-columns:46px minmax(0,1fr) 34px;grid-template-rows:auto auto;column-gap:12px;row-gap:8px;padding:12px;border-radius:22px;align-items:center}
@@ -672,7 +673,7 @@ function tasksHTML(){
   let list=S.items.filter(it=>inF(it,S.folder)&&visible(it)),body='',top='';
   if(S.folder==='afaire'){
     const used=THEMES,cur=S.filter==='all'?null:TH[S.filter];
-    top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>`<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}" data-a="filter" data-v="${t.id}">${kw(t.id,22)}</button>`).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
+    top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>{const n=S.items.filter(it=>inF(it,'afaire')&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}${n?' : '+n:''}" data-a="filter" data-v="${t.id}">${kw(t.id,22)}${n?`<span class="fbn">${n}</span>`:''}</button>`}).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
     if(S.filter!=='all')list=list.filter(it=>it.theme===S.filter);
     list.sort((a,b)=>(!!a.done-!!b.done)||((a.date||'9')<(b.date||'9')?-1:1));
     body=list.map(taskCard).join('');
@@ -1224,7 +1225,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='7';
+const APP_VER='8';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
