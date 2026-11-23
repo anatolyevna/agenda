@@ -72,6 +72,23 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .wbar.s{left:5px;border-radius:3px 0 0 3px}.wbar.e{right:5px;border-radius:0 3px 3px 0}.wbar.s.e{border-radius:3px}
 .flg{position:absolute;top:-5px;right:-6px;width:17px;height:17px;border-radius:9px;background:var(--card);display:grid;place-items:center;box-shadow:0 1px 3px rgba(75,50,45,.18)}
 .adb{--p:42%;font-weight:700;padding-right:16px}
+.cytop{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:12px 16px 12px 8px}
+.cycard{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:14px}
+.cygrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px 2px;justify-items:center}
+.cyc{position:relative;width:38px;height:38px;border-radius:19px;font-size:14px;font-weight:600;color:var(--ink);display:grid;place-items:center}
+.cyc.out{opacity:.35}.cyc.p{background:#EDA5B0;color:#FFFBF5}.cyc.q{background:#F7E3DE}.cyc.f{background:#E3EDD9}
+.cyc.today{box-shadow:inset 0 0 0 2px var(--acc)}.cyc.sel{box-shadow:0 0 0 2px var(--ink)}
+.cyc i{position:absolute;bottom:3px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:2px;background:#C4A8C9}
+.cyleg{display:flex;justify-content:center;gap:14px;margin-top:10px;font-size:12px;color:var(--muted)}.cyleg span{display:flex;align-items:center;gap:5px}.cyleg i{width:10px;height:10px;border-radius:5px}
+.cyflows{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.cyf{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px;border-radius:16px;border:1px solid var(--line);font-size:11.5px;font-weight:600;color:var(--muted)}
+.cyf.on{background:#FBE3E6;border-color:#EDA5B0;color:var(--ink)}
+.cymoods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.cym{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:16px;font-size:11.5px;font-weight:600;color:var(--muted);border:1px solid transparent}
+.cym.on{background:#FBE3E6;border-color:#EDA5B0;color:var(--ink)}
+.cyd{position:absolute;bottom:3px;left:50%;margin-left:-3.5px;width:7px;height:8.4px}
+.mc{position:relative}
+.cyl{position:absolute;left:8px;right:8px;bottom:2px;height:2px;border-radius:1px;background:#EDA5B0}.cyl.q{background:#F3D3D7}
 .avant{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}
 .wcol small{font-size:10px;color:var(--muted)}
 .wcol b{font-weight:500;font-size:18px;line-height:1.1;margin-bottom:4px}
@@ -209,7 +226,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 /* Commun */
 .fab{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom) + 92px);width:58px;height:58px;border-radius:29px;background:var(--acc);display:grid;place-items:center;box-shadow:0 8px 20px rgba(207,107,100,.32);z-index:5}
 nav{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);height:68px;border-radius:24px;background:var(--card);box-shadow:0 4px 20px rgba(75,50,45,.10);display:flex;gap:2px;padding:6px;z-index:5}
-nav button{flex:1;min-width:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#9A8A82;font-size:10.5px;font-weight:700}
+nav button{flex:1;min-width:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#9A8A82;font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden}
 nav button.on{background:color-mix(in srgb,var(--acc) 14%,var(--card));color:var(--ink)}
 nav button:not(.on) svg{filter:saturate(.35);opacity:.75}
 .toast{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 6px);z-index:40;padding:10px 16px 10px 10px;border-radius:22px;background:var(--acc);color:var(--card);font-size:14px;font-weight:700;box-shadow:0 10px 26px rgba(207,107,100,.35);display:flex;align-items:center;gap:10px}
@@ -308,6 +325,7 @@ const K={
  asiatique:`<path d="M12 3.4c3 0 9 9.6 9 13.6a3.5 3.5 0 0 1-3.5 3.5h-11A3.5 3.5 0 0 1 3 17C3 13 9 3.4 12 3.4z" fill="#FFFBF5" ${ks}/><rect x="8.6" y="15" width="6.8" height="5.5" fill="#55604F"/>`+fs(12,12.2),
  plantes:`<path d="M12 11V8M12 9c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4zM12 8c0-2.4 1.6-4 4-4 0 2.4-1.6 4-4 4z" fill="#B4CA9C" ${ks}/><path d="M6.5 11h11l-1.3 9.5H7.8z" fill="#F3D9C2" ${ks}/>`+fs(12,15.4),
  voiture:`<path d="M2.8 15.6v-2.7c0-.9.6-1.6 1.5-1.8l2.3-.5 2-3.5c.4-.7 1.1-1.1 1.9-1.1h4.3c.8 0 1.5.4 1.9 1.1l2 3.5 1.2.3c.9.2 1.5 1 1.5 1.9v2.8c0 .6-.4 1-1 1H3.8c-.6 0-1-.4-1-1z" fill="#FBE7A8" ${ks}/><path d="M9 10.6l1.4-2.5c.2-.3.5-.5.9-.5h3.3c.4 0 .7.2.9.5l1.4 2.5z" fill="#E3EEF8" ${ks}/><circle cx="7.4" cy="16.8" r="2.1" fill="#FFFBF5" ${ks}/><circle cx="16.6" cy="16.8" r="2.1" fill="#FFFBF5" ${ks}/>`+fs(12,13.4),
+ cycle:`<path d="M12 2.6C9 6.8 5.4 10.2 5.4 14.4a6.6 6.6 0 0 0 13.2 0C18.6 10.2 15 6.8 12 2.6z" fill="#F6CFC9" ${ks}/><path d="M8.6 12.6c.3-1.3 1-2.4 1.8-3.2" stroke="#FFFFFF" stroke-width="1.3" fill="none" stroke-linecap="round"/>`+fs(12,15.4),
  organisation:`<rect x="3.6" y="3.4" width="14.4" height="17.4" rx="2.6" fill="#E3EEF8" ${ks}/><path d="M7 3.4v17.4" ${ks}/><rect x="17.2" y="5.4" width="3.4" height="3.4" rx="1" fill="#F6CFC9" ${ks}/><rect x="17.2" y="10.4" width="3.4" height="3.4" rx="1" fill="#F7EBC9" ${ks}/><rect x="17.2" y="15.4" width="3.4" height="3.4" rx="1" fill="#D9ECE4" ${ks}/>`+fs(12.4,12.6),
  afaire:`<circle cx="12" cy="12.6" r="8" fill="#FFFBF5" ${ks}/><path d="M12 5.8v1.3M18.8 12.6h-1.3M5.2 12.6h1.3" ${ks}/>`+fs(12,13.4),
  urgent:`<path d="M5 6.6l2.6-2.1M19 6.6l-2.6-2.1" ${ks} stroke-width="1.6"/><circle cx="12" cy="13.2" r="7.6" fill="#F6CFC9" ${ks}/>`+fs(12,13.8,'todo'),
@@ -585,8 +603,8 @@ courses:[{id:50,rayon:'fruits',name:'Pommes',qty:4},{id:51,rayon:'fruits',name:'
 /* ---------- Données réelles : départ vide, listes ménage et Moi conservées ---------- */
 S.items=[];S.courses=[];S.sugg=[];S.chores.forEach(c=>{c.last=TODAY;delete c.next});S.care.forEach(c=>{c.last=TODAY;delete c.next});
 S.flags={};
-S.recettes=[];S.lectures=[];try{S.pushOn=!!localStorage.getItem('ag_push')&&typeof Notification!=='undefined'&&Notification.permission==='granted'}catch(e){}
-const PKEYS=['items','chores','care','courses','seuil','city','nextId','flags','recettes','lectures'];
+S.recettes=[];S.lectures=[];S.cycle={days:{}};S.cyDay=TODAY;S.cyMon=TODAY.slice(0,7);try{S.pushOn=!!localStorage.getItem('ag_push')&&typeof Notification!=='undefined'&&Notification.permission==='granted'}catch(e){}
+const PKEYS=['items','chores','care','courses','seuil','city','nextId','flags','recettes','lectures','cycle'];
 const IDB=(()=>{let dbp=null;const db=()=>dbp||(dbp=new Promise((ok,ko)=>{const r=indexedDB.open('agenda-img',1);r.onupgradeneeded=()=>r.result.createObjectStore('img');r.onsuccess=()=>ok(r.result);r.onerror=()=>ko(r.error)}));
   const tx=(m,f)=>db().then(d=>new Promise((ok,ko)=>{const t=d.transaction('img',m),q=f(t.objectStore('img'));t.oncomplete=()=>ok(q&&q.result);t.onerror=()=>ko(t.error)}));
   return{get:k=>tx('readonly',st=>st.get(k)),put:(k,v)=>tx('readwrite',st=>st.put(v,k)),del:k=>tx('readwrite',st=>st.delete(k))}})();
@@ -633,6 +651,59 @@ function st(c){const left=diff(TODAY,nextOf(c));const m=left<0?'late':left<=1?'t
 const worst=L0=>{const list=L0.filter(c=>!off(c));return list.some(c=>st(c).m==='late')?'late':list.some(c=>st(c).m==='todo')?'todo':'ok'};
 
 const adBg=(list,pct)=>{const cs=[...new Set(list.filter(it=>it.allDay).map(it=>TH[it.theme].d))].slice(0,3).map(d=>`color-mix(in srgb,${d} ${pct}%,var(--card))`);if(!cs.length)return '';if(cs.length===1)return `background:${cs[0]};`;const w=100/cs.length;return `background:linear-gradient(90deg,${cs.map((c,i)=>`${c} ${i*w}% ${(i+1)*w}%`).join(',')});`};
+const MOODS=[['sereine','Sereine','#F7EBC9'],['joyeuse','Joyeuse','#F8DDB8'],['caline','Câline','#F6CFC9'],['sensible','Sensible','#E9DDF0'],['fatiguee','Fatiguée','#E3EEF8'],['triste','Triste','#DCEBF6'],['irritable','Irritable','#F4C3C8'],['anxieuse','Anxieuse','#E3EDD9']];
+const SYMS=['Crampes','Maux de tête','Ballonnements','Seins sensibles','Mal de dos','Peau','Fatigue','Envies sucrées','Nausées','Insomnie'];
+const FLOWS=[[0,'Pas de règles'],[1,'Léger'],[2,'Moyen'],[3,'Abondant']];
+function moodSvg(k,s=34){const m=MOODS.find(x=>x[0]===k)||MOODS[0],I='#4B3D3A',st=`stroke="${I}" stroke-width="1.3" fill="none" stroke-linecap="round"`;
+  const eyesDot=`<circle cx="9.2" cy="12" r="1.1" fill="${I}"/><circle cx="14.8" cy="12" r="1.1" fill="${I}"/>`,eyesShut=`<path d="M7.8 12.2q1.4-1.3 2.8 0M13.4 12.2q1.4-1.3 2.8 0" ${st}/>`,eyesSleep=`<path d="M7.9 12h2.6M13.5 12h2.6" ${st}/>`;
+  const blush=`<ellipse cx="7.4" cy="14.6" rx="1.4" ry=".8" fill="#EDA5B0" opacity=".7"/><ellipse cx="16.6" cy="14.6" rx="1.4" ry=".8" fill="#EDA5B0" opacity=".7"/>`;
+  const smile=`<path d="M10.6 15.2q1.4 1.2 2.8 0" ${st}/>`,flat=`<path d="M10.8 15.6h2.4" ${st}/>`;
+  const f={sereine:eyesShut+smile+blush,joyeuse:eyesDot+`<path d="M9.8 14.6q2.2 2.8 4.4 0z" fill="${I}"/>`+blush,caline:eyesShut+smile+blush+`<path d="M18.6 5.6c-.5-.8-1.8-.6-1.8.4 0 .8.9 1.4 1.8 2 .9-.6 1.8-1.2 1.8-2 0-1-1.3-1.2-1.8-.4z" fill="#E8A094"/>`,
+    sensible:eyesDot+smile+blush+`<path d="M18.4 4.4l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5z" fill="#C4A8C9"/>`,fatiguee:eyesSleep+flat+`<text x="16.6" y="7.4" font-size="5" font-weight="700" fill="#A4BED3" font-family="sans-serif">z</text>`,
+    triste:eyesDot+flat+`<path d="M16.6 13.2c-.6 1-1 1.6-1 2.1a1 1 0 0 0 2 0c0-.5-.4-1.1-1-2.1z" fill="#A4BED3"/>`,irritable:eyesDot+flat+`<path d="M8.6 5.2c.4-1 1.6-1.2 2.2-.4.5-.8 1.8-.7 2.2.2.8-.4 1.8.1 1.8 1" fill="none" stroke="#E8A094" stroke-width="1.1" stroke-linecap="round"/>`,
+    anxieuse:eyesDot+`<path d="M10 15.6q.7-.8 1.4 0t1.4 0 1.4 0" ${st}/>`+`<path d="M17.4 8.4c-.5.8-.8 1.3-.8 1.7a.8.8 0 0 0 1.6 0c0-.4-.3-.9-.8-1.7z" fill="#A4BED3"/>`}[m[0]];
+  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8.6" fill="${m[2]}" stroke="#6B5A55" stroke-width="1.2"/>${f}</svg>`}
+const dropSvg=(fill,s=12,op=1)=>`<svg width="${s}" height="${s*1.2}" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 .8C3.2 3.6 1.4 5.6 1.4 7.8a3.6 3.6 0 0 0 7.2 0C8.6 5.6 6.8 3.6 5 .8z" fill="${fill}" fill-opacity="${op}"/></svg>`;
+function cyStats(){const D=(S.cycle&&S.cycle.days)||{},ks=Object.keys(D).filter(k=>D[k]&&D[k].flow>0).sort(),per=[];
+  ks.forEach(k=>{const l=per[per.length-1];if(l&&diff(l.end,k)<=2)l.end=k;else per.push({start:k,end:k})});
+  const lens=[];for(let i=1;i<per.length;i++){const d=diff(per[i-1].start,per[i].start);if(d>=15&&d<=60)lens.push(d)}
+  const avg=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length),rc=lens.slice(-6),pl=per.slice(-6).map(p=>diff(p.start,p.end)+1);
+  const avgC=rc.length?avg(rc):28,avgP=pl.length?avg(pl):5,last=[...per].reverse().find(p=>p.start<=TODAY);
+  const out={per,avgC,avgP,hasC:rc.length>0,last,day:null,next:null,pred:new Set(),fert:new Set(),fa:null,fb:null};
+  if(!last)return out;
+  out.day=diff(last.start,TODAY)+1;out.next=add(last.start,avgC);
+  for(let c=0;c<3;c++){const st=add(out.next,c*avgC);for(let i=0;i<avgP;i++){const k=add(st,i);if(k>last.end)out.pred.add(k)}}
+  const ov=add(out.next,-14);out.fa=add(ov,-5);out.fb=add(ov,1);for(let k=out.fa;k<=out.fb;k=add(k,1))out.fert.add(k);
+  return out}
+function cyMark(k){const D=(S.cycle&&S.cycle.days)||{};if(D[k]&&D[k].flow>0)return 'p';const c=S._cy||cyStats();return c.pred.has(k)&&k>=TODAY?'q':''}
+const shortR=(a,b)=>{const A=pd(a),B=pd(b);return A.getMonth()===B.getMonth()?A.getDate()+' – '+B.getDate()+' '+MONS[B.getMonth()]:A.getDate()+' '+MONS[A.getMonth()]+' – '+B.getDate()+' '+MONS[B.getMonth()]};
+function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#EDA5B0';
+  const pct=c.day?Math.min(1,c.day/c.avgC):0,R=58,L=2*Math.PI*R;
+  const ring=`<svg width="124" height="124" viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="${R}" fill="none" stroke="#F7E3DE" stroke-width="10"/><circle cx="75" cy="75" r="${R}" fill="none" stroke="${PINK}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(L*pct).toFixed(1)} ${L.toFixed(1)}" transform="rotate(-90 75 75)"/><g transform="translate(45 30) scale(2.5)">${K.cycle}</g></svg>`;
+  const nIn=c.next?diff(TODAY,c.next):null;
+  const row=(l,v)=>`<div class="row" style="padding:2px 0"><span class="meta" style="font-size:13.5px">${l}</span><span style="font-size:14px;font-weight:600">${v}</span></div>`;
+  let info='';
+  if(c.next){info+=row('Prochaines règles',nIn>0?`dans ${nIn} j · ${short(c.next)}`:nIn===0?'aujourd’hui':`prévues il y a ${-nIn} j`);
+    info+=row('Fenêtre fertile estimée',shortR(c.fa,c.fb));info+=row('Cycle moyen',c.avgC+' j'+(c.hasC?'':' (par défaut)'));info+=row('Règles',c.avgP+' j');}
+  const top=`<div class="cycard"><div style="display:flex;align-items:center;justify-content:center;gap:16px">${ring}<div><div class="hf" style="font-size:28px">${c.day?'Jour '+c.day:'—'}</div><div class="meta">${c.day?'du cycle':''}</div></div></div>${info?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">${info}</div>`:''}</div>${c.next?'<div class="meta" style="font-size:11.5px;text-align:center;margin:-4px 0 8px">Estimations d’après tes cycles : pas une méthode de contraception.</div>':''}`;
+  const m0=pd(S.cyMon+'-01'),st=monday(fk(m0));let cells='';
+  for(let i=0;i<42;i++){const d=add(st,i),dd=pd(d);if(i>=35&&dd.getMonth()!==m0.getMonth())break;const mk=cyMark(d),f=c.fert.has(d)&&d>=TODAY,has=D[d]&&((D[d].mood||[]).length||(D[d].sym||[]).length);
+    cells+=`<button class="cyc ${dd.getMonth()!==m0.getMonth()?'out':''} ${mk} ${f&&!mk?'f':''} ${d===TODAY?'today':''} ${d===k?'sel':''}" data-a="cyday" data-v="${d}">${dd.getDate()}${has?'<i></i>':''}</button>`}
+  const arrow=dd=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${dd}"/></svg>`;
+  const cal=`<div class="cycard"><div class="bar" style="margin-bottom:8px"><button class="nav40 ghost" aria-label="Mois précédent" data-a="cymon" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:16px">${MON[m0.getMonth()][0].toUpperCase()+MON[m0.getMonth()].slice(1)} ${m0.getFullYear()}</div><button class="nav40 ghost" aria-label="Mois suivant" data-a="cymon" data-v="1">${arrow('M9 18l6-6-6-6')}</button></div>
+    <div class="cygrid">${DL.map(l=>`<span class="meta" style="text-align:center;font-size:11px">${l}</span>`).join('')}${cells}</div>
+    <div class="cyleg"><span><i style="background:${PINK}"></i>Règles</span><span><i style="background:#F7E3DE"></i>Prévues</span><span><i style="background:#E3EDD9"></i>Fertile</span></div></div>`;
+  const dl=k===TODAY?'Aujourd’hui':DOWL[wd(k)]+' '+pd(k).getDate()+' '+MON[pd(k).getMonth()];
+  const flows=FLOWS.map(([v,l])=>`<button class="cyf ${(e.flow||0)===v?'on':''}" data-a="cyflow" data-v="${v}"><span style="display:flex;gap:1px;height:16px;align-items:end">${v?Array.from({length:v},()=>dropSvg(PINK,11)).join(''):dropSvg('#E2D8D2',11)}</span>${l}</button>`).join('');
+  const moods=MOODS.map(([id,l])=>`<button class="cym ${(e.mood||[]).includes(id)?'on':''}" data-a="cymood" data-v="${id}">${moodSvg(id,36)}<span>${l}</span></button>`).join('');
+  const syms=SYMS.map(x=>`<button class="txt ${(e.sym||[]).includes(x)?'on':''}" style="--d:#F4C3C8" data-a="cysym" data-v="${esc(x)}">${x}</button>`).join('');
+  const hist=[...c.per].reverse().slice(0,6).map(p=>`<div class="row" style="padding:3px 0"><span style="font-size:14px;font-weight:600">${shortR(p.start,p.end)}</span><span class="meta">${diff(p.start,p.end)+1} j</span></div>`).join('');
+  return `<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:12px">${top}${cal}
+    <div class="cycard"><div class="hf" style="font-size:17px;margin-bottom:10px">${dl}</div>
+      <div class="lbl">Règles</div><div class="cyflows">${flows}</div>
+      <div class="lbl" style="margin-top:12px">Humeur</div><div class="cymoods">${moods}</div>
+      <div class="lbl" style="margin-top:12px">Symptômes</div><div class="pick">${syms}</div></div>
+    ${hist?`<div class="cycard"><div class="lbl" style="margin-bottom:4px">Dernières règles</div>${hist}</div>`:''}</div>`}
 const cdTxt=n=>n>0?'J-'+n:n===0?'Jour J':'+'+(-n)+' j';
 const cdCls=n=>n<0?'late':n<=1?'today':'';
 const FLAG='<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 4.5h11.5l-2.6 4 2.6 4H6z" fill="currentColor"/></svg>';
@@ -663,16 +734,16 @@ function calHTML(){
     const bands=S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&it.due>=bStart&&bStart<=wEnd).sort((a,b)=>a.due<b.due?-1:1).slice(0,2);
     for(let i=0;i<7;i++){const k=add(mon,i),list=onDate(k);
       const bars=bands.map((it,j)=>k>=bStart&&k<=it.due?`<i class="wbar ${k===bStart?'s':''} ${k===it.due?'e':''}" style="--d:${TH[it.theme].d};bottom:${6+j*6}px"></i>`:'').join('');
-      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" style="${adBg(list,16)}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}</div>`}
+      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" style="${adBg(list,16)}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}${(m=>m?`<i class="cyl ${m}"></i>`:'')(cyMark(k))}</div>`}
     body=`<div class="week">${cols}</div>${legend()}`;
   } else {
     const start=monday(fk(new Date(selD.getFullYear(),selD.getMonth(),1)));let cells='';
-    for(let i=0;i<42;i++){const k=add(start,i),d=pd(k),th=[...new Set(onDate(k).map(x=>x.theme))];cells+=`<button class="mc ${d.getMonth()!==selD.getMonth()?'out':''} ${k===TODAY?'today':''} ${wd(k)>=5?'we':''}" style="${adBg(onDate(k),40)}" data-a="day" data-k="${k}"><b>${d.getDate()}</b><span class="mdots">${th.slice(0,6).map(t=>`<i style="--d:${TH[t].d}"></i>`).join('')}</span></button>`}
+    for(let i=0;i<42;i++){const k=add(start,i),d=pd(k),th=[...new Set(onDate(k).map(x=>x.theme))];cells+=`<button class="mc ${d.getMonth()!==selD.getMonth()?'out':''} ${k===TODAY?'today':''} ${wd(k)>=5?'we':''}" style="${adBg(onDate(k),40)}" data-a="day" data-k="${k}">${(m=>m?`<svg class="cyd" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 .8C3.2 3.6 1.4 5.6 1.4 7.8a3.6 3.6 0 0 0 7.2 0C8.6 5.6 6.8 3.6 5 .8z" fill="#EDA5B0" fill-opacity="${m==='p'?1:.4}"/></svg>`:'')(cyMark(k))}<b>${d.getDate()}</b><span class="mdots">${th.slice(0,6).map(t=>`<i style="--d:${TH[t].d}"></i>`).join('')}</span></button>`}
     body=`<div style="padding:2px 16px 0"><div class="mgrid">${['L','M','M','J','V','S','D'].map((l,i)=>`<div class="mdow ${i>=5?'we':''}">${l}</div>`).join('')}</div><div class="mgrid">${cells}</div></div>${legend()}`;
   }
   const arrow=d=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
   return `<div style="padding:0 20px 8px;display:flex;flex-direction:column;gap:10px"><div class="seg ghost">${views}</div>
-    <div class="bar"><button class="nav40 ghost" aria-label="Précédent" data-a="step" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:17px">${label}</div><button class="nav40 ghost" aria-label="Suivant" data-a="step" data-v="1">${arrow('M9 18l6-6-6-6')}</button><button class="today-btn" data-a="today">Aujourd’hui</button></div></div>
+    <div class="bar"><button class="nav40 ghost" aria-label="Précédent" data-a="step" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:17px">${label}${S.view==='jour'&&cyMark(S.sel)?' '+dropSvg('#EDA5B0',9,cyMark(S.sel)==='p'?1:.4):''}</div><button class="nav40 ghost" aria-label="Suivant" data-a="step" data-v="1">${arrow('M9 18l6-6-6-6')}</button><button class="today-btn" data-a="today">Aujourd’hui</button></div></div>
     ${dayTop?`<div class="${S._slide||''}">${dayTop}</div>`:''}<div class="scroll" id="calscroll"><div class="${S._slide||''}">${body}</div></div>`;
 }
 
@@ -881,13 +952,13 @@ function renderInner(){
   const se=ph.querySelector('.scroll'),keep=se?se.scrollTop:0,key=S.tab+S.view+S.folder;
   const sh=ph.querySelector('.sheet'),keepSh=sh?sh.scrollTop:0;
   const city=S.city==='Ma position'?'Roubaix':S.city;
-  const tabs=[['cal','Calendrier','calendrier'],['taches','Tâches','taches'],['courses','Courses','courses'],['menage','Ménage','seau'],['moi','Moi','perso']];
-  const content={cal:calHTML,taches:tasksHTML,courses:coursesHTML,menage:menageHTML,moi:moiHTML}[S.tab]();
+  const tabs=[['cal','Calendrier','calendrier'],['taches','Tâches','taches'],['courses','Courses','courses'],['menage','Ménage','seau'],['moi','Moi','perso'],['cycle','Cycle','cycle']];S._cy=cyStats();
+  const content={cal:calHTML,taches:tasksHTML,courses:coursesHTML,menage:menageHTML,moi:moiHTML,cycle:cycleHTML}[S.tab]();
   ph.innerHTML=`<header><div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px"><span class="dnum">${pd(TODAY).getDate()}</span><span class="dtxt"><b>${DOWL[wd(TODAY)]}</b><span>${MON[pd(TODAY).getMonth()]} <i style="font-style:normal;font-size:9px;font-weight:500;opacity:.3">(${new Date(pd(TODAY).getFullYear(),pd(TODAY).getMonth()+1,0).getDate()})</i></span></span></div>
     <button class="wx mx" data-a="meteo" aria-label="Météo de la semaine">${W?ART[W.icon](44):ART.nuage(44)}<div><span class="nf" style="font-size:22px;line-height:1">${W?Math.round(W.cur)+'°':'–'}</span><small>${esc(W?W.name:(S.city==='Ma position'?'Ma position':S.city))}</small><small>${W&&W.days[0]?Math.round(W.days[0].max)+'° / '+Math.round(W.days[0].min)+'°':''}</small></div></button>
     <button class="gear" aria-label="Réglages" data-a="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button></header>
     <main>${content}</main>
-    ${S.tab!=='courses'?`<button class="fab" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
+    ${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
     <nav>${tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${kw(t[2],28)}${t[1]}</button>`).join('')}</nav>
     ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
     ${sheetHTML()}`;
@@ -952,7 +1023,7 @@ document.addEventListener('click',e=>{
   const upd=(id,fn)=>{S.items=S.items.map(x=>x.id===id?fn(x):x)};
   const cur=()=>S[S.sheetList].find(x=>x.id===S.sheetId);
   switch(a){
-    case 'tab':S.tab=v;S.q='';break;
+    case 'tab':S.tab=v;S.q='';if(v==='cycle'){S.cyDay=TODAY;S.cyMon=TODAY.slice(0,7)}break;
     case 'view':S.view=v;break;
     case 'step':{const n=+v;if(S.view==='jour')S.sel=add(S.sel,n);else if(S.view==='semaine')S.sel=add(S.sel,7*n);else{const d=pd(S.sel);S.sel=fk(new Date(d.getFullYear(),d.getMonth()+n,1))}break}
     case 'today':S.sel=TODAY;break;
@@ -1030,6 +1101,12 @@ document.addEventListener('click',e=>{
     case 'dzone':S.draftZone=v;S._sheetKeep=true;break;
     case 'rmcourse':S.courses=S.courses.filter(c=>c.id!==id);S.qOpen=0;break;
     case 'settings':S.sheet='settings';break;
+    case 'cyday':S.cyDay=v;break;
+    case 'cymon':{const d=pd(S.cyMon+'-01');d.setMonth(d.getMonth()+(+v));S.cyMon=fk(d).slice(0,7);break}
+    case 'cyflow':case 'cymood':case 'cysym':{const D=S.cycle.days,k=S.cyDay,e={...(D[k]||{})};
+      if(a==='cyflow')e.flow=+v;else{const f=a==='cymood'?'mood':'sym',l=e[f]||[];e[f]=l.includes(v)?l.filter(x=>x!==v):[...l,v]}
+      if(!e.flow)delete e.flow;['mood','sym'].forEach(f=>{if(e[f]&&!e[f].length)delete e[f]});
+      const nd={...D};if(Object.keys(e).length)nd[k]=e;else delete nd[k];S.cycle={...S.cycle,days:nd};break}
     case 'swdel':{if(v==='item')S.items=S.items.filter(x=>x.id!==id);else if(v==='course'){S.courses=S.courses.filter(x=>x.id!==id);S.qOpen=0}
       else if(v==='rec'){const r=S.recettes.find(x=>x.id===id);if(r&&r.photo){sync.delImg(r.photo);IDB.del(r.photo).catch(()=>{})}S.recettes=S.recettes.filter(x=>x.id!==id);S._sheetKeep=true}
       else if(v==='lec'){S.lectures=S.lectures.filter(x=>x.id!==id);S._sheetKeep=true}SWO=null;break}
@@ -1304,7 +1381,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='17';
+const APP_VER='18';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
