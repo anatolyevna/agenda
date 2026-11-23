@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agenda d'Alina</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Agenda">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FCF4EB">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<script async id="sbjs" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#FCF4EB;--card:#FFFBF5;--ink:#4B3D3A;--muted:#7C6A63;--line:#F0E1D4;--acc:#CF6B64;--red:#A9433C;--ok:#9DBF86;--todo:#EBAE6B;--late:#E28F86}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);height:100%;overscroll-behavior:none}
+body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+input{-webkit-user-select:text;user-select:text}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+.page{display:block}
+.phone{width:100%;max-width:760px;margin:0 auto;height:100vh;height:100dvh;background:var(--bg);position:relative;overflow:hidden;display:flex;flex-direction:column;font-family:Nunito,sans-serif}
+.hf{font-family:"Zen Maru Gothic",sans-serif;font-weight:700}
+.nf{font-family:Nunito,sans-serif;font-weight:700}
+.mx{background:color-mix(in srgb,var(--d) var(--p,17%),var(--card));border:1px solid color-mix(in srgb,var(--d) 38%,var(--card))}
+.ghost{background:color-mix(in srgb,var(--ink) 6%,var(--bg))}
+.tint{background:color-mix(in srgb,var(--d) 31%,var(--card));color:color-mix(in srgb,var(--d) 50%,var(--ink))}
+.ic{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:11px}
+header{padding:calc(env(safe-area-inset-top) + 10px) 14px 10px 18px;display:flex;align-items:center;gap:10px}
+.dnum{font-family:Nunito,sans-serif;font-weight:800;font-size:44px;line-height:.9;letter-spacing:-1px}
+.dtxt{display:flex;flex-direction:column;line-height:1.15}
+.dtxt b{font-family:"Zen Maru Gothic",sans-serif;font-size:19px}
+.dtxt span{font-size:15px;color:var(--muted);font-weight:600}
+.wx{flex:none;display:flex;align-items:center;gap:8px;padding:4px 14px 4px 4px;border-radius:20px;--d:#A4BED3;text-align:left}
+.wx small{display:block;font-size:11.5px;color:var(--muted);line-height:1.25;white-space:nowrap}
+.gear{flex:none;width:30px;height:30px;border-radius:15px;display:grid;place-items:center;opacity:.7}
+main{flex:1;min-height:0;display:flex;flex-direction:column}
+.scroll{flex:1;min-height:0;overflow-y:auto;padding-top:4px;padding-bottom:150px;scrollbar-width:none}
+.scroll::-webkit-scrollbar,.hs::-webkit-scrollbar{display:none}
+.hs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.seg{display:flex;gap:3px;padding:4px;border-radius:16px}
+.seg button{flex:1;height:40px;border-radius:12px;font-size:14px;color:var(--muted)}
+.seg button.on{background:var(--card);color:var(--ink);font-weight:700;box-shadow:0 1px 5px rgba(75,50,45,.12)}
+.bar{display:flex;align-items:center;gap:8px}
+.nav40{width:40px;height:40px;border-radius:20px;display:grid;place-items:center}
+.today-btn{height:36px;padding:0 14px;border-radius:18px;background:color-mix(in srgb,var(--acc) 16%,var(--card));color:var(--red);font-size:13px;font-weight:700}
+.ttl{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta{font-size:12px;color:var(--muted)}
+/* Légende (petites bulles, sans titre) */
+.leg{display:flex;flex-wrap:wrap;gap:5px;padding:12px 16px 0}
+.leg button{display:inline-flex;align-items:center;gap:4px;height:30px;padding:0 9px 0 2px;border-radius:999px;font-size:9.5px;font-weight:600;color:var(--muted)}
+.leg .ic{width:26px;height:26px;border-radius:13px}
+/* Jour */
+.day{position:relative;margin:0 14px 0 8px}
+.hl{position:absolute;left:0;width:30px;text-align:right;font-size:12px;color:var(--muted);transform:translateY(-50%);font-weight:600}
+.hl.soft{opacity:.45}
+.ev{position:absolute;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:18px;overflow:hidden}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 4px;border-radius:12px;font-size:13px}
+.chip .ic{width:24px;height:24px;border-radius:8px}
+/* Semaine */
+.week{display:flex;gap:4px;padding:4px 14px 0}
+.wcol{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:16px;padding:8px 0 12px;background:var(--card);min-height:330px}
+.wcol.we{background:color-mix(in srgb,#C4A8C9 16%,var(--card))}.wcol.we small,.wcol.we b{color:#7E5F86}
+.wcol.today{box-shadow:0 0 0 2px var(--acc);background:color-mix(in srgb,var(--acc) 20%,var(--card))}.wcol.today b,.wcol.today small{color:var(--red)}
+.wcol .ic{cursor:pointer}
+.wcol small{font-size:10px;color:var(--muted)}
+.wcol b{font-weight:500;font-size:18px;line-height:1.1;margin-bottom:4px}
+.wcol .ic{width:36px;height:36px;border-radius:12px}
+/* Mois */
+.mgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.mdow{text-align:center;font-size:12px;color:var(--muted);padding-bottom:6px}
+.mc{height:58px;border-radius:14px;border:1px solid var(--line);background:var(--card);padding-top:6px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.mc.we{background:color-mix(in srgb,#C4A8C9 16%,var(--card));border-color:color-mix(in srgb,#C4A8C9 35%,var(--card))}.mc.we b{color:#7E5F86}
+.mdow.we{color:#7E5F86;font-weight:700}
+.mc.out{opacity:.4}.mc.today{border:2px solid var(--acc);background:color-mix(in srgb,var(--acc) 24%,var(--card))}
+.mc b{font-size:15px;font-weight:500}.mc.today b{color:var(--red);font-weight:700}
+.mdots{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;max-width:36px}.mdots i{width:7px;height:7px;border-radius:4px;background:var(--d)}
+/* Tâches */
+.folders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 20px 12px}
+.fold{border-radius:22px;padding:8px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;--p:12%;opacity:.85}
+.fold.on{--p:34%;opacity:1;box-shadow:0 0 0 2px color-mix(in srgb,var(--d) 75%,var(--ink))}
+.fold .l{font-size:13px;font-weight:700}
+.fold .fc{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;margin-left:3px;border-radius:10px;font-size:11px;font-weight:800;background:var(--card);color:var(--muted);border:1px solid color-mix(in srgb,var(--d) 50%,var(--card))}
+.fold .fc.hot{background:var(--acc);color:var(--card);border-color:var(--acc)}
+.pips{display:flex;gap:3px;align-items:center;justify-content:center;min-height:8px;flex-wrap:wrap}
+.pips i{width:7px;height:7px;border-radius:4px;background:color-mix(in srgb,var(--d) 75%,var(--ink))}
+.pips.hot i{background:var(--acc)}
+.pips em{font-style:normal;font-size:10px;font-weight:800;color:var(--muted);margin-left:1px}
+.filters{display:flex;align-items:center;gap:6px;padding:0 20px 12px}
+.fb{flex:none;width:32px;height:32px;border-radius:16px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--muted)}
+.fb.th{background:color-mix(in srgb,var(--d) 22%,var(--card));border-color:color-mix(in srgb,var(--d) 45%,var(--card));color:color-mix(in srgb,var(--d) 50%,var(--ink))}
+.fb.on{box-shadow:0 0 0 2px color-mix(in srgb,var(--d,#7C6A63) 75%,var(--ink));background:color-mix(in srgb,var(--d,#CEC3BB) 40%,var(--card));color:var(--ink)}
+.fb.all{width:auto;padding:0 10px;font-size:12px;font-weight:700}
+.fname{font-size:12px;font-weight:700;color:var(--muted)}
+.task{display:grid;grid-template-columns:46px minmax(0,1fr) 34px;grid-template-rows:auto auto;column-gap:12px;row-gap:8px;padding:12px;border-radius:22px;align-items:center}
+.task .tile{grid-row:1/3;width:46px;height:46px;border-radius:15px;align-self:start}
+.task .body{min-width:0;display:flex;flex-direction:column;gap:4px}
+.task .foot{grid-column:2/4;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:26px}
+.task .chk{grid-column:3;grid-row:1;width:40px;height:40px;border-radius:14px;background:color-mix(in srgb,var(--d) 22%,var(--card));border:1.5px solid color-mix(in srgb,var(--d) 55%,var(--card));display:grid;place-items:center;justify-self:end;transition:background .25s}
+.task.done .chk{background:color-mix(in srgb,var(--d) 70%,var(--card));border-color:color-mix(in srgb,var(--d) 85%,var(--ink))}
+@keyframes pop{0%{transform:scale(1)}35%{transform:scale(.75)}70%{transform:scale(1.25)}100%{transform:scale(1)}}
+@keyframes draw{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+@keyframes burst{0%{opacity:1;transform:translate(0,0) scale(.4)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(1)}}
+@keyframes squish{0%{transform:scale(1)}40%{transform:scale(.97)}100%{transform:scale(1)}}
+.pop{animation:pop .45s ease-out}
+.pop .ck{stroke-dasharray:24;animation:draw .35s .12s ease-out both}
+@keyframes fly{0%{transform:none;opacity:1}100%{transform:translateY(46px) scale(.6);opacity:0}}
+.fly{animation:fly .45s ease-in forwards}
+.popcard{animation:squish .4s ease-out}
+.burst{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none}
+.burst i{position:absolute;left:-5px;top:-5px;width:10px;height:10px;animation:burst .7s ease-out forwards}
+.chk{position:relative}
+.task.done{opacity:.7}.task.done .ttl{text-decoration:line-through}
+.dchip{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;font-size:11.5px;color:var(--muted);background:color-mix(in srgb,var(--ink) 5%,var(--card))}
+.dots{display:inline-flex;gap:4px;align-items:center}
+.dots i{width:8px;height:8px;border-radius:4px;background:color-mix(in srgb,var(--ink) 10%,var(--card))}
+.dots i.f{background:color-mix(in srgb,var(--d) 75%,var(--ink))}
+.dots.hot i.f{background:var(--acc)}
+.procr{flex:none;display:grid;place-items:center;width:40px;height:34px;padding:0;border-radius:13px;font-size:0;font-weight:500;color:var(--red);background:#F9E3DF;border:1px solid #EBB3AC}
+.undo{font-size:12px;color:var(--muted);text-decoration:underline}
+.task.u1,.task.u2,.task.u3{--d:#E8A094}
+.task.u2{--p:24%}
+.task.u3{--p:38%;border:2px solid var(--acc);box-shadow:0 6px 18px rgba(207,107,100,.22)}
+.bang{min-width:40px;height:28px;padding:0 10px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:16px;letter-spacing:1px;color:var(--red);background:color-mix(in srgb,var(--acc) 16%,var(--card))}
+.task.u3 .bang{background:var(--acc);color:var(--card)}
+/* Bulles flottantes */
+.cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 12px;padding:6px 14px 8px}
+.bubble{position:relative;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
+.bubble.on{box-shadow:0 0 0 3px color-mix(in srgb,var(--d) 75%,var(--ink))}
+.bubble .nm{font-size:11.5px;font-weight:700;line-height:1.15;max-width:86%}
+.bubble .cnt{position:absolute;top:2px;right:2px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--card);font-size:11px;font-weight:800;display:grid;place-items:center;box-shadow:0 1px 4px rgba(75,50,45,.15)}
+
+/* Personnages (ménage, soins) */
+.cb{width:96px;height:96px;--d:var(--ok)}
+.cb.todo{--d:var(--todo)}.cb.late{--d:var(--late)}
+.cb{background:color-mix(in srgb,var(--d) 26%,var(--card));border:2.5px solid color-mix(in srgb,var(--d) 80%,var(--card))}
+.cb .nm{font-size:11px}
+.zone{display:flex;align-items:center;gap:8px;margin:14px 20px 2px}
+.zone .hf{font-size:16px}
+.sched{font-size:10.5px;color:var(--muted);text-align:center;line-height:1.2}
+.daypick{display:flex;gap:5px}
+.daypick button{width:36px;height:36px;border-radius:18px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:13px}
+.daypick button.on{background:color-mix(in srgb,#EEB87D 40%,var(--card));border-color:color-mix(in srgb,#EEB87D 75%,var(--ink))}
+.cbw{display:flex;flex-direction:column;align-items:center;gap:6px;width:104px}
+.cbw .when{font-size:11px;font-weight:700;color:color-mix(in srgb,var(--d) 60%,var(--ink));--d:var(--ok)}
+.cbw .when.todo{--d:var(--todo)}.cbw .when.late{--d:var(--late)}
+.cbw .lbl2{font-size:12.5px;font-weight:700;text-align:center;line-height:1.2}
+/* Courses */
+.search{position:relative;margin:0 20px 10px}
+.search input,.csearch input{width:100%;height:48px;border-radius:18px;border:1px solid var(--line);background:var(--card);padding:0 16px 0 44px;font:inherit;font-size:15px;color:var(--ink)}
+.search svg,.csearch svg{position:absolute;left:15px;top:14px}
+.sugg{display:flex;flex-direction:column;gap:6px;margin:0 20px 10px}
+.sugg button{display:flex;align-items:center;gap:10px;height:44px;padding:0 12px 0 6px;border-radius:16px;text-align:left;font-size:15px}
+.sugg .ic{width:32px;height:32px}
+.rstrip{padding:4px 20px 12px}
+.rbtn{flex:none;width:52px;height:52px;border-radius:18px;display:grid;place-items:center}
+.item{display:flex;align-items:center;gap:10px;min-height:54px;padding:6px 8px 6px 10px;border-radius:18px;--p:14%}
+.box{position:relative;width:30px;height:30px;flex:none;border-radius:15px;background:color-mix(in srgb,var(--d) 25%,var(--card));border:1.5px solid color-mix(in srgb,var(--d) 60%,var(--card));display:grid;place-items:center}
+.fly .box{background:color-mix(in srgb,var(--d) 75%,var(--card))}
+.qty{display:flex;align-items:center;gap:2px;background:var(--card);border-radius:999px;padding:2px;border:1px solid color-mix(in srgb,var(--d) 40%,var(--card))}
+.qty button{width:28px;height:28px;border-radius:14px;font-size:16px;font-weight:700;color:var(--muted)}
+.qty span{min-width:20px;text-align:center;font-weight:800;font-size:14px}
+.qmini{flex:none;display:grid;place-items:center;height:28px;width:28px;border-radius:14px;color:var(--muted);opacity:.75;background:color-mix(in srgb,var(--ink) 4%,var(--card))}
+.qp{flex:none;display:flex;align-items:center;height:28px;border-radius:14px;background:var(--card);border:1px solid #D3C4B6;box-shadow:0 1px 3px rgba(75,50,45,.12)}
+.qbtn{flex:none;display:grid;place-items:center;width:30px;height:28px;border-radius:10px;background:var(--card);border:1px solid #D3C4B6;box-shadow:0 1px 3px rgba(75,50,45,.12);color:#6B5A55}
+.qp button{width:24px;height:24px;font-size:15px;font-weight:700;color:#8A7A72;line-height:1}
+.qp span{min-width:16px;text-align:center;font-size:12.5px;font-weight:800}
+.cartfab{position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom) + 90px);width:64px;height:64px;border-radius:32px;background:var(--card);box-shadow:0 6px 18px rgba(75,50,45,.16);display:grid;place-items:center;z-index:6}
+.cartfab em{position:absolute;top:-2px;right:-2px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--acc);color:var(--card);font-style:normal;font-size:11px;font-weight:800;display:grid;place-items:center}
+@keyframes bump{0%,100%{transform:scale(1)}40%{transform:scale(1.18) rotate(-6deg)}}
+.cartfab.bump{animation:bump .4s ease-out}
+.flyer{position:absolute;z-index:50;pointer-events:none}
+.grp{display:flex;align-items:center;gap:10px;margin:14px 0 6px}
+.cart{margin-top:22px;padding:16px;border-radius:24px;background:var(--card);border:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
+.cartin{flex:1;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;min-height:60px}
+.cartin button{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 10px 0 4px;border-radius:999px;font-size:13px}
+.cartin .ic{width:24px;height:24px;border-radius:12px}
+.cat{display:flex;flex-wrap:wrap;gap:8px}
+.cat button{height:38px;padding:0 14px;border-radius:999px;font-size:14px;background:var(--card);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px}
+.cat button.in{background:color-mix(in srgb,var(--d) 35%,var(--card));border-color:color-mix(in srgb,var(--d) 65%,var(--card));font-weight:700}
+.csearch{position:sticky;bottom:-38px;margin:0 -20px -38px;padding:12px 20px 38px;background:var(--bg)}
+/* Météo semaine */
+.wday{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.wday .d{width:86px;font-weight:700;font-size:14px}
+.wday .t{margin-left:auto;font-weight:700;font-size:15px}
+.wday .t small{font-weight:500;color:var(--muted);margin-left:6px}
+/* Commun */
+.fab{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom) + 92px);width:58px;height:58px;border-radius:29px;background:var(--acc);display:grid;place-items:center;box-shadow:0 8px 20px rgba(207,107,100,.32);z-index:5}
+nav{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);height:68px;border-radius:24px;background:var(--card);box-shadow:0 4px 20px rgba(75,50,45,.10);display:flex;gap:2px;padding:6px;z-index:5}
+nav button{flex:1;min-width:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#9A8A82;font-size:10.5px;font-weight:700}
+nav button.on{background:color-mix(in srgb,var(--acc) 14%,var(--card));color:var(--ink)}
+nav button:not(.on) svg{filter:saturate(.35);opacity:.75}
+.toast{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 6px);z-index:40;padding:10px 16px 10px 10px;border-radius:22px;background:var(--acc);color:var(--card);font-size:14px;font-weight:700;box-shadow:0 10px 26px rgba(207,107,100,.35);display:flex;align-items:center;gap:10px}
+.empty{display:flex;flex-direction:column;align-items:center;padding:24px 0}
+.veil{position:absolute;inset:0;z-index:30;background:rgba(75,61,58,.28);display:flex;flex-direction:column;justify-content:flex-end}
+.sheet{background:var(--bg);border-radius:28px 28px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom) + 24px);display:flex;flex-direction:column;gap:16px;max-height:88%;overflow-y:auto}
+.sheet label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.sheet input{height:50px;border-radius:16px;border:1px solid var(--line);background:var(--card);padding:0 16px;font:inherit;font-size:16px;color:var(--ink)}
+.step{width:42px;height:42px;border-radius:21px;font-size:20px}
+.big{height:52px;border-radius:16px;background:var(--ink);color:var(--card);font-size:16px;font-weight:700}
+.pick{display:flex;flex-wrap:wrap;gap:6px}
+.pick button{height:38px;padding:0 12px 0 5px;border-radius:999px;font-size:13px;background:var(--card);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px}
+.pick button .ic{width:28px;height:28px;border-radius:14px}
+.pick button.on{background:color-mix(in srgb,var(--d) 35%,var(--card));border-color:color-mix(in srgb,var(--d) 70%,var(--ink));font-weight:700}
+.pick button.txt{padding:0 14px}
+.lbl{font-size:13px;color:var(--muted)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px}
+.gate form{width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}
+.gate input{width:100%;height:50px;border-radius:16px;border:1px solid var(--line);background:var(--card);padding:0 16px;font:inherit;font-size:16px;color:var(--ink)}
+.gate .big{width:100%}
+.syncdot{width:7px;height:7px;border-radius:4px;display:inline-block;margin-left:6px;vertical-align:middle}
+.danger{height:46px;border-radius:16px;background:transparent;color:var(--red);font-size:15px;font-weight:700;border:1px solid #EBB3AC}
+.daterow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+</style>
+</head>
+<body>
+<div class="page"><div class="phone" id="phone"></div></div>
+<script>
+let TODAY=(()=>{const d=new Date(),m=d.getMonth()+1,j=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(j<10?'0':'')+j})();const INK='#4B3D3A', SK='#6B5A55';
+/* ---------- Icônes au trait ---------- */
+const P={
+ travail:'<rect x="4" y="5" width="16" height="11" rx="2"/><path d="M2 19h20M10 19l.5-1.5h3l.5 1.5"/>',
+ sport:'<path d="M3 15.5V12l4.5-5.5 2.2 2.6 2.8-1.1 1.2 2.9c3.2.8 7.3 2 7.3 4.8v.8z"/><path d="M3 18.5h18M8.5 11.2l1.6 1M10.6 9.6l1.6 1"/>',
+ sante:'<rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-35 12 12)"/><path d="M9.2 8.2l5.6 7.6"/>',
+ menage:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"/>',
+ admin:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 11h18"/>',
+ perso:'<circle cx="12" cy="4.3" r="2.2"/><circle cx="12" cy="13.5" r="7.5"/><path d="M7.2 12c1.4-3 8.2-3 9.6 0"/><path d="M9.6 14.2q.9-.8 1.8 0M12.6 14.2q.9-.8 1.8 0"/>',
+ proches:'<circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3 19a5.5 5.5 0 0 1 11 0M13.5 18.5a4 4 0 0 1 7.5-1"/>',
+ loisirs:'<path d="M6 10l1.8 11h8.4L18 10z"/><path d="M10 10l.5 11M14 10l-.5 11"/><path d="M6 10a2.5 2.5 0 0 1 1-4.6A3 3 0 0 1 12 3.8a3 3 0 0 1 5 1.6A2.5 2.5 0 0 1 18 10"/>',
+ apprendre:'<path d="M16 3.5l4.5 4.5L8 20.5H3.5V16z"/><path d="M13.5 6l4.5 4.5"/>',
+ fruits:'<path d="M12 7.5c-1.6-1.4-5-1.2-6.4 1.3C4.2 11.4 4.8 15.6 7 18.4c1.6 2 3.4 2.2 5 1.4 1.6.8 3.4.6 5-1.4 2.2-2.8 2.8-7 1.4-9.6C17 6.3 13.6 6.1 12 7.5z"/><path d="M12 7.5c0-2 .9-3.6 2.8-4.5"/>',
+ frais:'<path d="M8 2h8M8 2v3L6 9v12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9l-2-4V2M6 9h12"/><path d="M9.5 14h5"/>',
+ pain:'<path d="M5 11.5A4 4 0 0 1 7.5 4h9A4 4 0 0 1 19 11.5V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path d="M9.5 9.5l1 1M13.5 9.5l1 1"/>',
+ poisson:'<path d="M6.5 12c.9-3.5 4.9-6 8.5-6 3.6 0 6.1 2.5 7 6-.9 3.5-3.4 6-7 6s-7.6-2.5-8.5-6z"/><path d="M18 12v.5M7 10.7C7 8 5.6 6 2.7 5.5c-1 1.5-1 5 .2 6.5-1.2 1.5-1.2 5-.2 6.5C5.6 18 7 16 7 13.3"/>',
+ epicerie:'<rect x="7" y="3" width="10" height="3" rx="1"/><path d="M6 6h12v13a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M9 12h6"/>',
+ boissons:'<path d="M10 2h4M10 2v4L8 9v11a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9l-2-3V2M8 13h8"/>',
+ surgeles:'<path d="M12 2v20M4.9 7l14.2 10M19.1 7 4.9 17M9 4l3 2 3-2M9 20l3-2 3 2"/>',
+ hygiene:'<path d="M9 9h6a2 2 0 0 1 2 2v9a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-9a2 2 0 0 1 2-2z"/><path d="M12 9V5M10 5h5l1 1.5M10 14h4"/>',
+ entretien:'<path d="M4 10h16v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 10l2-3h12l2 3"/><path d="M8.5 14h.01M12 15h.01M15.5 14h.01"/>',
+ plantes:'<path d="M8 14h8l-1 7H9z"/><path d="M12 14V9M12 11c-3 0-5-2-5-5 3 0 5 2 5 5zM12 9c0-3 2-5 5-5 0 3-2 5-5 5z"/>',
+ calendrier:'<rect x="4" y="5" width="16" height="15" rx="4"/><path d="M8 3v4M16 3v4M4 10h16"/>',
+ taches:'<rect x="4" y="4" width="16" height="16" rx="5"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/>',
+ courses:'<path d="M5 9h14l-1.2 9.5a2.5 2.5 0 0 1-2.5 2.2H8.7a2.5 2.5 0 0 1-2.5-2.2z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/>',
+ afaire:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/>',
+ urgent:'<path d="M12 6v8"/><circle cx="12" cy="18" r=".6" fill="currentColor"/>',
+ rappels:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+ repeat:'<path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/>',
+ cal:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/>'};
+const ico=(k,s=18,w=1.8)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[k]||''}</svg>`;
+
+/* ---------- Mini personnages kawaii (thèmes, rayons, dossiers, onglets) ---------- */
+const ks=`stroke="#6B5A55" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round"`;
+function fs(x,y,m){if(m==='sleep')return `<path d="M${x-3.2} ${y-.3}q.9.8 1.8 0M${x+1.4} ${y-.3}q.9.8 1.8 0" stroke="#4B3D3A" stroke-width=".9" fill="none" stroke-linecap="round"/><path d="M${x-.9} ${y+1.5}q.9.6 1.8 0" stroke="#4B3D3A" stroke-width=".85" fill="none" stroke-linecap="round"/><ellipse cx="${x-3.9}" cy="${y+1.3}" rx="1.15" ry=".7" fill="#EDA5B0"/><ellipse cx="${x+3.9}" cy="${y+1.3}" rx="1.15" ry=".7" fill="#EDA5B0"/>`;if(m==='joy')return `<path d="M${x-3.3} ${y}q1-1.4 2 0M${x+1.3} ${y}q1-1.4 2 0" stroke="#4B3D3A" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M${x-1.4} ${y+1.4}q1.4 1.5 2.8 0" stroke="#4B3D3A" stroke-width="1" fill="#E8A094" stroke-linecap="round"/><ellipse cx="${x-4}" cy="${y+1.4}" rx="1.3" ry=".8" fill="#E8A094"/><ellipse cx="${x+4}" cy="${y+1.4}" rx="1.3" ry=".8" fill="#E8A094"/>`;const blush=`<ellipse cx="${x-3.9}" cy="${y+1.3}" rx="1.15" ry=".7" fill="#EDA5B0"/><ellipse cx="${x+3.9}" cy="${y+1.3}" rx="1.15" ry=".7" fill="#EDA5B0"/>`;
+ if(m==='todo')return `<circle cx="${x-2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><circle cx="${x+2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><ellipse cx="${x}" cy="${y+1.7}" rx=".75" ry=".85" fill="#4B3D3A"/>${blush}`;
+ return `<circle cx="${x-2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><circle cx="${x+2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><path d="M${x-1.05} ${y+1.3}q1.05 .95 2.1 0" stroke="#4B3D3A" stroke-width=".9" fill="none" stroke-linecap="round"/>${blush}`}
+const K={
+ travail:`<path d="M3.5 18.5l1.5-2.5h14l1.5 2.5z" fill="#EEF3F8" ${ks}/><rect x="4" y="4.5" width="16" height="11.5" rx="2.5" fill="#DCE8F4" ${ks}/>`+fs(12,10.3),
+ sport:`<rect x="2.2" y="7.4" width="4.4" height="10" rx="1.8" fill="#8EC6BD" ${ks}/><rect x="17.4" y="7.4" width="4.4" height="10" rx="1.8" fill="#8EC6BD" ${ks}/><rect x="6.2" y="8.6" width="11.6" height="7.6" rx="3" fill="#D9ECE4" ${ks}/>`+fs(12,12.3),
+ sante:`<path d="M7 3.6v5.4a5 5 0 0 0 10 0V3.6" fill="none" stroke="#6B5A55" stroke-width="1.6" stroke-linecap="round"/><circle cx="7" cy="3.6" r="1.1" fill="#6B5A55"/><circle cx="17" cy="3.6" r="1.1" fill="#6B5A55"/><path d="M12 14v1.6a3 3 0 0 0 2 2.8" fill="none" stroke="#6B5A55" stroke-width="1.6" stroke-linecap="round"/><circle cx="17" cy="17.6" r="4.8" fill="#F6CFC9" ${ks}/>`+fs(17,17.9),
+ menage:`<path d="M17.6 2.6 13 13" stroke="#C9A985" stroke-width="1.8" stroke-linecap="round"/><path d="M4.6 9.6h14.8l-1.7 10.6a1.8 1.8 0 0 1-1.8 1.5H8.1a1.8 1.8 0 0 1-1.8-1.5z" fill="#D6E6F2" ${ks}/><path d="M4.2 9.6h15.6" ${ks}/><path d="M11 9.4c.6-1.6 2.6-2 4-.6" fill="#FFFBF5" ${ks}/><circle cx="6.6" cy="6.6" r="1.3" fill="#FFFBF5" ${ks}/><circle cx="9" cy="4.6" r=".9" fill="#FFFBF5" ${ks}/>`+fs(12,15),
+ admin:`<path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#ECE6E1" ${ks}/>`+fs(12,13.6),
+ perso:`<ellipse cx="8.6" cy="6.2" rx="2" ry="4.4" fill="#FFFBF5" ${ks}/><ellipse cx="15.4" cy="6.2" rx="2" ry="4.4" fill="#FFFBF5" ${ks}/><ellipse cx="8.6" cy="6.6" rx=".8" ry="2.6" fill="#F6CFC9"/><ellipse cx="15.4" cy="6.6" rx=".8" ry="2.6" fill="#F6CFC9"/><circle cx="12" cy="14.6" r="7" fill="#FFFBF5" ${ks}/>`+fs(12,15),
+ proches:`<circle cx="8.4" cy="13.6" r="5.6" fill="#E9DDF0" ${ks}/><circle cx="16.6" cy="14.8" r="4.6" fill="#F6CFC9" ${ks}/><circle cx="6.6" cy="13.4" r=".85" fill="#4B3D3A"/><circle cx="10.2" cy="13.4" r=".85" fill="#4B3D3A"/><path d="M7.6 15.2q.8.7 1.6 0" stroke="#4B3D3A" stroke-width=".85" fill="none" stroke-linecap="round"/><circle cx="15.2" cy="14.6" r=".8" fill="#4B3D3A"/><circle cx="18.2" cy="14.6" r=".8" fill="#4B3D3A"/><path d="M16 16.2q.7.6 1.4 0" stroke="#4B3D3A" stroke-width=".8" fill="none" stroke-linecap="round"/>`,
+ loisirs:`<g fill="#FFF3D6" ${ks}><circle cx="7.6" cy="8.2" r="2.4"/><circle cx="16.4" cy="8.2" r="2.4"/><circle cx="10.2" cy="6.2" r="2.5"/><circle cx="13.8" cy="6.2" r="2.5"/><circle cx="12" cy="8.4" r="2.4"/></g><path d="M5 9.6h14l-1.8 11.2H6.8z" fill="#FFFBF5" ${ks}/><path d="M8.2 9.8l.8 10.8M15.8 9.8l-.8 10.8" stroke="#E8A094" stroke-width="2.2"/><path d="M12 9.8v10.8" stroke="#E8A094" stroke-width="2.2"/><rect x="7.6" y="12.6" width="8.8" height="5" rx="2" fill="#FFFBF5" ${ks}/><path d="M5 9.6h14l-1.8 11.2H6.8z" fill="none" ${ks}/>`+fs(12,15),
+ apprendre:`<path d="M6.4 11.6v4.6c0 1.9 2.5 3.4 5.6 3.4s5.6-1.5 5.6-3.4v-4.6" fill="#F3E7C2" ${ks}/><path d="M2.4 9.6 12 5l9.6 4.6L12 14.2z" fill="#D9C27E" ${ks}/><path d="M20.2 10.4v5" ${ks}/><circle cx="20.2" cy="16" r="1.1" fill="#E8A094"/>`+fs(12,16.4),
+ fruits:`<path d="M12 8c-1.6-1.3-4.8-1.1-6.1 1.3-1.3 2.4-.7 6.4 1.4 9 1.5 1.9 3.2 2.1 4.7 1.3 1.5.8 3.2.6 4.7-1.3 2.1-2.6 2.7-6.6 1.4-9C16.8 6.9 13.6 6.7 12 8z" fill="#F6CFC9" ${ks}/><path d="M12 8c0-2 .8-3.4 2.6-4.3" fill="none" ${ks}/><path d="M13 5.6c1.5-1 3-.8 3.6 0-1 1-2.3 1.2-3.6 0z" fill="#B4CA9C"/>`+fs(12,13.6),
+ frais:`<path d="M7.5 7l2-3.5h5l2 3.5v13a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1z" fill="#FFFBF5" ${ks}/><path d="M7.5 7h9" ${ks}/><path d="M7.5 9h9v3.6h-9z" fill="#DCE8F4"/>`+fs(12,15.8),
+ pain:`<path d="M5 11.5A4 4 0 0 1 7.5 4.5h9A4 4 0 0 1 19 11.5V19a1.2 1.2 0 0 1-1.2 1.2H6.2A1.2 1.2 0 0 1 5 19z" fill="#F8DDB8" ${ks}/><path d="M7.2 11.8h9.6v6.2H7.2z" fill="#FDF0DE"/>`+fs(12,14.4),
+ poisson:`<path d="M4.5 12L1.8 9v6z" fill="#D9ECE4" ${ks}/><path d="M4.5 12c1.2-3.4 4.6-5.6 8-5.6 3.6 0 6 2.2 7 5.6-1 3.4-3.4 5.6-7 5.6-3.4 0-6.8-2.2-8-5.6z" fill="#D9ECE4" ${ks}/>`+fs(13,12),
+ epicerie:`<ellipse cx="12" cy="20" rx="7" ry="1.8" fill="#E3D6CC" ${ks}/><rect x="5" y="6" width="14" height="14" fill="#F6CFC9"/><path d="M5 6v14M19 6v14" ${ks}/><rect x="5" y="9.6" width="14" height="7.4" fill="#FFFBF5"/><path d="M5 9.6h14M5 17h14" stroke="#E8A094" stroke-width=".9"/><ellipse cx="12" cy="6" rx="7" ry="2" fill="#E3D6CC" ${ks}/><ellipse cx="12" cy="6" rx="4.4" ry="1" fill="none" stroke="#C9B9AE" stroke-width=".8"/>`+fs(12,13.4),
+ boissons:`<path d="M10 3h4v3.5l2 3V19a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9.5l2-3z" fill="#E6E4F4" ${ks}/>`+fs(12,15),
+ surgeles:`<path d="M19.6 1.8v3.4M17.9 3.5h3.4M18.4 2.3l2.4 2.4M20.8 2.3l-2.4 2.4" stroke="#8FB4D6" stroke-width=".9" stroke-linecap="round"/><rect x="5" y="6.4" width="14" height="13.4" rx="3.6" fill="#E3F0FA" ${ks}/><path d="M5.4 9.4c1.6 1 2.6-.6 4 .2s2.6-.6 4 .2 2.6-.6 4 .2" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/><path d="M2.6 11l1 .9-1 .9 1 .9M21.4 11l-1 .9 1 .9-1 .9" fill="none" stroke="#8FB4D6" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.7" cy="13" r=".95" fill="#4B3D3A"/><circle cx="14.3" cy="13" r=".95" fill="#4B3D3A"/><path d="M10.2 15.6l.6-.5.6.5.6-.5.6.5.6-.5.6.5" fill="none" stroke="#4B3D3A" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="8" cy="14.6" rx="1.1" ry=".7" fill="#A4C3E0"/><ellipse cx="16" cy="14.6" rx="1.1" ry=".7" fill="#A4C3E0"/>`,
+ hygiene:`<path d="M8.6 9.4 6.8 3.4" stroke="#6B5A55" stroke-width="2.8" stroke-linecap="round"/><path d="M8.6 9.4 6.8 3.4" stroke="#A4BED3" stroke-width="1.3" stroke-linecap="round"/><path d="M14.4 9.4V5.4l2.8-1.6v5.6z" fill="#E8A094" ${ks}/><path d="M3.4 11.2a2.4 2.4 0 0 1 2.4-2.4h12.4a2.4 2.4 0 0 1 2.4 2.4v7a2.6 2.6 0 0 1-2.6 2.6H6a2.6 2.6 0 0 1-2.6-2.6z" fill="#F6CFC9" ${ks}/><path d="M3.8 11.6h16.4" stroke="#FFFBF5" stroke-width="1.1" stroke-dasharray="1.2 1"/><circle cx="18.4" cy="11.6" r=".95" fill="#CEC3BB"/>`+fs(12,16.2),
+ entretien:`<path d="M8.2 20.4v-4.6L5.4 11.4a1.3 1.3 0 0 1 2.2-1.3L9 12V5.2a1.2 1.2 0 0 1 2.4 0V10V4a1.2 1.2 0 0 1 2.4 0V10V4.8a1.2 1.2 0 0 1 2.4 0V11V6.6a1.2 1.2 0 0 1 2.4 0V16l-1.4 4.4z" fill="#F7E08E" ${ks}/><rect x="7.8" y="19.6" width="10" height="2.8" rx="1" fill="#F2C75C" ${ks}/>`+fs(12.8,15.4),
+ viande:`<path d="M9.8 14.2 5.6 18.4" stroke="#6B5A55" stroke-width="3.6" stroke-linecap="round"/><path d="M9.8 14.2 5.6 18.4" stroke="#FFFBF5" stroke-width="1.8" stroke-linecap="round"/><circle cx="4.8" cy="19.2" r="1.7" fill="#FFFBF5" ${ks}/><circle cx="14" cy="10" r="6.6" fill="#E9A98F" ${ks}/>`+fs(14.4,10.6),
+ asiatique:`<path d="M12 3.4c3 0 9 9.6 9 13.6a3.5 3.5 0 0 1-3.5 3.5h-11A3.5 3.5 0 0 1 3 17C3 13 9 3.4 12 3.4z" fill="#FFFBF5" ${ks}/><rect x="8.6" y="15" width="6.8" height="5.5" fill="#55604F"/>`+fs(12,12.2),
+ plantes:`<path d="M12 11V8M12 9c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4zM12 8c0-2.4 1.6-4 4-4 0 2.4-1.6 4-4 4z" fill="#B4CA9C" ${ks}/><path d="M6.5 11h11l-1.3 9.5H7.8z" fill="#F3D9C2" ${ks}/>`+fs(12,15.4),
+ afaire:`<circle cx="12" cy="12.6" r="8" fill="#FFFBF5" ${ks}/><path d="M12 5.8v1.3M18.8 12.6h-1.3M5.2 12.6h1.3" ${ks}/>`+fs(12,13.4),
+ urgent:`<path d="M5 6.6l2.6-2.1M19 6.6l-2.6-2.1" ${ks} stroke-width="1.6"/><circle cx="12" cy="13.2" r="7.6" fill="#F6CFC9" ${ks}/>`+fs(12,13.8,'todo'),
+ rappels:`<path d="M6.5 16v-5a5.5 5.5 0 0 1 11 0v5l1.4 1.8H5.1z" fill="#F8DDB8" ${ks}/><path d="M10.4 20.2a1.7 1.7 0 0 0 3.2 0" fill="none" ${ks}/>`+fs(12,12.6),
+ calendrier:`<rect x="4" y="5.5" width="16" height="15" rx="3.5" fill="#FFFBF5" ${ks}/><path d="M4 9.6V9a3.5 3.5 0 0 1 3.5-3.5h9A3.5 3.5 0 0 1 20 9v.6z" fill="#F6CFC9" ${ks}/><path d="M8.5 3.6v3M15.5 3.6v3" ${ks}/>`+fs(12,15),
+ taches:`<rect x="5" y="5" width="14" height="16" rx="3" fill="#E3EDD9" ${ks}/><rect x="9" y="3.2" width="6" height="3.4" rx="1.2" fill="#FFFBF5" ${ks}/>`+fs(12,14),
+ courses:`<path d="M5.5 9h13l-1 10.2a2 2 0 0 1-2 1.8h-7a2 2 0 0 1-2-1.8z" fill="#F8DDB8" ${ks}/><path d="M9 9V7.5a3 3 0 0 1 6 0V9" fill="none" ${ks}/>`+fs(12,14.6),
+ seau:`<path d="M17.6 2.6 13 13" stroke="#C9A985" stroke-width="1.8" stroke-linecap="round"/><path d="M4.6 9.6h14.8l-1.7 10.6a1.8 1.8 0 0 1-1.8 1.5H8.1a1.8 1.8 0 0 1-1.8-1.5z" fill="#D6E6F2" ${ks}/><path d="M4.2 9.6h15.6" ${ks}/><path d="M11 9.4c.6-1.6 2.6-2 4-.6" fill="#FFFBF5" ${ks}/><circle cx="6.6" cy="6.6" r="1.3" fill="#FFFBF5" ${ks}/><circle cx="9" cy="4.6" r=".9" fill="#FFFBF5" ${ks}/>`+fs(12,15)};
+const PR={};
+const eggs=`<path d="M3 15h18l-1.5 5h-15z" fill="#F3E2CC" ${ks}/><ellipse cx="8.2" cy="11.4" rx="3.7" ry="4.7" fill="#FFFBF5" ${ks}/><ellipse cx="15.8" cy="11.4" rx="3.7" ry="4.7" fill="#FFFBF5" ${ks}/><circle cx="9.4" cy="11.6" r=".8" fill="#4B3D3A"/><circle cx="10.9" cy="11.6" r=".8" fill="#4B3D3A"/><circle cx="13.1" cy="11.6" r=".8" fill="#4B3D3A"/><circle cx="14.6" cy="11.6" r=".8" fill="#4B3D3A"/><path d="M8.6 9.8l2.6.8M15.4 9.8l-2.6.8" stroke="#4B3D3A" stroke-width=".8" stroke-linecap="round"/><path d="M9.4 13.6h1.4M13.2 13.6h1.4" stroke="#4B3D3A" stroke-width=".8" stroke-linecap="round"/><path d="M12.4 3.2l-1.2 2.2h1.6l-1.2 2.2" fill="none" stroke="#EBAE6B" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>`;
+const bowl=(top)=>`<path d="M4 12h16a8 8 0 0 1-16 0z" fill="#F6CFC9" ${ks}/>${top}`+fs(12,15.6);
+const cup=c=>`<path d="M17 11h1.5a2 2 0 0 1 0 4H17" fill="none" ${ks}/><path d="M5 10h12v4a6 6 0 0 1-12 0z" fill="${c}" ${ks}/><path d="M9 7.5c-.9-.9.9-1.8 0-3M13 7.5c-.9-.9.9-1.8 0-3" fill="none" stroke="#CEC3BB" stroke-width="1" stroke-linecap="round"/>`+fs(11,13.6);
+const def=(names,svg)=>names.split('|').forEach(n=>PR[n]=svg);
+function initPR(){
+ def('Pommes',K.fruits);
+ def('Bananes',`<path d="M5 6.5c0 8 5 13.5 13 13.5 1.5 0 2.5-1 2-2-6 0-10-4-11-11-.2-1.2-4-1.4-4-.5z" fill="#F7E3A1" ${ks}/>`+fs(11.4,14.2));
+ def('Épinards|Salade|Mâche|Roquette',`<path d="M12 21v-5" ${ks}/><path d="M12 17c-6 0-9-5-7-12 6 0 9 5 7 12z" fill="#B4CA9C" ${ks}/><path d="M12 17c4 0 7-3 7-8-4 0-7 3-7 8z" fill="#CFE3B8" ${ks}/>`+fs(8.6,11));
+ def('Avocats',`<path d="M12 3c4 0 6.5 6 6.5 10.5a6.5 6.5 0 0 1-13 0C5.5 9 8 3 12 3z" fill="#CFE3B8" ${ks}/><circle cx="12" cy="15.6" r="2.8" fill="#C9A985"/>`+fs(12,9.8));
+ def('Carottes',`<path d="M15 6c0-2 1-3.5 3-3.5M16 7c2-1 3.6-.8 4.6 0" fill="none" stroke="#8FAA79" stroke-width="1.3" stroke-linecap="round"/><path d="M15 6.5 5 19.2c-.7 1 .3 2 1.3 1.3L18.2 10z" fill="#F3B57F" ${ks}/>`+fs(13.4,10.8));
+ def('Tomates|Tomates cerises',`<circle cx="12" cy="13.5" r="7.6" fill="#F4A9A0" ${ks}/><path d="M12 5.6l1.4 1.8 2.3-.4-1.3 1.9.9 1.9-3.3-1.3-3.3 1.3.9-1.9-1.3-1.9 2.3.4z" fill="#B4CA9C"/>`+fs(12,14.6));
+ def('Œufs',eggs);
+ def('Lait|Lait d’avoine|Lait de soja|Lait d’amande|Crème liquide',K.frais);
+ def('Yaourts nature|Yaourts aux fruits|Yaourts grecs|Skyr|Fromage blanc|Petits-suisses',`<path d="M6 9h12l-1.4 10.5a1.5 1.5 0 0 1-1.5 1.3H8.9a1.5 1.5 0 0 1-1.5-1.3z" fill="#FFFBF5" ${ks}/><rect x="5" y="6.4" width="14" height="3" rx="1" fill="#DCE8F4" ${ks}/>`+fs(12,14.4));
+ def('Fromage râpé|Comté|Emmental|Gouda|Parmesan',`<path d="M3 17.5 18 8.4l3 2v7.1z" fill="#F7E3A1" ${ks}/><circle cx="17.6" cy="14.6" r="1.1" fill="#EBCB78"/>`+fs(12,14.8));
+ def('Beurre|Beurre demi-sel',`<rect x="4" y="8.5" width="16" height="9.5" rx="2" fill="#F7E3A1" ${ks}/><path d="M4 11.5h16" stroke="#FFFBF5" stroke-width="1.2"/>`+fs(12,14.4));
+ def('Riz japonais|Riz basmati|Riz complet|Quinoa',bowl(`<path d="M5 12c0-4 3-6 7-6s7 2 7 6z" fill="#FFFBF5" ${ks}/>`));
+ def('Pâtes|Spaghettis|Penne|Nouilles udon|Nouilles soba|Nouilles ramen|Vermicelles de riz',bowl(`<path d="M8.5 12c0-3 1-5 1.2-7M12 12V4.5M15.5 12c0-3-1-5-1.2-7" fill="none" stroke="#EBCB78" stroke-width="1.4" stroke-linecap="round"/>`));
+ def('Sauce soja|Mirin|Vinaigre de riz',`<path d="M10 3h4v3l2 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-3z" fill="#A68275" ${ks}/><rect x="8.2" y="11" width="7.6" height="6.4" fill="#FFFBF5"/>`+fs(12,14.2));
+ def('Thé vert|Matcha|Tisane|Thé noir',cup('#D9ECE4'));
+ def('Café|Capsules de café',cup('#E3C9A8'));
+ def('Baguette|Baguette tradition',`<path d="M4 18 17 5c2-2 4.5.5 3 2.5L7 20.5C5 22 2.5 20 4 18z" fill="#F8DDB8" ${ks}/><path d="M13.6 8.4l1.6 1M16 6l1.6 1" stroke="#D99A5E" stroke-width="1.1" stroke-linecap="round"/>`+fs(9.4,15.6));
+ def('Pain|Pain complet|Pain de mie|Pain aux céréales|Pain au levain|Pain de seigle',K.pain);
+ def('Croissants',`<path d="M3 15c2-6 6-9 9-9s7 3 9 9c-2 2-5 0-6-2-1 2-2 3-3 3s-2-1-3-3c-1 2-4 4-6 2z" fill="#F3C98E" ${ks}/>`+fs(12,11.6));
+ def('Poulet|Cuisses de poulet|Ailes de poulet|Blanc de dinde',`<path d="M9.8 14.2 5.6 18.4" stroke="#6B5A55" stroke-width="3.6" stroke-linecap="round"/><path d="M9.8 14.2 5.6 18.4" stroke="#FFFBF5" stroke-width="1.8" stroke-linecap="round"/><circle cx="14" cy="10" r="6.4" fill="#F3B57F" ${ks}/>`+fs(14.4,10.6));
+ def('Saumon|Saumon fumé|Truite',`<path d="M3 15.5c3-6.5 10.5-8.5 18-6.5-1 6.5-8.5 10.5-18 6.5z" fill="#F7B6A6" ${ks}/><path d="M7 13l1.8 3M16.5 10.5l1.4 2.8" stroke="#FFFBF5" stroke-width="1.1" stroke-linecap="round"/>`+fs(12,13));
+ def('Eau plate|Eau pétillante',`<path d="M10 2.5h4v3l2 3v11.5a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8.5l2-3z" fill="#DCEBF6" ${ks}/>`+fs(12,14.6));
+ def('Jus d’orange|Oranges|Clémentines',`<path d="M12 5.4c0-1.6 1-2.6 2.6-2.6" fill="none" stroke="#8FAA79" stroke-width="1.3" stroke-linecap="round"/><circle cx="12" cy="13.2" r="7.8" fill="#F7C98B" ${ks}/>`+fs(12,13.8));
+ def('Glace|Sorbet|Mochis glacés',`<path d="M8 12.6l4 9.4 4-9.4z" fill="#F3D9A8" ${ks}/><circle cx="12" cy="9.2" r="5.2" fill="#F6CFC9" ${ks}/>`+fs(12,9.8));
+ def('Shampooing|Après-shampooing|Gel douche',K.hygiene);
+ def('Dentifrice',`<path d="M3 8.6h13.6l4.4 3.4-4.4 3.4H3z" fill="#DCE8F4" ${ks}/>`+fs(9.6,12.2));
+ def('Papier toilette|Essuie-tout',`<rect x="5" y="6" width="14" height="13.5" rx="2" fill="#FFFBF5" ${ks}/><ellipse cx="12" cy="6" rx="7" ry="2.2" fill="#F3EDE6" ${ks}/>`+fs(12,13.6));
+ def('Liquide vaisselle',`<path d="M10 3h4v3h1a2 2 0 0 1 2 2v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a2 2 0 0 1 2-2h1z" fill="#CFE3D2" ${ks}/>`+fs(12,14));
+ def('Éponges',K.entretien);
+ def('Terreau|Terreau cactus|Terreau orchidées',`<path d="M6 6.4h12l1 14H5z" fill="#D7B998" ${ks}/><path d="M6 6.4 8 4.2h8l2 2.2" fill="none" ${ks}/>`+fs(12,13.6));
+}
+const kw=(k,s=18,m)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true">${K[k]||''}</svg>`;
+const prod=(c,s=30)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;overflow:visible">${prodSvg(c)}</svg>`;
+const faceChk=(done,s=26)=>`<svg width="${s}" height="${s}" viewBox="5.5 6.5 13 13" aria-hidden="true" style="overflow:visible">${fs(12,12,done?'joy':'sleep').replace(/stroke-width="\.9"/g,'stroke-width="1.1"')}${done?'<circle cx="17.6" cy="17.4" r="2.6" fill="#7FA36A" stroke="#FFFBF5" stroke-width=".8"/><path class="ck" d="M16.4 17.4l.9.9 1.6-1.8" fill="none" stroke="#FFFBF5" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>':''}</svg>`;
+
+/* ---------- Petits personnages : l'objet porte l'émotion ---------- */
+function face(x,y,m){const st=`stroke="${INK}" stroke-width="1.7" fill="none" stroke-linecap="round"`;
+ const blush=`<ellipse cx="${x-7.6}" cy="${y+2.8}" rx="2.1" ry="1.3" fill="#EDA5B0" opacity=".85"/><ellipse cx="${x+7.6}" cy="${y+2.8}" rx="2.1" ry="1.3" fill="#EDA5B0" opacity=".85"/>`;
+ if(m==='ok')return `<path d="M${x-6.2} ${y-.6}q1.6-2.4 3.2 0M${x+3} ${y-.6}q1.6-2.4 3.2 0" ${st}/><path d="M${x-2.8} ${y+2.4}q2.8 2.8 5.6 0" ${st}/>${blush}`;
+ if(m==='todo')return `<circle cx="${x-4.6}" cy="${y-.4}" r="1.4" fill="${INK}"/><circle cx="${x+4.6}" cy="${y-.4}" r="1.4" fill="${INK}"/><ellipse cx="${x}" cy="${y+3.4}" rx="1.4" ry="1.6" fill="${INK}"/>${blush}`;
+ return `<path d="M${x-6.2} ${y-.6}q1.6 1.3 3.2 0M${x+3} ${y-.6}q1.6 1.3 3.2 0" ${st}/><ellipse cx="${x}" cy="${y+3.4}" rx="1.1" ry="1.3" fill="${INK}"/><text x="${x+8}" y="${y-6}" font-size="7" font-weight="800" fill="#A4BED3" font-family="Nunito,sans-serif">z</text><text x="${x+12}" y="${y-10}" font-size="5" font-weight="800" fill="#A4BED3" font-family="Nunito,sans-serif">z</text>${blush}`;}
+const o=`stroke="${SK}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"`;
+const CHAR={
+ vaisselle:m=>`<circle cx="24" cy="25" r="17" fill="#FFFBF5" ${o}/><circle cx="24" cy="25" r="11.5" fill="#EAF2F6" stroke="${SK}" stroke-opacity=".35" stroke-width="1.4"/>${m==='ok'?`<circle cx="40" cy="9" r="3" fill="#FFFBF5" ${o} stroke-width="1.2"/><circle cx="44" cy="15" r="1.8" fill="#FFFBF5" ${o} stroke-width="1.1"/>`:''}${face(24,25,m)}`,
+ arrosage:m=>`<path d="M31 25l9-9M37 13l5 5" fill="none" ${o}/><path d="M14 20a6.5 6.5 0 0 1 13 0" fill="none" ${o}/><rect x="8" y="19" width="25" height="22" rx="7" fill="#CFE3D2" ${o}/>${m==='ok'?`<path d="M44 21v2M41 24v2" ${o} stroke="#A4BED3"/>`:''}${face(20.5,30,m)}`,
+ aspiration:m=>`<path d="M30 24c3-4 4-10 3-15h6" fill="none" ${o}/><rect x="5" y="20" width="29" height="19" rx="9.5" fill="#E9DDF0" ${o}/><circle cx="11" cy="41" r="3" fill="#FFFBF5" ${o}/><circle cx="28" cy="41" r="3" fill="#FFFBF5" ${o}/>${face(19.5,29.5,m)}`,
+ nettoyage:m=>`<path d="M20 11h9l7 4" fill="none" ${o}/><rect x="19" y="11" width="10" height="7" rx="2" fill="#FFFBF5" ${o}/><rect x="13" y="18" width="22" height="25" rx="7" fill="#D6E6F2" ${o}/><path d="M39 10h2M39 15h3" ${o}/>${face(24,31,m)}`,
+ rangement:m=>`<rect x="8" y="19" width="32" height="22" rx="6" fill="#F3E2CC" ${o}/><rect x="6" y="12" width="36" height="9" rx="4" fill="#F8EBDA" ${o}/>${face(24,30.5,m)}`,
+ lessive:m=>`<path d="M17 8l-9 5 3 8 4-2v20h18V19l4 2 3-8-9-5c-1 3-4 5-7 5s-6-2-7-5z" fill="#DCE8F4" ${o}/>${face(24,28,m)}`,
+ poubelles:m=>`<path d="M12 17h24l-3 24H15z" fill="#DDE7D3" ${o}/><rect x="9" y="11" width="30" height="6" rx="3" fill="#EEF3E8" ${o}/><path d="M21 11V8h6v3" fill="none" ${o}/>${face(24,28.5,m)}`,
+ draps:m=>`<rect x="5" y="14" width="38" height="23" rx="11" fill="#F1E3F0" ${o}/><path d="M11 37l-3 4M37 37l3 4" ${o}/>${face(24,25.5,m)}`,
+ serum:m=>`<path d="M21 10V6.5a3 3 0 0 1 6 0V10" fill="#F6CFC9" ${o}/><rect x="19" y="10" width="10" height="7" rx="2" fill="#FFFBF5" ${o}/><rect x="13" y="17" width="22" height="25" rx="9" fill="#FBE0DB" ${o}/>${face(24,30,m)}`,
+ masque:m=>`<path d="M24 6c9 0 15 6 15 15 0 11-7 21-15 21S9 32 9 21C9 12 15 6 24 6z" fill="#FFFFFF" ${o}/>${face(24,24,m)}`,
+ guasha:m=>`<path d="M24 41C14 33 8 27 8 19a8 8 0 0 1 16-2 8 8 0 0 1 16 2c0 8-6 14-16 22z" fill="#D9ECE4" ${o}/>${face(24,25,m)}`,
+ brosse:m=>`<path d="M24 34v10" stroke="#C9A985" stroke-width="6" stroke-linecap="round"/><rect x="10" y="4" width="28" height="32" rx="14" fill="#F6DFC4" ${o}/><g fill="#C9A985"><circle cx="17" cy="11" r="1.3"/><circle cx="24" cy="9.5" r="1.3"/><circle cx="31" cy="11" r="1.3"/></g>${face(24,22,m)}`,
+ gelule:m=>`<rect x="5" y="14" width="38" height="20" rx="10" fill="#FFFBF5" ${o}/><path d="M24 14h9a10 10 0 0 1 0 20h-9z" fill="#F7EBC9" stroke="${SK}" stroke-width="1.8"/>${face(24,24,m)}`,
+ basket:m=>`<path d="M4 34v-8l9-11 5 5 5-2 3 5c7 2 15 4 15 9v2z" fill="#D9ECE4" ${o}/><path d="M4 39h37" ${o}/><path d="M15 21l3 2M18 18l3 2" ${o}/>${face(17,29,m)}`,
+ carnet:m=>`<rect x="10" y="6" width="28" height="36" rx="4" fill="#F3E7C2" ${o}/><path d="M16 6v36" ${o}/><g fill="#FFFBF5" ${o}><circle cx="10" cy="13" r="2"/><circle cx="10" cy="21" r="2"/><circle cx="10" cy="29" r="2"/><circle cx="10" cy="37" r="2"/></g>${face(27,24,m)}`,
+ fer:m=>`<path d="M16 16v-4h14" fill="none" ${o}/><path d="M7 36h34c0-11-6-20-17-20h-6c-5 0-7 2-7 7z" fill="#D6E6F2" ${o}/><circle cx="36" cy="10" r="2.6" fill="#FFFBF5" ${o}/>${face(26,28,m)}`,
+ vetements:m=>`<rect x="9" y="29" width="30" height="11" rx="4" fill="#DCE8F4" ${o}/><rect x="11" y="19.5" width="26" height="10" rx="4" fill="#F6CFC9" ${o}/><rect x="13" y="10.5" width="22" height="9.5" rx="4" fill="#E3EDD9" ${o}/>${face(24,34.5,m)}`,
+ sac:m=>`<path d="M17 17v-4a7 7 0 0 1 14 0v4" fill="none" ${o}/><path d="M8 17h32l-2.5 22a4 4 0 0 1-4 3.5h-19a4 4 0 0 1-4-3.5z" fill="#F8DDB8" ${o}/>${face(24,29,m)}`,
+ salon:m=>`<rect x="10" y="11" width="28" height="13" rx="5" fill="#F1E7F5" ${o}/><rect x="5" y="20" width="38" height="15" rx="6" fill="#E9DDF0" ${o}/><path d="M10 35v5M38 35v5" ${o}/>${face(24,17.5,m)}`,
+ sdb:m=>`<path d="M10 22V12a4 4 0 0 1 8 0" fill="none" ${o}/><circle cx="30" cy="15" r="3" fill="#FFFBF5" ${o}/><circle cx="36.5" cy="11" r="2" fill="#FFFBF5" ${o}/><path d="M5 22h38v6a10 10 0 0 1-10 10H15A10 10 0 0 1 5 28z" fill="#D6E6F2" ${o}/>${face(24,29,m)}`,
+ cuisine:m=>`<path d="M20 14q2-3 0-6M28 14q2-3 0-6" fill="none" stroke="#CEC3BB" stroke-width="1.8" stroke-linecap="round"/><path d="M8 20h32v12a8 8 0 0 1-8 8H16a8 8 0 0 1-8-8z" fill="#F6CFC9" ${o}/><path d="M5 20h38M3 24h5M40 24h5" ${o}/>${face(24,29,m)}`,
+ fille:m=>`<circle cx="24" cy="8.5" r="4.5" fill="#F6CFC9" ${o}/><path d="M9 23c0-9 7-15 15-15s15 6 15 15z" fill="#F6CFC9" ${o}/><circle cx="24" cy="29.5" r="14" fill="#FBE7D6" ${o}/><path d="M10.4 25.5c3-5 8-7.2 13.6-7.2s10.6 2.2 13.6 7.2c-4-1.6-8.8-2.4-13.6-2.4s-9.6.8-13.6 2.4z" fill="#F6CFC9" ${o}/>${face(24,32,m)}`,
+ sechoir:m=>`<path d="M41 17c2.4 2 2.4 8 0 10M45 15c3 3 3 11 0 14" fill="none" stroke="#A4BED3" stroke-width="1.8" stroke-linecap="round"/><rect x="28" y="16" width="11" height="12" rx="3" fill="#F6DFC4" ${o}/><path d="M15 33l-2.5 11h8l2.5-10" fill="#F6DFC4" ${o}/><circle cx="19" cy="22" r="13" fill="#F8E6D2" ${o}/>${face(19,23,m)}`,
+ tube:m=>`<rect x="19" y="38" width="10" height="6" rx="1.6" fill="#B4CA9C" ${o}/><path d="M14 5h20l-2.4 31a3 3 0 0 1-3 2.6h-9.2a3 3 0 0 1-3-2.6z" fill="#D9ECE4" ${o}/><path d="M14 9h20" ${o}/>${face(24,22,m)}`,
+ haltere:m=>`<path d="M16 19v-4a8 8 0 0 1 16 0v4" fill="none" stroke="${SK}" stroke-width="4.2" stroke-linecap="round"/><path d="M16 19v-4a8 8 0 0 1 16 0v4" fill="none" stroke="#D9ECE4" stroke-width="1.6" stroke-linecap="round"/><circle cx="24" cy="30.5" r="13.5" fill="#D9ECE4" ${o}/>${face(24,31.5,m)}`,
+ livre:m=>`<rect x="11" y="6" width="26" height="36" rx="4" fill="#E9DDF0" ${o}/><path d="M15.5 6v36" ${o}/><path d="M30 6v11l-2.8-2-2.8 2V6" fill="#E8A094"/>${face(26.5,27,m)}`,
+ toque:m=>`<path d="M14 27c-5 0-8-4-7-8 1-5 6-6 9-4 1-5 6-8 11-6 4 1 6 4 6 6 4-2 9 1 9 6 0 4-3 6-6 6z" fill="#FFFBF5" ${o}/><rect x="14" y="26" width="20" height="15" rx="3.5" fill="#FFFBF5" ${o}/><path d="M14 31h20" stroke="#E8A094" stroke-width="2"/>${face(24,35.5,m)}`,
+ chambre:m=>`<path d="M5 14v26M43 26v14" ${o}/><rect x="5" y="25" width="38" height="11" rx="4" fill="#F1E3F0" ${o}/><rect x="8" y="17" width="13" height="9" rx="4.5" fill="#FFFBF5" ${o}/>${face(31,30.5,m)}`,
+ aerer:m=>`<rect x="9" y="7" width="30" height="34" rx="4" fill="#DCEBF6" ${o}/><path d="M24 7v34M9 24h30" stroke="#FFFBF5" stroke-width="1.6"/><path d="M9 8c5 6 5 14 0 20V8zM39 8c-5 6-5 14 0 20V8z" fill="#F6CFC9" ${o}/>${face(24,33,m)}`,
+ sol:m=>`<path d="M31 3 22 30" stroke="#C9A985" stroke-width="3.2" stroke-linecap="round"/><path d="M9 30h26l3 11H6z" fill="#DCEBF6" ${o}/>${face(22,35.5,m)}`,
+ toilettes:m=>`<rect x="8" y="5" width="15" height="15" rx="3.5" fill="#EEF3F8" ${o}/><path d="M16 35l-1.5 8h19L32 35" fill="#EEF3F8" ${o}/><path d="M7 21h34c0 8.5-6.5 14-15 14h-4C13.5 35 7 29.5 7 21z" fill="#FFFBF5" ${o}/>${face(25,27.5,m)}`,
+ douche:m=>`<path d="M9 4h12a7 7 0 0 1 7 7v2" fill="none" stroke="${SK}" stroke-width="3" stroke-linecap="round"/><path d="M15 13h26c0 7-6 11-13 11s-13-4-13-11z" fill="#D6E6F2" ${o}/><path d="M20 29v3M28 29v4M36 29v3M24 36v3M32 36v3" stroke="#A4BED3" stroke-width="2.2" stroke-linecap="round"/>${face(28,17.5,m)}`,
+ lavabo:m=>`<path d="M24 6v8M19 6h10" ${o}/><path d="M22 35v8h4v-8" fill="#EAF2F8" ${o}/><path d="M5 17h38v3a15 15 0 0 1-15 15h-8A15 15 0 0 1 5 20z" fill="#EAF2F8" ${o}/>${face(24,25,m)}`,
+ miroir:m=>`<path d="M24 37v6M17 44h14" ${o}/><ellipse cx="24" cy="20.5" rx="14" ry="17" fill="#DCEBF6" ${o}/><path d="M15 11q3-4 7-5" stroke="#FFFBF5" stroke-width="2.4" fill="none" stroke-linecap="round"/>${face(24,23.5,m)}`,
+ trier:m=>`<path d="M12 21c1-6 4-9 8-9M36 21c-1-6-4-9-8-9" fill="#F6CFC9" ${o}/><path d="M7 20h34l-3 21H10z" fill="#F3E2CC" ${o}/><path d="M7 26h34" stroke="#E3C9A8" stroke-width="1.4"/>${face(24,32,m)}`,
+ replanter:m=>`<path d="M40 9l-6 11" stroke="#C9A985" stroke-width="2.6" stroke-linecap="round"/><path d="M42 3l3.5 4.2-4.2 3.8-3.4-4.2z" fill="#CEC3BB" ${o}/><path d="M22 21v-7M22 16c-5 0-8-3-8-8 5 0 8 3 8 8zM22 14c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#B4CA9C" ${o}/><path d="M9 21h26v5H9z" fill="#E8C3A3" ${o}/><path d="M11 26h22l-2.5 16h-17z" fill="#F3D9C2" ${o}/>${face(22,33.5,m)}`,
+ plantes:m=>`<path d="M24 22V10M24 14c-7 0-11-4-11-10 7 0 11 4 11 10zM24 12c0-6 4-10 11-10 0 7-4 11-11 11z" fill="#B4CA9C" ${o}/><path d="M11 22h26l-3 20H14z" fill="#F3D9C2" ${o}/>${face(24,31,m)}`,
+ idee:m=>`<path d="M6 10l3 2M42 10l-3 2M24 0v2.5" stroke="#EEB87D" stroke-width="2" stroke-linecap="round"/><path d="M24 5a13 13 0 0 1 8 23.2V33H16v-4.8A13 13 0 0 1 24 5z" fill="#FBEFC8" ${o}/><rect x="17" y="33" width="14" height="5" rx="2" fill="#CEC3BB" ${o}/><path d="M20 41.5h8" ${o}/>${face(24,19.5,m)}`,
+ plumeau:m=>`<path d="M35 45 25 25" stroke="#C9A985" stroke-width="3" stroke-linecap="round"/><g fill="#F6CFC9" ${o}><ellipse cx="15.5" cy="15" rx="7" ry="10" transform="rotate(-32 15.5 15)"/><ellipse cx="32.5" cy="15" rx="7" ry="10" transform="rotate(32 32.5 15)"/><ellipse cx="24" cy="13" rx="8.5" ry="11.5"/></g>${face(24,15,m)}`,
+ pandaskin:m=>`<circle cx="12.5" cy="12" r="5.2" fill="#7C6A63"/><circle cx="35.5" cy="12" r="5.2" fill="#7C6A63"/><circle cx="24" cy="27" r="16.5" fill="#FFFBF5" ${o}/><path d="M9.5 20.5c4-5.2 9-7.4 14.5-7.4s10.5 2.2 14.5 7.4" fill="none" stroke="#F6CFC9" stroke-width="5" stroke-linecap="round"/><path d="M30 12.5l6-3.6v7.6zM30 12.5l-1-.1" fill="#F4C3C8" ${o}/><ellipse cx="17.6" cy="27.4" rx="4" ry="4.6" fill="#DDD3CE" transform="rotate(22 17.6 27.4)"/><ellipse cx="30.4" cy="27.4" rx="4" ry="4.6" fill="#DDD3CE" transform="rotate(-22 30.4 27.4)"/><circle cx="11.6" cy="31" r="1.7" fill="#FFFFFF" stroke="#E3C9A8" stroke-width=".8"/><circle cx="36.4" cy="31" r="1.7" fill="#FFFFFF" stroke="#E3C9A8" stroke-width=".8"/><circle cx="24" cy="38" r="1.3" fill="#FFFFFF" stroke="#E3C9A8" stroke-width=".8"/>${face(24,28.5,m)}`,
+ bonhomme:m=>`<path d="M15 31l-7-7M33 31l7-7" stroke="${SK}" stroke-width="3" stroke-linecap="round"/><path d="M14 45V32a10 10 0 0 1 20 0v13z" fill="#D9ECE4" ${o}/><circle cx="24" cy="14.5" r="11" fill="#FBE7D6" ${o}/>${face(24,15.5,m)}`,
+ gourde:m=>`<rect x="17" y="3" width="14" height="7" rx="2.5" fill="#8EC6BD" ${o}/><rect x="12.5" y="9.5" width="23" height="35" rx="8.5" fill="#D9ECE4" ${o}/><path d="M12.5 33h23" stroke="#8EC6BD" stroke-width="3.4"/>${face(24,22,m)}`,
+ yoga:m=>`<path d="M5 39c6-5 12-5 19-2 7-3 13-3 19 2-6 4-12 4-19 1-7 3-13 3-19-1z" fill="#E9DDF0" ${o}/><path d="M16 24h16l3 12H13z" fill="#C4A8C9" ${o}/><path d="M17 27l-7 7M31 27l7 7" stroke="${SK}" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="13" r="9.5" fill="#FBE7D6" ${o}/>${face(24,14,m)}`,
+ course:m=>`<path d="M2 17h8M1 23h7M3 29h6" stroke="#A4BED3" stroke-width="2.2" stroke-linecap="round"/><path d="M10 34v-8l8-10 5 5 5-2 3 5c6 1.5 13 4 13 8v2z" fill="#F6CFC9" ${o}/><path d="M10 39h35" ${o}/><path d="M20 21l3 2M23 18l3 2" ${o}/>${face(24,29.5,m)}`,
+ etir:m=>`<path d="M18 27 9 6M30 27l9-21" stroke="${SK}" stroke-width="3" stroke-linecap="round"/><rect x="15" y="25" width="18" height="20" rx="8" fill="#D9ECE4" ${o}/><circle cx="24" cy="17" r="10" fill="#FBE7D6" ${o}/>${face(24,18,m)}`,
+ gratitude:m=>`<path d="M24 42C13 34 6 28 6 19a9 9 0 0 1 18-3 9 9 0 0 1 18 3c0 9-7 15-18 23z" fill="#F6CFC9" ${o}/>${face(24,24,m)}`,
+ triage:m=>`<rect x="10" y="9" width="10" height="11" rx="1.6" fill="#F7EBC9" ${o} transform="rotate(-10 15 14.5)"/><rect x="28" y="8" width="10" height="12" rx="1.6" fill="#E9DDF0" ${o} transform="rotate(10 33 14)"/><rect x="6" y="19" width="36" height="22" rx="5" fill="#F3E2CC" ${o}/>${face(24,30,m)}`,
+ stylo:m=>`<rect x="8" y="6" width="27" height="37" rx="4" fill="#F3E7C2" ${o}/><path d="M13 6v37" ${o}/><path d="M38 10l4.5 4.5L30 31l-5.5 1.5 1.5-5.5z" fill="#A4BED3" ${o}/>${face(24,24.5,m)}`,
+ carnetouvert:m=>`<path d="M24 12c-5-3-12-3-18-1v28c6-2 13-2 18 1 5-3 12-3 18-1V11c-6-2-13-2-18 1z" fill="#FFFBF5" ${o}/><path d="M24 12v28" ${o}/><rect x="29" y="5" width="13" height="5.5" rx="1" fill="#F6CFC9" opacity=".95" transform="rotate(18 35.5 7.7)"/><path d="M29 22c0-2.2 3.2-2.2 3.2 0 0-2.2 3.2-2.2 3.2 0 0 2.2-3.2 4.4-3.2 4.4S29 24.2 29 22z" fill="#E8A094"/><path d="M28 31h10M28 34.5h7" stroke="#DCCFC2" stroke-width="1.4" stroke-linecap="round"/>${face(15,25,m)}`,
+ potcrayons:m=>`<path d="M17 18 14 4" stroke="#A4BED3" stroke-width="3" stroke-linecap="round"/><path d="M24 18V2" stroke="#E8A094" stroke-width="3" stroke-linecap="round"/><path d="M31 18l3-12" stroke="#B4CA9C" stroke-width="3" stroke-linecap="round"/><rect x="11" y="17" width="25" height="26" rx="5" fill="#E9DDF0" ${o}/><circle cx="41" cy="36" r="6" fill="#F7EBC9" ${o}/><circle cx="41" cy="36" r="2.3" fill="#FFFBF5" ${o}/>${face(23.5,30,m)}`,
+ halt2:m=>`<rect x="2.5" y="14" width="9" height="20" rx="3.4" fill="#8EC6BD" ${o}/><rect x="36.5" y="14" width="9" height="20" rx="3.4" fill="#8EC6BD" ${o}/><rect x="11.5" y="16.5" width="25" height="15" rx="6.5" fill="#D9ECE4" ${o}/>${face(24,24,m)}`,
+ pouf:m=>`<path d="M24 12c-1-6 5-9 8-5" fill="none" ${o}/><g fill="#F9D3D9" ${o}><circle cx="14.5" cy="25" r="8.5"/><circle cx="33.5" cy="25" r="8.5"/><circle cx="24" cy="17" r="8.5"/><circle cx="24" cy="33" r="9"/></g><circle cx="24" cy="25.5" r="10.5" fill="#F9D3D9"/>${face(24,25.5,m)}`,
+ lapin:m=>`<ellipse cx="17" cy="12" rx="4.5" ry="10" fill="#FFFBF5" ${o}/><ellipse cx="31" cy="12" rx="4.5" ry="10" fill="#FFFBF5" ${o}/><ellipse cx="17" cy="12.5" rx="2" ry="6.5" fill="#F6CFC9"/><ellipse cx="31" cy="12.5" rx="2" ry="6.5" fill="#F6CFC9"/><circle cx="24" cy="30" r="15" fill="#FFFBF5" ${o}/><path d="M10.2 25c2-5.5 7-8.5 13.8-8.5s11.8 3 13.8 8.5c-4-1.8-8.8-2.7-13.8-2.7s-9.8.9-13.8 2.7z" fill="#F6CFC9" ${o}/>${face(24,32,m)}`,
+ mouton:m=>`<ellipse cx="9" cy="26" rx="4" ry="2.6" fill="#CFC5BF" ${o}/><ellipse cx="39" cy="26" rx="4" ry="2.6" fill="#CFC5BF" ${o}/><g fill="#FFFBF5" ${o}><circle cx="15" cy="16" r="6.5"/><circle cx="24" cy="11.5" r="7.5"/><circle cx="33" cy="16" r="6.5"/></g><ellipse cx="24" cy="30" rx="12" ry="13" fill="#F3E2CC" ${o}/><g fill="#FFFBF5"><circle cx="19" cy="19" r="4.5"/><circle cx="24" cy="17" r="5"/><circle cx="29" cy="19" r="4.5"/></g>${face(24,31,m)}`,
+ ours:m=>`<circle cx="12" cy="13" r="5.5" fill="#E3C9A8" ${o}/><circle cx="36" cy="13" r="5.5" fill="#E3C9A8" ${o}/><circle cx="12" cy="13" r="2.6" fill="#F3E2CC"/><circle cx="36" cy="13" r="2.6" fill="#F3E2CC"/><circle cx="24" cy="27" r="16" fill="#E3C9A8" ${o}/><ellipse cx="24" cy="32" rx="7" ry="5.5" fill="#F8EBDA"/>${face(24,28.5,m)}`,
+ patte:m=>`<g fill="#FFFBF5" ${o}><ellipse cx="10.5" cy="19" rx="4.4" ry="5.2"/><ellipse cx="19" cy="11.5" rx="4.4" ry="5.2"/><ellipse cx="29" cy="11.5" rx="4.4" ry="5.2"/><ellipse cx="37.5" cy="19" rx="4.4" ry="5.2"/></g><g fill="#F4C3C8"><ellipse cx="10.5" cy="19.5" rx="2" ry="2.5"/><ellipse cx="19" cy="12" rx="2" ry="2.5"/><ellipse cx="29" cy="12" rx="2" ry="2.5"/><ellipse cx="37.5" cy="19.5" rx="2" ry="2.5"/></g><path d="M24 22c9 0 15 5 15 12 0 5-4 9-9 9-3 0-4-1.5-6-1.5S21 43 18 43c-5 0-9-4-9-9 0-7 6-12 15-12z" fill="#FFFBF5" ${o}/>${face(24,32,m)}`,
+ chatgel:m=>`<path d="M15 12l-1.5-7.5 7 4.5z" fill="#F7EBC9" ${o}/><path d="M33 12l1.5-7.5-7 4.5z" fill="#F7EBC9" ${o}/><rect x="11" y="8.5" width="26" height="35" rx="13" fill="#FFFBF5" ${o}/><path d="M11 27h26v3.5a13 13 0 0 1-26 0z" fill="#F7EBC9" stroke="${SK}" stroke-width="1.8"/>${face(24,20,m)}`,
+ shiba:m=>`<path d="M10 21 12 7l9 7z" fill="#EBAE6B" ${o}/><path d="M38 21 36 7l-9 7z" fill="#EBAE6B" ${o}/><ellipse cx="24" cy="28" rx="15.5" ry="14" fill="#EBAE6B" ${o}/><ellipse cx="24" cy="33" rx="10" ry="8" fill="#FFFBF5"/><path d="M9.5 21.5q14.5-5 29 0" fill="none" stroke="#E28F86" stroke-width="3.6" stroke-linecap="round"/>${face(24,30,m)}`,
+ panda:m=>`<circle cx="13" cy="12" r="5" fill="#7C6A63"/><circle cx="35" cy="12" r="5" fill="#7C6A63"/><circle cx="24" cy="24" r="14.5" fill="#FFFBF5" ${o}/><ellipse cx="18" cy="23" rx="3.8" ry="4.4" fill="#DDD3CE" transform="rotate(25 18 23)"/><ellipse cx="30" cy="23" rx="3.8" ry="4.4" fill="#DDD3CE" transform="rotate(-25 30 23)"/><rect x="13" y="33" width="22" height="12" rx="2.5" fill="#D9C27E" ${o}/><path d="M24 33v12" ${o}/>${face(24,24.5,m)}`,
+ huile:m=>`<rect x="20" y="6" width="8" height="9" rx="2" fill="#E7D6A8" ${o}/><circle cx="24" cy="29" r="14" fill="#F7EBC9" ${o}/>${face(24,29.5,m)}`,
+ etirement:m=>`<path d="M15 23L9 10M33 23l6-13" fill="none" ${o}/><ellipse cx="24" cy="30" rx="14" ry="12.5" fill="#D9ECE4" ${o}/><path d="M18 42l-2 3M30 42l2 3" ${o}/>${face(24,29.5,m)}`,
+ massage:m=>`<path d="M13 41V21a3 3 0 0 1 6 0v-6a3 3 0 0 1 6 0v3a3 3 0 0 1 6 0v4a3 3 0 0 1 6 0v8c0 6-4 11-10 11z" fill="#FBE0DB" ${o}/>${face(25,32,m)}`,
+ manucure:m=>`<rect x="18" y="5" width="12" height="15" rx="3" fill="#F6CFC9" ${o}/><rect x="11" y="19" width="26" height="24" rx="9" fill="#F4C3C8" ${o}/>${face(24,31,m)}`,
+ pedicure:m=>`<path d="M17 43c-6 0-8-5-7-10 1-6 4-9 4-15 0-4 3-7 7-7s6 3 6 7c0 5-3 8-2 12s5 6 4 9-6 4-12 4z" fill="#FBE7D6" ${o}/><circle cx="31" cy="10" r="2.4" fill="#FBE7D6" ${o}/><circle cx="35.5" cy="14.5" r="2.1" fill="#FBE7D6" ${o}/><circle cx="37.5" cy="20" r="1.9" fill="#FBE7D6" ${o}/>${face(19.5,29,m)}`,
+/* ancien */ visage_old:m=>`<circle cx="24" cy="8.5" r="5.5" fill="#8C6A5E" ${o}/><circle cx="24" cy="27" r="17" fill="#8C6A5E" ${o}/><ellipse cx="24" cy="29.5" rx="13" ry="13.5" fill="#FBE7D6" ${o}/><path d="M12 27c0-6 5-10.5 12-10.5S36 21 36 27c0 8.5-5 14-12 14s-12-5.5-12-14z" fill="#FFFFFF" stroke="${SK}" stroke-width="1.2" stroke-opacity=".5"/>${face(24,29.5,m)}`,
+ visage:m=>CHAR.pandaskin(m),cheveux:m=>CHAR.sechoir(m),corps:m=>CHAR.pouf(m),mains:m=>CHAR.patte(m),complements:m=>CHAR.gelule(m),sportm:m=>CHAR.halt2(m),journal:m=>CHAR.carnetouvert(m),lecture:m=>CHAR.livre(m),recette:m=>CHAR.toque(m),suggestions:m=>CHAR.idee(m)};
+const charSvg=(k,m,s=54)=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" aria-hidden="true" style="overflow:visible">${(CHAR[k]||CHAR.rangement)(m)}</svg>`;
+
+/* ---------- Petits dessins ---------- */
+const ART={
+ soleil:s=>`<svg width="${s}" height="${s}" viewBox="0 0 40 40" aria-hidden="true"><g stroke="#EEB87D" stroke-width="2.2" stroke-linecap="round"><path d="M14 3v3M4 14h3M6.5 6.5l2 2M21.5 6.5l-2 2"/></g><circle cx="14" cy="14" r="6.5" fill="#F8DDB8" stroke="#EEB87D" stroke-width="1.8"/><path d="M13 32h15a6 6 0 0 0 0-12 8 8 0 0 0-15 2.5A4.8 4.8 0 0 0 13 32z" fill="#FFFBF5" stroke="#A4BED3" stroke-width="1.8"/><circle cx="20" cy="26" r="1.1" fill="#4B3D3A"/><circle cx="26" cy="26" r="1.1" fill="#4B3D3A"/><path d="M22 28.4q1 1 2 0" stroke="#4B3D3A" stroke-width="1.1" fill="none" stroke-linecap="round"/><ellipse cx="18.5" cy="28.6" rx="1.6" ry="1" fill="#EDA5B0" opacity=".7"/><ellipse cx="27.6" cy="28.6" rx="1.6" ry="1" fill="#EDA5B0" opacity=".7"/></svg>`,
+ beau:s=>`<svg width="${s}" height="${s}" viewBox="0 0 40 40" aria-hidden="true"><g stroke="#EEB87D" stroke-width="2.2" stroke-linecap="round"><path d="M20 3v4M20 33v4M3 20h4M33 20h4M8 8l2.8 2.8M29.2 29.2 32 32M8 32l2.8-2.8M29.2 10.8 32 8"/></g><circle cx="20" cy="20" r="9.5" fill="#F8DDB8" stroke="#EEB87D" stroke-width="1.8"/><path d="M16 19q1.2-1.6 2.4 0M21.6 19q1.2-1.6 2.4 0M18 22.6q2 2 4 0" stroke="#4B3D3A" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="14.6" cy="22.4" rx="1.6" ry="1" fill="#EDA5B0"/><ellipse cx="25.4" cy="22.4" rx="1.6" ry="1" fill="#EDA5B0"/></svg>`,
+ nuage:s=>`<svg width="${s}" height="${s}" viewBox="0 0 40 40" aria-hidden="true"><path d="M10 30h20a7 7 0 0 0 0-14 9.5 9.5 0 0 0-18 3A5.6 5.6 0 0 0 10 30z" fill="#FFFBF5" stroke="#A4BED3" stroke-width="1.8"/><circle cx="17" cy="23.5" r="1.1" fill="#4B3D3A"/><circle cx="24" cy="23.5" r="1.1" fill="#4B3D3A"/><path d="M19.4 26q1.1.8 2.2 0" stroke="#4B3D3A" stroke-width="1.1" fill="none" stroke-linecap="round"/><ellipse cx="14.8" cy="26" rx="1.6" ry="1" fill="#EDA5B0" opacity=".7"/><ellipse cx="26.4" cy="26" rx="1.6" ry="1" fill="#EDA5B0" opacity=".7"/></svg>`,
+ pluie:s=>`<svg width="${s}" height="${s}" viewBox="0 0 40 40" aria-hidden="true"><path d="M10 25h20a7 7 0 0 0 0-14 9.5 9.5 0 0 0-18 3A5.6 5.6 0 0 0 10 25z" fill="#EEF3F8" stroke="#A4BED3" stroke-width="1.8"/><path d="M14 30l-1.5 4M21 30l-1.5 4M28 30l-1.5 4" stroke="#A4BED3" stroke-width="2" stroke-linecap="round"/><circle cx="17" cy="18.5" r="1.1" fill="#4B3D3A"/><circle cx="24" cy="18.5" r="1.1" fill="#4B3D3A"/><path d="M19.4 21.4q1.1-.7 2.2 0" stroke="#4B3D3A" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>`,
+ escargot:`<svg width="24" height="18" viewBox="0 0 32 24" aria-hidden="true"><path d="M2.5 21.5c0-2 1.6-3.2 3.6-3.2h15.4c2.6 0 4.4-1.8 4.4-4.6V11c0-1.2 1.8-1.2 1.8 0v3.2c0 4.6-3 7.3-7 7.3z" fill="#FBEBDD" stroke="#C9706A" stroke-width="1.3" stroke-linejoin="round"/><path d="M26.2 11 24.8 6.2M28.4 11l1.4-4.8" stroke="#C9706A" stroke-width="1.3" stroke-linecap="round"/><circle cx="24.6" cy="5.4" r="1.5" fill="#FBEBDD" stroke="#C9706A" stroke-width="1"/><circle cx="30" cy="5.4" r="1.5" fill="#FBEBDD" stroke="#C9706A" stroke-width="1"/><path d="M23.6 5.6h2M29 5.6h2" stroke="#4B3D3A" stroke-width="1.1" stroke-linecap="round"/><path d="M26.2 15.2h1.8" stroke="#4B3D3A" stroke-width="1" stroke-linecap="round"/><path d="M31.4 8.4q-1 1.4 0 2q1-.6 0-2z" fill="#A4BED3"/><circle cx="12.5" cy="11.5" r="7.2" fill="#F6CFC9" stroke="#C9706A" stroke-width="1.3"/><path d="M12.5 11.5a1.3 1.3 0 1 1 1.3 1.3 2.8 2.8 0 1 1 2.6-2.8 4.3 4.3 0 1 1-4.3-4.3" fill="none" stroke="#C9706A" stroke-width="1.2" stroke-linecap="round"/></svg>`, reveil:`<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 9l5-4M32 9l-5-4" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="22" r="12" fill="#FFFBF5"/><circle cx="16" cy="21" r="1.4" fill="#4B3D3A"/><circle cx="24" cy="21" r="1.4" fill="#4B3D3A"/><ellipse cx="20" cy="26.5" rx="2" ry="1.6" fill="#4B3D3A"/><ellipse cx="13" cy="25" rx="1.8" ry="1.1" fill="#EDA5B0"/><ellipse cx="27" cy="25" rx="1.8" ry="1.1" fill="#EDA5B0"/><path d="M14 34l-2 3M26 34l2 3" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"/></svg>`,
+ panier:`<svg width="74" height="66" viewBox="0 0 74 66" aria-hidden="true"><path d="M4 8h9l7 34h38l7-24H17" fill="none" stroke="#7C6A63" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 18h47l-7 24H20z" fill="#F8DDB8" opacity=".55"/><circle cx="26" cy="54" r="5" fill="#FFFBF5" stroke="#7C6A63" stroke-width="2.6"/><circle cx="52" cy="54" r="5" fill="#FFFBF5" stroke="#7C6A63" stroke-width="2.6"/><circle cx="34" cy="28" r="1.6" fill="#4B3D3A"/><circle cx="46" cy="28" r="1.6" fill="#4B3D3A"/><path d="M37 32q3 3 6 0" stroke="#4B3D3A" stroke-width="1.6" fill="none" stroke-linecap="round"/><ellipse cx="30" cy="33" rx="2.4" ry="1.4" fill="#EDA5B0"/><ellipse cx="50" cy="33" rx="2.4" ry="1.4" fill="#EDA5B0"/></svg>`,
+ chat:`<svg width="120" height="78" viewBox="0 0 120 78" aria-hidden="true"><path d="M22 66c0-20 16-32 38-32s38 12 38 32z" fill="#FFFBF5" stroke="#CEC3BB" stroke-width="2.4"/><path d="M36 42l-4-14 12 8M84 42l4-14-12 8" fill="#FFFBF5" stroke="#CEC3BB" stroke-width="2.4" stroke-linejoin="round"/><path d="M47 50q4 3 8 0M65 50q4 3 8 0" stroke="#4B3D3A" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 56l2 1.5 2-1.5" stroke="#4B3D3A" stroke-width="1.6" fill="none" stroke-linecap="round"/><ellipse cx="44" cy="57" rx="4" ry="2.4" fill="#EDA5B0" opacity=".7"/><ellipse cx="76" cy="57" rx="4" ry="2.4" fill="#EDA5B0" opacity=".7"/><path d="M98 64c10 0 14-8 8-14" stroke="#CEC3BB" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`};
+
+/* ---------- Données ---------- */
+const THEMES=[
+ {id:'travail',name:'Travail',d:'#A4BED3'},{id:'sport',name:'Sport',d:'#8EC6BD'},{id:'sante',name:'Santé',d:'#EDA5B0'},
+ {id:'menage',name:'Ménage',d:'#B4CA9C'},{id:'admin',name:'Administratif',d:'#CEC3BB'},{id:'perso',name:'Moi',d:'#EEB87D'},
+ {id:'proches',name:'Famille et amis',d:'#C4A8C9'},{id:'loisirs',name:'Sorties',d:'#B8B4D8'},{id:'apprendre',name:'Apprentissage',d:'#D9C27E'}];
+const TH=Object.fromEntries(THEMES.map(t=>[t.id,t]));
+const MENAGE=[['arrosage','Arrosage'],['nettoyage','Nettoyage'],['aspiration','Aspiration'],['rangement','Rangement'],['lessive','Lessive'],['vetements','Vêtements'],['trier','Trier'],['vaisselle','Vaisselle'],['poubelles','Poubelles'],['draps','Draps'],['sac','Courses'],['aerer','Aérer'],['sol','Sol'],['toilettes','Toilettes'],['douche','Douche'],['lavabo','Lavabo'],['miroir','Miroir'],['plumeau','Poussière'],['replanter','Replanter']];
+const CARE=[['visage','Visage','#EDA5B0'],['cheveux','Cheveux','#EEB87D'],['corps','Corps','#8EC6BD'],['mains','Mains et pieds','#F4C3C8'],['complements','Compléments','#F7EBC9'],['sportm','Sport','#EBAE6B'],['journal','Journaling','#D9C27E'],['lecture','Lecture','#C4A8C9'],['recette','Recettes','#F6CFC9']];
+const ZONES=[['salon','Salon'],['cuisine','Cuisine'],['sdb','Salle de bain'],['chambre','Chambre'],['vetements','Vêtements'],['plantes','Plantes']];
+const SUGG0=[['plantes','Ajouter de l’engrais'],['plantes','Vaporiser les feuilles'],['plantes','Dépoussiérer les feuilles'],['plantes','Tourner les pots vers la lumière'],['plantes','Vérifier les nuisibles'],['salon','Laver les vitres'],['salon','Secouer les coussins'],['chambre','Aérer la chambre'],['chambre','Aspirer sous le lit'],['chambre','Laver les oreillers'],['sdb','Laver les serviettes'],['sdb','Détartrer la robinetterie'],['vetements','Mettre de côté ce qui est à donner']];
+function subFor(t){t=norm(t);return /feuille|poussi/.test(t)&&/poussi/.test(t)?'plumeau':/engrais|pots|nuisible|replant/.test(t)?'replanter':/vaporis|eau/.test(t)?'arrosage':/aer/.test(t)?'aerer':/sol/.test(t)?'sol':/toilette/.test(t)?'toilettes':/douche/.test(t)?'douche':/lavabo|robinet/.test(t)?'lavabo':/miroir|vitre/.test(t)?'miroir':/trier|donner|cote/.test(t)?'trier':/aspir/.test(t)?'aspiration':/arros/.test(t)?'arrosage':/vaisselle/.test(t)?'vaisselle':/poubelle/.test(t)?'poubelles':/courses/.test(t)?'sac':/repass/.test(t)?'fer':/drap|lit/.test(t)?'draps':/lessive|serviette|linge/.test(t)?'lessive':/vetement/.test(t)?'vetements':/rang|trier|coussin/.test(t)?'rangement':'nettoyage'}
+const MOMENTS=[['matin','Matin'],['midi','Midi'],['aprem','Après-midi'],['soir','Soir']];
+const DL=['L','M','M','J','V','S','D'];
+const CARESUB=[['serum','Soin'],['masque','Masque'],['guasha','Gua sha'],['brosse','Cheveux'],['huile','Huile'],['etirement','Étirements'],['massage','Massage'],['tube','Gommage'],['manucure','Manucure'],['pedicure','Pédicure'],['gelule','Complément'],['yoga','Yoga'],['course','Course'],['etir','Étirements'],['carnet','Journal'],['gratitude','Gratitude'],['potcrayons','Triage'],['livre','Lecture'],['toque','Recette']];
+const FREQS=[[1,'Chaque jour'],[2,'Tous les 2 j'],[3,'Tous les 3 j'],[4,'Tous les 4 j'],[7,'1×/semaine'],[14,'1×/2 semaines'],[21,'1×/3 semaines'],[30,'1×/mois']];
+const L=s=>s.split(',');
+const RAYONS=[
+ {id:'fruits',name:'Fruits et légumes',d:'#B4CA9C',cat:L('Pommes,Poires,Bananes,Clémentines,Oranges,Pamplemousse,Citrons,Citrons verts,Kiwis,Raisins,Fraises,Framboises,Myrtilles,Cerises,Pêches,Nectarines,Abricots,Prunes,Melon,Pastèque,Mangue,Ananas,Litchis,Grenade,Figues,Kaki,Avocats,Tomates,Tomates cerises,Concombre,Courgettes,Aubergines,Poivrons,Piment,Carottes,Pommes de terre,Patates douces,Oignons,Oignons rouges,Échalotes,Ail,Gingembre,Salade,Mâche,Roquette,Épinards,Brocoli,Chou-fleur,Chou chinois,Chou rouge,Poireaux,Céleri,Fenouil,Asperges,Champignons,Shiitakés,Haricots verts,Petits pois,Radis,Daikon,Betteraves,Navets,Courge butternut,Potiron,Maïs,Pousses de soja,Coriandre,Persil,Basilic,Menthe,Ciboulette,Aneth')},
+ {id:'frais',name:'Frais',d:'#A4BED3',cat:L('Œufs,Lait,Lait d’avoine,Lait de soja,Lait d’amande,Beurre,Beurre demi-sel,Crème fraîche,Crème liquide,Yaourts nature,Yaourts aux fruits,Yaourts grecs,Skyr,Fromage blanc,Petits-suisses,Fromage râpé,Mozzarella,Burrata,Feta,Parmesan,Comté,Emmental,Gouda,Chèvre,Brie,Camembert,Ricotta,Mascarpone,Tofu,Tofu soyeux,Tempeh,Houmous,Tzatziki,Guacamole,Jambon,Blanc de poulet,Lardons,Chorizo,Pâte feuilletée,Pâte brisée,Pâte à pizza,Gnocchis,Raviolis frais,Pesto,Kimchi,Jus pressé,Desserts')},
+ {id:'pain',name:'Boulangerie',d:'#EEB87D',cat:L('Pain,Baguette,Baguette tradition,Pain complet,Pain de seigle,Pain de mie,Pain de mie complet,Pain aux céréales,Pain au levain,Croissants,Pains au chocolat,Pains aux raisins,Brioche,Pain au lait,Chouquettes,Wraps,Tortillas,Pains pita,Pains burger,Biscottes,Galettes de riz,Crackers,Gressins,Pain d’épices')},
+ {id:'viande',name:'Viande',d:'#D99A82',cat:L('Poulet,Cuisses de poulet,Ailes de poulet,Blanc de dinde,Bœuf haché,Steak,Bœuf émincé,Rôti de bœuf,Porc,Côtelettes,Poitrine de porc,Saucisses,Lardons,Jambon,Agneau,Canard,Veau,Boulettes')},
+ {id:'poisson',name:'Poisson',d:'#8EC6BD',cat:L('Saumon,Saumon fumé,Cabillaud,Colin,Dorade,Bar,Truite,Thon frais,Maquereau,Sardines,Crevettes,Gambas,Moules,Calamars,Saint-Jacques,Surimi,Poisson pour sushi,Œufs de saumon')},
+ {id:'epicerie',name:'Épicerie',d:'#E8A094',cat:L('Riz japonais,Riz basmati,Riz complet,Pâtes,Spaghettis,Penne,Nouilles udon,Nouilles soba,Nouilles ramen,Vermicelles de riz,Quinoa,Boulgour,Semoule,Farine,Fécule de maïs,Sucre,Sucre roux,Sel,Poivre,Épices,Curry,Paprika,Cumin,Cannelle,Huile d’olive,Huile de tournesol,Huile de sésame,Vinaigre,Vinaigre de riz,Sauce soja,Mirin,Saké de cuisine,Miso,Dashi,Bouillon,Curry japonais,Sauce teriyaki,Sriracha,Mayonnaise,Moutarde,Ketchup,Lait de coco,Tomates en conserve,Concentré de tomate,Pois chiches,Lentilles,Haricots rouges,Thon en boîte,Sardines en boîte,Algues nori,Wakame,Graines de sésame,Flocons d’avoine,Céréales,Muesli,Granola,Beurre de cacahuète,Pâte à tartiner,Confiture,Miel,Sirop d’érable,Chocolat noir,Chocolat au lait,Biscuits,Gâteaux,Chips,Crackers apéro,Noix,Amandes,Noix de cajou,Fruits secs,Dattes,Café,Capsules de café,Thé vert,Thé noir,Matcha,Tisane,Levure,Levure chimique,Sucre vanillé')},
+ {id:'boissons',name:'Boissons',d:'#B8B4D8',cat:L('Eau plate,Eau pétillante,Jus d’orange,Jus de pomme,Jus multifruits,Lait d’amande,Lait d’avoine,Kombucha,Thé glacé,Sirop,Limonade,Soda,Soda zéro,Ginger beer,Eau de coco,Boisson énergisante,Vin rouge,Vin blanc,Rosé,Bière,Saké,Champagne')},
+ {id:'surgeles',name:'Surgelés',d:'#C4A8C9',cat:L('Légumes surgelés,Poêlée de légumes,Épinards surgelés,Petits pois surgelés,Haricots verts surgelés,Brocoli surgelé,Edamame,Gyozas,Dim sum,Frites,Pizza,Lasagnes,Poisson pané,Crevettes surgelées,Fruits rouges,Mangue surgelée,Herbes surgelées,Glace,Mochis glacés,Sorbet,Bûche glacée')},
+ {id:'hygiene',name:'Hygiène et beauté',d:'#EDA5B0',cat:L('Shampooing,Après-shampooing,Masque cheveux,Huile cheveux,Sérum cheveux,Gel douche,Savon,Gommage,Lait corps,Dentifrice,Brosse à dents,Fil dentaire,Bain de bouche,Déodorant,Crème hydratante,Sérum visage,Nettoyant visage,Masques en tissu,Crème solaire,Démaquillant,Eau micellaire,Cotons,Cotons-tiges,Mouchoirs,Papier toilette,Serviettes hygiéniques,Tampons,Rasoirs,Lingettes,Baume à lèvres,Vernis à ongles,Dissolvant,Élastiques cheveux,Pansements,Paracétamol')},
+ {id:'entretien',name:'Maison et entretien',d:'#CEC3BB',cat:L('Liquide vaisselle,Pastilles lave-vaisselle,Sel lave-vaisselle,Lessive,Adoucissant,Détachant,Éponges,Lavettes,Sacs poubelle,Essuie-tout,Nettoyant multi-usage,Nettoyant salle de bain,Nettoyant WC,Nettoyant vitres,Nettoyant sol,Vinaigre blanc,Bicarbonate,Savon noir,Javel,Gants ménage,Sacs congélation,Papier aluminium,Film alimentaire,Papier cuisson,Ampoules,Piles,Bougies,Allumettes,Désodorisant,Recharge aspirateur')},
+ {id:'asiatique',name:'Asiatique',d:'#D9C27E',cat:L('Riz japonais,Riz gluant,Riz jasmin,Nouilles udon,Nouilles soba,Nouilles ramen,Ramen instantanés,Nouilles de riz,Vermicelles de riz,Galettes de riz,Feuilles de riz,Sauce soja,Sauce soja sucrée,Sauce huître,Sauce poisson,Nuoc-mâm,Sauce hoisin,Sauce teriyaki,Sauce ponzu,Sauce tonkatsu,Mayonnaise japonaise,Mirin,Saké de cuisine,Vinaigre de riz,Huile de sésame,Pâte de sésame,Miso blanc,Miso rouge,Dashi,Kombu,Bonite séchée,Wakame,Algues nori,Furikake,Panko,Farine à tempura,Curry japonais en blocs,Pâte de curry,Gochujang,Sambal,Sriracha,Wasabi,Gingembre mariné,Umeboshi,Kimchi,Tofu,Tofu frit,Natto,Edamame,Gyozas,Bao,Dim sum,Mochi,Daifuku,Dorayaki,Pâte de haricot rouge,Pocky,Biscuits au matcha,Senbei,Ramune,Thé matcha,Thé genmaicha,Thé hojicha,Thé jasmin,Lait de coco,Citronnelle,Galanga,Feuilles de combava,Coriandre,Ciboulette chinoise,Shiitakés,Enokis,Pak choï,Chou chinois,Daikon,Pousses de soja,Pousses de bambou,Châtaignes d’eau,Tapioca,Graines de sésame')}];
+const RY=Object.fromEntries(RAYONS.map(r=>[r.id,r]));
+const CITIES=['Ma position','Roubaix','Lille','Bruxelles','Paris','Nice','Barcelone'];
+const FORECAST=[['beau',9,3],['nuage',8,4],['pluie',7,5],['pluie',8,6],['nuage',10,5],['beau',11,4],['soleil',9,2]];
+const DOW=['lun.','mar.','mer.','jeu.','ven.','sam.','dim.'];
+const DOWL=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+const MON=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const MONS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+const pd=k=>{const p=k.split('-').map(Number);return new Date(p[0],p[1]-1,p[2])};
+const fk=d=>{const m=d.getMonth()+1,j=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(j<10?'0':'')+j};
+const add=(k,n)=>{const d=pd(k);d.setDate(d.getDate()+n);return fk(d)};
+const diff=(a,b)=>Math.round((pd(b)-pd(a))/864e5);
+const wd=k=>(pd(k).getDay()+6)%7;
+const monday=k=>add(k,-wd(k));
+const hm=h=>{const H=Math.floor(h),M=Math.round((h-H)*60);return H+' h'+(M?' '+(M<10?'0':'')+M:'')};
+const short=k=>{const d=pd(k);return DOW[wd(k)]+' '+d.getDate()+' '+MONS[d.getMonth()]};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/œ/g,'oe');
+const timed=it=>it.start!==null&&it.start!==undefined;
+const CHECK=(s=14)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`;
+const urgLevel=it=>{const n=diff(it.urgentSince||TODAY,TODAY);return n<=2?1:n<=7?2:3};
+const freqTxt=f=>(FREQS.find(x=>x[0]===f)||[0,'Tous les '+f+' j'])[1];
+
+const S={tab:'cal',view:'jour',sel:TODAY,folder:'afaire',filter:'all',rTheme:'',seuil:5,city:'Ma position',toast:'',sheet:'',sheetId:0,sheetList:'',secId:'',catRayon:'',q:'',cq:'',draft:'',draftHour:12,draftTheme:'perso',draftSub:'arrosage',draftFreq:7,draftSec:'visage',qOpen:0,nextId:300,
+items:[
+ {id:1,kind:'rdv',theme:'sante',title:'Dentiste',date:'2026-11-23',start:9,end:10},
+ {id:9,kind:'rdv',theme:'proches',title:'Café',date:'2026-11-23',start:13.5,end:15},
+ {id:2,kind:'rdv',theme:'sport',title:'Yoga',date:'2026-11-23',start:18.5,end:19.5},
+ {id:3,kind:'rdv',theme:'travail',title:'Réunion d’équipe',date:'2026-11-24',start:9,end:11},
+ {id:10,kind:'rdv',theme:'apprendre',title:'Cours de japonais',date:'2026-11-24',start:18,end:19.5},
+ {id:4,kind:'rdv',theme:'admin',title:'Banque',date:'2026-11-25',start:14,end:15},
+ {id:5,kind:'rdv',theme:'travail',title:'Formation',date:'2026-11-26',start:9,end:12.5},
+ {id:11,kind:'rdv',theme:'sport',title:'Piscine',date:'2026-11-26',start:17,end:18},
+ {id:6,kind:'rdv',theme:'loisirs',title:'Cinéma',date:'2026-11-27',start:20,end:22.5},
+ {id:12,kind:'rdv',theme:'proches',title:'Dîner',date:'2026-11-28',start:19.5,end:22},
+ {id:7,kind:'rdv',theme:'perso',title:'Coiffeur',date:'2026-11-29',start:11,end:12},
+ {id:8,kind:'rdv',theme:'travail',title:'Réunion d’équipe',date:'2026-12-01',start:9,end:11},
+ {id:30,kind:'tache',theme:'admin',folder:'afaire',title:'Trier les papiers',date:null,reports:4},
+ {id:31,kind:'tache',theme:'travail',folder:'afaire',title:'Préparer la présentation',date:'2026-11-25',start:20,end:21,reports:1},
+ {id:32,kind:'tache',theme:'admin',folder:'afaire',title:'Renouveler la carte d’identité',date:'2026-11-26',reports:0},
+ {id:33,kind:'tache',theme:'perso',folder:'afaire',title:'Commander une crème solaire',date:null,reports:2},
+ {id:34,kind:'tache',theme:'sport',folder:'afaire',title:'S’inscrire à la piscine',date:'2026-11-23',reports:3},
+ {id:14,kind:'tache',theme:'admin',folder:'urgent',title:'Payer la facture d’électricité',date:'2026-11-24',reports:5,urgentSince:'2026-11-13'},
+ {id:15,kind:'tache',theme:'sante',folder:'urgent',title:'Prendre rendez-vous chez le médecin',date:null,reports:5,urgentSince:'2026-11-19'},
+ {id:16,kind:'tache',theme:'perso',folder:'urgent',title:'Renvoyer le colis',date:null,reports:5,urgentSince:'2026-11-23'},
+ {id:22,kind:'rappel',theme:'admin',title:'Loyer',date:'2026-12-05',start:9,end:9.5,repeat:'chaque mois'},
+ {id:23,kind:'rappel',theme:'admin',title:'Déclarer les impôts',date:'2026-12-15',start:10,end:10.5},
+ {id:26,kind:'rappel',theme:'sante',title:'Renouveler l’ordonnance',date:'2026-12-10',start:9,end:9.5},
+ {id:27,kind:'rappel',theme:'proches',title:'Acheter un cadeau',date:'2026-12-03',start:9,end:9.5},
+ {id:28,kind:'rappel',theme:'apprendre',title:'Réviser les kanji',date:'2026-11-24',start:21,end:21.5,repeat:'chaque mardi'},
+ {id:29,kind:'rappel',theme:'sport',title:'Préparer le sac de sport',date:'2026-11-26',start:8,end:8.5},
+ {id:35,kind:'rappel',theme:'loisirs',title:'Réserver le concert',date:'2026-11-30',start:12,end:12.5}],
+chores:[
+ {id:60,zone:'salon',sub:'aspiration',title:'Aspirer',freq:7,last:'2026-11-15'},
+ {id:61,zone:'salon',sub:'arrosage',title:'Arroser les plantes',freq:3,last:'2026-11-21'},
+ {id:62,zone:'salon',sub:'plumeau',title:'Dépoussiérer',freq:7,last:'2026-11-19'},
+ {id:63,zone:'salon',sub:'rangement',title:'Ranger',freq:2,last:'2026-11-22'},
+ {id:64,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:'2026-11-23'},
+ {id:65,zone:'salon',sub:'sol',title:'Nettoyer le sol',freq:7,last:'2026-11-18'},
+ {id:66,zone:'cuisine',sub:'vaisselle',title:'Vaisselle',freq:1,last:'2026-11-23'},
+ {id:67,zone:'cuisine',sub:'rangement',title:'Ranger',freq:2,last:'2026-11-22'},
+ {id:68,zone:'cuisine',sub:'poubelles',title:'Poubelles',freq:7,last:'2026-11-17'},
+ {id:69,zone:'cuisine',sub:'sac',title:'Faire les courses',freq:7,last:'2026-11-18',link:'courses'},
+ {id:70,zone:'sdb',sub:'nettoyage',title:'Nettoyer',freq:7,last:'2026-11-15'},
+ {id:71,zone:'sdb',sub:'aspiration',title:'Aspirer',freq:7,last:'2026-11-19'},
+ {id:72,zone:'sdb',sub:'rangement',title:'Ranger',freq:3,last:'2026-11-21'},
+ {id:73,zone:'sdb',sub:'toilettes',title:'Nettoyer les toilettes',freq:4,last:'2026-11-20'},
+ {id:74,zone:'sdb',sub:'douche',title:'Nettoyer la douche',freq:7,last:'2026-11-16'},
+ {id:75,zone:'sdb',sub:'lavabo',title:'Nettoyer le lavabo',freq:4,last:'2026-11-21'},
+ {id:76,zone:'sdb',sub:'poubelles',title:'Vider la poubelle',freq:7,last:'2026-11-20'},
+ {id:77,zone:'sdb',sub:'miroir',title:'Nettoyer le miroir',freq:7,last:'2026-11-17'},
+ {id:78,zone:'sdb',sub:'lessive',title:'Faire la lessive',freq:4,last:'2026-11-21'},
+ {id:79,zone:'chambre',sub:'draps',title:'Changer les draps',freq:14,last:'2026-11-12'},
+ {id:100,zone:'vetements',sub:'vetements',title:'Ranger les vêtements',freq:3,last:'2026-11-22'},
+ {id:101,zone:'vetements',sub:'nettoyage',title:'Nettoyer',freq:7,last:'2026-11-18'},
+ {id:102,zone:'vetements',sub:'trier',title:'Trier',freq:30,last:'2026-11-01'},
+ {id:103,zone:'plantes',sub:'replanter',title:'Replanter',freq:30,last:'2026-10-20'},
+ {id:104,zone:'plantes',sub:'arrosage',title:'Donner de l’eau',freq:3,last:'2026-11-21'}],
+sugg:SUGG0.slice(),
+care:[
+ {id:80,sec:'visage',sub:'serum',title:'Routine du matin',freq:1,last:'2026-11-23',moments:['matin']},
+ {id:81,sec:'visage',sub:'serum',title:'Routine du soir',freq:1,last:'2026-11-22',moments:['soir']},
+ {id:82,sec:'visage',sub:'masque',title:'Masque visage',freq:4,last:'2026-11-18',moments:['soir']},
+ {id:83,sec:'visage',sub:'guasha',title:'Gua sha',days:[0,2,4],last:'2026-11-21',moments:['matin']},
+ {id:84,sec:'cheveux',sub:'brosse',title:'Masque cheveux',freq:7,last:'2026-11-17'},
+ {id:85,sec:'cheveux',sub:'huile',title:'Huile sur les pointes',days:[1,4],last:'2026-11-20',moments:['soir']},
+ {id:86,sec:'cheveux',sub:'serum',title:'Soin du cuir chevelu',freq:14,last:'2026-11-13'},
+ {id:88,sec:'corps',sub:'massage',title:'Massage',freq:7,last:'2026-11-20'},
+ {id:89,sec:'corps',sub:'tube',title:'Gommage',freq:7,last:'2026-11-17'},
+ {id:90,sec:'mains',sub:'manucure',title:'Manucure',freq:14,last:'2026-11-04'},
+ {id:91,sec:'mains',sub:'pedicure',title:'Pédicure',freq:21,last:'2026-11-10'},
+ {id:92,sec:'complements',sub:'gelule',title:'Vitamine D',freq:1,last:'2026-11-23',moments:['matin']},
+ {id:93,sec:'complements',sub:'gelule',title:'Magnésium',freq:1,last:'2026-11-22',moments:['soir']},
+ {id:94,sec:'sportm',sub:'yoga',title:'Yoga',days:[0,3],last:'2026-11-19',moments:['soir']},
+ {id:95,sec:'sportm',sub:'course',title:'Course à pied',days:[5],last:'2026-11-21',moments:['matin']},
+ {id:87,sec:'sportm',sub:'etir',title:'Étirements',freq:1,last:'2026-11-21',moments:['matin']},
+ {id:96,sec:'journal',sub:'carnet',title:'Journal du soir',freq:1,last:'2026-11-22',moments:['soir']},
+ {id:97,sec:'journal',sub:'gratitude',title:'Gratitude',days:[6],last:'2026-11-22'},
+ {id:105,sec:'journal',sub:'potcrayons',title:'Triage',freq:7,last:'2026-11-16'},
+ {id:98,sec:'lecture',sub:'livre',title:'Lire 20 pages',freq:1,last:'2026-11-22',moments:['soir']},
+ {id:99,sec:'recette',sub:'toque',title:'Tester une recette',freq:7,last:'2026-11-16'}],
+courses:[{id:50,rayon:'fruits',name:'Pommes',qty:4},{id:51,rayon:'fruits',name:'Épinards',qty:1},{id:52,rayon:'fruits',name:'Avocats',qty:2,done:true},{id:53,rayon:'frais',name:'Œufs',qty:6},{id:54,rayon:'frais',name:'Yaourts nature',qty:1},{id:55,rayon:'epicerie',name:'Riz japonais',qty:1},{id:56,rayon:'epicerie',name:'Sauce soja',qty:1,done:true},{id:57,rayon:'epicerie',name:'Thé vert',qty:1},{id:61,rayon:'pain',name:'Baguette',qty:2},{id:58,rayon:'hygiene',name:'Shampooing',qty:1},{id:59,rayon:'entretien',name:'Liquide vaisselle',qty:1},{id:62,rayon:'asiatique',name:'Gyozas',qty:1},{id:63,rayon:'asiatique',name:'Furikake',qty:1}]};
+
+/* ---------- Données réelles : départ vide, listes ménage et Moi conservées ---------- */
+S.items=[];S.courses=[];S.sugg=[];S.chores.forEach(c=>{c.last=TODAY;delete c.next});S.care.forEach(c=>{c.last=TODAY;delete c.next});
+const PKEYS=['items','chores','care','courses','seuil','city','nextId'];
+const LSK='ag_state_v1';
+let W=null;try{W=JSON.parse(localStorage.getItem('ag_weather')||'null')}catch(e){}
+let SY={synced:{},dirty:{}};
+(function loadLocal(){let o=null;try{o=JSON.parse(localStorage.getItem(LSK)||'null')}catch(e){}if(o){PKEYS.forEach(k=>{if(o.state&&o.state[k]!==undefined)S[k]=o.state[k]});SY.synced=o.synced||{};SY.dirty=o.dirty||{}}else{PKEYS.forEach(k=>{SY.synced[k]=JSON.stringify(S[k])})}})();
+function persist(){const state={};PKEYS.forEach(k=>{state[k]=S[k];const j=JSON.stringify(S[k]);if(j!==SY.synced[k])SY.dirty[k]=1;else delete SY.dirty[k]});
+ try{localStorage.setItem(LSK,JSON.stringify({state,synced:SY.synced,dirty:SY.dirty}))}catch(e){}
+ if(window.sync)sync.schedule()}
+const nowMs=()=>Date.now();
+const visible=it=>!(it.done&&it.doneAt&&nowMs()-it.doneAt>864e5);
+function housekeeping(){const t=nowMs();S.items=S.items.filter(it=>!(it.done&&it.doneAt&&t-it.doneAt>7*864e5));S.courses=S.courses.filter(c=>!(c.done&&c.doneDay&&c.doneDay<TODAY))}
+const REP=[['','Non'],['j','Chaque jour'],['s','Chaque semaine'],['m','Chaque mois'],['a','Chaque année']];
+const repTxt=r=>({j:'chaque jour',s:'chaque semaine',m:'chaque mois',a:'chaque année'})[r]||(typeof r==='string'?r:'');
+function nextDate(k,r){const d=pd(k);if(r==='j')d.setDate(d.getDate()+1);else if(r==='s')d.setDate(d.getDate()+7);else if(r==='m')d.setMonth(d.getMonth()+1);else if(r==='a')d.setFullYear(d.getFullYear()+1);return fk(d)}
+const durTxt=h=>{const H=Math.floor(h),M=Math.round((h-H)*60);return (H?H+' h':'')+(M?(H?' ':'')+M+' min':'')||'0 min'};
+
+/* ---------- État des tâches récurrentes ---------- */
+function nextOf(c){if(c.next)return c.next;if(c.days&&c.days.length){let k=add(c.last,1);for(let i=0;i<8;i++){if(c.days.includes(wd(k)))return k;k=add(k,1)}return k}return add(c.last,c.freq||1)}
+function schedTxt(c){const d=c.days&&c.days.length?(c.days.length===7?'Chaque jour':c.days.map(x=>DL[x]).join(' ')):freqTxt(c.freq);const m=(c.moments||[]).map(x=>MOMENTS.find(y=>y[0]===x)[1].toLowerCase()).join(' · ');return d+(m?' · '+m:'')}
+function st(c){const left=diff(TODAY,nextOf(c));const m=left<0?'late':left<=1?'todo':'ok';
+  const when=left<0?`${-left} j de retard`:left===0?'aujourd’hui':left===1?'demain':`dans ${left} j`;return{left,m,when}}
+const worst=list=>list.some(c=>st(c).m==='late')?'late':list.some(c=>st(c).m==='todo')?'todo':'ok';
+
+const onDate=k=>S.items.filter(it=>it.date===k&&visible(it)).sort((a,b)=>(timed(a)?a.start:-1)-(timed(b)?b.start:-1));
+const legend=()=>`<div class="leg">${THEMES.map(t=>`<button class="mx" style="--d:${t.d}" data-a="goth" data-v="${t.id}"><span class="ic tint">${kw(t.id,22)}</span>${t.name}</button>`).join('')}</div>`;
+
+function calHTML(){
+  const views=[['jour','Jour'],['semaine','Semaine'],['mois','Mois']].map(v=>`<button class="${S.view===v[0]?'on':''}" data-a="view" data-v="${v[0]}">${v[1]}</button>`).join('');
+  const selD=pd(S.sel),mon=monday(S.sel);
+  let label;
+  if(S.view==='jour')label=DOWL[wd(S.sel)]+' '+selD.getDate()+' '+MON[selD.getMonth()];
+  else if(S.view==='semaine'){const a=pd(mon),b=pd(add(mon,6));label=a.getMonth()===b.getMonth()?a.getDate()+' – '+b.getDate()+' '+MON[b.getMonth()]:a.getDate()+' '+MONS[a.getMonth()]+' – '+b.getDate()+' '+MONS[b.getMonth()]}
+  else label=MON[selD.getMonth()][0].toUpperCase()+MON[selD.getMonth()].slice(1)+' '+selD.getFullYear();
+  let body='';
+  if(S.view==='jour'){
+    const H=56,list=onDate(S.sel),allday=list.filter(it=>!timed(it)),tl=list.filter(timed);
+    if(allday.length)body+=`<div style="display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 14px 46px">${allday.map(it=>`<span class="chip mx" style="--d:${TH[it.theme].d}"><span class="ic tint">${kw(it.theme,20)}</span>${esc(it.title)}</span>`).join('')}</div>`;
+    let labs='';for(let h=5;h<=23;h++)labs+=`<span class="hl ${tl.some(it=>it.start<h+1&&(it.end||it.start+1)>h)?'':'soft'}" style="top:${(h-5)*H+10}px">${h} h</span>`;
+    const lanes=[];const evs=tl.map(it=>{let l=0;while(lanes[l]!==undefined&&lanes[l]>it.start)l++;lanes[l]=it.end||it.start+1;return{it,l}});
+    const cards=evs.map(o=>{const it=o.it,end=it.end||it.start+1,ov=evs.some(p=>p!==o&&p.it.start<end&&(p.it.end||p.it.start+1)>it.start);const top=(it.start-5)*H+10,h=Math.max((end-it.start)*H-4,46);
+      return `<div class="ev mx" data-a="edit" data-id="${it.id}" style="cursor:pointer;--d:${TH[it.theme].d};top:${top}px;height:${h}px;left:calc(38px + ${ov?o.l*50:0}% - ${ov?o.l*19:0}px);width:calc(${ov?50:100}% - ${ov?19:38}px)"><span class="ic tint">${kw(it.theme,24)}</span><div style="min-width:0"><div class="ttl">${esc(it.title)}</div><div class="meta">${hm(it.start)} – ${hm(end)}</div></div></div>`}).join('');
+    body+=`<div class="day" style="height:${18*H+20}px">${labs}${cards}</div>`;
+  } else if(S.view==='semaine'){
+    let cols='';
+    for(let i=0;i<7;i++){const k=add(mon,i),list=onDate(k);
+      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}</button>`).join('')}</div>`}
+    body=`<div class="week">${cols}</div>${legend()}`;
+  } else {
+    const start=monday(fk(new Date(selD.getFullYear(),selD.getMonth(),1)));let cells='';
+    for(let i=0;i<42;i++){const k=add(start,i),d=pd(k),th=[...new Set(onDate(k).map(x=>x.theme))];cells+=`<button class="mc ${d.getMonth()!==selD.getMonth()?'out':''} ${k===TODAY?'today':''} ${wd(k)>=5?'we':''}" data-a="day" data-k="${k}"><b>${d.getDate()}</b><span class="mdots">${th.slice(0,6).map(t=>`<i style="--d:${TH[t].d}"></i>`).join('')}</span></button>`}
+    body=`<div style="padding:2px 16px 0"><div class="mgrid">${['L','M','M','J','V','S','D'].map((l,i)=>`<div class="mdow ${i>=5?'we':''}">${l}</div>`).join('')}</div><div class="mgrid">${cells}</div></div>${legend()}`;
+  }
+  const arrow=d=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+  return `<div style="padding:0 20px 8px;display:flex;flex-direction:column;gap:10px"><div class="seg ghost">${views}</div>
+    <div class="bar"><button class="nav40 ghost" aria-label="Précédent" data-a="step" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:17px">${label}</div><button class="nav40 ghost" aria-label="Suivant" data-a="step" data-v="1">${arrow('M9 18l6-6-6-6')}</button><button class="today-btn" data-a="today">Aujourd’hui</button></div></div>
+    <div class="scroll">${body}</div>`;
+}
+
+function pips(n,hot){return `<span class="pips ${hot?'hot':''}">${Array.from({length:Math.min(n,6)},()=>'<i></i>').join('')}${n>6?'<em>+</em>':''}</span>`}
+function burst(d){const pts=[[0,-30],[26,-16],[28,12],[0,30],[-26,14],[-28,-14],[14,-28],[-14,28]];
+  return `<span class="burst">${pts.map((p,i)=>`<i style="--x:${p[0]}px;--y:${p[1]}px">${i%2?`<svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 9C2 7 1 5.5 1 4a2 2 0 0 1 4-.6A2 2 0 0 1 9 4c0 1.5-1 3-4 5z" fill="#EDA5B0"/></svg>`:`<svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 0l1.2 3.8L10 5 6.2 6.2 5 10 3.8 6.2 0 5l3.8-1.2z" fill="${d}"/></svg>`}</i>`).join('')}</span>`}
+function taskCard(it){
+  const t=TH[it.theme],urg=it.folder==='urgent',lv=urg?urgLevel(it):0,isTask=it.kind==='tache';
+  const date=it.date?`<span class="dchip">${ico('cal',12,2)}${short(it.date)}${timed(it)?' · '+hm(it.start):''}</span>`:'';
+  const rep=it.repeat?`<span class="dchip">${ico('repeat',12,2)}${repTxt(it.repeat)}</span>`:'';
+  let foot='';
+  if(it.done)foot='';
+  else if(urg)foot=`<span class="meta">depuis ${diff(it.urgentSince,TODAY)===0?'aujourd’hui':diff(it.urgentSince,TODAY)+' j'}</span><span class="bang" aria-label="Urgence ${lv}">${'!'.repeat(lv)}</span>`;
+  else if(isTask&&it.folder==='afaire'){const r=Math.min(it.reports||0,S.seuil);foot=`<span class="dots ${r>=S.seuil-1?'hot':''}" aria-label="Reportée ${r} fois sur ${S.seuil}">${Array.from({length:S.seuil},(_,i)=>`<i class="${i<r?'f':''}"></i>`).join('')}</span><button class="procr" title="Procrastiner" aria-label="Procrastiner" data-a="procrast" data-id="${it.id}">${ART.escargot.replace('width="24" height="18"','width="30" height="22"')}</button>`}
+  return `<div class="task mx ${it.done?'done':''} ${urg?'u'+lv:''} ${S.pop===it.id?'popcard':''}" style="--d:${t.d}">
+    <span class="ic tint tile" style="--d:${t.d}">${kw(it.theme,32)}</span>
+    <div class="body" data-a="edit" data-id="${it.id}" style="cursor:pointer"><div class="ttl">${esc(it.title)}</div><div style="display:flex;gap:6px;flex-wrap:wrap">${date}${rep}</div></div>
+    <button class="chk ${S.pop===it.id?'pop':''}" aria-label="${it.done?'Fait':'À faire'}" data-a="check" data-id="${it.id}">${faceChk(it.done,30)}${S.pop===it.id?burst(t.d):''}</button>
+    ${foot?`<div class="foot">${foot}</div>`:''}</div>`;
+}
+
+function tasksHTML(){
+  const F=[['afaire','À faire','#CEC3BB'],['urgent','Urgent','#E8A094'],['rappels','Rappels','#EEB87D']];
+  const inF=(it,f)=>f==='rappels'?it.kind==='rappel':(it.kind==='tache'&&it.folder===f);
+  const folders=F.map(f=>{const n=S.items.filter(it=>inF(it,f[0])&&!it.done&&visible(it)).length;return `<button class="fold mx ${S.folder===f[0]?'on':''}" style="--d:${f[2]}" data-a="folder" data-v="${f[0]}" aria-label="${f[1]} : ${n}">${kw(f[0],46)}<span class="l">${f[1]} <span class="fc ${f[0]==='urgent'&&n?'hot':''}">${n}</span></span></button>`}).join('');
+  let list=S.items.filter(it=>inF(it,S.folder)&&visible(it)),body='',top='';
+  if(S.folder==='afaire'){
+    const used=THEMES.filter(t=>t.id!=='menage'),cur=S.filter==='all'?null:TH[S.filter];
+    top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>`<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}" data-a="filter" data-v="${t.id}">${kw(t.id,22)}</button>`).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
+    if(S.filter!=='all')list=list.filter(it=>it.theme===S.filter);
+    list.sort((a,b)=>(!!a.done-!!b.done)||((a.date||'9')<(b.date||'9')?-1:1));
+    body=list.map(taskCard).join('');
+    if(!list.length)body=`<div class="empty">${ART.chat}</div>`;
+  } else if(S.folder==='urgent'){
+    list.sort((a,b)=>(!!a.done-!!b.done)||(urgLevel(b)-urgLevel(a)));body=list.map(taskCard).join('');
+    if(!list.length)body=`<div class="empty">${ART.chat}</div>`;
+  } else {
+    const groups=THEMES.map(t=>({t,its:list.filter(it=>it.theme===t.id)})).filter(g=>g.its.length);
+    const cloud=`<div class="cloud">${groups.map(g=>{const n=g.its.filter(x=>!x.done).length,sz=84;return `<button class="bubble mx ${S.rTheme===g.t.id?'on':''}" style="--d:${g.t.d};--p:30%;width:${sz}px;height:${sz}px" data-a="rtheme" data-v="${g.t.id}"><span style="color:color-mix(in srgb,${g.t.d} 55%,#4B3D3A)">${kw(g.t.id,32)}</span><span class="nm">${g.t.name}</span></button>`}).join('')}</div>`;
+    const sel=groups.find(g=>g.t.id===S.rTheme);
+    body=cloud+(sel?sel.its.sort((a,b)=>(!!a.done-!!b.done)||(a.date<b.date?-1:1)).map(taskCard).join(''):'');
+  }
+  return `<div class="folders">${folders}</div>${top}<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:10px">${body}</div>`;
+}
+
+function charBubble(c,list){const s=st(c);
+  return `<button class="cbw" data-a="open" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m}">${charSvg(c.sub,s.m,58)}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
+function menageHTML(){
+  const zones=ZONES.map(([id,name])=>{const its=S.chores.filter(c=>c.zone===id),m=its.length?worst(its):'ok';
+    return `<button class="cbw" style="width:108px" data-a="zone" data-v="${id}"><span class="bubble cb ${m}" style="width:98px;height:98px">${charSvg(id,m,62)}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
+  const sg='';const _sg=S.sugg.length?`<button class="cbw" style="width:108px" data-a="suggs"><span class="bubble cb" style="width:98px;height:98px;--d:#EEB87D;border-style:dashed">${charSvg('idee','ok',62)}</span><span class="lbl2" style="font-size:13.5px">Suggestions</span></button>`:'';
+  return `<div class="scroll" style="padding-top:6px"><div class="cloud" style="gap:16px 6px">${zones}${sg}</div></div>`;
+}
+function moiHTML(){
+  const secs=CARE.map(([id,name])=>{const its=S.care.filter(c=>c.sec===id),m=worst(its),n=its.filter(c=>st(c).m!=='ok').length;
+    return `<button class="cbw" style="width:108px" data-a="sec" data-v="${id}"><span class="bubble cb ${m}" style="width:98px;height:98px">${charSvg(id,m,64)}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
+  return `<div class="scroll" style="padding-top:6px"><div class="cloud" style="gap:16px 6px">${secs}</div></div>`;
+}
+
+function catAll(){const out=[];RAYONS.forEach(r=>r.cat.forEach(n=>out.push({n,r:r.id})));return out}
+function match(list,q){q=norm(q.trim());if(!q)return list;const s=list.filter(x=>norm(x.n).split(/[ ’'-]/).some(w=>w.startsWith(q))),i=list.filter(x=>!s.includes(x)&&norm(x.n).includes(q));return[...s,...i]}
+function suggHTML(){
+  if(!S.q.trim())return '';
+  const mine=S.courses.filter(c=>!c.done).map(c=>norm(c.name));
+  const res=match(catAll(),S.q).slice(0,7);
+  let h=res.map(x=>{const r=RY[x.r],has=mine.includes(norm(x.n));return `<button class="mx" style="--d:${r.d}" data-a="sugg" data-v="${esc(x.n)}" data-r="${x.r}"><span class="ic tint">${kw(x.r,26)}</span><span style="flex:1">${esc(x.n)}</span>${has?'<span class="meta">déjà dans la liste</span>':ico('courses',16)}</button>`}).join('');
+  if(!res.some(x=>norm(x.n)===norm(S.q.trim())))h+=`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:4px 2px"><span class="meta">« ${esc(S.q.trim())} » dans :</span>${RAYONS.map(r=>`<button class="ic tint" style="--d:${r.d};width:34px;height:34px;border-radius:12px" aria-label="${r.name}" data-a="newitem" data-r="${r.id}">${kw(r.id,30)}</button>`).join('')}</div>`;
+  return h;
+}
+function coursesHTML(){
+  const strip=RAYONS.map(r=>`<button class="rbtn tint" style="--d:${r.d}" aria-label="${r.name}" data-a="catalog" data-v="${r.id}">${kw(r.id,36)}</button>`).join('');
+  const groups=RAYONS.map(r=>{const its=S.courses.filter(c=>c.rayon===r.id&&!c.done);if(!its.length)return '';
+    return `<div class="grp"><span class="ic tint" style="--d:${r.d};width:32px;height:32px;border-radius:11px">${kw(r.id,26)}</span><span class="hf" style="font-size:14px">${r.name}</span></div><div style="display:flex;flex-direction:column;gap:6px">${its.map(c=>`<div class="item mx" id="row${c.id}" style="--d:${r.d}">${prod(c)}<button style="flex:1;text-align:left;font-size:15px;font-weight:600;min-height:40px" data-a="buy" data-id="${c.id}">${c.qty>1?`<span class="nf" style="color:color-mix(in srgb,${r.d} 50%,#4B3D3A)">${c.qty}</span> `:''}${esc(c.name)}</button>${S.qOpen===c.id?`<span class="qp"><button aria-label="Moins" data-a="qty" data-id="${c.id}" data-v="-1">−</button><button data-a="qopen" data-id="${c.id}" style="min-width:18px;font-size:12.5px;font-weight:800">${c.qty}</button><button aria-label="Plus" data-a="qty" data-id="${c.id}" data-v="1">+</button><button aria-label="Retirer" data-a="rmcourse" data-id="${c.id}" style="color:#A9433C;font-size:13px">✕</button></span>`:`<button class="qbtn" aria-label="Quantité" data-a="qopen" data-id="${c.id}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 2.6v4.8M2.6 5h4.8M8.6 11h4.8"/><path d="M12.6 2.4 3.4 13.6" stroke-width="1"/></svg></button>`}<button class="box" aria-label="Mettre dans le panier" data-a="buy" data-id="${c.id}">${faceChk(false,24)}</button></div>`).join('')}</div>`}).join('');
+  const inCart=S.courses.filter(c=>c.done);
+  const cart=`<div class="cart" id="cartzone">${ART.panier}<div class="cartin">${inCart.map(c=>`<button class="mx" style="--d:${RY[c.rayon].d}" data-a="buy" data-id="${c.id}">${prod(c,22)}${c.qty>1?c.qty+' ':''}${esc(c.name)}</button>`).join('')}</div></div>`;
+  const nCart=S.courses.filter(c=>c.done).length;
+  return `<button class="cartfab" id="cartfab" aria-label="Panier" data-a="tocart">${ART.panier.replace('width="74" height="66"','width="44" height="40"')}${nCart?`<em>${nCart}</em>`:''}</button><div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" value="${esc(S.q)}" placeholder="Commence à écrire" autocomplete="off"></div><div class="sugg" id="sugg">${suggHTML()}</div>
+    <div class="rstrip hs">${strip}</div><div class="scroll" style="padding:0 20px 150px">${groups}${cart}</div>`;
+}
+function catChips(){const r=RY[S.catRayon],mine=S.courses.filter(c=>c.rayon===r.id&&!c.done).map(c=>c.name);
+  const res=match(r.cat.map(n=>({n})),S.cq);
+  let h=res.map(x=>`<button class="${mine.includes(x.n)?'in':''}" style="--d:${r.d};padding-left:6px" data-a="cat" data-v="${esc(x.n)}">${prod({name:x.n,rayon:r.id},24)}${esc(x.n)}</button>`).join('');
+  if(S.cq.trim()&&!res.some(x=>norm(x.n)===norm(S.cq.trim())))h+=`<button style="--d:${r.d};border-style:dashed" data-a="catnew">+ ${esc(S.cq.trim())}</button>`;
+  return h}
+
+function choreSheet(){
+  const listName=S.sheetList,arr=S[listName],c=arr.find(x=>x.id===S.sheetId);if(!c)return['',''];
+  const s=st(c),title=`<span style="display:flex;align-items:center;gap:10px"><span class="bubble cb ${s.m}" style="width:56px;height:56px;border-width:2px">${charSvg(c.sub,s.m,38)}</span>${esc(c.title)}</span>`;
+  const byDays=!!(c.days&&c.days.length);
+  let inner=`<div class="row"><span class="meta" style="font-size:14px">Prochaine fois</span><div style="display:flex;align-items:center;gap:10px"><button class="step ghost" aria-label="Plus tôt" data-a="nextd" data-v="-1">−</button><span class="nf" style="min-width:110px;text-align:center;font-size:16px">${short(nextOf(c))}</span><button class="step ghost" aria-label="Plus tard" data-a="nextd" data-v="1">+</button></div></div>
+    <div class="seg ghost"><button class="${byDays?'':'on'}" data-a="mode" data-v="int">Tous les…</button><button class="${byDays?'on':''}" data-a="mode" data-v="days">Certains jours</button></div>`;
+  if(byDays)inner+=`<div class="daypick">${DL.map((l,i)=>`<button class="${c.days.includes(i)?'on':''}" data-a="dayt" data-v="${i}">${l}</button>`).join('')}</div>`;
+  else inner+=`<div class="pick">${FREQS.map(f=>`<button class="txt ${c.freq===f[0]?'on':''}" style="--d:#B4CA9C" data-a="setfreq" data-v="${f[0]}">${f[1]}</button>`).join('')}</div>`;
+  inner+=`<div class="lbl">Moment</div><div class="pick">${MOMENTS.map(m=>`<button class="txt ${(c.moments||[]).includes(m[0])?'on':''}" style="--d:#EEB87D" data-a="moment" data-v="${m[0]}">${m[1]}</button>`).join('')}</div>`;
+  const delBtn=`<button class="danger" data-a="delchore">Supprimer</button>`;
+  inner+=c.link==='courses'?`<button class="big" style="background:#E8A094" data-a="gocourses">Ouvrir la liste de courses</button><button class="big" style="background:#7FA36A" data-a="donec">C’est fait</button>`+delBtn:`<button class="big" style="background:#7FA36A" data-a="donec">C’est fait</button>`+delBtn;
+  return[title,inner];
+}
+
+function sheetHTML(){
+  if(!S.sheet)return '';
+  let title,inner;
+  const closeBtn=`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit'].includes(S.sheet)?'Fermer':'Annuler'}</button>`;
+  if(S.sheet==='settings'){
+    title='Réglages';
+    inner=`<div class="row" style="padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:20px"><span style="font-size:15px;font-weight:600">Seuil Procrastiner</span><div style="display:flex;align-items:center;gap:10px"><button class="step ghost" aria-label="Moins" data-a="seuil" data-v="-1">−</button><span class="nf" style="min-width:28px;text-align:center;font-size:20px">${S.seuil}</span><button class="step ghost" aria-label="Plus" data-a="seuil" data-v="1">+</button></div></div>
+      <div style="display:flex;flex-direction:column;gap:10px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:20px"><span style="font-size:15px;font-weight:600">Météo</span><div class="pick">${CITIES.map(c=>`<button class="txt ${S.city===c?'on':''}" style="--d:#A4BED3" data-a="city" data-v="${c}">${c}</button>`).join('')}</div><label for="ville">Autre ville<input id="ville" placeholder="Commence à écrire" autocomplete="off"></label></div>`;
+  } else if(S.sheet==='meteo'){
+    title=esc(W?W.name:'Météo');
+    inner=W?`<div style="display:flex;flex-direction:column;gap:8px">${W.days.map((f,i)=>{const k=f.d;return `<div class="wday">${ART[f.icon](38)}<span class="d">${k===TODAY?'Aujourd’hui':DOWL[wd(k)]+' '+pd(k).getDate()}</span><span class="t">${Math.round(f.max)}°<small>${Math.round(f.min)}°</small></span></div>`}).join('')}</div>`:`<div class="meta">Météo indisponible pour l’instant.</div>`;
+  } else if(S.sheet==='catalog'){
+    const r=RY[S.catRayon];
+    title=`<span style="display:flex;align-items:center;gap:10px"><span class="ic tint" style="--d:${r.d};width:40px;height:40px;border-radius:14px">${kw(r.id,30)}</span>${r.name}</span>`;
+    inner=`<div class="cat" id="catlist">${catChips()}</div><div class="csearch" style="position:sticky"><div style="position:relative"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round" style="position:absolute;left:15px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="cq" value="${esc(S.cq)}" placeholder="Commence à écrire" autocomplete="off" style="padding-left:44px;width:100%"></div></div>`;
+  } else if(S.sheet==='chore'){
+    [title,inner]=choreSheet();
+  } else if(S.sheet==='zone'){
+    const z=ZONES.find(x=>x[0]===S.zoneId),its=S.chores.filter(c=>c.zone===S.zoneId).sort((a,b)=>st(a).left-st(b).left);
+    title=`<span style="display:flex;align-items:center;gap:10px">${charSvg(S.zoneId,its.length?worst(its):'ok',40)}${z[1]}</span>`;
+    inner=`<div class="cloud" style="gap:14px 8px;padding:0">${its.map(c=>charBubble(c,'chores')).join('')}</div>`;
+  } else if(S.sheet==='suggs'){
+    title=`<span style="display:flex;align-items:center;gap:10px">${charSvg('idee','ok',40)}Suggestions</span>`;
+    inner=ZONES.map(([zid,zn])=>{const l=S.sugg.map((x,i)=>[x,i]).filter(([x])=>x[0]===zid);if(!l.length)return '';
+      return `<div class="row" style="justify-content:flex-start;gap:8px">${charSvg(zid,'ok',28)}<span class="hf" style="font-size:15px">${zn}</span></div><div style="display:flex;flex-direction:column;gap:6px">${l.map(([x,i])=>`<div class="item mx" style="--d:#B4CA9C;--p:12%">${charSvg(subFor(x[1]),'ok',30)}<span style="flex:1;font-size:14px;font-weight:600">${esc(x[1])}</span><button class="qmini" style="width:auto;padding:0 10px;font-size:12px;font-weight:700;opacity:1;color:#5E7F4B;background:#E3EDD9" data-a="sugok" data-v="${i}">Ajouter</button><button class="qmini" aria-label="Retirer" data-a="sugno" data-v="${i}">✕</button></div>`).join('')}</div>`}).join('');
+  } else if(S.sheet==='sec'){
+    const sec=CARE.find(x=>x[0]===S.secId),its=S.care.filter(c=>c.sec===S.secId).sort((a,b)=>st(a).left-st(b).left);
+    title=`<span style="display:flex;align-items:center;gap:10px">${charSvg(S.secId,worst(its),40)}${sec[1]}</span>`;
+    inner=`<div class="cloud" style="gap:14px 8px;padding:0">${its.map(c=>charBubble(c,'care')).join('')}</div>`;
+  } else if(S.sheet==='add'&&(S.tab==='menage'||S.tab==='moi')){
+    const kind=S.tab==='menage'?'chore':'moi';
+    title=kind==='chore'?'Nouvelle tâche ménagère':'Nouveau soin';
+    inner=`<label for="titre">Titre<input id="titre" value="${esc(S.draft)}" autocomplete="off"></label>`;
+    if(kind==='moi')inner+=`<div class="pick">${CARE.map(c=>`<button class="${S.draftSec===c[0]?'on':''}" style="--d:${c[2]}" data-a="dsec" data-v="${c[0]}">${charSvg(c[0],'ok',28)}${c[1]}</button>`).join('')}</div>`;
+    else inner+=`<div class="pick">${ZONES.map(z=>`<button class="${S.draftZone===z[0]?'on':''}" style="--d:#B4CA9C" data-a="dzone" data-v="${z[0]}">${charSvg(z[0],'ok',28)}${z[1]}</button>`).join('')}</div>`;
+    const subs=kind==='chore'?MENAGE:CARESUB;
+    inner+=`<div class="lbl">Dessin</div><div class="pick">${subs.map(m=>`<button class="${S.draftSub===m[0]?'on':''}" style="--d:#B4CA9C" data-a="sub" data-v="${m[0]}">${charSvg(m[0],'ok',28)}${m[1]}</button>`).join('')}</div>
+      <div class="lbl">Refaire</div><div class="pick">${FREQS.map(f=>`<button class="txt ${S.draftFreq===f[0]?'on':''}" style="--d:#B4CA9C" data-a="freq" data-v="${f[0]}">${f[1]}</button>`).join('')}</div>
+      <button class="big" data-a="confirm">Ajouter</button>`;
+  } else {
+    const D=S.D,kind=D.kind,isEdit=S.sheet==='edit';
+    title=isEdit?'Modifier':{rdv:'Nouveau rendez-vous',rappel:'Nouveau rappel',tache:D.folder==='urgent'?'Nouvelle tâche urgente':'Nouvelle tâche'}[kind];
+    inner=`<label for="titre">Titre<input id="titre" value="${esc(D.title)}" autocomplete="off"></label>
+      <div class="lbl">Thème</div><div class="pick">${THEMES.filter(t=>t.id!=='menage').map(t=>`<button class="${D.theme===t.id?'on':''}" style="--d:${t.d}" data-a="dtheme" data-v="${t.id}"><span class="ic tint">${kw(t.id,24)}</span>${t.name}</button>`).join('')}</div>`;
+    if(kind==='tache')inner+=`<div class="pick"><button class="txt ${D.date?'':'on'}" style="--d:#CEC3BB" data-a="dnodate" data-v="1">Sans date</button><button class="txt ${D.date?'on':''}" style="--d:#CEC3BB" data-a="dnodate" data-v="0">Avec date</button></div>`;
+    if(D.date)inner+=`<div class="daterow"><span class="lbl">Date</span><div style="display:flex;align-items:center;gap:10px"><button class="step ghost" aria-label="Jour précédent" data-a="ddate" data-v="-1">−</button><span class="nf" style="min-width:120px;text-align:center;font-size:16px">${short(D.date)}</span><button class="step ghost" aria-label="Jour suivant" data-a="ddate" data-v="1">+</button></div></div>`;
+    if(kind!=='tache'||D.date)inner+=`<div class="daterow"><span class="lbl">${kind==='rdv'?'Début':'Heure'}</span><div style="display:flex;align-items:center;gap:10px"><button class="step ghost" aria-label="Plus tôt" data-a="dhour" data-v="-1">−</button><span class="nf" style="min-width:90px;text-align:center;font-size:17px">${D.start===null?'—':hm(D.start)}</span><button class="step ghost" aria-label="Plus tard" data-a="dhour" data-v="1">+</button></div></div>`;
+    if(kind==='rdv')inner+=`<div class="daterow"><span class="lbl">Durée</span><div style="display:flex;align-items:center;gap:10px"><button class="step ghost" aria-label="Plus court" data-a="ddur" data-v="-1">−</button><span class="nf" style="min-width:90px;text-align:center;font-size:17px">${durTxt(D.dur)}</span><button class="step ghost" aria-label="Plus long" data-a="ddur" data-v="1">+</button></div></div>`;
+    if(kind==='rappel')inner+=`<div class="lbl">Répéter</div><div class="pick">${REP.map(r=>`<button class="txt ${(D.repeat||'')===r[0]?'on':''}" style="--d:#EEB87D" data-a="drep" data-v="${r[0]}">${r[1]}</button>`).join('')}</div>`;
+    inner+=`<button class="big" data-a="save">${isEdit?'Enregistrer':'Ajouter'}</button>${isEdit?'<button class="danger" data-a="delitem">Supprimer</button>':''}`;
+  }
+  return `<div class="veil" data-a="close-veil"><div class="sheet"><div class="row"><div class="hf" style="font-size:20px;min-width:0">${title}</div>${closeBtn}</div>${inner}</div></div>`;
+}
+
+function render(){try{renderInner()}finally{persist()}}
+function renderInner(){
+  const ph=document.getElementById('phone');
+  const se=ph.querySelector('.scroll'),keep=se?se.scrollTop:0,key=S.tab+S.view+S.folder;
+  const sh=ph.querySelector('.sheet'),keepSh=sh?sh.scrollTop:0;
+  const city=S.city==='Ma position'?'Roubaix':S.city;
+  const tabs=[['cal','Calendrier','calendrier'],['taches','Tâches','taches'],['courses','Courses','courses'],['menage','Ménage','seau'],['moi','Moi','perso']];
+  const content={cal:calHTML,taches:tasksHTML,courses:coursesHTML,menage:menageHTML,moi:moiHTML}[S.tab]();
+  ph.innerHTML=`<header><div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px"><span class="dnum">${pd(TODAY).getDate()}</span><span class="dtxt"><b>${DOWL[wd(TODAY)]}</b><span>${MON[pd(TODAY).getMonth()]} <i style="font-style:normal;font-size:10px;font-weight:500;opacity:.45">(${new Date(pd(TODAY).getFullYear(),pd(TODAY).getMonth()+1,0).getDate()} j)</i></span></span></div>
+    <button class="wx mx" data-a="meteo" aria-label="Météo de la semaine">${W?ART[W.icon](44):ART.nuage(44)}<div><span class="nf" style="font-size:22px;line-height:1">${W?Math.round(W.cur)+'°':'–'}</span><small>${esc(W?W.name:(S.city==='Ma position'?'Ma position':S.city))}</small><small>${W&&W.days[0]?Math.round(W.days[0].max)+'° / '+Math.round(W.days[0].min)+'°':''}</small></div></button>
+    <button class="gear" aria-label="Réglages" data-a="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button></header>
+    <main>${content}</main>
+    ${S.tab!=='courses'?`<button class="fab" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
+    <nav>${tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${kw(t[2],28)}${t[1]}</button>`).join('')}</nav>
+    ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
+    ${sheetHTML()}`;
+  const ns=ph.querySelector('.scroll');
+  if(ns){if(S._scrollTo!==undefined){ns.scrollTop=Math.max(0,(S._scrollTo-6)*56);S._scrollTo=undefined}else if(S._key===key)ns.scrollTop=keep;else if(S.tab==='cal'&&S.view==='jour')ns.scrollTop=3*56;}
+  S._key=key;
+  const nsh=ph.querySelector('.sheet');if(nsh&&S._sheetKeep){nsh.scrollTop=keepSh}S._sheetKeep=false;
+  const inp=document.getElementById('titre');if(inp)inp.addEventListener('input',e=>{S.draft=e.target.value;if(S.D)S.D.title=e.target.value});
+  const v=document.getElementById('ville');if(v)v.addEventListener('change',e=>{if(e.target.value.trim()){S.city=e.target.value.trim();W=null;render();loadWeather()}});
+  const q=document.getElementById('q');if(q){q.addEventListener('input',e=>{S.q=e.target.value;document.getElementById('sugg').innerHTML=suggHTML()});if(S._focusQ){q.focus();S._focusQ=false}}
+  const cq=document.getElementById('cq');if(cq){cq.addEventListener('input',e=>{S.cq=e.target.value;document.getElementById('catlist').innerHTML=catChips()});if(S._focusCq){cq.focus();cq.setSelectionRange(cq.value.length,cq.value.length);S._focusCq=false}}
+}
+function flyToCart(id){
+  const ph=document.getElementById('phone'),row=document.getElementById('row'+id),fab=document.getElementById('cartfab');
+  const done=()=>{S.courses=S.courses.map(x=>x.id===id?{...x,done:true,doneDay:TODAY}:x);render();const f=document.getElementById('cartfab');if(f){f.classList.add('bump')}};
+  if(!row||!fab||!row.animate){done();return}
+  const pr=ph.getBoundingClientRect(),a=row.querySelector('svg').getBoundingClientRect(),b=fab.getBoundingClientRect();
+  const box=row.querySelector('.box');box.innerHTML=faceChk(true,24);box.classList.add('pop');
+  const fl=document.createElement('div');fl.className='flyer';fl.innerHTML=row.querySelector('svg').outerHTML;
+  fl.style.left=(a.left-pr.left)+'px';fl.style.top=(a.top-pr.top)+'px';ph.appendChild(fl);
+  const dx=b.left+b.width/2-a.left-a.width/2,dy=b.top+b.height/2-a.top-a.height/2;
+  fl.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${dx*.5}px,${dy*.5-70}px) scale(1.5) rotate(-12deg)`,offset:.45},{transform:`translate(${dx}px,${dy}px) scale(.45) rotate(8deg)`,opacity:.9}],{duration:650,easing:'cubic-bezier(.3,.7,.4,1)'});
+  row.animate([{opacity:1},{opacity:.35}],{duration:650,fill:'forwards'});
+  setTimeout(()=>{fl.remove();done()},640);
+}
+function addCourse(name,rayon){const ex=S.courses.find(c=>!c.done&&norm(c.name)===norm(name));if(ex)ex.qty++;else S.courses.push({id:S.nextId++,rayon,name,qty:1})}
+
+let toastTimer;
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-a]');if(!el)return;
+  const a=el.dataset.a,v=el.dataset.v,id=+el.dataset.id;
+  if(a==='close-veil'&&e.target!==el)return;
+  const upd=(id,fn)=>{S.items=S.items.map(x=>x.id===id?fn(x):x)};
+  const cur=()=>S[S.sheetList].find(x=>x.id===S.sheetId);
+  switch(a){
+    case 'tab':S.tab=v;S.q='';break;
+    case 'view':S.view=v;break;
+    case 'step':{const n=+v;if(S.view==='jour')S.sel=add(S.sel,n);else if(S.view==='semaine')S.sel=add(S.sel,7*n);else{const d=pd(S.sel);S.sel=fk(new Date(d.getFullYear(),d.getMonth()+n,1))}break}
+    case 'today':S.sel=TODAY;break;
+    case 'day':S.sel=el.dataset.k;S.view='jour';break;
+    case 'folder':S.folder=v;break;
+    case 'filter':S.filter=v;break;
+    case 'rtheme':S.rTheme=S.rTheme===v?'':v;break;
+    case 'check':{const it=S.items.find(x=>x.id===id);if(!it.done){S.pop=id;clearTimeout(S._popT);S._popT=setTimeout(()=>{S.pop=0},800);
+        if(it.kind==='rappel'&&it.repeat&&['j','s','m','a'].includes(it.repeat)&&it.date&&!it.spawned){S.items.push({...it,id:S.nextId++,date:nextDate(it.date,it.repeat),done:false,doneAt:undefined,spawned:false});it.spawned=true}}
+      upd(id,x=>({...x,done:!x.done,doneAt:!x.done?nowMs():undefined}));break}
+    case 'procrast':{const it=S.items.find(x=>x.id===id),r=(it.reports||0)+1,go=r>=S.seuil;upd(id,x=>({...x,reports:r,date:x.date?add(x.date,1):null,folder:go?'urgent':x.folder,urgentSince:go?TODAY:x.urgentSince}));if(go){S.toast='« '+it.title+' » passe dans Urgent';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{S.toast='';render()},3200)}break}
+    case 'open':S.sheet='chore';S.sheetList=v;S.sheetId=id;break;
+    case 'sec':S.sheet='sec';S.secId=v;break;
+    case 'zone':S.sheet='zone';S.zoneId=v;break;
+    case 'suggs':S.sheet='suggs';break;
+    case 'sugok':{const [z,t]=S.sugg[+v];S.chores.push({id:S.nextId++,zone:z,sub:subFor(t),title:t,freq:7,last:TODAY});S.sugg.splice(+v,1);if(!S.sugg.length)S.sheet='';S._sheetKeep=true;break}
+    case 'sugno':S.sugg.splice(+v,1);if(!S.sugg.length)S.sheet='';S._sheetKeep=true;break;
+    case 'addzone':S.chores.push({id:S.nextId++,zone:S.zoneId,sub:subFor(v),title:v,freq:7,last:add(TODAY,-7),link:/courses/i.test(v)?'courses':undefined});S._sheetKeep=true;break;
+    case 'goth':if(v==='menage'){S.tab='menage'}else if(v==='perso'){S.tab='moi'}else{S.tab='taches';S.folder='afaire';S.filter=v}break;
+    case 'goitem':{e.stopPropagation&&e.stopPropagation();const it=S.items.find(x=>x.id===id);if(!it)break;if(it.kind==='tache'){S.tab='taches';S.folder=it.folder==='urgent'?'urgent':'afaire';S.filter='all'}else if(it.kind==='rappel'){S.tab='taches';S.folder='rappels';S.rTheme=it.theme}else{S.sel=it.date;S.view='jour';S._scrollTo=it.start}break}
+    case 'donec':{const c=cur();c.last=TODAY;delete c.next;S.sheet=S.sheetList==='care'?'sec':(c.zone?'zone':'');break}
+    case 'setfreq':{const c=cur();c.freq=+v;delete c.days;delete c.next;S._sheetKeep=true;break}
+    case 'mode':{const c=cur();if(v==='days'){c.days=c.days&&c.days.length?c.days:[wd(TODAY)]}else{delete c.days;c.freq=c.freq||1}delete c.next;S._sheetKeep=true;break}
+    case 'dayt':{const c=cur(),n=+v;c.days=c.days.includes(n)?c.days.filter(x=>x!==n):[...c.days,n].sort();if(!c.days.length)c.days=[n];delete c.next;S._sheetKeep=true;break}
+    case 'moment':{const c=cur();c.moments=c.moments||[];c.moments=c.moments.includes(v)?c.moments.filter(x=>x!==v):[...c.moments,v];S._sheetKeep=true;break}
+    case 'gocourses':S.sheet='';S.tab='courses';break;
+    case 'nextd':{const c=cur();c.next=add(nextOf(c),+v);S._sheetKeep=true;break}
+    case 'meteo':S.sheet='meteo';break;
+    case 'buy':{const c=S.courses.find(x=>x.id===id);if(!c.done){flyToCart(id);return}S.courses=S.courses.map(x=>x.id===id?{...x,done:false,doneDay:undefined}:x);break}
+    case 'tocart':{const z=document.getElementById('cartzone');if(z)z.scrollIntoView({behavior:'smooth',block:'center'});return}
+    case 'menage_link':break;
+    case 'qopen':S.qOpen=S.qOpen===id?0:id;break;
+    case 'qty':S.courses=S.courses.map(c=>c.id===id?{...c,qty:Math.max(1,c.qty+(+v))}:c);break;
+    case 'catalog':S.sheet='catalog';S.catRayon=v;S.cq='';break;
+    case 'cat':{const ex=S.courses.find(c=>!c.done&&c.rayon===S.catRayon&&c.name===v);if(ex)S.courses=S.courses.filter(c=>c!==ex);else addCourse(v,S.catRayon);S._sheetKeep=true;break}
+    case 'catnew':addCourse(S.cq.trim(),S.catRayon);S.cq='';S._sheetKeep=true;S._focusCq=true;break;
+    case 'sugg':addCourse(v,el.dataset.r);S.q='';S._focusQ=true;break;
+    case 'newitem':addCourse(S.q.trim(),el.dataset.r);S.q='';S._focusQ=true;break;
+    case 'add':{S.draft='';S.draftSub=S.tab==='moi'?'serum':'arrosage';S.draftFreq=7;S.draftZone=S.zoneId||'salon';
+      if(S.tab==='menage'||S.tab==='moi'){S.sheet='add';break}
+      const kind=S.tab==='cal'?'rdv':S.folder==='rappels'?'rappel':'tache';
+      S.D={kind,title:'',theme:S.tab==='taches'&&S.filter!=='all'?S.filter:'perso',date:kind==='tache'?null:(S.tab==='cal'?S.sel:TODAY),start:kind==='tache'?null:12,dur:1,repeat:'',folder:kind==='tache'?S.folder:undefined};S.sheet='new';break}
+    case 'edit':{const it=S.items.find(x=>x.id===id);if(!it)break;S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:timed(it)&&it.end?it.end-it.start:1,repeat:it.repeat||'',folder:it.folder};S.sheet='edit';break}
+    case 'dtheme':S.D.theme=v;S._sheetKeep=true;break;
+    case 'dnodate':if(v==='1'){S.D.date=null;S.D.start=null}else{S.D.date=S.D.date||TODAY}S._sheetKeep=true;break;
+    case 'ddate':S.D.date=add(S.D.date,+v);S._sheetKeep=true;break;
+    case 'dhour':{const D=S.D;D.start=D.start===null?(+v>0?9:null):D.start+0.25*(+v);if(D.start!==null){if(D.start<5)D.start=D.kind==='tache'?null:5;else if(D.start>23)D.start=23}S._sheetKeep=true;break}
+    case 'ddur':S.D.dur=Math.min(12,Math.max(.25,S.D.dur+.25*(+v)));S._sheetKeep=true;break;
+    case 'drep':S.D.repeat=v;S._sheetKeep=true;break;
+    case 'save':{const D=S.D,t=(document.getElementById('titre')||{}).value||D.title;if(!t.trim())return;
+      const base={title:t.trim(),theme:D.theme,date:D.date||null,start:D.start,end:D.start!==null?D.start+(D.kind==='rdv'?D.dur:.5):undefined};
+      if(D.kind==='rappel')base.repeat=D.repeat;
+      if(S.sheet==='edit')upd(D.id,x=>({...x,...base}));
+      else S.items.push({id:S.nextId++,kind:D.kind,...base,folder:D.kind==='tache'?D.folder:undefined,reports:0,urgentSince:D.folder==='urgent'?TODAY:undefined});
+      S.sheet='';break}
+    case 'delitem':S.items=S.items.filter(x=>x.id!==S.D.id);S.sheet='';break;
+    case 'delchore':{const L2=S.sheetList;S[L2]=S[L2].filter(x=>x.id!==S.sheetId);S.sheet=L2==='care'?'sec':(S.zoneId?'zone':'');break}
+    case 'dzone':S.draftZone=v;S._sheetKeep=true;break;
+    case 'rmcourse':S.courses=S.courses.filter(c=>c.id!==id);S.qOpen=0;break;
+    case 'settings':S.sheet='settings';break;
+    case 'close':case 'close-veil':S.sheet='';break;
+    case 'hour':S.draftHour=Math.min(22.5,Math.max(5,S.draftHour+0.5*(+v)));break;
+    case 'freq':S.draftFreq=+v;break;
+    case 'seuil':S.seuil=Math.min(15,Math.max(2,S.seuil+(+v)));break;
+    case 'city':S.city=v;W=null;loadWeather();break;
+    case 'theme':S.draftTheme=v;break;
+    case 'sub':S.draftSub=v;break;
+    case 'dsec':S.draftSec=v;break;
+    case 'confirm':{const t=S.draft.trim();if(!t)return;const nid=S.nextId++;
+      if(S.tab==='menage')S.chores.push({id:nid,zone:S.draftZone||'salon',sub:S.draftSub,title:t,freq:S.draftFreq,last:TODAY});
+      else if(S.tab==='moi')S.care.push({id:nid,sec:S.draftSec,sub:S.draftSub,title:t,freq:S.draftFreq,last:TODAY});
+      else if(S.tab==='cal')S.items.push({id:nid,kind:'rdv',theme:S.draftTheme,title:t,date:S.sel,start:S.draftHour,end:S.draftHour+1});
+      else if(S.folder==='rappels')S.items.push({id:nid,kind:'rappel',theme:S.draftTheme,title:t,date:S.sel,start:S.draftHour,end:S.draftHour+.5});
+      else S.items.push({id:nid,kind:'tache',theme:S.draftTheme,folder:S.folder,title:t,date:null,reports:0,urgentSince:S.folder==='urgent'?TODAY:undefined});
+      S.sheet='';S.draft='';break}
+  }
+  render();
+});
+initPR();
+/* ---------- Petits dessins d'articles : modèles + correspondances ---------- */
+const T={
+ round:(f,leaf='#B4CA9C')=>`<path d="M12 6.6c0-1.6.8-2.8 2.2-3.4" fill="none" ${ks}/>${leaf?`<path d="M12.9 5.3c1.4-1 2.9-.8 3.5 0-1 1-2.2 1.2-3.5 0z" fill="${leaf}"/>`:''}<circle cx="12" cy="13.6" r="7.4" fill="${f}" ${ks}/>`+fs(12,14.2),
+ citrus:f=>`<path d="M12.4 5.8c1.3-1 2.8-.9 3.4-.1-1 .9-2.2 1.1-3.4.1z" fill="#B4CA9C"/><circle cx="12" cy="13.4" r="7.6" fill="${f}" ${ks}/><g fill="#FFFFFF" opacity=".55"><circle cx="8" cy="10.6" r=".5"/><circle cx="16.2" cy="10.4" r=".5"/><circle cx="16.6" cy="16.6" r=".5"/><circle cx="7.6" cy="16.8" r=".5"/></g>`+fs(12,14),
+ oval:(f,leaf)=>`${leaf?`<path d="M12 5c.6-1.6 2-2.4 3.4-2.2-.4 1.4-1.6 2.4-3.4 2.2z" fill="${leaf}"/>`:''}<ellipse cx="12" cy="13" rx="6.6" ry="8" fill="${f}" ${ks}/>`+fs(12,13.6),
+ pear:f=>`<path d="M12 5.2c0-1.4.6-2.4 1.8-2.8" fill="none" ${ks}/><path d="M12 5c2.4 0 3 2.6 3.4 4.4C16 11.6 19 13 19 16a7 7 0 0 1-14 0c0-3 3-4.4 3.6-6.6C9 7.6 9.6 5 12 5z" fill="${f}" ${ks}/>`+fs(12,15.8),
+ root:(f,leaf='#8FAA79')=>`<path d="M10.4 7c-1-2-2.8-3-4.8-3M12 6.6c0-2 .4-3.4 1.8-4.4M13.6 7c1-2 2.8-3 4.8-2.6" fill="none" stroke="${leaf}" stroke-width="1.5" stroke-linecap="round"/><path d="M12 22.4c-.8-1.8-6.4-4.8-6.4-9.8a6.4 6.4 0 0 1 12.8 0c0 5-5.6 8-6.4 9.8z" fill="${f}" ${ks}/>`+fs(12,12.8),
+ long:(f,cap='#8FAA79')=>`<g transform="rotate(-32 12 12.5)"><rect x="2.6" y="8.8" width="18.8" height="7.6" rx="3.8" fill="${f}" ${ks}/><path d="M2.8 12.6H1.2" stroke="${cap}" stroke-width="1.8" stroke-linecap="round"/></g>`+fs(12.2,12.6),
+ thin:(f)=>`<path d="M6 20 17 4" stroke="#6B5A55" stroke-width="4.4" stroke-linecap="round"/><path d="M6 20 17 4" stroke="${f}" stroke-width="2.8" stroke-linecap="round"/><path d="M16 5.6l2.6-1.2M15 7.2l2.6.4" stroke="${f}" stroke-width="1.4" stroke-linecap="round"/><path d="M9 21 18.4 7.4" stroke="#6B5A55" stroke-width="4.4" stroke-linecap="round" opacity="0"/>`+fs(11.4,12.4),
+ leafy:f=>`<path d="M12 21v-5" ${ks}/><path d="M12 17c-6 0-9-5-7-12 6 0 9 5 7 12z" fill="${f}" ${ks}/><path d="M12 17c4 0 7-3 7-8-4 0-7 3-7 8z" fill="#E3EDD0" ${ks}/>`+fs(8.6,11),
+ cabbage:f=>`<circle cx="12" cy="13" r="8" fill="${f}" ${ks}/><path d="M7 9.4c2.4 1.4 2.8 5.8 2 9.4M17 9.4c-2.4 1.4-2.8 5.8-2 9.4" fill="none" stroke="#FFFFFF" stroke-width="1" opacity=".7"/>`+fs(12,13.6),
+ cluster:(f,leaf='#B4CA9C')=>`<path d="M12 4.4c0-1 .6-1.8 1.6-2" fill="none" ${ks}/><path d="M12.8 4.2c1.4-.8 2.8-.6 3.3.2-1 .8-2.1.9-3.3-.2z" fill="${leaf}"/><g fill="${f}" ${ks}><circle cx="8.2" cy="8.4" r="2.8"/><circle cx="12" cy="7.6" r="2.8"/><circle cx="15.8" cy="8.4" r="2.8"/><circle cx="10" cy="12.6" r="2.8"/><circle cx="14" cy="12.6" r="2.8"/><circle cx="12" cy="17" r="2.8"/></g><circle cx="12" cy="12" r="4.4" fill="${f}"/>`+fs(12,12.4),
+ berry:f=>`<path d="M12 21.4c-5-3-7.2-7-7.2-10 0-2.6 2-3.6 4.2-3.1h6c2.2-.5 4.2.5 4.2 3.1 0 3-2.2 7-7.2 10z" fill="${f}" ${ks}/><path d="M7.6 7.8l2.2-2.6 2.2 1.8 2.2-1.8 2.2 2.6z" fill="#B4CA9C" ${ks}/><g fill="#FFF3D6"><circle cx="8.4" cy="15" r=".45"/><circle cx="15.6" cy="15" r=".45"/><circle cx="12" cy="18.6" r=".45"/></g>`+fs(12,12.6),
+ cherry:f=>`<path d="M8 13.6C9 8 11 5 15 3.4M16 13.6c-.6-4-.4-7.4-1-10.2" fill="none" stroke="#8FAA79" stroke-width="1.3" stroke-linecap="round"/><circle cx="7.6" cy="16.4" r="4.4" fill="${f}" ${ks}/><circle cx="16.4" cy="16.4" r="4.4" fill="${f}" ${ks}/><circle cx="6.4" cy="16.4" r=".75" fill="#4B3D3A"/><circle cx="9" cy="16.4" r=".75" fill="#4B3D3A"/><path d="M7.1 17.9q.6.5 1.2 0" stroke="#4B3D3A" stroke-width=".8" fill="none" stroke-linecap="round"/>`+fs(16.4,16.6),
+ kiwi:()=>`<circle cx="12" cy="12.6" r="8" fill="#C9A985" ${ks}/><circle cx="12" cy="12.6" r="6.4" fill="#CFE3A0"/><circle cx="12" cy="12.6" r="2.2" fill="#FFF3D6"/>`+fs(12,12.6),
+ mushroom:f=>`<path d="M9 12.4h6v6.2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z" fill="#FBF1E4" ${ks}/><path d="M3.4 12.6a8.6 7 0 0 1 17.2 0z" fill="${f}" ${ks}/><g fill="#FFFFFF" opacity=".7"><circle cx="8" cy="8.4" r="1"/><circle cx="16" cy="9" r=".8"/></g>`+fs(12,16.2),
+ pod:f=>`<path d="M3.4 17c5 1.4 13-2.2 17-11 1 5-4.6 13.4-12.8 13.4-3 0-4.4-1-4.2-2.4z" fill="${f}" ${ks}/><g fill="#CFE3A0" ${ks}><circle cx="9" cy="15.4" r="1.6"/><circle cx="13" cy="13.6" r="1.6"/><circle cx="16.4" cy="10.6" r="1.6"/></g>`+fs(11.6,17.6),
+ onion:f=>`<path d="M12 2.8c0 3 7 6.2 7 11a7 7 0 0 1-14 0c0-4.8 7-8 7-11z" fill="${f}" ${ks}/><path d="M10.2 21l-.6 1.2M12 21.2v1.3M13.8 21l.6 1.2" ${ks}/>`+fs(12,14.6),
+ herb:f=>`<path d="M12 22V9" ${ks}/><g fill="${f}" ${ks}><ellipse cx="8" cy="15.6" rx="3.2" ry="2" transform="rotate(-30 8 15.6)"/><ellipse cx="16" cy="13.6" rx="3.2" ry="2" transform="rotate(30 16 13.6)"/><ellipse cx="12" cy="7.4" rx="4.6" ry="5.4"/></g>`+fs(12,7.8),
+ pepper:f=>`<path d="M12 6c0-2 1-3 2.6-3.4" fill="none" stroke="#8FAA79" stroke-width="1.5" stroke-linecap="round"/><path d="M12 6.2c-2-1.6-6.4-1-6.4 4.2 0 5.4 2.2 10.4 6.4 10.4s6.4-5 6.4-10.4c0-5.2-4.4-5.8-6.4-4.2z" fill="${f}" ${ks}/>`+fs(12,13),
+ melon:(rind,flesh)=>`<path d="M2.6 9.6h18.8a9.4 9.4 0 0 1-18.8 0z" fill="${rind}" ${ks}/><path d="M4.8 9.6h14.4a7.2 7.2 0 0 1-14.4 0z" fill="${flesh}"/><g fill="#4B3D3A" opacity=".6"><ellipse cx="7.6" cy="12.6" rx=".4" ry=".7"/><ellipse cx="16.4" cy="12.6" rx=".4" ry=".7"/></g>`+fs(12,12.4),
+ pineapple:()=>`<path d="M12 7.4 9 2.4l2 2 1-3 1 3 2-2z" fill="#9CC48A" ${ks}/><ellipse cx="12" cy="14.6" rx="6.4" ry="7.6" fill="#F7D87F" ${ks}/><path d="M7 11.6l10 7M7 17.6l10-7" stroke="#E3B95C" stroke-width=".8"/>`+fs(12,14.8),
+ corn:()=>`<path d="M7 20c-3-5-1-12 2-14 0 5 1 9 3 14zM17 20c3-5 1-12-2-14 0 5-1 9-3 14z" fill="#B4CA9C" ${ks}/><ellipse cx="12" cy="11.4" rx="4.2" ry="8.4" fill="#F7D87F" ${ks}/>`+fs(12,11),
+ broccoli:(f='#9CC48A')=>`<path d="M10 14v6.4h4V14" fill="#CFE3A0" ${ks}/><g fill="${f}" ${ks}><circle cx="7.4" cy="10.6" r="3.6"/><circle cx="16.6" cy="10.6" r="3.6"/><circle cx="12" cy="7.4" r="4"/></g><circle cx="12" cy="11.2" r="4.4" fill="${f}"/>`+fs(12,10.8),
+ sprouts:()=>`<path d="M6 21c1-6 2-10 4-14M12 21c0-6 0-10 .6-15M18 21c-1-6-2-10-4-14" fill="none" stroke="#F7EBC9" stroke-width="2" stroke-linecap="round"/><g fill="#F7E3A1" ${ks}><ellipse cx="10" cy="6.6" rx="1.8" ry="2.4"/><ellipse cx="12.6" cy="5.4" rx="1.8" ry="2.4"/><ellipse cx="14" cy="6.8" rx="1.8" ry="2.4"/></g>`,
+ /* génériques */
+ bottle:f=>`<path d="M10 2.6h4v3.2l2 3V20a1.4 1.4 0 0 1-1.4 1.4H9.4A1.4 1.4 0 0 1 8 20V8.8l2-3z" fill="${f}" ${ks}/><rect x="8" y="11" width="8" height="6.4" fill="#FFFBF5"/>`+fs(12,14.2),
+ cup:f=>`<path d="M17 11h1.5a2 2 0 0 1 0 4H17" fill="none" ${ks}/><path d="M5 10h12v4a6 6 0 0 1-12 0z" fill="${f}" ${ks}/><path d="M9 7.5c-.9-.9.9-1.8 0-3M13 7.5c-.9-.9.9-1.8 0-3" fill="none" stroke="#CEC3BB" stroke-width="1" stroke-linecap="round"/>`+fs(11,13.6),
+ bowlNoodle:()=>`<path d="M8.5 12c0-3 1-5 1.2-7M12 12V4.5M15.5 12c0-3-1-5-1.2-7" fill="none" stroke="#EBCB78" stroke-width="1.4" stroke-linecap="round"/><path d="M4 12h16a8 8 0 0 1-16 0z" fill="#F6CFC9" ${ks}/>`+fs(12,15.6),
+ bowlRice:()=>`<path d="M5 12c0-4 3-6 7-6s7 2 7 6z" fill="#FFFBF5" ${ks}/><path d="M4 12h16a8 8 0 0 1-16 0z" fill="#F6CFC9" ${ks}/>`+fs(12,15.6),
+ carton:f=>`<path d="M7.5 7l2-3.5h5l2 3.5v13a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1z" fill="#FFFBF5" ${ks}/><path d="M7.5 7h9" ${ks}/><path d="M7.5 9h9v3.6h-9z" fill="${f}"/>`+fs(12,15.8),
+ yogurt:f=>`<path d="M6 9h12l-1.4 10.5a1.5 1.5 0 0 1-1.5 1.3H8.9a1.5 1.5 0 0 1-1.5-1.3z" fill="#FFFBF5" ${ks}/><rect x="5" y="6.4" width="14" height="3" rx="1" fill="${f}" ${ks}/>`+fs(12,14.4),
+ cheese:()=>`<path d="M3 17.5 18 8.4l3 2v7.1z" fill="#F7E3A1" ${ks}/><circle cx="17.6" cy="14.6" r="1.1" fill="#EBCB78"/>`+fs(12,14.8),
+ wine:f=>`<path d="M10.4 2.4h3.2v5c2.2 1 2.6 2.6 2.6 4.4v8.4a1.4 1.4 0 0 1-1.4 1.4H9.2a1.4 1.4 0 0 1-1.4-1.4v-8.4c0-1.8.4-3.4 2.6-4.4z" fill="${f}" ${ks}/><rect x="7.8" y="12.6" width="8.4" height="5.4" fill="#FFFBF5"/>`+fs(12,15.2),
+ mug:()=>`<path d="M17 9h1.6a2.4 2.4 0 0 1 0 4.8H17" fill="none" ${ks}/><rect x="5" y="7" width="12" height="14" rx="2" fill="#F7D87F" ${ks}/><path d="M5 8.6c0-2 2-3 3-2 1-2 4-2 5 0 1-1 4-1 4 2" fill="#FFFBF5" ${ks}/>`+fs(11,14),
+ icecream:f=>`<path d="M8 12.6l4 9.4 4-9.4z" fill="#F3D9A8" ${ks}/><circle cx="12" cy="9.2" r="5.2" fill="${f}" ${ks}/>`+fs(12,9.8),
+ cookie:()=>`<circle cx="12" cy="12.4" r="8.2" fill="#E3C9A8" ${ks}/><g fill="#8C6A5E"><circle cx="7.6" cy="9.6" r=".9"/><circle cx="16.4" cy="9" r=".9"/><circle cx="15.6" cy="17" r=".9"/><circle cx="8.6" cy="16.6" r=".9"/></g>`+fs(12,13),
+ bread:()=>K.pain,
+ meat:()=>K.viande,
+ fish:()=>K.poisson,
+ shrimp:()=>`<path d="M17 5c-6-1-12 3-12 9 0 3 2 6 5 6 2 0 3-1 3-2.6 0-1.6-1.4-2.4-2.6-2.4 0-3 3-6 6.6-6.4z" fill="#F7B6A6" ${ks}/><path d="M17 5l3-2.4M17 5l3.4.4" stroke="#F7B6A6" stroke-width="1.2" stroke-linecap="round"/>`+fs(9.6,13.4),
+ tofu:()=>`<path d="M4 9l4-3h12v9l-4 3H4z" fill="#FFFBF5" ${ks}/><path d="M4 9h12v9M16 9l4-3" fill="none" ${ks}/>`+fs(10,13.6),
+ dumpling:()=>`<path d="M3 15c0-5 4-8.4 9-8.4s9 3.4 9 8.4c0 1.4-1 2.4-2.4 2.4H5.4C4 17.4 3 16.4 3 15z" fill="#FBF1E4" ${ks}/><path d="M8 7.6l.8 1.8M12 6.6v2M16 7.6l-.8 1.8" ${ks}/>`+fs(12,13.2),
+ seaweed:()=>`<rect x="4" y="5" width="16" height="15" rx="2.4" fill="#55604F" ${ks}/><rect x="6.6" y="10" width="10.8" height="6" rx="2" fill="#7E8A74"/>`+fs(12,13),
+ pump:f=>`<path d="M12 8V4.4M10 4.4h5l1 1.5" fill="none" ${ks}/><rect x="7" y="8" width="10" height="13" rx="3" fill="${f}" ${ks}/>`+fs(12,14.4),
+ tube:f=>`<path d="M3 8.6h13.6l4.4 3.4-4.4 3.4H3z" fill="${f}" ${ks}/>`+fs(9.6,12.2),
+ toothbrush:()=>`<path d="M4 20 16 8" stroke="#6B5A55" stroke-width="3.6" stroke-linecap="round"/><path d="M4 20 16 8" stroke="#A4BED3" stroke-width="2" stroke-linecap="round"/><rect x="13.6" y="2.8" width="6" height="7" rx="1.6" fill="#FFFBF5" ${ks} transform="rotate(45 16.6 6.3)"/>`,
+ soap:()=>`<circle cx="7" cy="6" r="2" fill="#FFFBF5" ${ks}/><circle cx="11" cy="4" r="1.3" fill="#FFFBF5" ${ks}/><rect x="3.4" y="9" width="17.2" height="11" rx="4.6" fill="#FBE0DB" ${ks}/>`+fs(12,15),
+ roll:()=>`<rect x="5" y="6" width="14" height="13.5" rx="2" fill="#FFFBF5" ${ks}/><ellipse cx="12" cy="6" rx="7" ry="2.2" fill="#F3EDE6" ${ks}/>`+fs(12,13.6),
+ cotton:()=>`<g fill="#FFFFFF" ${ks}><circle cx="8" cy="13" r="4.6"/><circle cx="16" cy="13" r="4.6"/><circle cx="12" cy="9" r="4.6"/></g><circle cx="12" cy="12.4" r="4.8" fill="#FFFFFF"/>`+fs(12,12.6),
+ spray:f=>`<path d="M9.8 6h4.6l3 2" fill="none" ${ks}/><rect x="9" y="5.4" width="5.4" height="3.6" rx="1" fill="#FFFBF5" ${ks}/><rect x="6.5" y="9" width="10.4" height="12.2" rx="3.6" fill="${f}" ${ks}/>`+fs(11.7,15.2),
+ sponge:()=>`<rect x="3.5" y="9" width="17" height="10" rx="3" fill="#F7E08E" ${ks}/><rect x="3.5" y="6.8" width="17" height="3.4" rx="1.4" fill="#9CC48A" ${ks}/>`+fs(12,14.2),
+ sack:f=>`<path d="M7 6.4c1-1 2-1 2.6-.2.8-1 2-1 2.8 0 .8-1 2-1 2.8 0 .6-.8 1.6-.8 2.6.2L19 21H5z" fill="${f}" ${ks}/>`+fs(12,15),
+ jar:f=>`<rect x="6.5" y="4" width="11" height="3.2" rx="1.2" fill="${f}" ${ks}/><rect x="5.5" y="7" width="13" height="13.5" rx="3.5" fill="#FFFBF5" ${ks}/><rect x="5.5" y="11" width="13" height="5" fill="${f}" opacity=".55"/>`+fs(12,14),
+ can:f=>`<rect x="5" y="6" width="14" height="14" fill="${f}"/><path d="M5 6v14M19 6v14" ${ks}/><rect x="5" y="9.6" width="14" height="7.4" fill="#FFFBF5"/><ellipse cx="12" cy="20" rx="7" ry="1.8" fill="#E3D6CC" ${ks}/><ellipse cx="12" cy="6" rx="7" ry="2" fill="#E3D6CC" ${ks}/>`+fs(12,13.4),
+ shaker:f=>`<path d="M8 5h8l1.4 3H6.6z" fill="#CEC3BB" ${ks}/><rect x="6.6" y="8" width="10.8" height="13" rx="3" fill="${f}" ${ks}/><g fill="#6B5A55"><circle cx="10" cy="6.4" r=".4"/><circle cx="12" cy="6.4" r=".4"/><circle cx="14" cy="6.4" r=".4"/></g>`+fs(12,14.4),
+ nut:()=>`<path d="M12 3c4 0 7 4 7 9.4S15.6 21 12 21 5 17.8 5 12.4 8 3 12 3z" fill="#D9B48C" ${ks}/><path d="M12 3c-1 3-1 6 0 9" fill="none" stroke="#C49A70" stroke-width=".9"/>`+fs(12,13.4),
+ box:f=>`<rect x="4" y="6" width="16" height="14" rx="2.4" fill="${f}" ${ks}/><path d="M4 10h16" ${ks}/>`+fs(12,15),
+ candle:()=>`<path d="M12 2.6c1.6 2 1.6 3.4 0 4.6-1.6-1.2-1.6-2.6 0-4.6z" fill="#F7C98B"/><rect x="7" y="8" width="10" height="13" rx="2.4" fill="#F1E3F0" ${ks}/>`+fs(12,14.4),
+ bulb:()=>`<path d="M12 3a6.6 6.6 0 0 1 4 11.8V17H8v-2.2A6.6 6.6 0 0 1 12 3z" fill="#FBEFC8" ${ks}/><rect x="8.6" y="17" width="6.8" height="3" rx="1.2" fill="#CEC3BB" ${ks}/>`+fs(12,9.8),
+ battery:()=>`<rect x="9.4" y="3" width="5.2" height="2" rx=".8" fill="#CEC3BB" ${ks}/><rect x="6.4" y="5" width="11.2" height="16" rx="2.6" fill="#D9ECE4" ${ks}/><rect x="6.4" y="15" width="11.2" height="6" rx="2.6" fill="#9CC48A"/>`+fs(12,10.6),
+ pot:()=>`<path d="M12 11V8M12 9c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4zM12 8c0-2.4 1.6-4 4-4 0 2.4-1.6 4-4 4z" fill="#B4CA9C" ${ks}/><path d="M6.5 11h11l-1.3 9.5H7.8z" fill="#F3D9C2" ${ks}/>`+fs(12,15.4),
+ pill:()=>`<rect x="2.8" y="7.5" width="18.4" height="9.5" rx="4.75" fill="#FFFBF5"/><path d="M12 7.5h4.45a4.75 4.75 0 0 1 0 9.5H12z" fill="#F6CFC9"/><rect x="2.8" y="7.5" width="18.4" height="9.5" rx="4.75" fill="none" ${ks}/>`+fs(12,12.4),
+ bandage:()=>`<rect x="2" y="8" width="20" height="8" rx="4" fill="#F3D9C2" ${ks} transform="rotate(-30 12 12)"/><rect x="8.6" y="9" width="6.8" height="6" rx="1" fill="#FBEDE0" transform="rotate(-30 12 12)"/>`+fs(12,12.2),
+ lipstick:()=>`<path d="M9 10V5.6L14 3v7z" fill="#E8A094" ${ks}/><rect x="7.6" y="10" width="7.8" height="11" rx="1.6" fill="#E9DDF0" ${ks}/>`+fs(11.5,15.4)
+};
+const PRODMAP={
+ 'Pommes':()=>T.round('#F6CFC9'),'Poires':()=>T.pear('#E3EDB0'),'Bananes':()=>`<path d="M5 6.5c0 8 5 13.5 13 13.5 1.5 0 2.5-1 2-2-6 0-10-4-11-11-.2-1.2-4-1.4-4-.5z" fill="#F7E3A1" ${ks}/>`+fs(11.4,14.2),
+ 'Clémentines':()=>T.citrus('#F7C98B'),'Oranges':()=>T.citrus('#F3B57F'),'Pamplemousse':()=>T.citrus('#F7B49C'),'Citrons':()=>T.oval('#F7E3A1','#B4CA9C'),'Citrons verts':()=>T.oval('#CFE3A0','#9CC48A'),
+ 'Kiwis':()=>T.kiwi(),'Raisins':()=>T.cluster('#C4A8C9'),'Fraises':()=>T.berry('#F4A9A0'),'Framboises':()=>T.cluster('#F4A9B8'),'Myrtilles':()=>T.cluster('#A9B8E0'),'Cerises':()=>T.cherry('#E8888A'),
+ 'Pêches':()=>T.round('#F7C2A0'),'Nectarines':()=>T.round('#F4A9A0'),'Abricots':()=>T.round('#F7C98B'),'Prunes':()=>T.oval('#B89CC9','#9CC48A'),'Melon':()=>T.melon('#CFE3A0','#F7C98B'),'Pastèque':()=>T.melon('#9CC48A','#F4A9A0'),
+ 'Mangue':()=>T.oval('#F7C98B','#9CC48A'),'Ananas':()=>T.pineapple(),'Litchis':()=>T.round('#F4B8B8',null),'Grenade':()=>T.round('#E8A094',null),'Figues':()=>T.onion('#B89CC9'),'Kaki':()=>T.round('#F3B57F'),
+ 'Concombre':()=>T.long('#9CC48A'),'Courgettes':()=>T.long('#B4CA9C'),'Aubergines':()=>T.long('#B89CC9'),'Poivrons':()=>T.pepper('#F4A9A0'),'Piment':()=>T.thin('#E8888A'),
+ 'Pommes de terre':()=>T.oval('#E3C9A8'),'Patates douces':()=>T.oval('#E8A094'),'Oignons':()=>T.onion('#E8C9A0'),'Oignons rouges':()=>T.onion('#C99BB8'),'Échalotes':()=>T.onion('#D9B89C'),'Ail':()=>T.onion('#FFFBF5'),'Gingembre':()=>T.oval('#E3C9A8'),
+ 'Salade':()=>T.leafy('#CFE3B8'),'Mâche':()=>T.leafy('#9CC48A'),'Roquette':()=>T.leafy('#9CC48A'),'Épinards':()=>T.leafy('#B4CA9C'),'Brocoli':()=>T.broccoli(),'Chou-fleur':()=>T.broccoli('#FBF1E4'),'Chou chinois':()=>T.leafy('#E3EDD0'),'Chou rouge':()=>T.cabbage('#C4A8C9'),
+ 'Poireaux':()=>T.long('#CFE3B8'),'Céleri':()=>T.thin('#B4CA9C'),'Fenouil':()=>T.onion('#E3EDD0'),'Asperges':()=>T.thin('#9CC48A'),'Champignons':()=>T.mushroom('#E3C9A8'),'Shiitakés':()=>T.mushroom('#B08A72'),'Enokis':()=>T.sprouts(),
+ 'Haricots verts':()=>T.pod('#9CC48A'),'Petits pois':()=>T.pod('#B4CA9C'),'Radis':()=>T.root('#F4A9B8'),'Daikon':()=>T.long('#FFFBF5'),'Betteraves':()=>T.root('#B87A98'),'Navets':()=>T.root('#F1E3F0'),
+ 'Courge butternut':()=>T.pear('#F3C98E'),'Potiron':()=>T.round('#F3B57F'),'Maïs':()=>T.corn(),'Pousses de soja':()=>T.sprouts(),'Pousses de bambou':()=>T.oval('#F3E2CC'),'Pak choï':()=>T.leafy('#B4CA9C'),
+ 'Coriandre':()=>T.herb('#9CC48A'),'Persil':()=>T.herb('#9CC48A'),'Basilic':()=>T.herb('#B4CA9C'),'Menthe':()=>T.herb('#8EC6BD'),'Ciboulette':()=>T.thin('#9CC48A'),'Ciboulette chinoise':()=>T.thin('#9CC48A'),'Aneth':()=>T.herb('#B4CA9C'),'Citronnelle':()=>T.thin('#CFE3A0'),'Galanga':()=>T.oval('#E3C9A8'),'Feuilles de combava':()=>T.herb('#8FAA79'),
+ 'Œufs':()=>eggs,'Avocats':()=>`<path d="M12 3c4 0 6.5 6 6.5 10.5a6.5 6.5 0 0 1-13 0C5.5 9 8 3 12 3z" fill="#CFE3B8" ${ks}/><circle cx="12" cy="15.6" r="2.8" fill="#C9A985"/>`+fs(12,9.8),
+ 'Carottes':()=>`<path d="M15 6c0-2 1-3.5 3-3.5M16 7c2-1 3.6-.8 4.6 0" fill="none" stroke="#8FAA79" stroke-width="1.3" stroke-linecap="round"/><path d="M15 6.5 5 19.2c-.7 1 .3 2 1.3 1.3L18.2 10z" fill="#F3B57F" ${ks}/>`+fs(13.4,10.8),
+ 'Tomates':()=>`<circle cx="12" cy="13.5" r="7.6" fill="#F4A9A0" ${ks}/><path d="M12 5.6l1.4 1.8 2.3-.4-1.3 1.9.9 1.9-3.3-1.3-3.3 1.3.9-1.9-1.3-1.9 2.3.4z" fill="#B4CA9C"/>`+fs(12,14.6)
+};
+PRODMAP['Tomates cerises']=PRODMAP['Tomates'];
+const RULES=[
+ [/sauce|huile|vinaigre|mirin|nuoc|ketchup|mayonnaise|sriracha|moutarde|gochujang|sambal|wasabi|ponzu|dashi|bouillon|saké de cuisine|sake de cuisine/,()=>T.bottle('#E9C9B8')],
+ [/shampooing|apres-sh|gel douche|masque|huile cheveux|serum|lait corps|hydratante|solaire|demaquillant|micellaire|nettoyant visage|deodorant|lingette/,()=>T.pump('#FBE0DB')],
+ [/nouille|pates|spaghetti|penne|vermicelle|ramen|udon|soba|gnocchi|ravioli/,()=>T.bowlNoodle()],
+ [/chocolat|biscuit|gateau|pocky|senbei|cracker|chips|dorayaki|chouquette|gressin|pain d.epices/,()=>T.cookie()],
+ [/riz|quinoa|semoule|boulgour/,()=>T.bowlRice()],
+ [/oeuf/,()=>eggs],
+ [/the |^the$|thé|tisane|matcha|genmaicha|hojicha|jasmin/,()=>T.cup('#D9ECE4')],
+ [/cafe/,()=>T.cup('#E3C9A8')],
+ [/yaourt|skyr|fromage blanc|petits-suisses|dessert/,()=>T.yogurt('#DCE8F4')],
+ [/fromage|comte|emmental|gouda|parmesan|mozzarella|burrata|feta|chevre|brie|camembert|ricotta|mascarpone/,()=>T.cheese()],
+ [/beurre de cacahuete|pate a tartiner|confiture|miel|pesto|houmous|tzatziki|guacamole|kimchi|pate de/,()=>T.jar('#F3C98E')],
+ [/beurre/,()=>`<rect x="4" y="8.5" width="16" height="9.5" rx="2" fill="#F7E3A1" ${ks}/><path d="M4 11.5h16" stroke="#FFFBF5" stroke-width="1.2"/>`+fs(12,14.4)],
+ [/eau/,()=>`<path d="M10 2.5h4v3l2 3v11.5a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8.5l2-3z" fill="#DCEBF6" ${ks}/>`+fs(12,14.6)],
+ [/lait|creme|jus|kombucha|boisson|limonade|soda|ginger|sirop|ramune/,()=>T.carton('#DCE8F4')],
+ [/vin|champagne|rose|sake$/,()=>T.wine('#C4A8C9')],
+ [/biere/,()=>T.mug()],
+ [/glace|sorbet|mochi|buche|daifuku/,()=>T.icecream('#F6CFC9')],
+ [/pain|baguette|brioche|croissant|wrap|tortilla|pita|biscotte|galettes de riz|burger/,()=>K.pain],
+ [/crevette|gambas/,()=>T.shrimp()],
+ [/saumon|cabillaud|colin|dorade|bar$|truite|thon|maquereau|sardine|poisson|surimi|moule|calamar|saint-jacques|bonite/,()=>K.poisson],
+ [/poulet|dinde|boeuf|steak|porc|saucisse|agneau|canard|veau|jambon|lardon|boulette|chorizo|cotelette|roti|ailes/,()=>K.viande],
+ [/tofu|natto|tempeh/,()=>T.tofu()],
+ [/gyoza|dim sum|bao/,()=>T.dumpling()],
+ [/algue|nori|wakame|kombu|furikake/,()=>T.seaweed()],
+ [/miso|umeboshi|gingembre marine|curry|pate de curry|epice|sel|poivre|paprika|cumin|cannelle|sesame/,()=>T.shaker('#F3E2CC')],
+ [/farine|sucre|levure|flocons|cereales|muesli|granola|panko|tempura|tapioca|fecule/,()=>T.sack('#F3E2CC')],
+ [/conserve|en boite|haricots rouges|pois chiches|lentilles|mais|concentre|lait de coco|chataignes/,()=>T.can('#F6CFC9')],
+ [/noix|amande|cajou|fruits secs|dattes|graines/,()=>T.nut()],
+ [/frites|pizza|lasagne|poelee|surgele|legumes|edamame|fruits rouges/,()=>T.box('#E3F0FA')],
+ [/brosse a dents/,()=>T.toothbrush()],
+ [/dentifrice/,()=>T.tube('#DCE8F4')],
+ [/fil dentaire|bain de bouche/,()=>T.bottle('#D9ECE4')],
+ [/savon|gommage/,()=>T.soap()],
+ [/papier toilette|essuie|mouchoir|papier cuisson|aluminium|film/,()=>T.roll()],
+ [/coton/,()=>T.cotton()],
+ [/vernis|baume|rouge/,()=>T.lipstick()],
+ [/pansement/,()=>T.bandage()],
+ [/paracetamol/,()=>T.pill()],
+ [/elastique|rasoir|serviette|tampon/,()=>T.box('#F6CFC9')],
+ [/eponge|lavette|gants/,()=>T.sponge()],
+ [/sac/,()=>T.sack('#E3EDD9')],
+ [/ampoule/,()=>T.bulb()],
+ [/pile/,()=>T.battery()],
+ [/bougie|allumette/,()=>T.candle()],
+ [/lessive|adoucissant|vaisselle|nettoyant|javel|vinaigre blanc|savon noir|detachant|bicarbonate|desodorisant|sel lave/,()=>T.spray('#D9ECE4')],
+ [/terreau|engrais|pot|soucoupe|billes|vaporisateur|arrosoir|tuteur|sphaigne|perlite|plante/,()=>T.pot()]
+];
+function prodSvg(c){if(PRODMAP[c.name])return PRODMAP[c.name]();if(PR[c.name])return PR[c.name];const n=norm(c.name);for(const [re,f] of RULES)if(re.test(n))return f();return K[c.rayon]||''}
+
+
+/* ---------- Météo (Open-Meteo, sans clé) ---------- */
+const wIcon=c=>c<=1?'beau':c===2?'soleil':(c===3||c===45||c===48)?'nuage':'pluie';
+let wBusy=false;
+function getPos(){return new Promise((ok,ko)=>{if(!navigator.geolocation)return ko();navigator.geolocation.getCurrentPosition(p=>ok(p.coords),ko,{timeout:9000,maximumAge:30*60000})})}
+async function geocode(name){const r=await fetch('https://geocoding-api.open-meteo.com/v1/search?count=1&language=fr&name='+encodeURIComponent(name));const j=await r.json();const g=j.results&&j.results[0];if(!g)throw 0;return{lat:g.latitude,lon:g.longitude,name:g.name}}
+async function loadWeather(force){
+  if(wBusy)return;if(!force&&W&&W.city===S.city&&nowMs()-W.at<30*60000&&W.days&&W.days[0]&&W.days[0].d<=TODAY)return;
+  wBusy=true;
+  try{let loc;
+    if(S.city==='Ma position'){try{const c=await getPos();loc={lat:c.latitude,lon:c.longitude,name:'Ma position'}}catch(e){loc=await geocode('Roubaix')}}
+    else loc=await geocode(S.city);
+    const u='https://api.open-meteo.com/v1/forecast?latitude='+loc.lat+'&longitude='+loc.lon+'&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=7';
+    const j=await (await fetch(u)).json();
+    W={city:S.city,name:loc.name==='Ma position'?'Ici':loc.name,cur:j.current.temperature_2m,icon:wIcon(j.current.weather_code),at:nowMs(),
+       days:j.daily.time.map((d,i)=>({d,icon:wIcon(j.daily.weather_code[i]),max:j.daily.temperature_2m_max[i],min:j.daily.temperature_2m_min[i]}))};
+    try{localStorage.setItem('ag_weather',JSON.stringify(W))}catch(e){}
+    render();
+  }catch(e){}finally{wBusy=false}
+}
+
+/* ---------- Synchronisation Supabase (même compte que l'app Japon) ---------- */
+const SB_URL='https://qrmviyztnsmwmheuruyh.supabase.co',SB_KEY='sb_publishable_EgJoZATjRURsTIkOO36atw_ANDw1_YD',TBL='agenda_data';
+const DEV=(()=>{try{let d=localStorage.getItem('ag_dev');if(!d){d=Math.random().toString(36).slice(2,10);localStorage.setItem('ag_dev',d)}return d}catch(e){return 'd'+Math.random().toString(36).slice(2,8)}})();
+const authed=()=>{try{return localStorage.getItem('ag_authed')==='1'}catch(e){return false}};
+const setAuthed=v=>{try{v?localStorage.setItem('ag_authed','1'):localStorage.removeItem('ag_authed')}catch(e){}};
+window.sync=(function(){
+  let sb=null,userId=null,timer=0,pushing=false,subscribed=false;
+  function schedule(){if(!userId)return;clearTimeout(timer);timer=setTimeout(push,700)}
+  function push(){if(!sb||!userId||pushing)return;const keys=Object.keys(SY.dirty);if(!keys.length)return;pushing=true;
+    const sent={},now=new Date().toISOString(),rows=keys.map(k=>{sent[k]=JSON.stringify(S[k]);return{user_id:userId,key:k,value:S[k],device:DEV,updated_at:now}});
+    sb.from(TBL).upsert(rows,{onConflict:'user_id,key'}).then(r=>{pushing=false;if(r.error)return;keys.forEach(k=>{SY.synced[k]=sent[k];if(JSON.stringify(S[k])===sent[k])delete SY.dirty[k]});persistQuiet();if(Object.keys(SY.dirty).length)schedule()},()=>{pushing=false})}
+  function apply(k,v){if(PKEYS.indexOf(k)<0||SY.dirty[k])return false;const j=JSON.stringify(v);if(j===JSON.stringify(S[k])){SY.synced[k]=j;return false}S[k]=v;SY.synced[k]=j;return true}
+  function pull(){if(!sb||!userId)return Promise.resolve();return sb.from(TBL).select('key,value').then(r=>{if(r.error)return;let chg=false;(r.data||[]).forEach(row=>{if(apply(row.key,row.value))chg=true});persistQuiet();if(chg){housekeeping();render()}})}
+  function subscribe(){if(subscribed)return;subscribed=true;sb.channel('ag-sync').on('postgres_changes',{event:'*',schema:'public',table:TBL},p=>{const row=p.new;if(!row||row.device===DEV)return;if(apply(row.key,row.value)){persistQuiet();render()}}).subscribe(st=>{if(st==='SUBSCRIBED')pull()})}
+  function connect(ses){userId=ses.user.id;setAuthed(true);hideGate();pull().then(()=>{push();subscribe()})}
+  function boot(){const lib=window.supabase;if(sb||!lib||!lib.createClient)return;sb=lib.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+    sb.auth.getSession().then(r=>{const ses=r&&r.data&&r.data.session;if(ses)connect(ses);else if(authed()&&!navigator.onLine)hideGate();else{setAuthed(false);showGate()}},()=>{authed()?hideGate():showGate()});
+    sb.auth.onAuthStateChange((ev,ses)=>{if(ev==='SIGNED_OUT'){userId=null;setAuthed(false);showGate()}else if(ses&&!userId)connect(ses)})}
+  function signIn(e,p){return sb.auth.signInWithPassword({email:e,password:p})}
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&userId){pull();push()}});
+  window.addEventListener('online',()=>{if(userId){pull();push()}});
+  return{schedule,push,pull,boot,signIn,ready:()=>!!sb};
+})();
+function persistQuiet(){const state={};PKEYS.forEach(k=>state[k]=S[k]);try{localStorage.setItem(LSK,JSON.stringify({state,synced:SY.synced,dirty:SY.dirty}))}catch(e){}}
+let gateEl=null;
+function showGate(){if(gateEl){gateEl.hidden=false;return}
+  gateEl=document.createElement('div');gateEl.className='gate';
+  gateEl.innerHTML=`<form novalidate>${kw('calendrier',90)}<div class="hf" style="font-size:22px">Agenda d’Alina</div>
+    <input type="email" name="email" autocomplete="username" placeholder="Adresse e-mail" autocapitalize="none" autocorrect="off">
+    <input type="password" name="password" autocomplete="current-password" placeholder="Code d’accès">
+    <p class="meta" role="alert" style="min-height:16px;margin:0;color:var(--red)"></p><button class="big" type="submit">Se connecter</button></form>`;
+  document.body.appendChild(gateEl);
+  const f=gateEl.querySelector('form'),msg=f.querySelector('p');
+  f.addEventListener('submit',ev=>{ev.preventDefault();const e=f.email.value.trim(),p=f.password.value;if(!e||!p){msg.textContent='E-mail et code nécessaires.';return}
+    if(!sync.ready()){msg.textContent='Connexion impossible pour l’instant.';return}
+    msg.textContent='…';sync.signIn(e,p).then(r=>{if(r.error){msg.textContent=/invalid/i.test(r.error.message)?'E-mail ou code incorrect.':'Connexion impossible pour l’instant.';return}msg.textContent=''},()=>{msg.textContent='Connexion impossible pour l’instant.'})})}
+function hideGate(){if(gateEl)gateEl.hidden=true}
+
+/* ---------- Démarrage ---------- */
+function refreshDay(){const d=new Date(),m=d.getMonth()+1,j=d.getDate(),k=d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(j<10?'0':'')+j;if(k!==TODAY){if(S.sel===TODAY)S.sel=k;TODAY=k;housekeeping();render()}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){refreshDay();loadWeather()}});
+setInterval(refreshDay,60000);
+housekeeping();
+render();
+loadWeather();
+(function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
+if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
