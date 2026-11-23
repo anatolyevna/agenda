@@ -235,6 +235,8 @@ nav{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-botto
 nav button{flex:1;min-width:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#9A8A82;font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden}
 nav button.on{background:color-mix(in srgb,var(--acc) 14%,var(--card));color:var(--ink)}
 nav button:not(.on) svg{filter:saturate(.35);opacity:.75}
+.bigcloud{padding:6px 0 100px}.bigcloud .cbw{justify-self:center}.bigcloud .lbl2{font-size:15px!important}
+.undo{position:absolute;left:20px;bottom:calc(env(safe-area-inset-bottom) + 92px);z-index:6;height:52px;padding:0 14px 0 12px;border-radius:26px;background:#8C7A73;display:flex;align-items:center;gap:6px;box-shadow:0 8px 20px rgba(75,50,45,.25)}
 .toast{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 6px);z-index:40;padding:10px 16px 10px 10px;border-radius:22px;background:var(--acc);color:var(--card);font-size:14px;font-weight:700;box-shadow:0 10px 26px rgba(207,107,100,.35);display:flex;align-items:center;gap:10px}
 .empty{display:flex;flex-direction:column;align-items:center;padding:24px 0}
 .veil{position:absolute;inset:0;z-index:30;background:rgba(75,61,58,.28);display:flex;flex-direction:column;justify-content:flex-end}
@@ -478,6 +480,9 @@ const CHAR={
  masqueV:m=>`<path d="M24 6c10 0 16 7.4 16 18 0 11-7 18-16 18S8 35 8 24C8 13.4 14 6 24 6z" fill="#FBE1E6" stroke="#E8B0BC" stroke-width="1.6"/><ellipse cx="17" cy="22" rx="4" ry="3.2" fill="#FFF3E6" stroke="#E8B0BC" stroke-width="1.1"/><ellipse cx="31" cy="22" rx="4" ry="3.2" fill="#FFF3E6" stroke="#E8B0BC" stroke-width="1.1"/><ellipse cx="24" cy="32" rx="4.4" ry="3" fill="#FFF3E6" stroke="#E8B0BC" stroke-width="1.1"/><path d="M12 31c1 2 2.4 3.6 4 4.6M36 31c-1 2-2.4 3.6-4 4.6" stroke="#FFFFFF" stroke-width="1.4" fill="none" stroke-linecap="round"/>${m==='late'?`<path d="M15 22q2 1.4 4 0M29 22q2 1.4 4 0" stroke="${INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>`:`<path d="M15 22.6q2-2.6 4 0M29 22.6q2-2.6 4 0" stroke="${INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>`}<path d="M22.2 31.6q1.8 1.8 3.6 0" stroke="${INK}" stroke-width="1.5" fill="none" stroke-linecap="round"/>`,
  huile2:m=>`<ellipse cx="24" cy="6.4" rx="4" ry="3.6" fill="#F4C3C8" ${o}/><rect x="20" y="9" width="8" height="5" rx="1.4" fill="#FFFBF5" ${o}/><path d="M16 18c0-2.4 2-4 4-4h8c2 0 4 1.6 4 4v20a5 5 0 0 1-5 5h-6a5 5 0 0 1-5-5z" fill="#F7D9A8" ${o}/><path d="M19 22v8" stroke="#FFFBF5" stroke-width="2" stroke-linecap="round" opacity=".8"/><path d="M38.6 20c-1.6 2.6-2.6 4.2-2.6 5.4a2.6 2.6 0 0 0 5.2 0c0-1.2-1-2.8-2.6-5.4z" fill="#F2C873" ${o} stroke-width="1.2"/>${face(24,32,m)}`,
  ciseaux2:m=>`<path d="M16 6l14 24M32 6 18 30" stroke="#6B5A55" stroke-width="5" stroke-linecap="round"/><path d="M16 6l14 24M32 6 18 30" stroke="#E6ECF2" stroke-width="2.6" stroke-linecap="round"/><circle cx="15" cy="36.6" r="7" fill="#F6CFC9" ${o}/><circle cx="33" cy="36.6" r="7" fill="#F6CFC9" ${o}/><circle cx="15" cy="36.6" r="3" fill="#FFF7F2" ${o} stroke-width="1.2"/><circle cx="33" cy="36.6" r="3" fill="#FFF7F2" ${o} stroke-width="1.2"/><circle cx="24" cy="18" r="6.4" fill="#FFF3E6" ${o}/><g transform="translate(24 18.6) scale(.55) translate(-24 -18.6)">${face(24,18.6,m)}</g>`,
+ gs:m=>`<path d="M6 30c2-10 10-18 22-20 6-1 12 1 14 5 1.6 3.4-.6 6.6-4 7.4-5 1.2-9 3.6-12 8.6-2.4 4-6 7.6-11 8-6 .4-10-3.4-9-9z" fill="#F8D7DC" ${o}/><path d="M33 13.4c2 .2 3.8 1 4.6 2.2" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M9.4 37.6l-1.6 1.2M12.4 39.8l-1 1.6M16 40.8v1.8" stroke="#6B5A55" stroke-width="1.4" stroke-linecap="round"/>${face(20,26,m)}`,
+ brosse2:m=>`<rect x="20" y="5" width="8" height="8" rx="4" fill="#F6CFC9" ${o}/><path d="M9 28c0-9 6.4-15 15-15s15 6 15 15z" fill="#F8D7DC" ${o}/><g fill="#F4C3C8" ${o} stroke-width="1.3"><rect x="11.4" y="27.4" width="3.6" height="5.4" rx="1.8"/><rect x="17.2" y="27.4" width="3.6" height="6.6" rx="1.8"/><rect x="22.2" y="27.4" width="3.6" height="7.2" rx="1.8"/><rect x="27.2" y="27.4" width="3.6" height="6.6" rx="1.8"/><rect x="33" y="27.4" width="3.6" height="5.4" rx="1.8"/></g><path d="M14 20c1.4-2 3.4-3.4 5.6-4" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round"/>${face(24,21.6,m)}`,
+ repousse2:m=>`<path d="M8.4 30c-1.6-13 5.4-22 15.6-22s17.2 9 15.6 22c-.6 5 .6 8 2 10.6H6.4c1.4-2.6 2.6-5.6 2-10.6z" fill="#7A5A48" ${o}/><path d="M9.6 19.6C12 12 17.6 8 24 8s12 4 14.4 11.6c-3-1.6-7-2.6-14.4-2.6S12.6 18 9.6 19.6z" fill="#E4E0DC"/><path d="M8.4 30c-1.6-13 5.4-22 15.6-22s17.2 9 15.6 22c-.6 5 .6 8 2 10.6H6.4c1.4-2.6 2.6-5.6 2-10.6z" fill="none" ${o}/><path d="M24 8v9" stroke="#FFF3E6" stroke-width="1.6" stroke-linecap="round"/><circle cx="24" cy="29" r="10.6" fill="#FFF3E6" ${o}/><path d="M13.6 26.6c.6-5.6 4.8-8.6 10.4-8.6s9.8 3 10.4 8.6c-3-2.6-6.4-3.4-10.4-3.4s-7.4.8-10.4 3.4z" fill="#7A5A48" ${o}/><path d="M17 20.6c2-1.4 4.4-2.2 7-2.4" stroke="#E4E0DC" stroke-width="1.8" stroke-linecap="round"/>${face(24,31,m)}`,
  visage:m=>CHAR.pandaskin(m),cheveux:m=>CHAR.boucles(m),corps:m=>CHAR.serviette(m),mains:m=>CHAR.patte(m),complements:m=>CHAR.gelule(m),sportm:m=>CHAR.halt2(m),journal:m=>CHAR.carnetouvert(m),lecture:m=>CHAR.livre(m),recette:m=>CHAR.toque(m),suggestions:m=>CHAR.idee(m)};
 const charSvg=(k,m,s=54)=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" aria-hidden="true" style="overflow:visible">${(CHAR[k]||CHAR.rangement)(m)}</svg>`;
 
@@ -504,7 +509,7 @@ const SUGG0=[['plantes','Ajouter de l’engrais'],['plantes','Vaporiser les feui
 function subFor(t){t=norm(t);return /feuille|poussi/.test(t)&&/poussi/.test(t)?'plumeau':/engrais|pots|nuisible|replant/.test(t)?'replanter':/vaporis|eau/.test(t)?'arrosage':/aer/.test(t)?'aerer':/sol/.test(t)?'sol':/toilette/.test(t)?'toilettes':/douche/.test(t)?'douche':/lavabo|robinet/.test(t)?'lavabo':/miroir|vitre/.test(t)?'miroir':/trier|donner|cote/.test(t)?'trier':/aspir/.test(t)?'aspiration':/arros/.test(t)?'arrosage':/vaisselle/.test(t)?'vaisselle':/poubelle/.test(t)?'poubelles':/courses/.test(t)?'sac':/repass/.test(t)?'fer':/drap|lit/.test(t)?'draps':/lessive|serviette|linge/.test(t)?'lessive':/vetement/.test(t)?'vetements':/rang|trier|coussin/.test(t)?'rangement':'nettoyage'}
 const MOMENTS=[['matin','Matin'],['midi','Midi'],['aprem','Après-midi'],['soir','Soir']];
 const DL=['L','M','M','J','V','S','D'];
-const CARESUB=[['serum','Soin'],['masque','Masque'],['guasha','Gua sha'],['brosse','Cheveux'],['huile','Huile'],['etirement','Étirements'],['massage','Massage'],['tube','Gommage'],['manucure','Manucure'],['pedicure','Pédicure'],['gelule','Complément'],['yoga','Yoga'],['course','Course'],['etir','Étirements'],['carnet','Journal'],['gratitude','Gratitude'],['potcrayons','Rangement'],['matin','Matin'],['soir','Soir'],['masqueV','Masque'],['huile2','Huile'],['ciseaux2','Ciseaux'],['mousse','Nettoyage'],['pince','Sourcils'],['coloration','Repousse'],['ciseaux','Coupe'],['brossesec','Brossage à sec'],['rasoir','Épilation'],['livre','Lecture'],['toque','Recette']];
+const CARESUB=[['serum','Soin'],['masque','Masque'],['guasha','Gua sha'],['brosse','Cheveux'],['huile','Huile'],['etirement','Étirements'],['massage','Massage'],['tube','Gommage'],['manucure','Manucure'],['pedicure','Pédicure'],['gelule','Complément'],['yoga','Yoga'],['course','Course'],['etir','Étirements'],['carnet','Journal'],['gratitude','Gratitude'],['potcrayons','Rangement'],['matin','Matin'],['soir','Soir'],['masqueV','Masque'],['huile2','Huile'],['ciseaux2','Ciseaux'],['gs','Gua sha'],['brosse2','Cuir chevelu'],['repousse2','Repousse'],['mousse','Nettoyage'],['pince','Sourcils'],['coloration','Repousse'],['ciseaux','Coupe'],['brossesec','Brossage à sec'],['rasoir','Épilation'],['livre','Lecture'],['toque','Recette']];
 const FREQS=[[1,'Chaque jour'],[2,'Tous les 2 j'],[3,'Tous les 3 j'],[4,'Tous les 4 j'],[7,'1×/semaine'],[14,'1×/2 semaines'],[21,'1×/3 semaines'],[30,'1×/mois']];
 const L=s=>s.split(',');
 const RAYONS=[
@@ -655,6 +660,7 @@ function migrate(){if(!S.flags)S.flags={};let ch=false;
     S.care=S.care.filter(c=>!['visage','cheveux','corps','complements','recette'].includes(c.sec)).map(c=>c.sec==='journal'&&norm(c.title)==='triage'?{...c,title:'Rangement'}:c).concat(nv);
     S.flags.moi2=1;ch=true}
   if(!S.flags.menage2){S.chores.forEach(c=>{if(c.zone==='vetements'&&norm(c.title)==='nettoyer')c.sub='lessive';if(c.zone==='sdb'&&norm(c.title)==='nettoyer')c.sub='sol';if(!c.paused&&st(c).left>=1){c.paused=true;delete c.next}else if(!c.paused&&!c.next){c.next=nextOf(c)}});S.flags.menage2=1;ch=true}if(!S.flags.moi3){const MAP={visage:{'routine du matin':'matin','routine du soir':'soir','masque':'masqueV','masque visage':'masqueV'},cheveux:{'huile':'huile2','huile sur les pointes':'huile2','couper les cheveux':'ciseaux2'}};S.care.forEach(c=>{const t=MAP[c.sec]&&MAP[c.sec][norm(c.title)];if(t)c.sub=t});S.flags.moi3=1;ch=true}
+  if(!S.flags.moi4){const MAP={visage:{'gua sha':'gs'},cheveux:{'soin du cuir chevelu':'brosse2','repousse':'repousse2'}};S.care.forEach(c=>{const t=MAP[c.sec]&&MAP[c.sec][norm(c.title)];if(t)c.sub=t});S.flags.moi4=1;ch=true}
   if(!S.flags.aerer){if(!S.chores.some(c=>c.zone==='salon'&&norm(c.title)==='aerer'))S.chores.push({id:S.nextId++,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:TODAY,paused:true});S.flags.aerer=1;return true}return ch}
 function housekeeping(){const t=nowMs();S.items=S.items.filter(it=>!(it.done&&it.doneAt&&t-it.doneAt>7*864e5));S.courses=S.courses.filter(c=>!(c.done&&c.doneDay&&c.doneDay<TODAY))}
 const REP=[['','Non'],['j','Chaque jour'],['n2','Tous les 2 j'],['n3','Tous les 3 j'],['s','Chaque semaine'],['n14','Toutes les 2 semaines'],['m','Chaque mois'],['a','Chaque année'],['d','Certains jours']];
@@ -797,7 +803,7 @@ function taskCard(it){
   let foot='';
   if(it.done)foot='';
   else if(urg)foot=`<span class="meta">depuis ${diff(it.urgentSince,TODAY)===0?'aujourd’hui':diff(it.urgentSince,TODAY)+' j'}</span><span class="bang" aria-label="Urgence ${lv}">${'!'.repeat(lv)}</span>`;
-  else if(isTask&&it.folder==='afaire'){const r=Math.min(it.reports||0,S.seuil);foot=`<span class="dots ${r>=S.seuil-1?'hot':''}" aria-label="Reportée ${r} fois sur ${S.seuil}">${Array.from({length:S.seuil},(_,i)=>`<i class="${i<r?'f':''}"></i>`).join('')}</span><button class="procr" title="Procrastiner" aria-label="Procrastiner" data-a="procrast" data-id="${it.id}">${ART.escargot.replace('width="24" height="18"','width="30" height="22"')}</button>`}
+  else if(isTask&&it.folder==='afaire'){const r=Math.min(it.reports||0,S.seuil);foot=`<span class="dots ${r>=S.seuil-1?'hot':''}" role="button" data-a="unproc" data-id="${it.id}" aria-label="Reportée ${r} fois sur ${S.seuil}">${Array.from({length:S.seuil},(_,i)=>`<i class="${i<r?'f':''}"></i>`).join('')}</span><button class="procr" title="Procrastiner" aria-label="Procrastiner" data-a="procrast" data-id="${it.id}">${ART.escargot.replace('width="24" height="18"','width="30" height="22"')}</button>`}
   return `<div class="sw" data-sw="item" data-id="${it.id}">${swDel('item',it.id)}<div class="task mx swc ${it.done?'done':''} ${urg?'u'+lv:''} ${S.pop===it.id?'popcard':''}" style="--d:${t.d}">
     <span class="ic tint tile" style="--d:${t.d}">${itIcon(it,32)}</span>
     <div class="body" data-a="edit" data-id="${it.id}" style="cursor:pointer"><div class="ttl">${esc(it.title)}</div>${it.note?`<div class="note">${esc(it.note)}</div>`:''}<div style="display:flex;gap:6px;flex-wrap:wrap">${date}${rep}</div></div>
@@ -834,14 +840,14 @@ function charBubble(c,list){const A=list==='chores'?'ctap':'open';if(off(c))retu
   return `<button class="cbw" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m} ${S.popChore===c.id?'pop':''}">${charSvg(c.sub,s.m,58)}${bang}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
 function menageHTML(){
   const zones=ZONES.map(([id,name])=>{const its=S.chores.filter(c=>c.zone===id),m=its.length?worst(its):'ok',n=its.filter(c=>!off(c)).length;
-    return `<button class="cbw" style="width:108px" data-a="zone" data-v="${id}"><span class="bubble cb ${m}" style="width:98px;height:98px">${charSvg(id,m,62)}${n?`<span class="zn">${n}</span>`:''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
+    return `<button class="cbw" style="width:150px" data-a="zone" data-v="${id}"><span class="bubble cb ${m}" style="width:136px;height:136px">${charSvg(id,m,88)}${n?`<span class="zn">${n}</span>`:''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
   const sg='';const _sg=S.sugg.length?`<button class="cbw" style="width:108px" data-a="suggs"><span class="bubble cb" style="width:98px;height:98px;--d:#EEB87D">${charSvg('idee','ok',62)}</span><span class="lbl2" style="font-size:13.5px">Suggestions</span></button>`:'';
-  return `<div class="scroll" style="padding-top:6px"><div class="cloud" style="gap:16px 6px">${zones}${sg}</div></div>`;
+  return `<div class="scroll bigcloud"><div class="cloud" style="display:grid;grid-template-columns:repeat(2,150px);justify-content:center;align-content:space-evenly;gap:10px 24px;min-height:100%">${zones}${sg}</div></div>`;
 }
 function moiHTML(){
   const secs=CARE.map(([id,name])=>{const its=S.care.filter(c=>c.sec===id),m=worst(its),n=its.filter(c=>st(c).m!=='ok').length;
-    return `<button class="cbw" style="width:108px" data-a="${id==='recette'?'recettes':'sec'}" data-v="${id}"><span class="bubble cb ${m}" style="width:98px;height:98px">${charSvg(id,m,64)}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
-  return `<div class="scroll" style="padding-top:6px"><div class="cloud" style="gap:16px 6px">${secs}</div></div>`;
+    return `<button class="cbw" style="width:114px" data-a="${id==='recette'?'recettes':'sec'}" data-v="${id}"><span class="bubble cb ${m}" style="width:110px;height:110px">${charSvg(id,m,72)}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
+  return `<div class="scroll bigcloud"><div class="cloud" style="display:grid;grid-template-columns:repeat(3,114px);justify-content:center;align-content:space-evenly;gap:10px 4px;min-height:100%">${secs}</div></div>`;
 }
 
 function catAll(){const out=[];RAYONS.forEach(r=>r.cat.forEach(n=>out.push({n,r:r.id})));return out}
@@ -1001,7 +1007,7 @@ function renderInner(){
     <main>${content}</main>
     ${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
     <nav>${tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${kw(t[2],28)}${t[1]}</button>`).join('')}</nav>
-    ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
+    ${S.undo?`<button class="undo" aria-label="Annuler" data-a="undo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7 4.5 11.5 9 16"/><path d="M5 11.5h9a5 5 0 0 1 0 10h-2"/></svg>${ART.escargot.replace('width="24" height="18"','width="26" height="20"')}</button>`:''}${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
     ${sheetHTML()}`;
   const ns=ph.querySelector('.scroll');
   if(ns){if(S._scrollTo!==undefined){ns.scrollTop=Math.max(0,(S._scrollTo-6)*56);S._scrollTo=undefined}else if(S._key===key)ns.scrollTop=keep;else if(S.tab==='cal'&&S.view==='jour')ns.scrollTop=3*56;}
@@ -1075,7 +1081,7 @@ document.addEventListener('click',e=>{
     case 'rtheme':S.rTheme=S.rTheme===v?'':v;break;
     case 'check':{const it=S.items.find(x=>x.id===id);if(!it.done){S.pop=id;clearTimeout(S._popT);S._popT=setTimeout(()=>{S.pop=0},800);spawnNext(it)}
       upd(id,x=>({...x,done:!x.done,doneAt:!x.done?nowMs():undefined}));break}
-    case 'procrast':{const it=S.items.find(x=>x.id===id),r=(it.reports||0)+1,go=r>=S.seuil;upd(id,x=>({...x,reports:r,date:x.date?add(x.date,1):null,folder:go?'urgent':x.folder,urgentSince:go?TODAY:x.urgentSince}));if(go){S.toast='« '+it.title+' » passe dans Urgent';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{S.toast='';render()},3200)}break}
+    case 'procrast':{const it=S.items.find(x=>x.id===id),r=(it.reports||0)+1,go=r>=S.seuil;S.undo={id,prev:{reports:it.reports||0,date:it.date,folder:it.folder,urgentSince:it.urgentSince}};clearTimeout(S._undoT);S._undoT=setTimeout(()=>{S.undo=null;render()},6000);upd(id,x=>({...x,reports:r,date:x.date?add(x.date,1):null,folder:go?'urgent':x.folder,urgentSince:go?TODAY:x.urgentSince}));if(go){S.toast='« '+it.title+' » passe dans Urgent';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{S.toast='';render()},3200)}break}
     case 'open':S.sheet='chore';S.sheetList=v;S.sheetId=id;break;
     case 'sec':S.sheet='sec';S.secId=v;break;
     case 'suggs':S.sheet='suggs';break;
@@ -1115,6 +1121,8 @@ document.addEventListener('click',e=>{
     case 'ddur':S.D.dur=Math.min(12,Math.max(.25,S.D.dur+.25*(+v)));S._sheetKeep=true;break;
     case 'dallday':S.D.allDay=!S.D.allDay;if(S.D.allDay){S.D.start=null}else if(S.D.start===null){S.D.start=12}S._sheetKeep=true;break;
     case 'unurgent':upd(S.D.id,x=>({...x,folder:'afaire',reports:0,urgentSince:undefined}));S.sheet='';S.folder='afaire';break;
+    case 'undo':{const u=S.undo;if(u){upd(u.id,x=>({...x,...u.prev}));S.undo=null;S.toast='';clearTimeout(S._undoT)}break}
+    case 'unproc':{const it=S.items.find(x=>x.id===id);if(it&&(it.reports||0)>0){upd(id,x=>({...x,reports:x.reports-1,date:x.date?add(x.date,-1):x.date}))}break}
     case 'dup':{const t=(document.getElementById('titre')||{}).value;const D={...S.D,title:t!==undefined?t:S.D.title};delete D.id;delete D.chore;delete D.link;S.D=D;S.sheet='new';S.backZone=0;S._focusNote=true;break}
     case 'drep':S.D.repeat=v==='d'?((S.D.repeat||'').startsWith('d:')?S.D.repeat:'d:'+wd(S.D.date||TODAY)):v;S._sheetKeep=true;break;
     case 'drday':{const ds=S.D.repeat.slice(2).split(',').map(Number),n=+v;let nd=ds.includes(n)?ds.filter(x=>x!==n):[...ds,n].sort();if(!nd.length)nd=[n];S.D.repeat='d:'+nd.join(',');S._sheetKeep=true;break}
@@ -1425,7 +1433,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='36';
+const APP_VER='37';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
