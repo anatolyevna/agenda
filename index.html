@@ -90,12 +90,12 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .pips i{width:7px;height:7px;border-radius:4px;background:color-mix(in srgb,var(--d) 75%,var(--ink))}
 .pips.hot i{background:var(--acc)}
 .pips em{font-style:normal;font-size:10px;font-weight:800;color:var(--muted);margin-left:1px}
-.filters{display:flex;align-items:center;justify-content:space-between;gap:3px;padding:0 16px 12px}
-.fb{flex:none;width:30px;height:30px;border-radius:15px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--muted)}
+.filters{display:flex;align-items:center;justify-content:space-between;gap:2px;padding:0 12px 12px}
+.fb{flex:none;width:27px;height:27px;border-radius:14px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--muted)}
 .fb.th{background:color-mix(in srgb,var(--d) 22%,var(--card));border-color:color-mix(in srgb,var(--d) 45%,var(--card));color:color-mix(in srgb,var(--d) 50%,var(--ink))}
 .fb.on{box-shadow:0 0 0 2px color-mix(in srgb,var(--d,#7C6A63) 75%,var(--ink));background:color-mix(in srgb,var(--d,#CEC3BB) 40%,var(--card));color:var(--ink)}
 .fb{position:relative}.fb{margin-top:6px}.fbn{position:absolute;top:-7px;right:-4px;min-width:15px;height:15px;padding:0 4px;border-radius:8px;background:var(--card);color:var(--ink);font-size:9.5px;font-weight:700;line-height:15px;text-align:center;box-shadow:0 1px 3px rgba(75,50,45,.18)}
-.fb.all{width:auto;padding:0 8px;font-size:12px;font-weight:700}
+.fb.all{width:auto;padding:0 7px;font-size:12px;font-weight:700}
 .fname{font-size:12px;font-weight:700;color:var(--muted)}
 .task{display:grid;grid-template-columns:46px minmax(0,1fr) 34px;grid-template-rows:auto auto;column-gap:12px;row-gap:8px;padding:12px;border-radius:22px;align-items:center}
 .task .tile{grid-row:1/3;width:46px;height:46px;border-radius:15px;align-self:start}
@@ -301,6 +301,7 @@ const K={
  viande:`<path d="M18.6 5.4 21 3M5.4 18.6 3 21" stroke="#6B5A55" stroke-width="3.4" stroke-linecap="round"/><path d="M18.6 5.4 21 3M5.4 18.6 3 21" stroke="#FFFBF5" stroke-width="1.8" stroke-linecap="round"/><circle cx="21.4" cy="2.6" r="1.6" fill="#FFFBF5" ${ks}/><circle cx="2.6" cy="21.4" r="1.6" fill="#FFFBF5" ${ks}/><ellipse cx="12" cy="12" rx="9.2" ry="7.2" fill="#E9A08C" ${ks} transform="rotate(-45 12 12)"/><path d="M7.4 9.6c2-2 4.6-3 7-2.6" fill="none" stroke="#F7C7B8" stroke-width="1.4" stroke-linecap="round"/>`+fs(12,12.6),
  asiatique:`<path d="M12 3.4c3 0 9 9.6 9 13.6a3.5 3.5 0 0 1-3.5 3.5h-11A3.5 3.5 0 0 1 3 17C3 13 9 3.4 12 3.4z" fill="#FFFBF5" ${ks}/><rect x="8.6" y="15" width="6.8" height="5.5" fill="#55604F"/>`+fs(12,12.2),
  plantes:`<path d="M12 11V8M12 9c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4zM12 8c0-2.4 1.6-4 4-4 0 2.4-1.6 4-4 4z" fill="#B4CA9C" ${ks}/><path d="M6.5 11h11l-1.3 9.5H7.8z" fill="#F3D9C2" ${ks}/>`+fs(12,15.4),
+ organisation:`<rect x="3.6" y="3.4" width="14.4" height="17.4" rx="2.6" fill="#E3EEF8" ${ks}/><path d="M7 3.4v17.4" ${ks}/><rect x="17.2" y="5.4" width="3.4" height="3.4" rx="1" fill="#F6CFC9" ${ks}/><rect x="17.2" y="10.4" width="3.4" height="3.4" rx="1" fill="#F7EBC9" ${ks}/><rect x="17.2" y="15.4" width="3.4" height="3.4" rx="1" fill="#D9ECE4" ${ks}/>`+fs(12.4,12.6),
  afaire:`<circle cx="12" cy="12.6" r="8" fill="#FFFBF5" ${ks}/><path d="M12 5.8v1.3M18.8 12.6h-1.3M5.2 12.6h1.3" ${ks}/>`+fs(12,13.4),
  urgent:`<path d="M5 6.6l2.6-2.1M19 6.6l-2.6-2.1" ${ks} stroke-width="1.6"/><circle cx="12" cy="13.2" r="7.6" fill="#F6CFC9" ${ks}/>`+fs(12,13.8,'todo'),
  rappels:`<path d="M6.5 16v-5a5.5 5.5 0 0 1 11 0v5l1.4 1.8H5.1z" fill="#F8DDB8" ${ks}/><path d="M10.4 20.2a1.7 1.7 0 0 0 3.2 0" fill="none" ${ks}/>`+fs(12,12.6),
@@ -445,7 +446,7 @@ const ART={
 /* ---------- Données ---------- */
 const THEMES=[
  {id:'travail',name:'Travail',d:'#A4BED3'},{id:'sport',name:'Sport',d:'#8EC6BD'},{id:'sante',name:'Santé',d:'#EDA5B0'},
- {id:'menage',name:'Ménage',d:'#B4CA9C'},{id:'admin',name:'Administratif',d:'#CEC3BB'},{id:'perso',name:'Moi',d:'#EEB87D'},
+ {id:'menage',name:'Ménage',d:'#B4CA9C'},{id:'courses',name:'Courses',d:'#E8A094'},{id:'admin',name:'Administratif',d:'#CEC3BB'},{id:'organisation',name:'Organisation',d:'#8FC1E3'},{id:'perso',name:'Moi',d:'#EEB87D'},
  {id:'proches',name:'Famille et amis',d:'#C4A8C9'},{id:'loisirs',name:'Sorties',d:'#B8B4D8'},{id:'apprendre',name:'Apprentissage',d:'#D9C27E'}];
 const TH=Object.fromEntries(THEMES.map(t=>[t.id,t]));
 const MENAGE=[['arrosage','Arrosage'],['nettoyage','Nettoyage'],['aspiration','Aspiration'],['rangement','Rangement'],['lessive','Lessive'],['vetements','Vêtements'],['trier','Trier'],['vaisselle','Vaisselle'],['poubelles','Poubelles'],['draps','Draps'],['sac','Courses'],['aerer','Aérer'],['sol','Sol'],['toilettes','Toilettes'],['douche','Douche'],['lavabo','Lavabo'],['miroir','Miroir'],['plumeau','Poussière'],['replanter','Replanter']];
@@ -595,6 +596,7 @@ function persist(){const state={};PKEYS.forEach(k=>{state[k]=S[k];const j=JSON.s
 const nowMs=()=>Date.now();
 const visible=it=>!(it.done&&it.doneAt&&nowMs()-it.doneAt>864e5);
 function migrate(){if(!S.flags)S.flags={};let ch=false;
+  if(!S.flags.courses1){S.items.forEach(it=>{if(it.link==='courses')it.theme='courses'});S.flags.courses1=1;ch=true}
   if(S.flags.menage2&&!S.flags.menage3){S.chores.forEach(c=>{if(!c.paused&&!choreItem(c))activateChore(c,c.next&&c.next>TODAY?c.next:TODAY)});S.flags.menage3=1;ch=true}
   if(!S.flags.moi2){const by=(sec,re)=>S.care.find(c=>c.sec===sec&&re.test(norm(c.title)));
     const mk=(sec,sub,title,src,def)=>src?{...src,sec,sub,title}:{id:S.nextId++,sec,sub,title,freq:7,last:TODAY,paused:true,...(def||{})};
@@ -613,7 +615,7 @@ const durTxt=h=>{const H=Math.floor(h),M=Math.round((h-H)*60);return (H?H+' h':'
 /* ---------- État des tâches récurrentes ---------- */
 const choreItem=c=>S.items.find(it=>it.chore===c.id&&!it.done);
 const off=c=>c.zone!==undefined?!choreItem(c):!!c.paused;
-function activateChore(c,date){if(choreItem(c))return;S.items.push({id:S.nextId++,kind:'tache',folder:'afaire',theme:'menage',title:c.title,chore:c.id,link:c.link,date:date||TODAY,start:null,reports:0})}
+function activateChore(c,date){if(choreItem(c))return;S.items.push({id:S.nextId++,kind:'tache',folder:'afaire',theme:c.link==='courses'?'courses':'menage',title:c.title,chore:c.id,link:c.link,date:date||TODAY,start:null,reports:0})}
 function spawnNext(it){if(!it.repeat||!it.date||it.spawned)return;const nd=nextDate(it.date,it.repeat);if(nd===it.date)return;
   S.items.push({...it,id:S.nextId++,date:nd,done:false,doneAt:undefined,spawned:false,...(it.kind==='tache'?{reports:0,folder:'afaire',urgentSince:undefined}:{})});it.spawned=true}
 function finishItem(it){if(!it||it.done)return;spawnNext(it);it.done=true;it.doneAt=nowMs()}
@@ -684,7 +686,7 @@ function tasksHTML(){
   let list=S.items.filter(it=>inF(it,S.folder)&&visible(it)),body='',top='';
   if(S.folder==='afaire'){
     const used=THEMES,cur=S.filter==='all'?null:TH[S.filter];
-    top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>{const n=S.items.filter(it=>inF(it,'afaire')&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}${n?' : '+n:''}" data-a="filter" data-v="${t.id}">${kw(t.id,22)}${n?`<span class="fbn">${n}</span>`:''}</button>`}).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
+    top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>{const n=S.items.filter(it=>inF(it,'afaire')&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}${n?' : '+n:''}" data-a="filter" data-v="${t.id}">${kw(t.id,21)}${n?`<span class="fbn">${n}</span>`:''}</button>`}).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
     if(S.filter!=='all')list=list.filter(it=>it.theme===S.filter);
     list.sort((a,b)=>(!!a.done-!!b.done)||((a.date||'9')<(b.date||'9')?-1:1));
     body=list.map(taskCard).join('');
@@ -948,7 +950,7 @@ document.addEventListener('click',e=>{
     case 'sugok':{const [z,t]=S.sugg[+v];S.chores.push({id:S.nextId++,zone:z,sub:subFor(t),title:t,freq:7,last:TODAY});S.sugg.splice(+v,1);if(!S.sugg.length)S.sheet='';S._sheetKeep=true;break}
     case 'sugno':S.sugg.splice(+v,1);if(!S.sugg.length)S.sheet='';S._sheetKeep=true;break;
     case 'addzone':S.chores.push({id:S.nextId++,zone:S.zoneId,sub:subFor(v),title:v,freq:7,last:add(TODAY,-7),link:/courses/i.test(v)?'courses':undefined});S._sheetKeep=true;break;
-    case 'goth':if(v==='menage'){S.tab='menage'}else if(v==='perso'){S.tab='moi'}else{S.tab='taches';S.folder='afaire';S.filter=v}break;
+    case 'goth':if(v==='menage'){S.tab='menage'}else if(v==='courses'){S.tab='courses'}else if(v==='perso'){S.tab='moi'}else{S.tab='taches';S.folder='afaire';S.filter=v}break;
     case 'goitem':{e.stopPropagation&&e.stopPropagation();const it=S.items.find(x=>x.id===id);if(!it)break;if(it.link==='courses'){S.tab='courses';S.sheet='';break}if(it.kind==='tache'){S.tab='taches';S.folder=it.folder==='urgent'?'urgent':'afaire';S.filter='all'}else if(it.kind==='rappel'){S.tab='taches';S.folder='rappels';S.rTheme=it.theme}else{S.sel=it.date;S.view='jour';S._scrollTo=it.start}break}
     case 'donec':{const c=cur();if(S.sheetList==='chores'){finishItem(choreItem(c));S.sheet=S.zoneId?'zone':'';break}c.last=TODAY;delete c.next;S.sheet=S.sheetList==='care'?'sec':(c.zone?'zone':'');break}
     case 'setfreq':{const c=cur();c.freq=+v;delete c.days;delete c.next;S._sheetKeep=true;break}
@@ -983,7 +985,7 @@ document.addEventListener('click',e=>{
     case 'drday':{const ds=S.D.repeat.slice(2).split(',').map(Number),n=+v;let nd=ds.includes(n)?ds.filter(x=>x!==n):[...ds,n].sort();if(!nd.length)nd=[n];S.D.repeat='d:'+nd.join(',');S._sheetKeep=true;break}
     case 'orga':{const c=S.chores.find(x=>x.link==='courses'),it=S.items.find(x=>!x.done&&(x.link==='courses'||(c&&x.chore===c.id)));
       if(it){S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||TODAY,start:timed(it)?it.start:null,dur:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:'courses'};S.sheet='edit'}
-      else{S.D={kind:'tache',title:c?c.title:'Faire les courses',theme:'menage',date:TODAY,start:null,dur:1,repeat:'',folder:'afaire',chore:c?c.id:undefined,link:'courses'};S.sheet='new'}break}
+      else{S.D={kind:'tache',title:c?c.title:'Faire les courses',theme:'courses',date:TODAY,start:null,dur:1,repeat:'',folder:'afaire',chore:c?c.id:undefined,link:'courses'};S.sheet='new'}break}
     case 'recettes':S.sheet='recettes';break;
     case 'recadd':{const t=(S.recDraft||'').trim();if(!t)return;S.recettes.unshift({id:S.nextId++,title:t});S.recDraft='';S._sheetKeep=true;S._focusRec=true;break}
     case 'rec':S.recId=id;S.sheet='recette';break;
@@ -1282,7 +1284,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='11';
+const APP_VER='12';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
