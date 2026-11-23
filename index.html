@@ -90,8 +90,8 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .pips i{width:7px;height:7px;border-radius:4px;background:color-mix(in srgb,var(--d) 75%,var(--ink))}
 .pips.hot i{background:var(--acc)}
 .pips em{font-style:normal;font-size:10px;font-weight:800;color:var(--muted);margin-left:1px}
-.filters{display:flex;align-items:center;justify-content:space-between;gap:2px;padding:0 12px 12px}
-.fb{flex:none;width:27px;height:27px;border-radius:14px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 6px;padding:0 16px 12px}
+.fb{flex:none;width:31px;height:31px;border-radius:16px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--muted)}
 .fb.th{background:color-mix(in srgb,var(--d) 22%,var(--card));border-color:color-mix(in srgb,var(--d) 45%,var(--card));color:color-mix(in srgb,var(--d) 50%,var(--ink))}
 .fb.on{box-shadow:0 0 0 2px color-mix(in srgb,var(--d,#7C6A63) 75%,var(--ink));background:color-mix(in srgb,var(--d,#CEC3BB) 40%,var(--card));color:var(--ink)}
 .fb{position:relative}.fb{margin-top:6px}.fbn{position:absolute;top:-7px;right:-4px;min-width:15px;height:15px;padding:0 4px;border-radius:8px;background:var(--card);color:var(--ink);font-size:9.5px;font-weight:700;line-height:15px;text-align:center;box-shadow:0 1px 3px rgba(75,50,45,.18)}
@@ -301,6 +301,7 @@ const K={
  viande:`<path d="M18.6 5.4 21 3M5.4 18.6 3 21" stroke="#6B5A55" stroke-width="3.4" stroke-linecap="round"/><path d="M18.6 5.4 21 3M5.4 18.6 3 21" stroke="#FFFBF5" stroke-width="1.8" stroke-linecap="round"/><circle cx="21.4" cy="2.6" r="1.6" fill="#FFFBF5" ${ks}/><circle cx="2.6" cy="21.4" r="1.6" fill="#FFFBF5" ${ks}/><ellipse cx="12" cy="12" rx="9.2" ry="7.2" fill="#E9A08C" ${ks} transform="rotate(-45 12 12)"/><path d="M7.4 9.6c2-2 4.6-3 7-2.6" fill="none" stroke="#F7C7B8" stroke-width="1.4" stroke-linecap="round"/>`+fs(12,12.6),
  asiatique:`<path d="M12 3.4c3 0 9 9.6 9 13.6a3.5 3.5 0 0 1-3.5 3.5h-11A3.5 3.5 0 0 1 3 17C3 13 9 3.4 12 3.4z" fill="#FFFBF5" ${ks}/><rect x="8.6" y="15" width="6.8" height="5.5" fill="#55604F"/>`+fs(12,12.2),
  plantes:`<path d="M12 11V8M12 9c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4zM12 8c0-2.4 1.6-4 4-4 0 2.4-1.6 4-4 4z" fill="#B4CA9C" ${ks}/><path d="M6.5 11h11l-1.3 9.5H7.8z" fill="#F3D9C2" ${ks}/>`+fs(12,15.4),
+ voiture:`<path d="M2.8 15.6v-2.7c0-.9.6-1.6 1.5-1.8l2.3-.5 2-3.5c.4-.7 1.1-1.1 1.9-1.1h4.3c.8 0 1.5.4 1.9 1.1l2 3.5 1.2.3c.9.2 1.5 1 1.5 1.9v2.8c0 .6-.4 1-1 1H3.8c-.6 0-1-.4-1-1z" fill="#FBE7A8" ${ks}/><path d="M9 10.6l1.4-2.5c.2-.3.5-.5.9-.5h3.3c.4 0 .7.2.9.5l1.4 2.5z" fill="#E3EEF8" ${ks}/><circle cx="7.4" cy="16.8" r="2.1" fill="#FFFBF5" ${ks}/><circle cx="16.6" cy="16.8" r="2.1" fill="#FFFBF5" ${ks}/>`+fs(12,13.4),
  organisation:`<rect x="3.6" y="3.4" width="14.4" height="17.4" rx="2.6" fill="#E3EEF8" ${ks}/><path d="M7 3.4v17.4" ${ks}/><rect x="17.2" y="5.4" width="3.4" height="3.4" rx="1" fill="#F6CFC9" ${ks}/><rect x="17.2" y="10.4" width="3.4" height="3.4" rx="1" fill="#F7EBC9" ${ks}/><rect x="17.2" y="15.4" width="3.4" height="3.4" rx="1" fill="#D9ECE4" ${ks}/>`+fs(12.4,12.6),
  afaire:`<circle cx="12" cy="12.6" r="8" fill="#FFFBF5" ${ks}/><path d="M12 5.8v1.3M18.8 12.6h-1.3M5.2 12.6h1.3" ${ks}/>`+fs(12,13.4),
  urgent:`<path d="M5 6.6l2.6-2.1M19 6.6l-2.6-2.1" ${ks} stroke-width="1.6"/><circle cx="12" cy="13.2" r="7.6" fill="#F6CFC9" ${ks}/>`+fs(12,13.8,'todo'),
@@ -446,7 +447,7 @@ const ART={
 /* ---------- Données ---------- */
 const THEMES=[
  {id:'travail',name:'Travail',d:'#A4BED3'},{id:'sport',name:'Sport',d:'#8EC6BD'},{id:'sante',name:'Santé',d:'#EDA5B0'},
- {id:'menage',name:'Ménage',d:'#B4CA9C'},{id:'courses',name:'Courses',d:'#E8A094'},{id:'admin',name:'Administratif',d:'#CEC3BB'},{id:'organisation',name:'Organisation',d:'#8FC1E3'},{id:'perso',name:'Moi',d:'#EEB87D'},
+ {id:'menage',name:'Ménage',d:'#B4CA9C'},{id:'courses',name:'Courses',d:'#E8A094'},{id:'admin',name:'Administratif',d:'#CEC3BB'},{id:'organisation',name:'Organisation',d:'#8FC1E3'},{id:'voiture',name:'Voiture',d:'#F0CE6A'},{id:'perso',name:'Moi',d:'#EEB87D'},
  {id:'proches',name:'Famille et amis',d:'#C4A8C9'},{id:'loisirs',name:'Sorties',d:'#B8B4D8'},{id:'apprendre',name:'Apprentissage',d:'#D9C27E'}];
 const TH=Object.fromEntries(THEMES.map(t=>[t.id,t]));
 const MENAGE=[['arrosage','Arrosage'],['nettoyage','Nettoyage'],['aspiration','Aspiration'],['rangement','Rangement'],['lessive','Lessive'],['vetements','Vêtements'],['trier','Trier'],['vaisselle','Vaisselle'],['poubelles','Poubelles'],['draps','Draps'],['sac','Courses'],['aerer','Aérer'],['sol','Sol'],['toilettes','Toilettes'],['douche','Douche'],['lavabo','Lavabo'],['miroir','Miroir'],['plumeau','Poussière'],['replanter','Replanter']];
@@ -686,7 +687,7 @@ function tasksHTML(){
   let list=S.items.filter(it=>inF(it,S.folder)&&visible(it)),body='',top='';
   if(S.folder==='afaire'){
     const used=THEMES,cur=S.filter==='all'?null:TH[S.filter];
-    top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>{const n=S.items.filter(it=>inF(it,'afaire')&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}${n?' : '+n:''}" data-a="filter" data-v="${t.id}">${kw(t.id,21)}${n?`<span class="fbn">${n}</span>`:''}</button>`}).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
+    top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>{const n=S.items.filter(it=>inF(it,'afaire')&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}${n?' : '+n:''}" data-a="filter" data-v="${t.id}">${kw(t.id,23)}${n?`<span class="fbn">${n}</span>`:''}</button>`}).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
     if(S.filter!=='all')list=list.filter(it=>it.theme===S.filter);
     list.sort((a,b)=>(!!a.done-!!b.done)||((a.date||'9')<(b.date||'9')?-1:1));
     body=list.map(taskCard).join('');
@@ -1284,7 +1285,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='12';
+const APP_VER='13';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
