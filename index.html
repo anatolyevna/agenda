@@ -63,12 +63,12 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .chip .ic{width:24px;height:24px;border-radius:8px}
 /* Semaine */
 .week{display:flex;gap:4px;padding:4px 14px 0}
-.wcol{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:16px;padding:8px 0 12px;background:var(--card);min-height:330px}
+.wcol{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:16px;padding:8px 0 12px;background:var(--card);min-height:max(330px,calc(100dvh - 455px - env(safe-area-inset-top) - env(safe-area-inset-bottom)))}
 .wcol.we{background:color-mix(in srgb,#C4A8C9 16%,var(--card))}.wcol.we small,.wcol.we b{color:#7E5F86}
 .wcol.today{box-shadow:0 0 0 2px var(--acc);background:color-mix(in srgb,var(--acc) 20%,var(--card))}.wcol.today b,.wcol.today small{color:var(--red)}
 .wcol .ic{cursor:pointer;position:relative}
 .wcol{position:relative}
-.wbar{position:absolute;left:-2px;right:-2px;height:5px;background:var(--d)}
+.wbar{position:absolute;left:-2px;right:-2px;height:3px;background:color-mix(in srgb,var(--d) 55%,transparent)}
 .wbar.s{left:5px;border-radius:3px 0 0 3px}.wbar.e{right:5px;border-radius:0 3px 3px 0}.wbar.s.e{border-radius:3px}
 .flg{position:absolute;top:-5px;right:-6px;width:17px;height:17px;border-radius:9px;background:var(--card);display:grid;place-items:center;box-shadow:0 1px 3px rgba(75,50,45,.18)}
 .adb{--p:42%;font-weight:700;padding-right:16px}
@@ -662,7 +662,7 @@ function calHTML(){
     let cols='';const wEnd=add(mon,6),bStart=TODAY>mon?TODAY:mon;
     const bands=S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&it.due>=bStart&&bStart<=wEnd).sort((a,b)=>a.due<b.due?-1:1).slice(0,2);
     for(let i=0;i<7;i++){const k=add(mon,i),list=onDate(k);
-      const bars=bands.map((it,j)=>k>=bStart&&k<=it.due?`<i class="wbar ${k===bStart?'s':''} ${k===it.due?'e':''}" style="--d:${TH[it.theme].d};bottom:${5+j*7}px"></i>`:'').join('');
+      const bars=bands.map((it,j)=>k>=bStart&&k<=it.due?`<i class="wbar ${k===bStart?'s':''} ${k===it.due?'e':''}" style="--d:${TH[it.theme].d};bottom:${6+j*6}px"></i>`:'').join('');
       cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" style="${adBg(list,38)}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}</div>`}
     body=`<div class="week">${cols}</div>${legend()}`;
   } else {
@@ -1304,7 +1304,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='15';
+const APP_VER='16';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
