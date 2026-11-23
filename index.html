@@ -84,8 +84,9 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .cyflows{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .cyf{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px;border-radius:16px;border:1px solid var(--line);font-size:11.5px;font-weight:600;color:var(--muted)}
 .cyf.on{background:#FBE3E6;border-color:#EDA5B0;color:var(--ink)}
+.cysex{display:grid;grid-template-columns:1fr 1fr;gap:6px}.cysex .cyf{flex-direction:row;justify-content:center;height:44px;font-size:13px}
 .cymoods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-.cym{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:16px;font-size:11.5px;font-weight:600;color:var(--muted);border:1px solid transparent}
+.cym{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:16px;font-size:11px;line-height:1.15;text-align:center;font-weight:600;color:var(--muted);border:1px solid transparent}
 .cym.on{background:#FBE3E6;border-color:#EDA5B0;color:var(--ink)}
 .cyd{position:absolute;bottom:3px;left:50%;margin-left:-3.5px;width:7px;height:8.4px}
 .mc{position:relative}
@@ -157,7 +158,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .task.u1,.task.u2,.task.u3{--d:#E8A094}
 .task.u2{--p:24%}
 .task.u3{--p:38%;border:2px solid var(--acc);box-shadow:0 6px 18px rgba(207,107,100,.22)}
-.bang{min-width:40px;height:28px;padding:0 10px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:16px;letter-spacing:1px;color:var(--red);background:color-mix(in srgb,var(--acc) 16%,var(--card))}
+.bang{min-width:40px;height:28px;padding:0 10px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:17px;letter-spacing:1px;color:#B8362D;background:#FFFBF5;border:1.5px solid #E07A72}
 .task.u3 .bang{background:var(--acc);color:var(--card)}
 /* Bulles flottantes */
 .cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 12px;padding:6px 14px 8px}
@@ -211,7 +212,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 @keyframes bump{0%,100%{transform:scale(1)}40%{transform:scale(1.18) rotate(-6deg)}}
 .cartfab.bump{animation:bump .4s ease-out}
 .flyer{position:absolute;z-index:50;pointer-events:none}
-.grp{display:flex;align-items:center;gap:10px;margin:14px 0 6px}
+.grp{display:flex;align-items:center;gap:10px;margin:20px 0 8px}
 .cart{margin-top:22px;padding:16px;border-radius:24px;background:var(--card);border:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
 .cartin{flex:1;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;min-height:60px}
 .cartin button{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 10px 0 4px;border-radius:999px;font-size:13px}
@@ -237,7 +238,7 @@ nav button:not(.on) svg{filter:saturate(.35);opacity:.75}
 .sheet{background:var(--bg);border-radius:28px 28px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom) + 24px);display:flex;flex-direction:column;gap:16px;max-height:88%;overflow-y:auto}
 .sheet>*{flex-shrink:0}
 .sheet label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
-.sheet textarea{min-height:76px;border-radius:16px;border:1px solid var(--line);background:var(--card);padding:12px 16px;font:inherit;font-size:16px;line-height:1.35;color:var(--ink);resize:none;-webkit-user-select:text;user-select:text}
+.sheet textarea{min-height:46px;border-radius:16px;border:1px solid var(--line);background:var(--card);padding:12px 16px;font:inherit;font-size:16px;line-height:1.35;color:var(--ink);resize:none;-webkit-user-select:text;user-select:text}
 .note{font-size:12.5px;line-height:1.3;color:color-mix(in srgb,var(--muted) 75%,var(--card));white-space:pre-line;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:-1px}
 .sw{position:relative;border-radius:22px;overflow:hidden;flex:none}
 .swdel{position:absolute;top:0;right:0;bottom:0;width:104px;display:flex;align-items:center;justify-content:center;background:#E8A094;color:#FFFBF5;font-size:14px;font-weight:700;border-radius:0 22px 22px 0;padding-left:14px}
@@ -260,6 +261,16 @@ nav button:not(.on) svg{filter:saturate(.35);opacity:.75}
 .gate .big{width:100%}
 .syncdot{width:7px;height:7px;border-radius:4px;display:inline-block;margin-left:6px;vertical-align:middle}
 .danger{height:46px;border-radius:16px;background:transparent;color:var(--red);font-size:15px;font-weight:700;border:1px solid #EBB3AC}
+.sheet.ed{gap:12px;padding-top:16px}.sheet.ed .big{height:48px}.sheet.ed input,.sheet.ed .din{height:44px}
+.sheet.ed textarea{padding:11px 16px}
+.thg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.thg button{height:40px;border-radius:13px;display:grid;place-items:center;background:color-mix(in srgb,var(--d) 20%,var(--card));border:1px solid color-mix(in srgb,var(--d) 40%,var(--card))}
+.thg button.on{background:color-mix(in srgb,var(--d) 45%,var(--card));box-shadow:0 0 0 2px var(--ink)}
+.f2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.cell{display:flex;flex-direction:column;gap:4px;min-width:0}.cell .din{min-width:0;width:100%}
+.frow{display:flex;align-items:center;justify-content:space-between;gap:10px}.frow select{min-width:170px}
+.adt{height:44px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:14px;font-weight:600;color:var(--muted)}
+.adt.on{background:color-mix(in srgb,var(--acc) 30%,var(--card));border-color:var(--acc);color:var(--ink)}
 .daterow{display:flex;align-items:center;justify-content:space-between;gap:10px}
 </style>
 </head>
@@ -642,27 +653,32 @@ const durTxt=h=>{const H=Math.floor(h),M=Math.round((h-H)*60);return (H?H+' h':'
 /* ---------- État des tâches récurrentes ---------- */
 const choreItem=c=>S.items.find(it=>it.chore===c.id&&!it.done);
 const off=c=>c.zone!==undefined?!choreItem(c):!!c.paused;
-function activateChore(c,date){if(choreItem(c))return;S.items.push({id:S.nextId++,kind:'tache',folder:'afaire',theme:c.link==='courses'?'courses':'menage',title:c.title,chore:c.id,link:c.link,date:date||TODAY,start:null,reports:0})}
+function activateChore(c,date){if(choreItem(c))return;S.items.push({id:S.nextId++,kind:'tache',folder:'afaire',theme:c.link==='courses'?'courses':'menage',title:c.title,chore:c.id,link:c.link,date:date||null,start:null,reports:0})}
 function spawnNext(it){if(!it.repeat||!it.date||it.spawned)return;const nd=nextDate(it.date,it.repeat);if(nd===it.date)return;
   S.items.push({...it,id:S.nextId++,date:nd,done:false,doneAt:undefined,spawned:false,...(it.kind==='tache'?{reports:0,folder:'afaire',urgentSince:undefined}:{})});it.spawned=true}
 function finishItem(it){if(!it||it.done)return;spawnNext(it);it.done=true;it.doneAt=nowMs()}
 function nextOf(c){if(c.zone!==undefined){const it=choreItem(c);return it&&it.date?it.date:TODAY}if(c.next)return c.next;if(c.days&&c.days.length){let k=add(c.last,1);for(let i=0;i<8;i++){if(c.days.includes(wd(k)))return k;k=add(k,1)}return k}return add(c.last,c.freq||1)}
 function schedTxt(c){const d=c.days&&c.days.length?(c.days.length===7?'Chaque jour':c.days.map(x=>DL[x]).join(' ')):freqTxt(c.freq);const m=(c.moments||[]).map(x=>MOMENTS.find(y=>y[0]===x)[1].toLowerCase()).join(' · ');return d+(m?' · '+m:'')}
-function st(c){const left=diff(TODAY,nextOf(c));const m=left<0?'late':left<=1?'todo':'ok';
+function st(c){if(c.zone!==undefined){const it0=choreItem(c);if(it0&&!it0.date)return{left:0,m:'todo',when:''}}const left=diff(TODAY,nextOf(c));const m=left<0?'late':left<=1?'todo':'ok';
   const when=left<0?`${-left} j de retard`:left===0?'aujourd’hui':left===1?'demain':`dans ${left} j`;return{left,m,when}}
 const worst=L0=>{const list=L0.filter(c=>!off(c));return list.some(c=>st(c).m==='late')?'late':list.some(c=>st(c).m==='todo')?'todo':'ok'};
 
 const adBg=(list,pct)=>{const cs=[...new Set(list.filter(it=>it.allDay).map(it=>TH[it.theme].d))].slice(0,3).map(d=>`color-mix(in srgb,${d} ${pct}%,var(--card))`);if(!cs.length)return '';if(cs.length===1)return `background:${cs[0]};`;const w=100/cs.length;return `background:linear-gradient(90deg,${cs.map((c,i)=>`${c} ${i*w}% ${(i+1)*w}%`).join(',')});`};
-const MOODS=[['sereine','Sereine','#F7EBC9'],['joyeuse','Joyeuse','#F8DDB8'],['caline','Câline','#F6CFC9'],['sensible','Sensible','#E9DDF0'],['fatiguee','Fatiguée','#E3EEF8'],['triste','Triste','#DCEBF6'],['irritable','Irritable','#F4C3C8'],['anxieuse','Anxieuse','#E3EDD9']];
-const SYMS=['Crampes','Maux de tête','Ballonnements','Seins sensibles','Mal de dos','Peau','Fatigue','Envies sucrées','Nausées','Insomnie'];
+const MOODS=[['sereine','Calme','#F7EBC9'],['joyeuse','Joyeuse','#F8DDB8'],['energique','Énergique','#FBE3C8'],['confiante','Confiante','#F3E2D2'],['caline','Désir','#F6CFC9'],['sensible','Sensible','#E9DDF0'],['fatiguee','Fatiguée','#E3EEF8'],['triste','Triste','#DCEBF6'],['irritable','Irritable','#F4C3C8'],['anxieuse','Anxieuse','#E3EDD9'],['stressee','Stressée','#EDE4F4'],['brouillard','Dans le brouillard','#ECEAE6']];
+const SYMS=['Crampes','Douleur généralisée','Maux de tête','Mal de dos','Seins sensibles','Ballonnements','Rétention d’eau','Jambes lourdes','Fatigue','Insomnie','Nausées','Vertiges','Bouffées de chaleur','Peau','Acné','Pertes blanches','Saignements légers','Diarrhée','Constipation','Envies sucrées','Envies salées','Envie de junk food','Fringales'];
 const FLOWS=[[0,'Pas de règles'],[1,'Léger'],[2,'Moyen'],[3,'Abondant']];
 function moodSvg(k,s=34){const m=MOODS.find(x=>x[0]===k)||MOODS[0],I='#4B3D3A',st=`stroke="${I}" stroke-width="1.3" fill="none" stroke-linecap="round"`;
   const eyesDot=`<circle cx="9.2" cy="12" r="1.1" fill="${I}"/><circle cx="14.8" cy="12" r="1.1" fill="${I}"/>`,eyesShut=`<path d="M7.8 12.2q1.4-1.3 2.8 0M13.4 12.2q1.4-1.3 2.8 0" ${st}/>`,eyesSleep=`<path d="M7.9 12h2.6M13.5 12h2.6" ${st}/>`;
   const blush=`<ellipse cx="7.4" cy="14.6" rx="1.4" ry=".8" fill="#EDA5B0" opacity=".7"/><ellipse cx="16.6" cy="14.6" rx="1.4" ry=".8" fill="#EDA5B0" opacity=".7"/>`;
   const smile=`<path d="M10.6 15.2q1.4 1.2 2.8 0" ${st}/>`,flat=`<path d="M10.8 15.6h2.4" ${st}/>`;
-  const f={sereine:eyesShut+smile+blush,joyeuse:eyesDot+`<path d="M9.8 14.6q2.2 2.8 4.4 0z" fill="${I}"/>`+blush,caline:eyesShut+smile+blush+`<path d="M18.6 5.6c-.5-.8-1.8-.6-1.8.4 0 .8.9 1.4 1.8 2 .9-.6 1.8-1.2 1.8-2 0-1-1.3-1.2-1.8-.4z" fill="#E8A094"/>`,
-    sensible:eyesDot+smile+blush+`<path d="M18.4 4.4l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5z" fill="#C4A8C9"/>`,fatiguee:eyesSleep+flat+`<text x="16.6" y="7.4" font-size="5" font-weight="700" fill="#A4BED3" font-family="sans-serif">z</text>`,
-    triste:eyesDot+flat+`<path d="M16.6 13.2c-.6 1-1 1.6-1 2.1a1 1 0 0 0 2 0c0-.5-.4-1.1-1-2.1z" fill="#A4BED3"/>`,irritable:eyesDot+flat+`<path d="M8.6 5.2c.4-1 1.6-1.2 2.2-.4.5-.8 1.8-.7 2.2.2.8-.4 1.8.1 1.8 1" fill="none" stroke="#E8A094" stroke-width="1.1" stroke-linecap="round"/>`,
+  const heartEye=x=>`<path d="M${x} 13.4c-.9-.7-1.9-1.3-1.9-2.1 0-.6.5-1 1-1 .4 0 .7.2.9.5.2-.3.5-.5.9-.5.5 0 1 .4 1 1 0 .8-1 1.4-1.9 2.1z" fill="#D9536F"/>`;
+  const f={sereine:eyesShut+smile+blush,energique:eyesDot+`<path d="M9.8 14.6q2.2 2.8 4.4 0z" fill="${I}"/>`+blush+`<path d="M19 3.6l-1.6 2.6h1.4l-1.2 2.4" fill="none" stroke="#EF9147" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>`,
+    confiante:`<path d="M7.8 12.2q1.4-1.3 2.8 0" ${st}/><circle cx="14.8" cy="12" r="1.1" fill="${I}"/>`+`<path d="M10.2 15q1.8 1.6 3.6 0" ${st}/>`+blush,
+    desir:heartEye(9.2)+heartEye(14.8)+smile+blush,
+    stressee:`<circle cx="9.2" cy="12" r="1.5" fill="#FFFFFF" stroke="${I}" stroke-width=".9"/><circle cx="14.8" cy="12" r="1.5" fill="#FFFFFF" stroke="${I}" stroke-width=".9"/><circle cx="9.2" cy="12" r=".6" fill="${I}"/><circle cx="14.8" cy="12" r=".6" fill="${I}"/><ellipse cx="12" cy="15.8" rx=".9" ry=".7" fill="${I}"/><path d="M18.6 8.2c-.5.8-.8 1.3-.8 1.7a.8.8 0 0 0 1.6 0c0-.4-.3-.9-.8-1.7z" fill="#A4BED3"/>`,
+    brouillard:`<path d="M8.2 12a1 1 0 1 1 1 1M13.8 12a1 1 0 1 1 1 1" ${st}/>`+flat+`<path d="M6.4 6.2a1.8 1.8 0 0 1 3.2-.8 2 2 0 0 1 3.6.4 1.6 1.6 0 0 1 2 1.6H6.6a1 1 0 0 1-.2-1.2z" fill="#FFFFFF" stroke="#B9B2AC" stroke-width=".8"/>`,joyeuse:eyesDot+`<path d="M9.8 14.6q2.2 2.8 4.4 0z" fill="${I}"/>`+blush,caline:heartEye(9.2)+heartEye(14.8)+smile+blush,
+    sensible:eyesDot+smile+blush+`<path d="M18.4 4.4l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5z" fill="#C4A8C9"/>`,fatiguee:`<path d="M7.8 11.6q1.4 1.2 2.8 0M13.4 11.6q1.4 1.2 2.8 0" ${st}/>`+`<ellipse cx="12" cy="15.8" rx="1" ry="1.2" fill="${I}"/>`+blush+`<path d="M18.8 4.2a2.4 2.4 0 1 0 1.6 3.4 2 2 0 0 1-1.6-3.4z" fill="#F7E3A1" stroke="#D9C27E" stroke-width=".6"/>`,
+    triste:eyesDot+flat+`<path d="M16.6 13.2c-.6 1-1 1.6-1 2.1a1 1 0 0 0 2 0c0-.5-.4-1.1-1-2.1z" fill="#A4BED3"/>`,irritable:`<path d="M8 12.6l2.2-.9M16 12.6l-2.2-.9" ${st}/>`+`<path d="M10.8 15.6q1.2-.8 2.4 0" ${st}/>`+`<ellipse cx="7" cy="14.6" rx="2" ry="1.3" fill="#EDA5B0" opacity=".85"/><ellipse cx="17" cy="14.6" rx="2" ry="1.3" fill="#EDA5B0" opacity=".85"/>`+`<path d="M18.2 6.6c.6-.9 1.8-.9 2.2 0M19 4.6c.4-.6 1.2-.6 1.5 0" fill="none" stroke="#C9B9AE" stroke-width=".8" stroke-linecap="round"/>`,
     anxieuse:eyesDot+`<path d="M10 15.6q.7-.8 1.4 0t1.4 0 1.4 0" ${st}/>`+`<path d="M17.4 8.4c-.5.8-.8 1.3-.8 1.7a.8.8 0 0 0 1.6 0c0-.4-.3-.9-.8-1.7z" fill="#A4BED3"/>`}[m[0]];
   return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8.6" fill="${m[2]}" stroke="#6B5A55" stroke-width="1.2"/>${f}</svg>`}
 const dropSvg=(fill,s=12,op=1)=>`<svg width="${s}" height="${s*1.2}" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 .8C3.2 3.6 1.4 5.6 1.4 7.8a3.6 3.6 0 0 0 7.2 0C8.6 5.6 6.8 3.6 5 .8z" fill="${fill}" fill-opacity="${op}"/></svg>`;
@@ -689,7 +705,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
     info+=row('Fenêtre fertile estimée',shortR(c.fa,c.fb));info+=row('Cycle moyen',c.avgC+' j'+(c.hasC?'':' (par défaut)'));info+=row('Règles',c.avgP+' j');}
   const top=`<div class="cycard"><div style="display:flex;align-items:center;justify-content:center;gap:16px">${ring}<div><div class="hf" style="font-size:28px">${c.day?'Jour '+c.day:'—'}</div><div class="meta">${c.day?'du cycle':''}</div></div></div>${info?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">${info}</div>`:''}</div>${c.next?'<div class="meta" style="font-size:11.5px;text-align:center;margin:-4px 0 8px">Estimations d’après tes cycles : pas une méthode de contraception.</div>':''}`;
   const m0=pd(S.cyMon+'-01'),st=monday(fk(m0));let cells='';
-  for(let i=0;i<42;i++){const d=add(st,i),dd=pd(d);if(i>=35&&dd.getMonth()!==m0.getMonth())break;const mk=cyMark(d),f=c.fert.has(d)&&d>=TODAY,has=D[d]&&((D[d].mood||[]).length||(D[d].sym||[]).length);
+  for(let i=0;i<42;i++){const d=add(st,i),dd=pd(d);if(i>=35&&dd.getMonth()!==m0.getMonth())break;const mk=cyMark(d),f=c.fert.has(d)&&d>=TODAY,has=D[d]&&((D[d].mood||[]).length||(D[d].sym||[]).length||D[d].sex);
     cells+=`<button class="cyc ${dd.getMonth()!==m0.getMonth()?'out':''} ${mk} ${f&&!mk?'f':''} ${d===TODAY?'today':''} ${d===k?'sel':''}" data-a="cyday" data-v="${d}">${dd.getDate()}${has?'<i></i>':''}</button>`}
   const arrow=dd=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${dd}"/></svg>`;
   const cal=`<div class="cycard"><div class="bar" style="margin-bottom:8px"><button class="nav40 ghost" aria-label="Mois précédent" data-a="cymon" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:16px">${MON[m0.getMonth()][0].toUpperCase()+MON[m0.getMonth()].slice(1)} ${m0.getFullYear()}</div><button class="nav40 ghost" aria-label="Mois suivant" data-a="cymon" data-v="1">${arrow('M9 18l6-6-6-6')}</button></div>
@@ -704,6 +720,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
     <div class="cycard"><div class="hf" style="font-size:17px;margin-bottom:10px">${dl}</div>
       <div class="lbl">Règles</div><div class="cyflows">${flows}</div>
       <div class="lbl" style="margin-top:12px">Humeur</div><div class="cymoods">${moods}</div>
+      <div class="lbl" style="margin-top:12px">Activité sexuelle</div><div class="cysex"><button class="cyf ${e.sex?'':'on'}" data-a="cysex" data-v="0">Non</button><button class="cyf ${e.sex?'on':''}" data-a="cysex" data-v="1"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0"/></svg>Oui</button></div>
       <div class="lbl" style="margin-top:12px">Symptômes</div><div class="pick">${syms}</div></div>
     ${hist?`<div class="cycard"><div class="lbl" style="margin-bottom:4px">Dernières règles</div>${hist}</div>`:''}</div>`}
 const cdTxt=n=>n>0?'J-'+n:n===0?'Jour J':'+'+(-n)+' j';
@@ -793,7 +810,7 @@ function tasksHTML(){
 }
 
 function charBubble(c,list){const A=list==='chores'?'ctap':'open';if(off(c))return `<button class="cbw" style="opacity:.75" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb" style="--d:#CEC3BB;width:80px;height:80px">${charSvg(c.sub,'late',48)}</span><span class="lbl2" style="color:var(--muted)">${esc(c.title)}</span></button>`;const s=st(c);
-  const bang=c.link==='courses'&&s.left<=0?`<span class="cnt" style="background:var(--acc);color:var(--card);left:-2px;right:auto;font-size:15px;font-weight:900">!</span>`:'';
+  const bang=c.link==='courses'&&s.when&&s.left<=0?`<span class="cnt" style="background:var(--acc);color:var(--card);left:-2px;right:auto;font-size:15px;font-weight:900">!</span>`:'';
   return `<button class="cbw" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m} ${S.popChore===c.id?'pop':''}">${charSvg(c.sub,s.m,58)}${bang}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
 function menageHTML(){
   const zones=ZONES.map(([id,name])=>{const its=S.chores.filter(c=>c.zone===id),m=its.length?worst(its):'ok',n=its.filter(c=>!off(c)).length;
@@ -820,7 +837,7 @@ function suggHTML(){
 function coursesHTML(){
   const strip=`<button class="rbtn tint" style="--d:#F4C3C8" aria-label="Mes habituels" data-a="catalog" data-v="habituels">${kw('habituels',36)}</button>`+RAYONS.map(r=>`<button class="rbtn tint" style="--d:${r.d}" aria-label="${r.name}" data-a="catalog" data-v="${r.id}">${kw(r.id,36)}</button>`).join('');
   const groups=RAYONS.map(r=>{const its=S.courses.filter(c=>c.rayon===r.id&&!c.done);if(!its.length)return '';
-    return `<div class="grp"><span class="ic tint" style="--d:${r.d};width:32px;height:32px;border-radius:11px">${kw(r.id,26)}</span><span class="hf" style="font-size:14px">${r.name}</span></div><div style="display:flex;flex-direction:column;gap:6px">${its.map(c=>`<div class="sw" style="border-radius:18px" data-sw="course" data-id="${c.id}">${swDel('course',c.id)}<div class="item mx swc" id="row${c.id}" style="--d:${r.d}">${prod(c)}<button style="flex:1;text-align:left;font-size:15px;font-weight:600;min-height:40px" data-a="buy" data-id="${c.id}">${c.qty>1?`<span class="nf" style="color:color-mix(in srgb,${r.d} 50%,#4B3D3A)">${c.qty}</span> `:''}${esc(c.name)}</button>${S.qOpen===c.id?`<span class="qp"><button aria-label="Moins" data-a="qty" data-id="${c.id}" data-v="-1">−</button><button data-a="qopen" data-id="${c.id}" style="min-width:18px;font-size:12.5px;font-weight:800">${c.qty}</button><button aria-label="Plus" data-a="qty" data-id="${c.id}" data-v="1">+</button><button aria-label="Retirer" data-a="rmcourse" data-id="${c.id}" style="color:#A9433C;font-size:13px">✕</button></span>`:`<button class="qbtn" aria-label="Quantité" data-a="qopen" data-id="${c.id}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 2.6v4.8M2.6 5h4.8M8.6 11h4.8"/><path d="M12.6 2.4 3.4 13.6" stroke-width="1"/></svg></button>`}<button class="box" aria-label="Mettre dans le panier" data-a="buy" data-id="${c.id}">${faceChk(false,24)}</button></div></div>`).join('')}</div>`}).join('');
+    return `<div class="grp"><span class="ic tint" style="--d:${r.d};width:32px;height:32px;border-radius:11px">${kw(r.id,26)}</span><span class="hf" style="font-size:14px">${r.name}</span></div><div style="display:flex;flex-direction:column;gap:6px;padding-left:16px">${its.map(c=>`<div class="sw" style="border-radius:18px" data-sw="course" data-id="${c.id}">${swDel('course',c.id)}<div class="item mx swc" id="row${c.id}" style="--d:${r.d}">${prod(c)}<button style="flex:1;text-align:left;font-size:15px;font-weight:600;min-height:40px" data-a="buy" data-id="${c.id}">${c.qty>1?`<span class="nf" style="color:color-mix(in srgb,${r.d} 50%,#4B3D3A)">${c.qty}</span> `:''}${esc(c.name)}</button>${S.qOpen===c.id?`<span class="qp"><button aria-label="Moins" data-a="qty" data-id="${c.id}" data-v="-1">−</button><button data-a="qopen" data-id="${c.id}" style="min-width:18px;font-size:12.5px;font-weight:800">${c.qty}</button><button aria-label="Plus" data-a="qty" data-id="${c.id}" data-v="1">+</button><button aria-label="Retirer" data-a="rmcourse" data-id="${c.id}" style="color:#A9433C;font-size:13px">✕</button></span>`:`<button class="qbtn" aria-label="Quantité" data-a="qopen" data-id="${c.id}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 2.6v4.8M2.6 5h4.8M8.6 11h4.8"/><path d="M12.6 2.4 3.4 13.6" stroke-width="1"/></svg></button>`}<button class="box" aria-label="Mettre dans le panier" data-a="buy" data-id="${c.id}">${faceChk(false,24)}</button></div></div>`).join('')}</div>`}).join('');
   const inCart=S.courses.filter(c=>c.done);
   const cart=`<div class="cart" id="cartzone">${ART.panier}<div class="cartin">${inCart.map(c=>`<button class="mx" style="--d:${RY[c.rayon].d}" data-a="buy" data-id="${c.id}">${prod(c,22)}${c.qty>1?c.qty+' ':''}${esc(c.name)}</button>`).join('')}</div></div>`;
   const nCart=S.courses.filter(c=>c.done).length;
@@ -933,19 +950,21 @@ function sheetHTML(){
     const toHM=h=>h===null||h===undefined?'':String(Math.floor(h)).padStart(2,'0')+':'+String(Math.round((h-Math.floor(h))*60)).padStart(2,'0');
     const din=(a,v)=>`<input class="din" type="date" data-in="${a}" value="${v||''}">`,tin=(a,v)=>`<input class="din" type="time" step="300" data-in="${a}" value="${v}">`;
     if(D.link==='courses'){inner=`<div class="daterow"><span class="lbl">Date</span>${din('ddate',D.date)}</div><div class="daterow"><span class="lbl">Heure</span>${tin('dhour',toHM(D.start))}</div>${isEdit?'<button class="big" style="background:#E8A094" data-a="gocourses">Ouvrir la liste de courses</button>':''}<button class="big" data-a="save">${isEdit?'Enregistrer':'Ajouter au calendrier'}</button>${isEdit?`<button class="danger" data-a="delitem">${D.chore?'Mettre de côté':'Supprimer'}</button>`:''}`}else{
-    inner=`<label for="titre">Titre<input id="titre" value="${esc(D.title)}" autocomplete="off"></label>
-      <label for="note">Note<textarea id="note" rows="2">${esc(D.note||'')}</textarea></label>
-      <div class="lbl">Thème</div><div class="pick">${THEMES.map(t=>`<button class="${D.theme===t.id?'on':''}" style="--d:${t.d}" data-a="dtheme" data-v="${t.id}"><span class="ic tint">${kw(t.id,24)}</span>${t.name}</button>`).join('')}</div>`;
-    if(kind==='tache'&&D.link!=='courses')inner+=`<div class="pick"><button class="txt ${!D.date&&!D.due?'on':''}" style="--d:#CEC3BB" data-a="dnodate" data-v="1">Sans date</button><button class="txt ${D.date?'on':''}" style="--d:#CEC3BB" data-a="dnodate" data-v="0">Avec date</button><button class="txt ${!D.date&&D.due?'on':''}" style="--d:#CEC3BB" data-a="dnodate" data-v="2">Avant le</button></div>`;
-    if(kind==='tache'&&!D.date&&D.due)inner+=`<div class="daterow"><span class="lbl">Avant le</span>${din('ddue',D.due)}</div>`;
-    if(D.date)inner+=`<div class="daterow"><span class="lbl">Date</span>${din('ddate',D.date)}</div>`;
-    if(kind==='rdv')inner+=`<div class="pick"><button class="txt ${D.allDay?'on':''}" style="--d:#CEC3BB" data-a="dallday">Journée entière</button></div>`;
-    if((kind!=='tache'||D.date)&&!(kind==='rdv'&&D.allDay))inner+=`<div class="daterow"><span class="lbl">${kind==='rdv'?'Début':'Heure'}</span>${tin('dhour',toHM(D.start))}</div>`;
-    if(kind==='rdv'&&!D.allDay)inner+=`<div class="daterow"><span class="lbl">Fin</span>${tin('dend',toHM(Math.min(24,(D.start===null?12:D.start)+D.dur)))}</div>`;
-    if(kind==='rappel'||(kind==='tache'&&D.date)){const rp=D.repeat||'',isD=rp.startsWith('d:');inner+=`<div class="lbl">Répéter</div><div class="pick">${REP.filter(r=>kind==='rappel'||r[0]!=='a').map(r=>`<button class="txt ${(r[0]==='d'?isD:rp===r[0])?'on':''}" style="--d:#EEB87D" data-a="drep" data-v="${r[0]}">${r[1]}</button>`).join('')}</div>`;if(isD){const ds=rp.slice(2).split(',').map(Number);inner+=`<div class="daypick">${DL.map((l,i)=>`<button class="${ds.includes(i)?'on':''}" data-a="drday" data-v="${i}">${l}</button>`).join('')}</div>`}}
+    const cell=(l,h)=>`<div class="cell"><span class="lbl">${l}</span>${h}</div>`;
+    inner=`<input id="titre" value="${esc(D.title)}" placeholder="Titre" autocomplete="off">
+      <textarea id="note" rows="1" placeholder="Note">${esc(D.note||'')}</textarea>
+      <div><div class="lbl" style="margin-bottom:6px">Thème · <b style="color:var(--ink);font-weight:700">${TH[D.theme]?TH[D.theme].name:''}</b></div><div class="thg">${THEMES.map(t=>`<button class="${D.theme===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}" data-a="dtheme" data-v="${t.id}">${kw(t.id,26)}</button>`).join('')}</div></div>`;
+    if(kind==='tache')inner+=`<div class="seg ghost"><button class="${!D.date&&!D.due?'on':''}" data-a="dnodate" data-v="1">Sans date</button><button class="${D.date?'on':''}" data-a="dnodate" data-v="0">Avec date</button><button class="${!D.date&&D.due?'on':''}" data-a="dnodate" data-v="2">Avant le</button></div>`;
+    if(kind==='tache'&&!D.date&&D.due)inner+=`<div class="f2">${cell('Avant le',din('ddue',D.due))}</div>`;
+    if(kind==='rdv'){inner+=`<div class="f2">${cell('Date',din('ddate',D.date))}<div class="cell"><span class="lbl">&nbsp;</span><button class="adt ${D.allDay?'on':''}" data-a="dallday">Journée entière</button></div></div>`;
+      if(!D.allDay)inner+=`<div class="f2">${cell('Début',tin('dhour',toHM(D.start)))}${cell('Fin',tin('dend',toHM(Math.min(24,(D.start===null?12:D.start)+D.dur))))}</div>`}
+    else if(D.date)inner+=`<div class="f2">${cell('Date',din('ddate',D.date))}${cell('Heure',tin('dhour',toHM(D.start)))}</div>`;
+    if(kind==='rappel'||(kind==='tache'&&D.date)){const rp=D.repeat||'',isD=rp.startsWith('d:');
+      inner+=`<div class="frow"><span class="lbl">Répéter</span><select class="din" data-in="drep">${REP.filter(r=>kind==='rappel'||r[0]!=='a').map(r=>`<option value="${r[0]}" ${(r[0]==='d'?isD:rp===r[0])?'selected':''}>${r[1]}</option>`).join('')}</select></div>`;
+      if(isD){const ds=rp.slice(2).split(',').map(Number);inner+=`<div class="daypick">${DL.map((l,i)=>`<button class="${ds.includes(i)?'on':''}" data-a="drday" data-v="${i}">${l}</button>`).join('')}</div>`}}
     inner+=`<button class="big" data-a="save">${isEdit?'Enregistrer':'Ajouter'}</button>${isEdit?`<button class="danger" data-a="delitem">${D.chore?'Mettre de côté':'Supprimer'}</button>`:''}`;}
   }
-  return `<div class="veil" data-a="close-veil"><div class="sheet"><div class="row"><div class="hf" style="font-size:20px;min-width:0">${title}</div>${closeBtn}</div>${inner}</div></div>`;
+  return `<div class="veil" data-a="close-veil"><div class="sheet ${S.sheet==='new'||S.sheet==='edit'?'ed':''}"><div class="row"><div class="hf" style="font-size:20px;min-width:0">${title}</div>${closeBtn}</div>${inner}</div></div>`;
 }
 
 function render(){try{renderInner()}finally{persist()}}
@@ -972,7 +991,7 @@ function renderInner(){
   const nl=document.getElementById('newlec');if(nl){nl.addEventListener('input',e=>{S.lecDraft=e.target.value});nl.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.querySelector('[data-a="lecadd"]').click()}});if(S._focusLec){nl.focus();S._focusLec=false}}
   const rf=document.getElementById('recfile');if(rf)rf.addEventListener('change',async e=>{const f=e.target.files&&e.target.files[0];if(!f)return;let d;try{d=await compressImg(f)}catch(er){return}
     const r=S.recettes.find(x=>x.id===S.recId);if(!r)return;const pid='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),old=r.photo;IMG[pid]=d;IDB.put(pid,d).catch(()=>{});r.photo=pid;render();sync.pushImg(pid);if(old){sync.delImg(old);IDB.del(old).catch(()=>{})}});
-  const nt=document.getElementById('note');if(nt){nt.addEventListener('input',e=>{if(S.D)S.D.note=e.target.value});nt.style.height='auto';nt.style.height=Math.max(76,nt.scrollHeight+2)+'px';nt.addEventListener('input',()=>{nt.style.height='auto';nt.style.height=Math.max(76,nt.scrollHeight+2)+'px'})}
+  const nt=document.getElementById('note');if(nt){nt.addEventListener('input',e=>{if(S.D)S.D.note=e.target.value});nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px';nt.addEventListener('input',()=>{nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px'})}
   const inp=document.getElementById('titre');if(inp)inp.addEventListener('input',e=>{S.draft=e.target.value;if(S.D)S.D.title=e.target.value});
   const v=document.getElementById('ville');if(v)v.addEventListener('change',e=>{if(e.target.value.trim()){S.city=e.target.value.trim();W=null;render();loadWeather()}});
   const q=document.getElementById('q');if(q){q.addEventListener('input',e=>{S.q=e.target.value;document.getElementById('sugg').innerHTML=suggHTML()});if(S._focusQ){q.focus();S._focusQ=false}}
@@ -1014,6 +1033,7 @@ document.addEventListener('change',e=>{const el=e.target.closest&&e.target.close
   const tH=x=>{if(!x)return null;const q=x.split(':').map(Number);return Math.min(23.75,Math.max(5,q[0]+(q[1]||0)/60))};
   if(a==='ddate'){if(v)S.D.date=v}
   else if(a==='ddue'){if(v)S.D.due=v}
+  else if(a==='drep'){S.D.repeat=v==='d'?((S.D.repeat||'').startsWith('d:')?S.D.repeat:'d:'+wd(S.D.date||TODAY)):v}
   else if(a==='dhour'){const h=tH(v);if(h===null){if(S.D.kind==='tache')S.D.start=null}else S.D.start=h}
   else if(a==='dend'){const h=tH(v);if(h!==null){const st0=S.D.start===null?12:S.D.start;S.D.dur=Math.max(.25,h-st0)}}
   else if(a==='cnext'&&v){const c=S[S.sheetList].find(x=>x.id===S.sheetId);if(c){if(S.sheetList==='chores'){const it=choreItem(c);if(it)it.date=v}else c.next=v}}
@@ -1096,17 +1116,17 @@ document.addEventListener('click',e=>{
     case 'delitem':S.items=S.items.filter(x=>x.id!==S.D.id);S.sheet=S.backZone&&S.zoneId&&S.tab==='menage'?'zone':'';S.backZone=0;break;
     case 'ctap':{const c=S.chores.find(x=>x.id===id);if(!c)break;
       if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;const it=choreItem(c);if(it){S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link};S.sheet='edit';S.backZone=1}else{S.sheet='chore';S.sheetList='chores';S.sheetId=id}break}
-      clearTimeout(S._tapT);S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;const it=choreItem(c);if(!it)activateChore(c,TODAY);else{finishItem(it);S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},300);return}
+      clearTimeout(S._tapT);S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;const it=choreItem(c);if(!it)activateChore(c);else{finishItem(it);S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},300);return}
     case 'pause':{const c=cur();c.paused=true;delete c.next;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
-    case 'unpause':{const c=cur();if(S.sheetList==='chores'){activateChore(c,TODAY);S.sheet=S.zoneId?'zone':'';break}c.paused=false;c.next=TODAY;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
+    case 'unpause':{const c=cur();if(S.sheetList==='chores'){activateChore(c);S.sheet=S.zoneId?'zone':'';break}c.paused=false;c.next=TODAY;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
     case 'delchore':{const L2=S.sheetList;if(L2==='chores')S.items=S.items.filter(x=>x.chore!==S.sheetId||x.done);S[L2]=S[L2].filter(x=>x.id!==S.sheetId);S.sheet=L2==='care'?'sec':(S.zoneId?'zone':'');break}
     case 'dzone':S.draftZone=v;S._sheetKeep=true;break;
     case 'rmcourse':S.courses=S.courses.filter(c=>c.id!==id);S.qOpen=0;break;
     case 'settings':S.sheet='settings';break;
     case 'cyday':S.cyDay=v;break;
     case 'cymon':{const d=pd(S.cyMon+'-01');d.setMonth(d.getMonth()+(+v));S.cyMon=fk(d).slice(0,7);break}
-    case 'cyflow':case 'cymood':case 'cysym':{const D=S.cycle.days,k=S.cyDay,e={...(D[k]||{})};
-      if(a==='cyflow')e.flow=+v;else{const f=a==='cymood'?'mood':'sym',l=e[f]||[];e[f]=l.includes(v)?l.filter(x=>x!==v):[...l,v]}
+    case 'cyflow':case 'cymood':case 'cysym':case 'cysex':{const D=S.cycle.days,k=S.cyDay,e={...(D[k]||{})};
+      if(a==='cysex'){if(+v)e.sex=1;else delete e.sex}else if(a==='cyflow')e.flow=+v;else{const f=a==='cymood'?'mood':'sym',l=e[f]||[];e[f]=l.includes(v)?l.filter(x=>x!==v):[...l,v]}
       if(!e.flow)delete e.flow;['mood','sym'].forEach(f=>{if(e[f]&&!e[f].length)delete e[f]});
       const nd={...D};if(Object.keys(e).length)nd[k]=e;else delete nd[k];S.cycle={...S.cycle,days:nd};break}
     case 'swdel':{if(v==='item')S.items=S.items.filter(x=>x.id!==id);else if(v==='course'){S.courses=S.courses.filter(x=>x.id!==id);S.qOpen=0}
@@ -1124,7 +1144,7 @@ document.addEventListener('click',e=>{
     case 'sub':S.draftSub=v;break;
     case 'dsec':S.draftSec=v;break;
     case 'confirm':{const t=S.draft.trim();if(!t)return;const nid=S.nextId++;
-      if(S.tab==='menage'){const c={id:nid,zone:S.draftZone||'salon',sub:S.draftSub,title:t,freq:1,last:TODAY};S.chores.push(c);activateChore(c,TODAY)}
+      if(S.tab==='menage'){const c={id:nid,zone:S.draftZone||'salon',sub:S.draftSub,title:t,freq:1,last:TODAY};S.chores.push(c);activateChore(c)}
       else if(S.tab==='moi')S.care.push({id:nid,sec:S.draftSec,sub:S.draftSub,title:t,freq:S.draftFreq,last:TODAY});
       else if(S.tab==='cal')S.items.push({id:nid,kind:'rdv',theme:S.draftTheme,title:t,date:S.sel,start:S.draftHour,end:S.draftHour+1});
       else if(S.folder==='rappels')S.items.push({id:nid,kind:'rappel',theme:S.draftTheme,title:t,date:S.sel,start:S.draftHour,end:S.draftHour+.5});
@@ -1383,7 +1403,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='24';
+const APP_VER='25';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
