@@ -340,7 +340,7 @@ const K={
  voiture:`<path d="M2.8 15.6v-2.7c0-.9.6-1.6 1.5-1.8l2.3-.5 2-3.5c.4-.7 1.1-1.1 1.9-1.1h4.3c.8 0 1.5.4 1.9 1.1l2 3.5 1.2.3c.9.2 1.5 1 1.5 1.9v2.8c0 .6-.4 1-1 1H3.8c-.6 0-1-.4-1-1z" fill="#DFE5F3" ${ks}/><path d="M9 10.6l1.4-2.5c.2-.3.5-.5.9-.5h3.3c.4 0 .7.2.9.5l1.4 2.5z" fill="#FFFBF5" ${ks}/><circle cx="7.4" cy="16.8" r="2.1" fill="#FFFBF5" ${ks}/><circle cx="16.6" cy="16.8" r="2.1" fill="#FFFBF5" ${ks}/>`+fs(12,13.4),
  cycle:`<path d="M12 2.6C9 6.8 5.4 10.2 5.4 14.4a6.6 6.6 0 0 0 13.2 0C18.6 10.2 15 6.8 12 2.6z" fill="#F6CFC9" ${ks}/><path d="M8.6 12.6c.3-1.3 1-2.4 1.8-3.2" stroke="#FFFFFF" stroke-width="1.3" fill="none" stroke-linecap="round"/>`+fs(12,15.4),
  organisation:`<rect x="3.6" y="3.4" width="14.4" height="17.4" rx="2.6" fill="#D3E8EB" ${ks}/><path d="M7 3.4v17.4" ${ks}/><rect x="17.2" y="5.4" width="3.4" height="3.4" rx="1" fill="#F6CFC9" ${ks}/><rect x="17.2" y="10.4" width="3.4" height="3.4" rx="1" fill="#F7EBC9" ${ks}/><rect x="17.2" y="15.4" width="3.4" height="3.4" rx="1" fill="#D9ECE4" ${ks}/>`+fs(12.4,12.6),
- afaire:`<circle cx="12" cy="12.6" r="8" fill="#FFFBF5" ${ks}/><path d="M12 5.8v1.3M18.8 12.6h-1.3M5.2 12.6h1.3" ${ks}/>`+fs(12,13.4),
+ afaire:`<path d="M4.6 5.6a1.6 1.6 0 0 1 1.6-1.6h11.6a1.6 1.6 0 0 1 1.6 1.6v10.2l-4.8 4.8H6.2a1.6 1.6 0 0 1-1.6-1.6z" fill="#E6DCF5" ${ks}/><path d="M19.4 15.8h-3.2a1.6 1.6 0 0 0-1.6 1.6v3.2" fill="#D3C4EE" ${ks}/><rect x="7.4" y="6.8" width="3.6" height="3.6" rx="1" fill="#FFFBF5" ${ks}/><path d="M8.2 8.6l.9.9 1.6-1.8" fill="none" stroke="#B38FD9" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.8 8.6h3.8" ${ks}/>`+fs(11.6,14.6),
  urgent:`<path d="M5 6.6l2.6-2.1M19 6.6l-2.6-2.1" ${ks} stroke-width="1.6"/><circle cx="12" cy="13.2" r="7.6" fill="#F6CFC9" ${ks}/>`+fs(12,13.8,'todo'),
  rappels:`<path d="M6.5 16v-5a5.5 5.5 0 0 1 11 0v5l1.4 1.8H5.1z" fill="#F8DDB8" ${ks}/><path d="M10.4 20.2a1.7 1.7 0 0 0 3.2 0" fill="none" ${ks}/>`+fs(12,12.6),
  calendrier:`<rect x="4" y="5.5" width="16" height="15" rx="3.5" fill="#FFFBF5" ${ks}/><path d="M4 9.6V9a3.5 3.5 0 0 1 3.5-3.5h9A3.5 3.5 0 0 1 20 9v.6z" fill="#F6CFC9" ${ks}/><path d="M8.5 3.6v3M15.5 3.6v3" ${ks}/>`+fs(12,15),
@@ -469,7 +469,7 @@ const CHAR={
  coloration:m=>`<path d="M30 20 40 4" stroke="${SK}" stroke-width="4.6" stroke-linecap="round"/><path d="M30 20 40 4" stroke="#C4A8C9" stroke-width="2.2" stroke-linecap="round"/><path d="M7 21h34c0 12-7.6 21-17 21S7 33 7 21z" fill="#F6DFC4" ${o}/><path d="M10 21h28" stroke="#B98468" stroke-width="2.6" stroke-linecap="round"/>${face(24,30.5,m)}`,
  pile:m=>`<rect x="9" y="34" width="30" height="9" rx="3" fill="#E3EDD9" ${o}/><rect x="12" y="25" width="26" height="9" rx="3" fill="#F7EBC9" ${o}/><rect x="8" y="5" width="32" height="20" rx="4" fill="#E9DDF0" ${o}/><path d="M12.5 5v20" ${o}/>${face(26,15,m)}`,
  serviette:m=>`<path d="M24 13c9 0 14 7.4 14 15.6 0 8-5 13.4-14 13.4s-14-5.4-14-13.4C10 20.4 15 13 24 13z" fill="#FFF3E6" ${o}/><path d="M10.4 30.4c4.4 2.2 22.8 2.2 27.2 0l-.4 4.4c-1 4.8-5.6 7.2-13.2 7.2s-12.2-2.4-13.2-7.2z" fill="#F6CFC9" ${o}/><path d="M22 31.6l3 2.4" stroke="#E8A6A6" stroke-width="1.4" stroke-linecap="round"/><path d="M13 19c.4-6.4 5-10.4 11-10.4S34.6 12.6 35 19c-3.2-2.2-7-3.2-11-3.2S16.2 16.8 13 19z" fill="#F6CFC9" ${o}/><circle cx="24" cy="8" r="3" fill="#F6CFC9" ${o}/>${face(24,24.6,m)}`,
- boucles:m=>`<g fill="#C9A07E" ${o}><circle cx="13" cy="14" r="6.4"/><circle cx="24" cy="9.6" r="7"/><circle cx="35" cy="14" r="6.4"/><circle cx="9.4" cy="23.6" r="6"/><circle cx="38.6" cy="23.6" r="6"/><circle cx="9.8" cy="33.4" r="5.8"/><circle cx="38.2" cy="33.4" r="5.8"/><circle cx="13.4" cy="41.4" r="5"/><circle cx="34.6" cy="41.4" r="5"/></g><path d="M12 22h24v18H12z" fill="#C9A07E"/><circle cx="24" cy="22" r="13" fill="#C9A07E"/><circle cx="24" cy="27" r="10" fill="#FFF3E6" ${o}/><path d="M13.6 24.4c.4-6 4.6-9.6 10.4-9.6s10 3.6 10.4 9.6c-2.6-2.6-5.4-3.6-8.4-3.6-1.2 0-2.4.2-3.4.6-.8-1.4-1.4-2.4-1.4-3.6-.8 1.6-1.6 2.8-2.4 3.8-1.8.6-3.6 1.6-5.2 2.8z" fill="#C9A07E" ${o}/><path d="M20 6.6c1.6-1 3.4-1.4 5.2-1.2" stroke="#E3C3A0" stroke-width="1.8" fill="none" stroke-linecap="round"/>${face(24,29,m)}`,
+ boucles:m=>`<g fill="#C9A07E" ${o}><circle cx="13" cy="14" r="6.4"/><circle cx="24" cy="9.4" r="7"/><circle cx="35" cy="14" r="6.4"/><circle cx="8.8" cy="23.6" r="6"/><circle cx="39.2" cy="23.6" r="6"/><circle cx="9.4" cy="33.6" r="5.8"/><circle cx="38.6" cy="33.6" r="5.8"/><circle cx="13" cy="41.4" r="5"/><circle cx="35" cy="41.4" r="5"/></g><circle cx="24" cy="21" r="13.4" fill="#C9A07E"/><circle cx="24" cy="28" r="12.6" fill="#FFF3E6" ${o}/><path d="M11.6 25.4c.4-7.4 5.4-12 12.4-12s12 4.6 12.4 12c-3-3.2-6.4-4.4-10-4.4-1.4 0-2.8.2-4 .8-1-1.6-1.6-2.8-1.6-4.2-1 1.8-2 3.2-3 4.4-2.2.8-4.4 2-6.2 3.4z" fill="#C9A07E" ${o}/><path d="M20 6.4c1.6-1 3.4-1.4 5.2-1.2" stroke="#E3C3A0" stroke-width="1.8" fill="none" stroke-linecap="round"/>${face(24,31,m)}`,
  visage:m=>CHAR.pandaskin(m),cheveux:m=>CHAR.boucles(m),corps:m=>CHAR.serviette(m),mains:m=>CHAR.patte(m),complements:m=>CHAR.gelule(m),sportm:m=>CHAR.halt2(m),journal:m=>CHAR.carnetouvert(m),lecture:m=>CHAR.livre(m),recette:m=>CHAR.toque(m),suggestions:m=>CHAR.idee(m)};
 const charSvg=(k,m,s=54)=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" aria-hidden="true" style="overflow:visible">${(CHAR[k]||CHAR.rangement)(m)}</svg>`;
 
@@ -711,7 +711,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
   const nIn=c.next?diff(TODAY,c.next):null;
   const row=(l,v)=>`<div class="row" style="padding:2px 0"><span class="meta" style="font-size:13.5px">${l}</span><span style="font-size:14px;font-weight:600">${v}</span></div>`;
   let info='';
-  if(c.next){info+=row('Prochaines règles',nIn>0?`dans ${nIn} j · ${short(c.next)}`:nIn===0?'aujourd’hui':`prévues il y a ${-nIn} j`);
+  if(c.next){info+=row('Prochaines règles',`${cdTxt(nIn)} <span style="color:#D9536F;font-weight:600;margin-left:4px">${short(c.next)}</span>`);
     info+=row('Fenêtre fertile estimée',shortR(c.fa,c.fb));info+=row('Cycle moyen',c.avgC+' j'+(c.hasC?'':' (par défaut)'));info+=row('Règles',c.avgP+' j');}
   const top=`<div class="cycard"><div style="display:flex;align-items:center;justify-content:center;gap:16px">${ring}<div><div class="hf" style="font-size:28px">${c.day?'Jour '+c.day:'—'}</div><div class="meta">${c.day?'du cycle':''}</div></div></div>${info?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">${info}</div>`:''}</div>`;
   const m0=pd(S.cyMon+'-01'),st=monday(fk(m0));let cells='';
@@ -797,7 +797,7 @@ function taskCard(it){
 }
 
 function tasksHTML(){
-  const F=[['afaire','À faire','#CEC3BB'],['urgent','Urgent','#E8A094'],['rappels','Rappels','#EEB87D']];
+  const F=[['afaire','À faire','#C9B8E8'],['urgent','Urgent','#E8A094'],['rappels','Rappels','#EEB87D']];
   const inF=(it,f)=>f==='rappels'?it.kind==='rappel':(it.kind==='tache'&&it.folder===f);
   const folders=F.map(f=>{const n=S.items.filter(it=>inF(it,f[0])&&!it.done&&visible(it)).length;return `<button class="fold mx ${S.folder===f[0]?'on':''}" style="--d:${f[2]}" data-a="folder" data-v="${f[0]}" aria-label="${f[1]} : ${n}">${kw(f[0],46)}<span class="l">${f[1]} <span class="fc ${f[0]==='urgent'&&n?'hot':''}">${n}</span></span></button>`}).join('');
   let list=S.items.filter(it=>inF(it,S.folder)&&visible(it)),body='',top='';
@@ -1415,7 +1415,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='30';
+const APP_VER='31';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
