@@ -1,5 +1,5 @@
 /* Service worker : l'agenda fonctionne hors ligne. Les données passent par Supabase (non interceptées). */
-var CACHE='agenda-v21';
+var CACHE='agenda-v22';
 var SHELL=['./','./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png'];
 var LIB='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 var FONTS='https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap';
