@@ -663,7 +663,7 @@ function calHTML(){
     const bands=S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&it.due>=bStart&&bStart<=wEnd).sort((a,b)=>a.due<b.due?-1:1).slice(0,2);
     for(let i=0;i<7;i++){const k=add(mon,i),list=onDate(k);
       const bars=bands.map((it,j)=>k>=bStart&&k<=it.due?`<i class="wbar ${k===bStart?'s':''} ${k===it.due?'e':''}" style="--d:${TH[it.theme].d};bottom:${6+j*6}px"></i>`:'').join('');
-      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" style="${adBg(list,38)}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}</div>`}
+      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" style="${adBg(list,16)}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}</div>`}
     body=`<div class="week">${cols}</div>${legend()}`;
   } else {
     const start=monday(fk(new Date(selD.getFullYear(),selD.getMonth(),1)));let cells='';
@@ -1304,7 +1304,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='16';
+const APP_VER='17';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
