@@ -150,9 +150,10 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .din{font:inherit;font-size:16px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:14px;height:46px;padding:0 14px;min-width:150px;text-align:center;-webkit-appearance:none;appearance:none}
 .din::-webkit-date-and-time-value{text-align:center}
 .dots{display:inline-flex;gap:4px;align-items:center}
-.dots i{width:8px;height:8px;border-radius:4px;background:color-mix(in srgb,var(--ink) 10%,var(--card))}
-.dots i.f{background:color-mix(in srgb,var(--d) 75%,var(--ink))}
-.dots.hot i.f{background:var(--acc)}
+.dots{padding:3px 6px;border-radius:8px;background:#FFFBF5}
+.dots i{width:8px;height:8px;border-radius:4px;background:#FFFBF5;box-shadow:inset 0 0 0 1.4px #C9BBB3}
+.dots i.f{background:#8C7A73;box-shadow:none}
+.dots.hot i.f{background:#D9534A}
 .procr{flex:none;display:grid;place-items:center;width:40px;height:34px;padding:0;border-radius:13px;font-size:0;font-weight:500;color:var(--red);background:#F9E3DF;border:1px solid #EBB3AC}
 .undo{font-size:12px;color:var(--muted);text-decoration:underline}
 .task.u1,.task.u2,.task.u3{--d:#E8A094}
@@ -324,7 +325,7 @@ const K={
  perso:`<ellipse cx="8.6" cy="6.2" rx="2" ry="4.4" fill="#FFFBF5" ${ks}/><ellipse cx="15.4" cy="6.2" rx="2" ry="4.4" fill="#FFFBF5" ${ks}/><ellipse cx="8.6" cy="6.6" rx=".8" ry="2.6" fill="#F6CFC9"/><ellipse cx="15.4" cy="6.6" rx=".8" ry="2.6" fill="#F6CFC9"/><circle cx="12" cy="14.6" r="7" fill="#FFFBF5" ${ks}/>`+fs(12,15),
  proches:`<circle cx="8.4" cy="13.6" r="5.6" fill="#E9DDF0" ${ks}/><circle cx="16.6" cy="14.8" r="4.6" fill="#F6CFC9" ${ks}/><circle cx="6.6" cy="13.4" r=".85" fill="#4B3D3A"/><circle cx="10.2" cy="13.4" r=".85" fill="#4B3D3A"/><path d="M7.6 15.2q.8.7 1.6 0" stroke="#4B3D3A" stroke-width=".85" fill="none" stroke-linecap="round"/><circle cx="15.2" cy="14.6" r=".8" fill="#4B3D3A"/><circle cx="18.2" cy="14.6" r=".8" fill="#4B3D3A"/><path d="M16 16.2q.7.6 1.4 0" stroke="#4B3D3A" stroke-width=".8" fill="none" stroke-linecap="round"/>`,
  loisirs:`<g fill="#FFF3D6" ${ks}><circle cx="7.6" cy="8.2" r="2.4"/><circle cx="16.4" cy="8.2" r="2.4"/><circle cx="10.2" cy="6.2" r="2.5"/><circle cx="13.8" cy="6.2" r="2.5"/><circle cx="12" cy="8.4" r="2.4"/></g><path d="M5 9.6h14l-1.8 11.2H6.8z" fill="#FFFBF5" ${ks}/><path d="M8.2 9.8l.8 10.8M15.8 9.8l-.8 10.8" stroke="#E8A094" stroke-width="2.2"/><path d="M12 9.8v10.8" stroke="#E8A094" stroke-width="2.2"/><rect x="7.6" y="12.6" width="8.8" height="5" rx="2" fill="#FFFBF5" ${ks}/><path d="M5 9.6h14l-1.8 11.2H6.8z" fill="none" ${ks}/>`+fs(12,15),
- apprendre:`<path d="M6.4 11.6v4.6c0 1.9 2.5 3.4 5.6 3.4s5.6-1.5 5.6-3.4v-4.6" fill="#F1E8EF" ${ks}/><path d="M2.4 9.6 12 5l9.6 4.6L12 14.2z" fill="#C9B6C7" ${ks}/><path d="M20.2 10.4v5" ${ks}/><circle cx="20.2" cy="16" r="1.1" fill="#E8A094"/>`+fs(12,16.4),
+ apprendre:`<path d="M6.4 11.6v4.6c0 1.9 2.5 3.4 5.6 3.4s5.6-1.5 5.6-3.4v-4.6" fill="#FAE6D8" ${ks}/><path d="M2.4 9.6 12 5l9.6 4.6L12 14.2z" fill="#EDAE84" ${ks}/><path d="M20.2 10.4v5" ${ks}/><circle cx="20.2" cy="16" r="1.1" fill="#E8A094"/>`+fs(12,16.4),
  fruits:`<path d="M12 8c-1.6-1.3-4.8-1.1-6.1 1.3-1.3 2.4-.7 6.4 1.4 9 1.5 1.9 3.2 2.1 4.7 1.3 1.5.8 3.2.6 4.7-1.3 2.1-2.6 2.7-6.6 1.4-9C16.8 6.9 13.6 6.7 12 8z" fill="#F6CFC9" ${ks}/><path d="M12 8c0-2 .8-3.4 2.6-4.3" fill="none" ${ks}/><path d="M13 5.6c1.5-1 3-.8 3.6 0-1 1-2.3 1.2-3.6 0z" fill="#B4CA9C"/>`+fs(12,13.6),
  frais:`<path d="M7.5 7.2l2-3.7h5l2 3.7" fill="#A4BED3" ${ks}/><path d="M9.2 3.5h5.6v-1.2H9.2z" fill="#A4BED3" ${ks}/><path d="M7.5 7.2h9v12.8a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1z" fill="#FFFBF5" ${ks}/>`+fs(12,14.4),
  pain:`<path d="M5 11.5A4 4 0 0 1 7.5 4.5h9A4 4 0 0 1 19 11.5V19a1.2 1.2 0 0 1-1.2 1.2H6.2A1.2 1.2 0 0 1 5 19z" fill="#F8DDB8" ${ks}/><path d="M7.2 11.8h9.6v6.2H7.2z" fill="#FDF0DE"/>`+fs(12,14.4),
@@ -485,9 +486,9 @@ const ART={
 
 /* ---------- Données ---------- */
 const THEMES=[
- {id:'travail',name:'Travail',d:'#74B4D4'},{id:'sport',name:'Sport',d:'#EF9147'},{id:'sante',name:'Santé',d:'#B7B8C4'},
- {id:'menage',name:'Ménage',d:'#A6B27C'},{id:'courses',name:'Courses',d:'#EBB0B8'},{id:'admin',name:'Administratif',d:'#B5835E'},{id:'organisation',name:'Organisation',d:'#4E97A1'},{id:'voiture',name:'Voiture',d:'#7E8FB8'},{id:'perso',name:'Moi',d:'#C9466A'},
- {id:'proches',name:'Famille et amis',d:'#B78AB8'},{id:'loisirs',name:'Sorties',d:'#78AE7E'},{id:'apprendre',name:'Apprentissage',d:'#A892A6'}];
+ {id:'travail',name:'Travail',d:'#85C9E6'},{id:'sport',name:'Sport',d:'#F4A66A'},{id:'sante',name:'Santé',d:'#EE837E'},
+ {id:'menage',name:'Ménage',d:'#B2CB8E'},{id:'courses',name:'Courses',d:'#F3B3C3'},{id:'admin',name:'Administratif',d:'#D9A47E'},{id:'organisation',name:'Organisation',d:'#66B1B8'},{id:'voiture',name:'Voiture',d:'#919FD0'},{id:'perso',name:'Moi',d:'#E06F8D'},
+ {id:'proches',name:'Famille et amis',d:'#C49CD2'},{id:'loisirs',name:'Sorties',d:'#86C495'},{id:'apprendre',name:'Apprentissage',d:'#EDAE84'}];
 const TH=Object.fromEntries(THEMES.map(t=>[t.id,t]));
 const MENAGE=[['arrosage','Arrosage'],['nettoyage','Nettoyage'],['aspiration','Aspiration'],['rangement','Rangement'],['lessive','Lessive'],['vetements','Vêtements'],['trier','Trier'],['vaisselle','Vaisselle'],['poubelles','Poubelles'],['draps','Draps'],['sac','Courses'],['aerer','Aérer'],['sol','Sol'],['toilettes','Toilettes'],['douche','Douche'],['lavabo','Lavabo'],['miroir','Miroir'],['plumeau','Poussière'],['replanter','Replanter']];
 const CARE=[['visage','Visage','#EDA5B0'],['cheveux','Cheveux','#EEB87D'],['corps','Corps','#8EC6BD'],['mains','Mains et pieds','#F4C3C8'],['complements','Compléments','#F7EBC9'],['sportm','Sport','#EBAE6B'],['journal','Journaling','#D9C27E'],['lecture','Lecture','#C4A8C9'],['recette','Recettes','#F6CFC9']];
@@ -797,7 +798,7 @@ function taskCard(it){
 }
 
 function tasksHTML(){
-  const F=[['afaire','À faire','#C9B8E8'],['urgent','Urgent','#E8A094'],['rappels','Rappels','#EEB87D']];
+  const F=[['afaire','À faire','#DAD0EE'],['urgent','Urgent','#E8A094'],['rappels','Rappels','#EEB87D']];
   const inF=(it,f)=>f==='rappels'?it.kind==='rappel':(it.kind==='tache'&&it.folder===f);
   const folders=F.map(f=>{const n=S.items.filter(it=>inF(it,f[0])&&!it.done&&visible(it)).length;return `<button class="fold mx ${S.folder===f[0]?'on':''}" style="--d:${f[2]}" data-a="folder" data-v="${f[0]}" aria-label="${f[1]} : ${n}">${kw(f[0],46)}<span class="l">${f[1]} <span class="fc ${f[0]==='urgent'&&n?'hot':''}">${n}</span></span></button>`}).join('');
   let list=S.items.filter(it=>inF(it,S.folder)&&visible(it)),body='',top='';
@@ -1415,7 +1416,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='31';
+const APP_VER='32';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
