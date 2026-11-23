@@ -722,7 +722,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
     <div class="cycard"><div class="hf" style="font-size:17px;margin-bottom:10px">${dl}</div>
       <div class="lbl">Règles</div><div class="cyflows">${flows}</div>
       <div class="lbl" style="margin-top:12px">Humeur</div><div class="cymoods">${moods}</div>
-      <div class="lbl" style="margin-top:12px">Moment à deux</div><div class="cysex"><button class="cyf ${e.sex?'':'on'}" data-a="cysex" data-v="0">Non</button><button class="cyf ${e.sex?'on':''}" data-a="cysex" data-v="1"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0"/></svg>Oui</button></div>
+      <div class="lbl" style="margin-top:12px;line-height:0"><svg width="30" height="20" viewBox="0 0 36 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#F4C3C8" transform="translate(1 2) scale(.8)"/><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0" stroke="#FFFBF5" stroke-width="1.6" transform="translate(13 4) scale(.8)"/></svg></div><div class="cysex"><button class="cyf ${e.sex?'':'on'}" aria-label="Non" data-a="cysex" data-v="0"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="none" stroke="#CBBDB6" stroke-width="1.8"/></svg></button><button class="cyf ${e.sex?'on':''}" aria-label="Oui" data-a="cysex" data-v="1"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0"/></svg></button></div>
       <div class="lbl" style="margin-top:12px">Symptômes</div><div class="pick">${syms}</div></div>
     ${hist?`<div class="cycard"><div class="lbl" style="margin-bottom:4px">Dernières règles</div>${hist}</div>`:''}</div>`}
 const cdTxt=n=>n>0?'J-'+n:n===0?'Jour J':'+'+(-n)+' j';
@@ -1406,7 +1406,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='28';
+const APP_VER='29';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
