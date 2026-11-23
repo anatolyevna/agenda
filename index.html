@@ -30,14 +30,14 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .ghost{background:color-mix(in srgb,var(--ink) 6%,var(--bg))}
 .tint{background:color-mix(in srgb,var(--d) 31%,var(--card));color:color-mix(in srgb,var(--d) 50%,var(--ink))}
 .ic{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:11px}
-header{padding:calc(env(safe-area-inset-top) + 20px) 14px 10px 18px;display:flex;align-items:center;gap:10px}
-.dnum{font-family:Nunito,sans-serif;font-weight:800;font-size:56px;line-height:.9;letter-spacing:-1.5px}
+header{padding:calc(env(safe-area-inset-top) + 4px) 12px 8px 16px;display:flex;align-items:center;gap:8px}
+.dnum{font-family:Nunito,sans-serif;font-weight:800;font-size:62px;line-height:.9;letter-spacing:-1.5px}
 .dtxt{display:flex;flex-direction:column;line-height:1.15}
-.dtxt b{font-family:"Zen Maru Gothic",sans-serif;font-size:23px}
-.dtxt span{font-size:18px;color:var(--muted);font-weight:600;white-space:nowrap}
-.wx{flex:none;display:flex;align-items:center;gap:8px;padding:4px 14px 4px 4px;border-radius:20px;--d:#A4BED3;text-align:left}
-.wx small{display:block;font-size:11.5px;color:var(--muted);line-height:1.25;white-space:nowrap}
-.gear{flex:none;width:30px;height:30px;border-radius:15px;display:grid;place-items:center;opacity:.7}
+.dtxt b{font-family:"Zen Maru Gothic",sans-serif;font-size:25px}
+.dtxt span{font-size:19px;color:var(--muted);font-weight:600;white-space:nowrap}
+.wx{flex:none;display:flex;align-items:center;gap:6px;padding:5px 11px 5px 4px;border-radius:20px;--d:#A4BED3;text-align:left}
+.wx small{display:block;font-size:12px;color:var(--muted);line-height:1.25;white-space:nowrap}
+.gear{flex:none;width:26px;height:30px;border-radius:15px;display:grid;place-items:center;opacity:.7}
 main{flex:1;min-height:0;display:flex;flex-direction:column}
 .scroll{flex:1;min-height:0;overflow-y:auto;padding-top:4px;padding-bottom:150px;scrollbar-width:none}
 .scroll::-webkit-scrollbar,.hs::-webkit-scrollbar{display:none}
@@ -471,6 +471,11 @@ const CHAR={
  pile:m=>`<rect x="9" y="34" width="30" height="9" rx="3" fill="#E3EDD9" ${o}/><rect x="12" y="25" width="26" height="9" rx="3" fill="#F7EBC9" ${o}/><rect x="8" y="5" width="32" height="20" rx="4" fill="#E9DDF0" ${o}/><path d="M12.5 5v20" ${o}/>${face(26,15,m)}`,
  serviette:m=>`<path d="M24 13c9 0 14 7.4 14 15.6 0 8-5 13.4-14 13.4s-14-5.4-14-13.4C10 20.4 15 13 24 13z" fill="#FFF3E6" ${o}/><path d="M10.4 30.4c4.4 2.2 22.8 2.2 27.2 0l-.4 4.4c-1 4.8-5.6 7.2-13.2 7.2s-12.2-2.4-13.2-7.2z" fill="#F6CFC9" ${o}/><path d="M22 31.6l3 2.4" stroke="#E8A6A6" stroke-width="1.4" stroke-linecap="round"/><path d="M13 19c.4-6.4 5-10.4 11-10.4S34.6 12.6 35 19c-3.2-2.2-7-3.2-11-3.2S16.2 16.8 13 19z" fill="#F6CFC9" ${o}/><circle cx="24" cy="8" r="3" fill="#F6CFC9" ${o}/>${face(24,24.6,m)}`,
  boucles:m=>`<g fill="#C9A07E" ${o}><circle cx="13" cy="14" r="6.4"/><circle cx="24" cy="9.4" r="7"/><circle cx="35" cy="14" r="6.4"/><circle cx="8.8" cy="23.6" r="6"/><circle cx="39.2" cy="23.6" r="6"/><circle cx="9.4" cy="33.6" r="5.8"/><circle cx="38.6" cy="33.6" r="5.8"/><circle cx="13" cy="41.4" r="5"/><circle cx="35" cy="41.4" r="5"/></g><circle cx="24" cy="21" r="13.4" fill="#C9A07E"/><circle cx="24" cy="28" r="12.6" fill="#FFF3E6" ${o}/><path d="M11.6 25.4c.4-7.4 5.4-12 12.4-12s12 4.6 12.4 12c-3-3.2-6.4-4.4-10-4.4-1.4 0-2.8.2-4 .8-1-1.6-1.6-2.8-1.6-4.2-1 1.8-2 3.2-3 4.4-2.2.8-4.4 2-6.2 3.4z" fill="#C9A07E" ${o}/><path d="M20 6.4c1.6-1 3.4-1.4 5.2-1.2" stroke="#E3C3A0" stroke-width="1.8" fill="none" stroke-linecap="round"/>${face(24,31,m)}`,
+ matin:m=>`<g stroke="#E9B44C" stroke-width="1.6" stroke-linecap="round"><path d="M39.5 1.6v2.6M39.5 15.6v2.6M31.4 9.9h2.6M45 9.9h2.6M33.8 4.2l1.8 1.8M43.4 13.8l1.8 1.8M45.2 4.2l-1.8 1.8M35.6 13.8l-1.8 1.8"/></g><circle cx="39.5" cy="9.9" r="4" fill="#F7D98A" stroke="#E9B44C" stroke-width="1.2"/><rect x="11" y="15" width="22" height="7" rx="3" fill="#F6CFC9" ${o}/><rect x="8" y="21" width="28" height="20" rx="8" fill="#FFF3E6" ${o}/>${face(22,31,m)}`,
+ soir:m=>`<path d="M41.4 3.4a6.4 6.4 0 1 0 4.4 10.8 5.2 5.2 0 0 1-4.4-10.8z" fill="#F3E3A6" stroke="#D9C27E" stroke-width="1.2"/><path d="M33 4.4l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" fill="#A9C4E6"/><rect x="11" y="15" width="22" height="7" rx="3" fill="#A9C4E6" ${o}/><rect x="8" y="21" width="28" height="20" rx="8" fill="#E3EEF8" ${o}/>${face(22,31,m)}`,
+ masqueV:m=>`<path d="M24 6c10 0 16 7.4 16 18 0 11-7 18-16 18S8 35 8 24C8 13.4 14 6 24 6z" fill="#FBE1E6" stroke="#E8B0BC" stroke-width="1.6"/><ellipse cx="17" cy="22" rx="4" ry="3.2" fill="#FFF3E6" stroke="#E8B0BC" stroke-width="1.1"/><ellipse cx="31" cy="22" rx="4" ry="3.2" fill="#FFF3E6" stroke="#E8B0BC" stroke-width="1.1"/><ellipse cx="24" cy="32" rx="4.4" ry="3" fill="#FFF3E6" stroke="#E8B0BC" stroke-width="1.1"/><path d="M12 31c1 2 2.4 3.6 4 4.6M36 31c-1 2-2.4 3.6-4 4.6" stroke="#FFFFFF" stroke-width="1.4" fill="none" stroke-linecap="round"/>${m==='late'?`<path d="M15 22q2 1.4 4 0M29 22q2 1.4 4 0" stroke="${INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>`:`<path d="M15 22.6q2-2.6 4 0M29 22.6q2-2.6 4 0" stroke="${INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>`}<path d="M22.2 31.6q1.8 1.8 3.6 0" stroke="${INK}" stroke-width="1.5" fill="none" stroke-linecap="round"/>`,
+ huile2:m=>`<ellipse cx="24" cy="6.4" rx="4" ry="3.6" fill="#F4C3C8" ${o}/><rect x="20" y="9" width="8" height="5" rx="1.4" fill="#FFFBF5" ${o}/><path d="M16 18c0-2.4 2-4 4-4h8c2 0 4 1.6 4 4v20a5 5 0 0 1-5 5h-6a5 5 0 0 1-5-5z" fill="#F7D9A8" ${o}/><path d="M19 22v8" stroke="#FFFBF5" stroke-width="2" stroke-linecap="round" opacity=".8"/><path d="M38.6 20c-1.6 2.6-2.6 4.2-2.6 5.4a2.6 2.6 0 0 0 5.2 0c0-1.2-1-2.8-2.6-5.4z" fill="#F2C873" ${o} stroke-width="1.2"/>${face(24,32,m)}`,
+ ciseaux2:m=>`<path d="M16 6l14 24M32 6 18 30" stroke="#6B5A55" stroke-width="5" stroke-linecap="round"/><path d="M16 6l14 24M32 6 18 30" stroke="#E6ECF2" stroke-width="2.6" stroke-linecap="round"/><circle cx="15" cy="36.6" r="7" fill="#F6CFC9" ${o}/><circle cx="33" cy="36.6" r="7" fill="#F6CFC9" ${o}/><circle cx="15" cy="36.6" r="3" fill="#FFF7F2" ${o} stroke-width="1.2"/><circle cx="33" cy="36.6" r="3" fill="#FFF7F2" ${o} stroke-width="1.2"/><circle cx="24" cy="18" r="6.4" fill="#FFF3E6" ${o}/><g transform="translate(24 18.6) scale(.55) translate(-24 -18.6)">${face(24,18.6,m)}</g>`,
  visage:m=>CHAR.pandaskin(m),cheveux:m=>CHAR.boucles(m),corps:m=>CHAR.serviette(m),mains:m=>CHAR.patte(m),complements:m=>CHAR.gelule(m),sportm:m=>CHAR.halt2(m),journal:m=>CHAR.carnetouvert(m),lecture:m=>CHAR.livre(m),recette:m=>CHAR.toque(m),suggestions:m=>CHAR.idee(m)};
 const charSvg=(k,m,s=54)=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" aria-hidden="true" style="overflow:visible">${(CHAR[k]||CHAR.rangement)(m)}</svg>`;
 
@@ -497,7 +502,7 @@ const SUGG0=[['plantes','Ajouter de l’engrais'],['plantes','Vaporiser les feui
 function subFor(t){t=norm(t);return /feuille|poussi/.test(t)&&/poussi/.test(t)?'plumeau':/engrais|pots|nuisible|replant/.test(t)?'replanter':/vaporis|eau/.test(t)?'arrosage':/aer/.test(t)?'aerer':/sol/.test(t)?'sol':/toilette/.test(t)?'toilettes':/douche/.test(t)?'douche':/lavabo|robinet/.test(t)?'lavabo':/miroir|vitre/.test(t)?'miroir':/trier|donner|cote/.test(t)?'trier':/aspir/.test(t)?'aspiration':/arros/.test(t)?'arrosage':/vaisselle/.test(t)?'vaisselle':/poubelle/.test(t)?'poubelles':/courses/.test(t)?'sac':/repass/.test(t)?'fer':/drap|lit/.test(t)?'draps':/lessive|serviette|linge/.test(t)?'lessive':/vetement/.test(t)?'vetements':/rang|trier|coussin/.test(t)?'rangement':'nettoyage'}
 const MOMENTS=[['matin','Matin'],['midi','Midi'],['aprem','Après-midi'],['soir','Soir']];
 const DL=['L','M','M','J','V','S','D'];
-const CARESUB=[['serum','Soin'],['masque','Masque'],['guasha','Gua sha'],['brosse','Cheveux'],['huile','Huile'],['etirement','Étirements'],['massage','Massage'],['tube','Gommage'],['manucure','Manucure'],['pedicure','Pédicure'],['gelule','Complément'],['yoga','Yoga'],['course','Course'],['etir','Étirements'],['carnet','Journal'],['gratitude','Gratitude'],['potcrayons','Rangement'],['mousse','Nettoyage'],['pince','Sourcils'],['coloration','Repousse'],['ciseaux','Coupe'],['brossesec','Brossage à sec'],['rasoir','Épilation'],['livre','Lecture'],['toque','Recette']];
+const CARESUB=[['serum','Soin'],['masque','Masque'],['guasha','Gua sha'],['brosse','Cheveux'],['huile','Huile'],['etirement','Étirements'],['massage','Massage'],['tube','Gommage'],['manucure','Manucure'],['pedicure','Pédicure'],['gelule','Complément'],['yoga','Yoga'],['course','Course'],['etir','Étirements'],['carnet','Journal'],['gratitude','Gratitude'],['potcrayons','Rangement'],['matin','Matin'],['soir','Soir'],['masqueV','Masque'],['huile2','Huile'],['ciseaux2','Ciseaux'],['mousse','Nettoyage'],['pince','Sourcils'],['coloration','Repousse'],['ciseaux','Coupe'],['brossesec','Brossage à sec'],['rasoir','Épilation'],['livre','Lecture'],['toque','Recette']];
 const FREQS=[[1,'Chaque jour'],[2,'Tous les 2 j'],[3,'Tous les 3 j'],[4,'Tous les 4 j'],[7,'1×/semaine'],[14,'1×/2 semaines'],[21,'1×/3 semaines'],[30,'1×/mois']];
 const L=s=>s.split(',');
 const RAYONS=[
@@ -647,7 +652,8 @@ function migrate(){if(!S.flags)S.flags={};let ch=false;
       mk('corps','brossesec','Brossage à sec',by('corps',/massage|brossage/)),mk('corps','tube','Gommage',by('corps',/gommage/)),mk('corps','massage','Drainage lymphatique'),mk('corps','rasoir','Épilation')];
     S.care=S.care.filter(c=>!['visage','cheveux','corps','complements','recette'].includes(c.sec)).map(c=>c.sec==='journal'&&norm(c.title)==='triage'?{...c,title:'Rangement'}:c).concat(nv);
     S.flags.moi2=1;ch=true}
-  if(!S.flags.menage2){S.chores.forEach(c=>{if(c.zone==='vetements'&&norm(c.title)==='nettoyer')c.sub='lessive';if(c.zone==='sdb'&&norm(c.title)==='nettoyer')c.sub='sol';if(!c.paused&&st(c).left>=1){c.paused=true;delete c.next}else if(!c.paused&&!c.next){c.next=nextOf(c)}});S.flags.menage2=1;ch=true}if(!S.flags.aerer){if(!S.chores.some(c=>c.zone==='salon'&&norm(c.title)==='aerer'))S.chores.push({id:S.nextId++,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:TODAY,paused:true});S.flags.aerer=1;return true}return ch}
+  if(!S.flags.menage2){S.chores.forEach(c=>{if(c.zone==='vetements'&&norm(c.title)==='nettoyer')c.sub='lessive';if(c.zone==='sdb'&&norm(c.title)==='nettoyer')c.sub='sol';if(!c.paused&&st(c).left>=1){c.paused=true;delete c.next}else if(!c.paused&&!c.next){c.next=nextOf(c)}});S.flags.menage2=1;ch=true}if(!S.flags.moi3){const MAP={visage:{'routine du matin':'matin','routine du soir':'soir','masque':'masqueV','masque visage':'masqueV'},cheveux:{'huile':'huile2','huile sur les pointes':'huile2','couper les cheveux':'ciseaux2'}};S.care.forEach(c=>{const t=MAP[c.sec]&&MAP[c.sec][norm(c.title)];if(t)c.sub=t});S.flags.moi3=1;ch=true}
+  if(!S.flags.aerer){if(!S.chores.some(c=>c.zone==='salon'&&norm(c.title)==='aerer'))S.chores.push({id:S.nextId++,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:TODAY,paused:true});S.flags.aerer=1;return true}return ch}
 function housekeeping(){const t=nowMs();S.items=S.items.filter(it=>!(it.done&&it.doneAt&&t-it.doneAt>7*864e5));S.courses=S.courses.filter(c=>!(c.done&&c.doneDay&&c.doneDay<TODAY))}
 const REP=[['','Non'],['j','Chaque jour'],['n2','Tous les 2 j'],['n3','Tous les 3 j'],['s','Chaque semaine'],['n14','Toutes les 2 semaines'],['m','Chaque mois'],['a','Chaque année'],['d','Certains jours']];
 const repTxt=r=>({j:'chaque jour',n2:'tous les 2 j',n3:'tous les 3 j',s:'chaque semaine',n14:'toutes les 2 semaines',m:'chaque mois',a:'chaque année'})[r]||(typeof r==='string'&&r.startsWith('d:')?r.slice(2).split(',').map(x=>DL[+x]).join(' '):'');
@@ -888,7 +894,7 @@ function notifBlock(){const sup='serviceWorker' in navigator&&'PushManager' in w
   let right;
   if(!sup)right=`<span class="meta" style="text-align:right">Ouvre l’agenda depuis l’écran d’accueil</span>`;
   else if(Notification.permission==='denied')right=`<span class="meta" style="text-align:right">Refusées dans les Réglages de l’iPhone</span>`;
-  else if(S.pushOn)right=`<span style="display:flex;gap:8px;align-items:center"><span class="meta">Activées</span><button class="txt" style="height:36px;padding:0 14px;border-radius:999px;background:#E3EDD9;font-weight:700;font-size:13px" data-a="notiftest">Essai</button></span>`;
+  else if(S.pushOn)right=`<span class="meta">Activées</span>`;
   else right=`<button style="height:38px;padding:0 16px;border-radius:999px;background:var(--ink);color:var(--card);font-weight:700;font-size:14px" data-a="notif">Activer</button>`;
   return `<div class="row" style="padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:20px;gap:10px"><span style="font-size:15px;font-weight:600">Notifications</span>${right}</div>`}
 function b64u(s){const p='='.repeat((4-s.length%4)%4),b=atob((s+p).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(b,c=>c.charCodeAt(0))}
@@ -974,7 +980,7 @@ function sheetHTML(){
     if(kind==='rappel'||(kind==='tache'&&D.date)){const rp=D.repeat||'',isD=rp.startsWith('d:');
       inner+=`<div class="frow"><span class="lbl">Répéter</span><select class="din" data-in="drep">${REP.filter(r=>kind==='rappel'||r[0]!=='a').map(r=>`<option value="${r[0]}" ${(r[0]==='d'?isD:rp===r[0])?'selected':''}>${r[1]}</option>`).join('')}</select></div>`;
       if(isD){const ds=rp.slice(2).split(',').map(Number);inner+=`<div class="daypick">${DL.map((l,i)=>`<button class="${ds.includes(i)?'on':''}" data-a="drday" data-v="${i}">${l}</button>`).join('')}</div>`}}
-    inner+=`<button class="big" data-a="save">${isEdit?'Enregistrer':'Ajouter'}</button>${isEdit?`<div class="f2"><button class="adt" style="color:var(--ink)" data-a="dup">Dupliquer</button><button class="danger" style="height:44px" data-a="delitem">${D.chore?'Mettre de côté':'Supprimer'}</button></div>`:''}`;}
+    inner+=`<button class="big" data-a="save">${isEdit?'Enregistrer':'Ajouter'}</button>${isEdit&&kind==='tache'&&D.folder==='urgent'?`<button class="adt" style="color:var(--ink);width:100%" data-a="unurgent">Remettre dans À faire</button>`:''}${isEdit?`<div class="f2"><button class="adt" style="color:var(--ink)" data-a="dup">Dupliquer</button><button class="danger" style="height:44px" data-a="delitem">${D.chore?'Mettre de côté':'Supprimer'}</button></div>`:''}`;}
   }
   return `<div class="veil" data-a="close-veil"><div class="sheet ${S.sheet==='new'||S.sheet==='edit'?'ed':''}"><div class="row"><div class="hf" style="font-size:20px;min-width:0">${title}</div>${closeBtn}</div>${inner}</div></div>`;
 }
@@ -985,10 +991,10 @@ function renderInner(){
   const se=ph.querySelector('.scroll'),keep=se?se.scrollTop:0,key=S.tab+S.view+S.folder;
   const sh=ph.querySelector('.sheet'),keepSh=sh?sh.scrollTop:0;
   const city=S.city==='Ma position'?'Roubaix':S.city;
-  const tabs=[['cal','Calendrier','calendrier'],['taches','Tâches','taches'],['courses','Courses','courses'],['menage','Ménage','seau'],['moi','Rituels','perso'],['cycle','Cycle','cycle']];S._cy=cyStats();
+  const tabs=[['cal','Calendrier','calendrier'],['taches','Tâches','taches'],['courses','Courses','courses'],['menage','Ménage','seau'],['moi','Bien-être','perso'],['cycle','Cycle','cycle']];S._cy=cyStats();
   const content={cal:calHTML,taches:tasksHTML,courses:coursesHTML,menage:menageHTML,moi:moiHTML,cycle:cycleHTML}[S.tab]();
   ph.innerHTML=`<header><div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px"><span class="dnum">${pd(TODAY).getDate()}</span><span class="dtxt"><b>${DOWL[wd(TODAY)]}</b><span>${MON[pd(TODAY).getMonth()]} <i style="font-style:normal;font-size:9px;font-weight:500;opacity:.3">(${new Date(pd(TODAY).getFullYear(),pd(TODAY).getMonth()+1,0).getDate()})</i></span></span></div>
-    <button class="wx mx" data-a="meteo" aria-label="Météo de la semaine">${W?ART[W.icon](44):ART.nuage(44)}<div><span class="nf" style="font-size:22px;line-height:1">${W?Math.round(W.cur)+'°':'–'}</span><small>${esc(W?W.name:(S.city==='Ma position'?'Ma position':S.city))}</small><small>${W&&W.days[0]?Math.round(W.days[0].max)+'° / '+Math.round(W.days[0].min)+'°':''}</small></div></button>
+    <button class="wx mx" data-a="meteo" aria-label="Météo de la semaine">${W?ART[W.icon](48):ART.nuage(48)}<div><span class="nf" style="font-size:26px;line-height:1">${W?Math.round(W.cur)+'°':'–'}</span><small>${esc(W?W.name:(S.city==='Ma position'?'Ma position':S.city))}</small><small>${W&&W.days[0]?Math.round(W.days[0].max)+'° / '+Math.round(W.days[0].min)+'°':''}</small></div></button>
     <button class="gear" aria-label="Réglages" data-a="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button></header>
     <main>${content}</main>
     ${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
@@ -1106,6 +1112,7 @@ document.addEventListener('click',e=>{
     case 'dhour':{const D=S.D;D.start=D.start===null?(+v>0?9:null):D.start+0.25*(+v);if(D.start!==null){if(D.start<5)D.start=D.kind==='tache'?null:5;else if(D.start>23)D.start=23}S._sheetKeep=true;break}
     case 'ddur':S.D.dur=Math.min(12,Math.max(.25,S.D.dur+.25*(+v)));S._sheetKeep=true;break;
     case 'dallday':S.D.allDay=!S.D.allDay;if(S.D.allDay){S.D.start=null}else if(S.D.start===null){S.D.start=12}S._sheetKeep=true;break;
+    case 'unurgent':upd(S.D.id,x=>({...x,folder:'afaire',reports:0,urgentSince:undefined}));S.sheet='';S.folder='afaire';break;
     case 'dup':{const t=(document.getElementById('titre')||{}).value;const D={...S.D,title:t!==undefined?t:S.D.title};delete D.id;delete D.chore;delete D.link;S.D=D;S.sheet='new';S.backZone=0;S._focusNote=true;break}
     case 'drep':S.D.repeat=v==='d'?((S.D.repeat||'').startsWith('d:')?S.D.repeat:'d:'+wd(S.D.date||TODAY)):v;S._sheetKeep=true;break;
     case 'drday':{const ds=S.D.repeat.slice(2).split(',').map(Number),n=+v;let nd=ds.includes(n)?ds.filter(x=>x!==n):[...ds,n].sort();if(!nd.length)nd=[n];S.D.repeat='d:'+nd.join(',');S._sheetKeep=true;break}
@@ -1416,7 +1423,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='33';
+const APP_VER='35';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
