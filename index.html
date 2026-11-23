@@ -71,6 +71,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .wbar{position:absolute;left:-2px;right:-2px;height:5px;background:var(--d)}
 .wbar.s{left:5px;border-radius:3px 0 0 3px}.wbar.e{right:5px;border-radius:0 3px 3px 0}.wbar.s.e{border-radius:3px}
 .flg{position:absolute;top:-5px;right:-6px;width:17px;height:17px;border-radius:9px;background:var(--card);display:grid;place-items:center;box-shadow:0 1px 3px rgba(75,50,45,.18)}
+.adb{--p:42%;font-weight:700;padding-right:16px}
 .avant{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}
 .wcol small{font-size:10px;color:var(--muted)}
 .wcol b{font-weight:500;font-size:18px;line-height:1.1;margin-bottom:4px}
@@ -631,6 +632,7 @@ function st(c){const left=diff(TODAY,nextOf(c));const m=left<0?'late':left<=1?'t
   const when=left<0?`${-left} j de retard`:left===0?'aujourd’hui':left===1?'demain':`dans ${left} j`;return{left,m,when}}
 const worst=L0=>{const list=L0.filter(c=>!off(c));return list.some(c=>st(c).m==='late')?'late':list.some(c=>st(c).m==='todo')?'todo':'ok'};
 
+const adBg=(list,pct)=>{const cs=[...new Set(list.filter(it=>it.allDay).map(it=>TH[it.theme].d))].slice(0,3).map(d=>`color-mix(in srgb,${d} ${pct}%,var(--card))`);if(!cs.length)return '';if(cs.length===1)return `background:${cs[0]};`;const w=100/cs.length;return `background:linear-gradient(90deg,${cs.map((c,i)=>`${c} ${i*w}% ${(i+1)*w}%`).join(',')});`};
 const cdTxt=n=>n>0?'J-'+n:n===0?'Jour J':'+'+(-n)+' j';
 const cdCls=n=>n<0?'late':n<=1?'today':'';
 const FLAG='<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 4.5h11.5l-2.6 4 2.6 4H6z" fill="currentColor"/></svg>';
@@ -650,22 +652,22 @@ function calHTML(){
     const H=56,list=onDate(S.sel),allday=list.filter(it=>!timed(it)&&!it.due),tl=list.filter(timed);
     const av=avantOn(S.sel);
     if(av.length)dayTop+=`<div class="avant">${av.map(it=>{const n=diff(S.sel,it.due);return `<button class="chip mx" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="edit" data-id="${it.id}"><span class="ic tint">${kw(it.theme,20)}</span>${esc(it.title)}<span class="dchip ${cdCls(n)}" style="height:21px;font-size:12px;padding:0 7px;margin-left:2px">${cdTxt(n)}</span></button>`}).join('')}</div>`;
-    if(allday.length)dayTop+=`<div class="avant">${allday.map(it=>`<button class="chip mx" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}"><span class="ic tint">${kw(it.theme,20)}</span>${esc(it.title)}</button>`).join('')}</div>`;
+    if(allday.length)dayTop+=`<div class="avant">${allday.map(it=>`<button class="chip mx ${it.allDay?'adb':''}" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}"><span class="ic tint">${kw(it.theme,20)}</span>${esc(it.title)}</button>`).join('')}</div>`;
     let labs='';for(let h=5;h<=23;h++)labs+=`<span class="hl ${tl.some(it=>it.start<h+1&&(it.end||it.start+1)>h)?'':'soft'}" style="top:${(h-5)*H+10}px">${h} h</span>`;
     const lanes=[];const evs=tl.map(it=>{let l=0;while(lanes[l]!==undefined&&lanes[l]>it.start)l++;lanes[l]=it.end||it.start+1;return{it,l}});
     const cards=evs.map(o=>{const it=o.it,end=it.end||it.start+1,ov=evs.some(p=>p!==o&&p.it.start<end&&(p.it.end||p.it.start+1)>it.start);const top=(it.start-5)*H+10,h=Math.max((end-it.start)*H-4,46);
       return `<div class="ev mx" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}" style="cursor:pointer;--d:${TH[it.theme].d};top:${top}px;height:${h}px;left:calc(38px + ${ov?o.l*50:0}% - ${ov?o.l*19:0}px);width:calc(${ov?50:100}% - ${ov?19:38}px)"><span class="ic tint">${kw(it.theme,24)}</span><div style="min-width:0"><div class="ttl">${esc(it.title)}</div><div class="meta">${hm(it.start)} – ${hm(end)}</div>${it.note&&h>=70?`<div class="note" style="-webkit-line-clamp:${h>=110?2:1}">${esc(it.note)}</div>`:''}</div></div>`}).join('');
-    body+=`<div class="day" style="height:${18*H+20}px">${labs}${cards}</div>`;
+    body+=`<div class="day" style="height:${18*H+20}px;${adBg(list,22)}border-radius:18px">${labs}${cards}</div>`;
   } else if(S.view==='semaine'){
     let cols='';const wEnd=add(mon,6),bStart=TODAY>mon?TODAY:mon;
     const bands=S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&it.due>=bStart&&bStart<=wEnd).sort((a,b)=>a.due<b.due?-1:1).slice(0,2);
     for(let i=0;i<7;i++){const k=add(mon,i),list=onDate(k);
       const bars=bands.map((it,j)=>k>=bStart&&k<=it.due?`<i class="wbar ${k===bStart?'s':''} ${k===it.due?'e':''}" style="--d:${TH[it.theme].d};bottom:${5+j*7}px"></i>`:'').join('');
-      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}</div>`}
+      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" style="${adBg(list,38)}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}</div>`}
     body=`<div class="week">${cols}</div>${legend()}`;
   } else {
     const start=monday(fk(new Date(selD.getFullYear(),selD.getMonth(),1)));let cells='';
-    for(let i=0;i<42;i++){const k=add(start,i),d=pd(k),th=[...new Set(onDate(k).map(x=>x.theme))];cells+=`<button class="mc ${d.getMonth()!==selD.getMonth()?'out':''} ${k===TODAY?'today':''} ${wd(k)>=5?'we':''}" data-a="day" data-k="${k}"><b>${d.getDate()}</b><span class="mdots">${th.slice(0,6).map(t=>`<i style="--d:${TH[t].d}"></i>`).join('')}</span></button>`}
+    for(let i=0;i<42;i++){const k=add(start,i),d=pd(k),th=[...new Set(onDate(k).map(x=>x.theme))];cells+=`<button class="mc ${d.getMonth()!==selD.getMonth()?'out':''} ${k===TODAY?'today':''} ${wd(k)>=5?'we':''}" style="${adBg(onDate(k),40)}" data-a="day" data-k="${k}"><b>${d.getDate()}</b><span class="mdots">${th.slice(0,6).map(t=>`<i style="--d:${TH[t].d}"></i>`).join('')}</span></button>`}
     body=`<div style="padding:2px 16px 0"><div class="mgrid">${['L','M','M','J','V','S','D'].map((l,i)=>`<div class="mdow ${i>=5?'we':''}">${l}</div>`).join('')}</div><div class="mgrid">${cells}</div></div>${legend()}`;
   }
   const arrow=d=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
@@ -864,8 +866,9 @@ function sheetHTML(){
     if(kind==='tache'&&D.link!=='courses')inner+=`<div class="pick"><button class="txt ${!D.date&&!D.due?'on':''}" style="--d:#CEC3BB" data-a="dnodate" data-v="1">Sans date</button><button class="txt ${D.date?'on':''}" style="--d:#CEC3BB" data-a="dnodate" data-v="0">Avec date</button><button class="txt ${!D.date&&D.due?'on':''}" style="--d:#CEC3BB" data-a="dnodate" data-v="2">Avant le</button></div>`;
     if(kind==='tache'&&!D.date&&D.due)inner+=`<div class="daterow"><span class="lbl">Avant le</span>${din('ddue',D.due)}</div>`;
     if(D.date)inner+=`<div class="daterow"><span class="lbl">Date</span>${din('ddate',D.date)}</div>`;
-    if(kind!=='tache'||D.date)inner+=`<div class="daterow"><span class="lbl">${kind==='rdv'?'Début':'Heure'}</span>${tin('dhour',toHM(D.start))}</div>`;
-    if(kind==='rdv')inner+=`<div class="daterow"><span class="lbl">Fin</span>${tin('dend',toHM(Math.min(24,(D.start===null?12:D.start)+D.dur)))}</div>`;
+    if(kind==='rdv')inner+=`<div class="pick"><button class="txt ${D.allDay?'on':''}" style="--d:#CEC3BB" data-a="dallday">Journée entière</button></div>`;
+    if((kind!=='tache'||D.date)&&!(kind==='rdv'&&D.allDay))inner+=`<div class="daterow"><span class="lbl">${kind==='rdv'?'Début':'Heure'}</span>${tin('dhour',toHM(D.start))}</div>`;
+    if(kind==='rdv'&&!D.allDay)inner+=`<div class="daterow"><span class="lbl">Fin</span>${tin('dend',toHM(Math.min(24,(D.start===null?12:D.start)+D.dur)))}</div>`;
     if(kind==='rappel'||(kind==='tache'&&D.date)){const rp=D.repeat||'',isD=rp.startsWith('d:');inner+=`<div class="lbl">Répéter</div><div class="pick">${REP.filter(r=>kind==='rappel'||r[0]!=='a').map(r=>`<button class="txt ${(r[0]==='d'?isD:rp===r[0])?'on':''}" style="--d:#EEB87D" data-a="drep" data-v="${r[0]}">${r[1]}</button>`).join('')}</div>`;if(isD){const ds=rp.slice(2).split(',').map(Number);inner+=`<div class="daypick">${DL.map((l,i)=>`<button class="${ds.includes(i)?'on':''}" data-a="drday" data-v="${i}">${l}</button>`).join('')}</div>`}}
     inner+=`<button class="big" data-a="save">${isEdit?'Enregistrer':'Ajouter'}</button>${isEdit?`<button class="danger" data-a="delitem">${D.chore?'Mettre de côté':'Supprimer'}</button>`:''}`;}
   }
@@ -991,12 +994,13 @@ document.addEventListener('click',e=>{
       if(S.tab==='menage'||S.tab==='moi'){S.sheet='add';break}
       const kind=S.tab==='cal'?'rdv':S.folder==='rappels'?'rappel':'tache';
       S.D={kind,title:'',theme:S.tab==='taches'&&S.filter!=='all'?S.filter:'perso',date:kind==='tache'?null:(S.tab==='cal'?S.sel:TODAY),start:kind==='tache'?null:12,dur:1,repeat:'',folder:kind==='tache'?S.folder:undefined};S.sheet='new';break}
-    case 'edit':{const it=S.items.find(x=>x.id===id);if(!it)break;S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:timed(it)&&it.end?it.end-it.start:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link,note:it.note||'',due:it.due||null};S.sheet='edit';break}
+    case 'edit':{const it=S.items.find(x=>x.id===id);if(!it)break;S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:timed(it)&&it.end?it.end-it.start:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link,note:it.note||'',due:it.due||null,allDay:!!it.allDay};S.sheet='edit';break}
     case 'dtheme':S.D.theme=v;S._sheetKeep=true;break;
     case 'dnodate':if(v==='1'){S.D.date=null;S.D.start=null;S.D.due=null}else if(v==='2'){S.D.date=null;S.D.start=null;S.D.repeat='';if(!S.D.due){let n=(5-wd(TODAY)+7)%7;if(!n)n=7;S.D.due=add(TODAY,n)}}else{S.D.date=S.D.date||TODAY;S.D.due=null}S._sheetKeep=true;break;
     case 'ddate':S.D.date=add(S.D.date,+v);S._sheetKeep=true;break;
     case 'dhour':{const D=S.D;D.start=D.start===null?(+v>0?9:null):D.start+0.25*(+v);if(D.start!==null){if(D.start<5)D.start=D.kind==='tache'?null:5;else if(D.start>23)D.start=23}S._sheetKeep=true;break}
     case 'ddur':S.D.dur=Math.min(12,Math.max(.25,S.D.dur+.25*(+v)));S._sheetKeep=true;break;
+    case 'dallday':S.D.allDay=!S.D.allDay;if(S.D.allDay){S.D.start=null}else if(S.D.start===null){S.D.start=12}S._sheetKeep=true;break;
     case 'drep':S.D.repeat=v==='d'?((S.D.repeat||'').startsWith('d:')?S.D.repeat:'d:'+wd(S.D.date||TODAY)):v;S._sheetKeep=true;break;
     case 'drday':{const ds=S.D.repeat.slice(2).split(',').map(Number),n=+v;let nd=ds.includes(n)?ds.filter(x=>x!==n):[...ds,n].sort();if(!nd.length)nd=[n];S.D.repeat='d:'+nd.join(',');S._sheetKeep=true;break}
     case 'orga':{const c=S.chores.find(x=>x.link==='courses'),it=S.items.find(x=>!x.done&&(x.link==='courses'||(c&&x.chore===c.id)));
@@ -1011,7 +1015,7 @@ document.addEventListener('click',e=>{
     case 'lecchk':S.lectures=S.lectures.map(x=>x.id===id?{...x,done:!x.done}:x);S._sheetKeep=true;break;
     case 'lecdel':S.lectures=S.lectures.filter(x=>x.id!==id);S._sheetKeep=true;break;
     case 'save':{const D=S.D,t=(document.getElementById('titre')||{}).value||D.title;if(!t.trim())return;
-      const base={title:t.trim(),note:(D.note||'').trim()||undefined,due:!D.date&&D.due?D.due:undefined,theme:D.theme,date:D.date||null,start:D.start,end:D.start!==null?D.start+(D.kind==='rdv'?D.dur:.5):undefined};
+      const base={title:t.trim(),note:(D.note||'').trim()||undefined,due:!D.date&&D.due?D.due:undefined,theme:D.theme,date:D.date||null,start:D.start,end:D.start!==null?D.start+(D.kind==='rdv'?D.dur:.5):undefined,allDay:D.kind==='rdv'&&D.allDay?true:undefined};
       if(D.kind==='rappel'||D.kind==='tache')base.repeat=D.date?D.repeat:'';
       if(S.sheet==='edit')upd(D.id,x=>({...x,...base}));
       else S.items.push({id:S.nextId++,kind:D.kind,...base,...(D.chore?{chore:D.chore}:{}),...(D.link?{link:D.link}:{}),folder:D.kind==='tache'?D.folder:undefined,reports:0,urgentSince:D.folder==='urgent'?TODAY:undefined});
@@ -1300,7 +1304,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='14';
+const APP_VER='15';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
