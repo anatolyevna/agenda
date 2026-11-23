@@ -148,7 +148,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .daypick{display:flex;gap:5px}
 .daypick button{width:36px;height:36px;border-radius:18px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:13px}
 .daypick button.on{background:color-mix(in srgb,#EEB87D 40%,var(--card));border-color:color-mix(in srgb,#EEB87D 75%,var(--ink))}
-.cbw{display:flex;flex-direction:column;align-items:center;gap:6px;width:104px}
+.cbw{touch-action:manipulation;display:flex;flex-direction:column;align-items:center;gap:6px;width:104px}
 .cbw .when{font-size:11px;font-weight:700;color:color-mix(in srgb,var(--d) 60%,var(--ink));--d:var(--ok)}
 .cbw .when.todo{--d:var(--todo)}.cbw .when.late{--d:var(--late)}
 .cbw .lbl2{font-size:12.5px;font-weight:700;text-align:center;line-height:1.2}
@@ -345,7 +345,7 @@ const CHAR={
  aspiration:m=>`<path d="M30 24c3-4 4-10 3-15h6" fill="none" ${o}/><rect x="5" y="20" width="29" height="19" rx="9.5" fill="#E9DDF0" ${o}/><circle cx="11" cy="41" r="3" fill="#FFFBF5" ${o}/><circle cx="28" cy="41" r="3" fill="#FFFBF5" ${o}/>${face(19.5,29.5,m)}`,
  nettoyage:m=>`<path d="M20 11h9l7 4" fill="none" ${o}/><rect x="19" y="11" width="10" height="7" rx="2" fill="#FFFBF5" ${o}/><rect x="13" y="18" width="22" height="25" rx="7" fill="#D6E6F2" ${o}/><path d="M39 10h2M39 15h3" ${o}/>${face(24,31,m)}`,
  rangement:m=>`<rect x="8" y="19" width="32" height="22" rx="6" fill="#F3E2CC" ${o}/><rect x="6" y="12" width="36" height="9" rx="4" fill="#F8EBDA" ${o}/>${face(24,30.5,m)}`,
- lessive:m=>`<path d="M17 8l-9 5 3 8 4-2v20h18V19l4 2 3-8-9-5c-1 3-4 5-7 5s-6-2-7-5z" fill="#DCE8F4" ${o}/>${face(24,28,m)}`,
+ lessive:m=>`<rect x="8" y="5" width="32" height="38" rx="6" fill="#FFFBF5" ${o}/><path d="M8 13h32" ${o}/><circle cx="14" cy="9" r="1.6" fill="#A4BED3"/><circle cx="19" cy="9" r="1.6" fill="#F6CFC9"/><rect x="28" y="7.4" width="8" height="3.2" rx="1.2" fill="#E3EDD9" stroke="${SK}" stroke-width="1"/><circle cx="24" cy="28.5" r="11.5" fill="#DCEBF6" ${o}/><circle cx="24" cy="28.5" r="8.6" fill="none" stroke="#FFFFFF" stroke-width="1.4"/><path d="M15.4 33.6c3 1.8 5.8-.8 8.6 0s5.8 1.8 8.6 0" fill="none" stroke="#A4BED3" stroke-width="1.6" stroke-linecap="round"/>${face(24,26.5,m)}`,
  poubelles:m=>`<path d="M12 17h24l-3 24H15z" fill="#DDE7D3" ${o}/><rect x="9" y="11" width="30" height="6" rx="3" fill="#EEF3E8" ${o}/><path d="M21 11V8h6v3" fill="none" ${o}/>${face(24,28.5,m)}`,
  draps:m=>`<rect x="5" y="14" width="38" height="23" rx="11" fill="#F1E3F0" ${o}/><path d="M11 37l-3 4M37 37l3 4" ${o}/>${face(24,25.5,m)}`,
  serum:m=>`<path d="M21 10V6.5a3 3 0 0 1 6 0V10" fill="#F6CFC9" ${o}/><rect x="19" y="10" width="10" height="7" rx="2" fill="#FFFBF5" ${o}/><rect x="13" y="17" width="22" height="25" rx="9" fill="#FBE0DB" ${o}/>${face(24,30,m)}`,
@@ -563,7 +563,8 @@ function persist(){const state={};PKEYS.forEach(k=>{state[k]=S[k];const j=JSON.s
  if(window.sync)sync.schedule()}
 const nowMs=()=>Date.now();
 const visible=it=>!(it.done&&it.doneAt&&nowMs()-it.doneAt>864e5);
-function migrate(){if(!S.flags)S.flags={};if(!S.flags.aerer){if(!S.chores.some(c=>c.zone==='salon'&&norm(c.title)==='aerer'))S.chores.push({id:S.nextId++,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:TODAY,paused:true});S.flags.aerer=1;return true}return false}
+function migrate(){if(!S.flags)S.flags={};let ch=false;
+  if(!S.flags.menage2){S.chores.forEach(c=>{if(c.zone==='vetements'&&norm(c.title)==='nettoyer')c.sub='lessive';if(c.zone==='sdb'&&norm(c.title)==='nettoyer')c.sub='sol';if(!c.paused&&st(c).left>=1){c.paused=true;delete c.next}else if(!c.paused&&!c.next){c.next=nextOf(c)}});S.flags.menage2=1;ch=true}if(!S.flags.aerer){if(!S.chores.some(c=>c.zone==='salon'&&norm(c.title)==='aerer'))S.chores.push({id:S.nextId++,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:TODAY,paused:true});S.flags.aerer=1;return true}return ch}
 function housekeeping(){const t=nowMs();S.items=S.items.filter(it=>!(it.done&&it.doneAt&&t-it.doneAt>7*864e5));S.courses=S.courses.filter(c=>!(c.done&&c.doneDay&&c.doneDay<TODAY))}
 const REP=[['','Non'],['j','Chaque jour'],['s','Chaque semaine'],['m','Chaque mois'],['a','Chaque année']];
 const repTxt=r=>({j:'chaque jour',s:'chaque semaine',m:'chaque mois',a:'chaque année'})[r]||(typeof r==='string'?r:'');
@@ -654,8 +655,9 @@ function tasksHTML(){
   return `<div class="folders">${folders}</div>${top}<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:10px">${body}</div>`;
 }
 
-function charBubble(c,list){if(c.paused)return `<button class="cbw" style="opacity:.75" data-a="open" data-v="${list}" data-id="${c.id}"><span class="bubble cb" style="--d:#CEC3BB;width:80px;height:80px">${charSvg(c.sub,'late',48)}</span><span class="lbl2" style="color:var(--muted)">${esc(c.title)}</span></button>`;const s=st(c);
-  return `<button class="cbw" data-a="open" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m}">${charSvg(c.sub,s.m,58)}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
+function charBubble(c,list){const A=list==='chores'?'ctap':'open';if(c.paused)return `<button class="cbw" style="opacity:.75" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb" style="--d:#CEC3BB;width:80px;height:80px">${charSvg(c.sub,'late',48)}</span><span class="lbl2" style="color:var(--muted)">${esc(c.title)}</span></button>`;const s=st(c);
+  const bang=c.link==='courses'&&s.left<=0?`<span class="cnt" style="background:var(--acc);color:var(--card);left:-2px;right:auto;font-size:15px;font-weight:900">!</span>`:'';
+  return `<button class="cbw" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m} ${S.popChore===c.id?'pop':''}">${charSvg(c.sub,s.m,58)}${bang}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
 function menageHTML(){
   const zones=ZONES.map(([id,name])=>{const its=S.chores.filter(c=>c.zone===id),m=its.length?worst(its):'ok';
     return `<button class="cbw" style="width:108px" data-a="zone" data-v="${id}"><span class="bubble cb ${m}" style="width:98px;height:98px">${charSvg(id,m,62)}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
@@ -696,6 +698,11 @@ function catChips(){const r=RY[S.catRayon],mine=S.courses.filter(c=>c.rayon===r.
 
 function choreSheet(){
   const listName=S.sheetList,arr=S[listName],c=arr.find(x=>x.id===S.sheetId);if(!c)return['',''];
+  if(listName==='chores'){
+    const s2=st(c),t2=`<span style="display:flex;align-items:center;gap:10px"><span class="bubble cb ${c.paused?'':s2.m}" style="${c.paused?'--d:#CEC3BB;':''}width:56px;height:56px;border-width:2px">${charSvg(c.sub,c.paused?'late':s2.m,38)}</span>${esc(c.title)}</span>`;
+    if(c.paused)return[t2,`<button class="big" style="background:#7FA36A" data-a="unpause">Remettre dans ma liste</button><button class="danger" data-a="delchore">Supprimer</button>`];
+    return[t2,`<div class="daterow"><span class="lbl">Prévu pour</span><div style="display:flex;align-items:center;gap:10px"><button class="step ghost" aria-label="Plus tôt" data-a="nextd" data-v="-1">−</button><span class="nf" style="min-width:110px;text-align:center;font-size:16px">${short(nextOf(c))}</span><button class="step ghost" aria-label="Plus tard" data-a="nextd" data-v="1">+</button></div></div>${c.link==='courses'?'<button class="big" style="background:#E8A094" data-a="gocourses">Ouvrir la liste de courses</button>':''}<button class="big" style="background:#7FA36A" data-a="donec">C’est fait</button><button class="danger" data-a="delchore">Supprimer</button>`];
+  }
   if(c.paused){return[`<span style="display:flex;align-items:center;gap:10px"><span class="bubble cb" style="--d:#CEC3BB;width:56px;height:56px;border-width:2px">${charSvg(c.sub,'late',38)}</span>${esc(c.title)}</span>`,
     `<div class="lbl">Refaire</div><div class="pick">${FREQS.map(f=>`<button class="txt ${c.freq===f[0]?'on':''}" style="--d:#B4CA9C" data-a="setfreq" data-v="${f[0]}">${f[1]}</button>`).join('')}</div><button class="big" style="background:#7FA36A" data-a="unpause">Remettre dans ma liste</button><button class="danger" data-a="delchore">Supprimer</button>`]}
   const s=st(c),title=`<span style="display:flex;align-items:center;gap:10px"><span class="bubble cb ${s.m}" style="width:56px;height:56px;border-width:2px">${charSvg(c.sub,s.m,38)}</span>${esc(c.title)}</span>`;
@@ -753,7 +760,7 @@ function sheetHTML(){
     else inner+=`<div class="pick">${ZONES.map(z=>`<button class="${S.draftZone===z[0]?'on':''}" style="--d:#B4CA9C" data-a="dzone" data-v="${z[0]}">${charSvg(z[0],'ok',28)}${z[1]}</button>`).join('')}</div>`;
     const subs=kind==='chore'?MENAGE:CARESUB;
     inner+=`<div class="lbl">Dessin</div><div class="pick">${subs.map(m=>`<button class="${S.draftSub===m[0]?'on':''}" style="--d:#B4CA9C" data-a="sub" data-v="${m[0]}">${charSvg(m[0],'ok',28)}${m[1]}</button>`).join('')}</div>
-      <div class="lbl">Refaire</div><div class="pick">${FREQS.map(f=>`<button class="txt ${S.draftFreq===f[0]?'on':''}" style="--d:#B4CA9C" data-a="freq" data-v="${f[0]}">${f[1]}</button>`).join('')}</div>
+      ${kind==='moi'?`<div class="lbl">Refaire</div><div class="pick">${FREQS.map(f=>`<button class="txt ${S.draftFreq===f[0]?'on':''}" style="--d:#B4CA9C" data-a="freq" data-v="${f[0]}">${f[1]}</button>`).join('')}</div>`:''}
       <button class="big" data-a="confirm">Ajouter</button>`;
   } else {
     const D=S.D,kind=D.kind,isEdit=S.sheet==='edit';
@@ -844,7 +851,7 @@ document.addEventListener('click',e=>{
     case 'addzone':S.chores.push({id:S.nextId++,zone:S.zoneId,sub:subFor(v),title:v,freq:7,last:add(TODAY,-7),link:/courses/i.test(v)?'courses':undefined});S._sheetKeep=true;break;
     case 'goth':if(v==='menage'){S.tab='menage'}else if(v==='perso'){S.tab='moi'}else{S.tab='taches';S.folder='afaire';S.filter=v}break;
     case 'goitem':{e.stopPropagation&&e.stopPropagation();const it=S.items.find(x=>x.id===id);if(!it)break;if(it.kind==='tache'){S.tab='taches';S.folder=it.folder==='urgent'?'urgent':'afaire';S.filter='all'}else if(it.kind==='rappel'){S.tab='taches';S.folder='rappels';S.rTheme=it.theme}else{S.sel=it.date;S.view='jour';S._scrollTo=it.start}break}
-    case 'donec':{const c=cur();c.last=TODAY;delete c.next;S.sheet=S.sheetList==='care'?'sec':(c.zone?'zone':'');break}
+    case 'donec':{const c=cur();c.last=TODAY;delete c.next;if(S.sheetList==='chores'){c.paused=true;S.sheet=S.zoneId?'zone':'';break}S.sheet=S.sheetList==='care'?'sec':(c.zone?'zone':'');break}
     case 'setfreq':{const c=cur();c.freq=+v;delete c.days;delete c.next;S._sheetKeep=true;break}
     case 'mode':{const c=cur();if(v==='days'){c.days=c.days&&c.days.length?c.days:[wd(TODAY)]}else{delete c.days;c.freq=c.freq||1}delete c.next;S._sheetKeep=true;break}
     case 'dayt':{const c=cur(),n=+v;c.days=c.days.includes(n)?c.days.filter(x=>x!==n):[...c.days,n].sort();if(!c.days.length)c.days=[n];delete c.next;S._sheetKeep=true;break}
@@ -881,6 +888,9 @@ document.addEventListener('click',e=>{
       else S.items.push({id:S.nextId++,kind:D.kind,...base,folder:D.kind==='tache'?D.folder:undefined,reports:0,urgentSince:D.folder==='urgent'?TODAY:undefined});
       S.sheet='';break}
     case 'delitem':S.items=S.items.filter(x=>x.id!==S.D.id);S.sheet='';break;
+    case 'ctap':{const c=S.chores.find(x=>x.id===id);if(!c)break;
+      if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;S.sheet='chore';S.sheetList='chores';S.sheetId=id;break}
+      clearTimeout(S._tapT);S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;if(c.paused){c.paused=false;c.next=TODAY}else{c.last=TODAY;c.paused=true;delete c.next;S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},300);return}
     case 'pause':{const c=cur();c.paused=true;delete c.next;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
     case 'unpause':{const c=cur();c.paused=false;c.next=TODAY;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
     case 'delchore':{const L2=S.sheetList;S[L2]=S[L2].filter(x=>x.id!==S.sheetId);S.sheet=L2==='care'?'sec':(S.zoneId?'zone':'');break}
@@ -896,7 +906,7 @@ document.addEventListener('click',e=>{
     case 'sub':S.draftSub=v;break;
     case 'dsec':S.draftSec=v;break;
     case 'confirm':{const t=S.draft.trim();if(!t)return;const nid=S.nextId++;
-      if(S.tab==='menage')S.chores.push({id:nid,zone:S.draftZone||'salon',sub:S.draftSub,title:t,freq:S.draftFreq,last:TODAY});
+      if(S.tab==='menage')S.chores.push({id:nid,zone:S.draftZone||'salon',sub:S.draftSub,title:t,freq:1,last:TODAY,next:TODAY});
       else if(S.tab==='moi')S.care.push({id:nid,sec:S.draftSec,sub:S.draftSub,title:t,freq:S.draftFreq,last:TODAY});
       else if(S.tab==='cal')S.items.push({id:nid,kind:'rdv',theme:S.draftTheme,title:t,date:S.sel,start:S.draftHour,end:S.draftHour+1});
       else if(S.folder==='rappels')S.items.push({id:nid,kind:'rappel',theme:S.draftTheme,title:t,date:S.sel,start:S.draftHour,end:S.draftHour+.5});
