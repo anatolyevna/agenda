@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Agenda d'Alina</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -21,6 +21,9 @@ html,body{margin:0;background:var(--bg);color:var(--ink);height:100%;overscroll-
 body{position:fixed;inset:0;overflow:hidden}
 body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 input{-webkit-user-select:text;user-select:text}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+input,textarea,select{font-size:16px!important}
+.qx{position:absolute;right:8px;top:8px;width:32px;height:32px;border-radius:16px;background:color-mix(in srgb,var(--ink) 8%,var(--card));color:var(--muted);font-size:20px;line-height:1;display:none;place-items:center}.qx.on{display:grid}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
 .page{display:block}
 .phone{width:100%;max-width:760px;margin:0 auto;height:100vh;height:100dvh;background:var(--bg);position:relative;overflow:hidden;display:flex;flex-direction:column;font-family:Nunito,sans-serif}
@@ -910,7 +913,7 @@ function suggHTML(){
   if(!S.q.trim())return '';
   const mine=S.courses.filter(c=>!c.done).map(c=>norm(c.name));
   const all=[...HABS,...catAll().filter(x=>!HABS.some(h=>h.n===x.n))];const res=match(all,S.q).slice(0,7);
-  let h=res.map(x=>{const r=RY[x.r],has=mine.includes(norm(x.n));return `<button class="mx" style="--d:${r.d}" data-a="sugg" data-v="${esc(x.n)}" data-r="${x.r}"><span class="ic tint">${kw(x.r,26)}</span><span style="flex:1">${esc(x.n)}</span>${has?'<span class="meta">déjà dans la liste</span>':ico('courses',16)}</button>`}).join('');
+  let h=res.map(x=>{const r=RY[x.r],has=mine.includes(norm(x.n));return `<button class="mx" style="--d:${r.d}" data-a="sugg" data-v="${esc(x.n)}" data-r="${x.r}"><span class="ic tint">${prod({name:x.n,rayon:x.r},26)}</span><span style="flex:1">${esc(x.n)}</span>${has?'<span class="meta">déjà dans la liste</span>':ico('courses',16)}</button>`}).join('');
   if(!res.some(x=>norm(x.n)===norm(S.q.trim())))h+=`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:4px 2px"><span class="meta">« ${esc(S.q.trim())} » dans :</span>${RAYONS.map(r=>`<button class="ic tint" style="--d:${r.d};width:34px;height:34px;border-radius:12px" aria-label="${r.name}" data-a="newitem" data-r="${r.id}">${kw(r.id,30)}</button>`).join('')}</div>`;
   return h;
 }
@@ -921,7 +924,7 @@ function coursesHTML(){
   const inCart=S.courses.filter(c=>c.done);
   const cart=`<div class="cart" id="cartzone">${ART.panier}<div class="cartin">${inCart.map(c=>`<button class="mx" style="--d:${RY[c.rayon].d}" data-a="buy" data-id="${c.id}">${prod(c,22)}${c.qty>1?c.qty+' ':''}${esc(c.name)}</button>`).join('')}</div></div>`;
   const nCart=S.courses.filter(c=>c.done).length;
-  return `<button class="cartfab" id="cartfab" aria-label="Panier" data-a="tocart">${ART.panier.replace('width="74" height="66"','width="44" height="40"')}${nCart?`<em>${nCart}</em>`:''}</button><button class="orga" data-a="orga">${kw('calendrier',30)}Organiser</button><div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" value="${esc(S.q)}" placeholder="Commence à écrire" autocomplete="off"></div><div class="sugg" id="sugg">${suggHTML()}</div>
+  return `<button class="cartfab" id="cartfab" aria-label="Panier" data-a="tocart">${ART.panier.replace('width="74" height="66"','width="44" height="40"')}${nCart?`<em>${nCart}</em>`:''}</button><button class="orga" data-a="orga">${kw('calendrier',30)}Organiser</button><div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" value="${esc(S.q)}" placeholder="Commence à écrire" autocomplete="off"><button class="qx ${S.q?'on':''}" id="qx" aria-label="Fermer la recherche" data-a="qclear">×</button></div><div class="sugg" id="sugg">${suggHTML()}</div>
     <div class="rstrip hs">${strip}</div><div class="scroll" style="padding:0 20px 150px">${groups}${cart}</div>`;
 }
 function catChips(){const r=RY[S.catRayon],mine=S.courses.filter(c=>c.rayon===r.id&&!c.done).map(c=>c.name);
@@ -1074,7 +1077,7 @@ function renderInner(){
   const nt=document.getElementById('note');if(nt){if(S._focusNote){S._focusNote=false;setTimeout(()=>{nt.focus();nt.setSelectionRange(nt.value.length,nt.value.length)},50)}nt.addEventListener('input',e=>{if(S.D)S.D.note=e.target.value});nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px';nt.addEventListener('input',()=>{nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px'})}
   const inp=document.getElementById('titre');if(inp)inp.addEventListener('input',e=>{S.draft=e.target.value;if(S.D)S.D.title=e.target.value});
   const v=document.getElementById('ville');if(v)v.addEventListener('change',e=>{if(e.target.value.trim()){S.city=e.target.value.trim();W=null;render();loadWeather()}});
-  const q=document.getElementById('q');if(q){q.addEventListener('input',e=>{S.q=e.target.value;document.getElementById('sugg').innerHTML=suggHTML()});if(S._focusQ){q.focus();S._focusQ=false}}
+  const q=document.getElementById('q');if(q){q.addEventListener('input',e=>{S.q=e.target.value;document.getElementById('sugg').innerHTML=suggHTML();const x=document.getElementById('qx');if(x)x.classList.toggle('on',!!S.q)});if(S._focusQ){q.focus();S._focusQ=false}}
   const cq=document.getElementById('cq');if(cq){cq.addEventListener('input',e=>{S.cq=e.target.value;document.getElementById('catlist').innerHTML=catChips()});if(S._focusCq){cq.focus();cq.setSelectionRange(cq.value.length,cq.value.length);S._focusCq=false}}
 }
 function flyToCart(id){
@@ -1166,6 +1169,7 @@ document.addEventListener('click',e=>{
     case 'cat':{const ex=S.courses.find(c=>!c.done&&c.rayon===S.catRayon&&c.name===v);if(ex)S.courses=S.courses.filter(c=>c!==ex);else addCourse(v,S.catRayon);S._sheetKeep=true;break}
     case 'catnew':addCourse(S.cq.trim(),S.catRayon);S.cq='';S._sheetKeep=true;S._focusCq=true;break;
     case 'sugg':addCourse(v,el.dataset.r);S.q='';S._focusQ=true;break;
+    case 'qclear':S.q='';if(document.activeElement)document.activeElement.blur();window.scrollTo(0,0);break;
     case 'newitem':addCourse(S.q.trim(),el.dataset.r);S.q='';S._focusQ=true;break;
     case 'add':{S.draft='';if(S.tab==='moi'){S.draftSec=S.sheet==='sec'&&S.secId?S.secId:(S.draftSec||'visage');S.draftSub=pickList()[0][0]}else S.draftSub='arrosage';S.draftFreq=7;S.draftZone=S.zoneId||'salon';
       if(S.tab==='menage'||S.tab==='moi'){S.sheet='add';break}
@@ -1995,7 +1999,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='43';
+const APP_VER='44';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
