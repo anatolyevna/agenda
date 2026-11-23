@@ -963,7 +963,7 @@ function sheetHTML(){
     if(kind==='rappel'||(kind==='tache'&&D.date)){const rp=D.repeat||'',isD=rp.startsWith('d:');
       inner+=`<div class="frow"><span class="lbl">Répéter</span><select class="din" data-in="drep">${REP.filter(r=>kind==='rappel'||r[0]!=='a').map(r=>`<option value="${r[0]}" ${(r[0]==='d'?isD:rp===r[0])?'selected':''}>${r[1]}</option>`).join('')}</select></div>`;
       if(isD){const ds=rp.slice(2).split(',').map(Number);inner+=`<div class="daypick">${DL.map((l,i)=>`<button class="${ds.includes(i)?'on':''}" data-a="drday" data-v="${i}">${l}</button>`).join('')}</div>`}}
-    inner+=`<button class="big" data-a="save">${isEdit?'Enregistrer':'Ajouter'}</button>${isEdit?`<button class="danger" data-a="delitem">${D.chore?'Mettre de côté':'Supprimer'}</button>`:''}`;}
+    inner+=`<button class="big" data-a="save">${isEdit?'Enregistrer':'Ajouter'}</button>${isEdit?`<div class="f2"><button class="adt" style="color:var(--ink)" data-a="dup">Dupliquer</button><button class="danger" style="height:44px" data-a="delitem">${D.chore?'Mettre de côté':'Supprimer'}</button></div>`:''}`;}
   }
   return `<div class="veil" data-a="close-veil"><div class="sheet ${S.sheet==='new'||S.sheet==='edit'?'ed':''}"><div class="row"><div class="hf" style="font-size:20px;min-width:0">${title}</div>${closeBtn}</div>${inner}</div></div>`;
 }
@@ -992,7 +992,7 @@ function renderInner(){
   const nl=document.getElementById('newlec');if(nl){nl.addEventListener('input',e=>{S.lecDraft=e.target.value});nl.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.querySelector('[data-a="lecadd"]').click()}});if(S._focusLec){nl.focus();S._focusLec=false}}
   const rf=document.getElementById('recfile');if(rf)rf.addEventListener('change',async e=>{const f=e.target.files&&e.target.files[0];if(!f)return;let d;try{d=await compressImg(f)}catch(er){return}
     const r=S.recettes.find(x=>x.id===S.recId);if(!r)return;const pid='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),old=r.photo;IMG[pid]=d;IDB.put(pid,d).catch(()=>{});r.photo=pid;render();sync.pushImg(pid);if(old){sync.delImg(old);IDB.del(old).catch(()=>{})}});
-  const nt=document.getElementById('note');if(nt){nt.addEventListener('input',e=>{if(S.D)S.D.note=e.target.value});nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px';nt.addEventListener('input',()=>{nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px'})}
+  const nt=document.getElementById('note');if(nt){if(S._focusNote){S._focusNote=false;setTimeout(()=>{nt.focus();nt.setSelectionRange(nt.value.length,nt.value.length)},50)}nt.addEventListener('input',e=>{if(S.D)S.D.note=e.target.value});nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px';nt.addEventListener('input',()=>{nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px'})}
   const inp=document.getElementById('titre');if(inp)inp.addEventListener('input',e=>{S.draft=e.target.value;if(S.D)S.D.title=e.target.value});
   const v=document.getElementById('ville');if(v)v.addEventListener('change',e=>{if(e.target.value.trim()){S.city=e.target.value.trim();W=null;render();loadWeather()}});
   const q=document.getElementById('q');if(q){q.addEventListener('input',e=>{S.q=e.target.value;document.getElementById('sugg').innerHTML=suggHTML()});if(S._focusQ){q.focus();S._focusQ=false}}
@@ -1095,6 +1095,7 @@ document.addEventListener('click',e=>{
     case 'dhour':{const D=S.D;D.start=D.start===null?(+v>0?9:null):D.start+0.25*(+v);if(D.start!==null){if(D.start<5)D.start=D.kind==='tache'?null:5;else if(D.start>23)D.start=23}S._sheetKeep=true;break}
     case 'ddur':S.D.dur=Math.min(12,Math.max(.25,S.D.dur+.25*(+v)));S._sheetKeep=true;break;
     case 'dallday':S.D.allDay=!S.D.allDay;if(S.D.allDay){S.D.start=null}else if(S.D.start===null){S.D.start=12}S._sheetKeep=true;break;
+    case 'dup':{const t=(document.getElementById('titre')||{}).value;const D={...S.D,title:t!==undefined?t:S.D.title};delete D.id;delete D.chore;delete D.link;S.D=D;S.sheet='new';S.backZone=0;S._focusNote=true;break}
     case 'drep':S.D.repeat=v==='d'?((S.D.repeat||'').startsWith('d:')?S.D.repeat:'d:'+wd(S.D.date||TODAY)):v;S._sheetKeep=true;break;
     case 'drday':{const ds=S.D.repeat.slice(2).split(',').map(Number),n=+v;let nd=ds.includes(n)?ds.filter(x=>x!==n):[...ds,n].sort();if(!nd.length)nd=[n];S.D.repeat='d:'+nd.join(',');S._sheetKeep=true;break}
     case 'orga':{const c=S.chores.find(x=>x.link==='courses'),it=S.items.find(x=>!x.done&&(x.link==='courses'||(c&&x.chore===c.id)));
@@ -1404,7 +1405,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='26';
+const APP_VER='27';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
