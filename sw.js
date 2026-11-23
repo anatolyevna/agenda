@@ -1,5 +1,5 @@
 /* Service worker : l'agenda fonctionne hors ligne. Les données passent par Supabase (non interceptées). */
-var CACHE='agenda-v5';
+var CACHE='agenda-v6';
 var SHELL=['./','./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png'];
 var LIB='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 var FONTS='https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap';
@@ -16,10 +16,11 @@ function fromCache(){return caches.match('./index.html',{ignoreSearch:true}).the
 self.addEventListener('fetch',function(e){
   var r=e.request,u=new URL(r.url);
   if(r.method!=='GET')return;
+  if(u.pathname.endsWith('/version.json'))return;
   if(u.hostname.endsWith('supabase.co')||u.hostname.endsWith('open-meteo.com'))return;
   var same=u.origin===self.location.origin;
   if(same&&(r.mode==='navigate'||u.pathname.endsWith('/index.html'))){
-    var net=fetch(r).then(function(res){if(res&&res.ok){var cp=res.clone();caches.open(CACHE).then(function(c){c.put('./index.html',cp)})}return res});
+    var net=fetch(r.url,{cache:'no-store',credentials:'same-origin'}).then(function(res){if(res&&res.ok){var cp=res.clone();caches.open(CACHE).then(function(c){c.put('./index.html',cp)})}return res});
     var slow=new Promise(function(ok){setTimeout(function(){fromCache().then(ok)},4000)});
     e.respondWith(Promise.race([net.catch(function(){return fromCache().then(function(h){return h||Promise.reject()})}),slow.then(function(h){return h||net})]).then(function(res){return res||net}));
     return}

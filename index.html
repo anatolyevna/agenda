@@ -1151,7 +1151,17 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+const APP_VER='6';
+if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
+function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
+  fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
+    if(!v||String(v.v)===APP_VER)return;
+    if(sessionStorage.getItem('ag_upd')===String(v.v))return;sessionStorage.setItem('ag_upd',String(v.v));
+    const go=()=>location.reload();
+    if(navigator.serviceWorker&&navigator.serviceWorker.getRegistration)navigator.serviceWorker.getRegistration().then(r=>r?r.update().catch(()=>{}):0).finally(()=>setTimeout(go,300));else go();
+  }).catch(()=>{})}
+window.addEventListener('load',checkUpdate);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkUpdate()});
 </script>
 </body>
 </html>
