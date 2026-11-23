@@ -51,6 +51,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .ttl{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .meta{font-size:12px;color:var(--muted)}
 /* Légende (petites bulles, sans titre) */
+.lgn{position:absolute;top:-4px;right:-3px;min-width:12px;height:12px;padding:0 3px;border-radius:6px;background:var(--card);color:var(--muted);font-size:8px;font-weight:700;line-height:12px;text-align:center;box-shadow:0 1px 2px rgba(75,50,45,.15)}
 .leg{display:flex;flex-wrap:wrap;gap:8px 6px;padding:14px 16px 0}
 .leg button{display:inline-flex;align-items:center;gap:4px;height:30px;padding:0 9px 0 2px;border-radius:999px;font-size:9.5px;font-weight:600;color:var(--muted)}
 .leg .ic{width:26px;height:26px;border-radius:13px}
@@ -756,7 +757,7 @@ const cdCls=n=>n<0?'late':n<=1?'today':'';
 const FLAG='<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 4.5h11.5l-2.6 4 2.6 4H6z" fill="currentColor"/></svg>';
 const avantOn=k=>S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&(k<=it.due?k>=TODAY:k===TODAY));
 const onDate=k=>S.items.filter(it=>(it.date===k||(!it.date&&it.due===k))&&visible(it)).sort((a,b)=>(timed(a)?a.start:-1)-(timed(b)?b.start:-1));
-const legend=()=>`<div class="leg">${THEMES.map(t=>{const n=S.items.filter(it=>it.kind==='tache'&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="mx" style="--d:${t.d};position:relative" data-a="goth" data-v="${t.id}"><span class="ic tint">${kw(t.id,22)}</span>${t.name}${n?`<span class="fbn" style="top:-6px;right:-5px">${n}</span>`:''}</button>`}).join('')}</div>`;
+const legend=()=>`<div class="leg">${THEMES.map(t=>{const n=S.items.filter(it=>it.kind==='tache'&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="mx" style="--d:${t.d};position:relative" data-a="goth" data-v="${t.id}"><span class="ic tint">${kw(t.id,22)}</span>${t.name}${n?`<span class="lgn">${n}</span>`:''}</button>`}).join('')}</div>`;
 
 function calHTML(){
   const views=[['jour','Jour'],['semaine','Semaine'],['mois','Mois']].map(v=>`<button class="${S.view===v[0]?'on':''}" data-a="view" data-v="${v[0]}">${v[1]}</button>`).join('');
@@ -1003,7 +1004,7 @@ function renderInner(){
   const city=S.city==='Ma position'?'Roubaix':S.city;
   const tabs=[['cal','Calendrier','calendrier'],['taches','Tâches','taches'],['courses','Courses','courses'],['menage','Ménage','seau'],['moi','Bien-être','perso'],['cycle','Cycle','cycle']];S._cy=cyStats();
   const content={cal:calHTML,taches:tasksHTML,courses:coursesHTML,menage:menageHTML,moi:moiHTML,cycle:cycleHTML}[S.tab]();
-  ph.innerHTML=`<header><div style="flex:none;display:flex;align-items:center;gap:10px"><span class="dnum">${pd(TODAY).getDate()}</span><span class="dtxt"><b>${DOWL[wd(TODAY)]}</b><span>${MON[pd(TODAY).getMonth()]} <i style="font-style:normal;font-size:9px;font-weight:500;opacity:.3">(${new Date(pd(TODAY).getFullYear(),pd(TODAY).getMonth()+1,0).getDate()})</i></span></span></div>
+  ph.innerHTML=`<header><div style="flex:none;display:flex;align-items:center;gap:10px;margin-right:14px"><span class="dnum">${pd(TODAY).getDate()}</span><span class="dtxt"><b>${DOWL[wd(TODAY)]}</b><span>${MON[pd(TODAY).getMonth()]} <i style="font-style:normal;font-size:9px;font-weight:500;opacity:.3">(${new Date(pd(TODAY).getFullYear(),pd(TODAY).getMonth()+1,0).getDate()})</i></span></span></div>
     <button class="wx mx" data-a="meteo" aria-label="Météo de la semaine">${W?ART[W.icon](48):ART.nuage(48)}<div><span class="nf" style="font-size:26px;line-height:1">${W?Math.round(W.cur)+'°':'–'}</span><small>${esc(W?W.name:(S.city==='Ma position'?'Ma position':S.city))}</small><small>${W&&W.days[0]?Math.round(W.days[0].max)+'° / '+Math.round(W.days[0].min)+'°':''}</small></div></button>
     <button class="gear" aria-label="Réglages" data-a="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button></header>
     <main>${content}</main>
@@ -1435,7 +1436,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='38';
+const APP_VER='39';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
