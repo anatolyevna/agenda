@@ -463,7 +463,13 @@ const CHAR={
  panda:m=>`<circle cx="13" cy="12" r="5" fill="#7C6A63"/><circle cx="35" cy="12" r="5" fill="#7C6A63"/><circle cx="24" cy="24" r="14.5" fill="#FFFBF5" ${o}/><ellipse cx="18" cy="23" rx="3.8" ry="4.4" fill="#DDD3CE" transform="rotate(25 18 23)"/><ellipse cx="30" cy="23" rx="3.8" ry="4.4" fill="#DDD3CE" transform="rotate(-25 30 23)"/><rect x="13" y="33" width="22" height="12" rx="2.5" fill="#D9C27E" ${o}/><path d="M24 33v12" ${o}/>${face(24,24.5,m)}`,
  huile:m=>`<rect x="20" y="6" width="8" height="9" rx="2" fill="#E7D6A8" ${o}/><circle cx="24" cy="29" r="14" fill="#F7EBC9" ${o}/>${face(24,29.5,m)}`,
  etirement:m=>`<path d="M15 23L9 10M33 23l6-13" fill="none" ${o}/><ellipse cx="24" cy="30" rx="14" ry="12.5" fill="#D9ECE4" ${o}/><path d="M18 42l-2 3M30 42l2 3" ${o}/>${face(24,29.5,m)}`,
- massage:m=>`<path d="M13 41V21a3 3 0 0 1 6 0v-6a3 3 0 0 1 6 0v3a3 3 0 0 1 6 0v4a3 3 0 0 1 6 0v8c0 6-4 11-10 11z" fill="#FBE0DB" ${o}/>${face(25,32,m)}`,
+ massage:m=>`
+ <path d="M26 32.4h10.4c2 0 3.4 1.4 3.4 3.2s-1.4 3.2-3.4 3.2H26z" fill="#FFF3E6" ${o}/>
+ <path d="M21 11.4c7.4 0 11.4 5.6 11.4 12.6 0 8-5 13-11.4 13S9.6 32 9.6 24c0-7 4-12.6 11.4-12.6z" fill="#FFF3E6" ${o}/>
+ ${face(19.6,24.4,m)}
+ <path d="M29.4 29c1.6.6 2.8 1.6 3.6 3" stroke="#6B5A55" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+ <circle cx="34.2" cy="32.6" r="2.4" fill="#FBE0DB" ${o}/>
+ ${true?`<path d="M33.6 27.6q2.6-1.4 5.2 0M35.4 24.4q2.6-1.4 5.2 0" stroke="#8FB7D6" stroke-width="1.5" fill="none" stroke-linecap="round"/>`:''}`,
  manucure:m=>`<rect x="18" y="5" width="12" height="15" rx="3" fill="#F6CFC9" ${o}/><rect x="11" y="19" width="26" height="24" rx="9" fill="#F4C3C8" ${o}/>${face(24,31,m)}`,
  pedicure:m=>`<path d="M17 43c-6 0-8-5-7-10 1-6 4-9 4-15 0-4 3-7 7-7s6 3 6 7c0 5-3 8-2 12s5 6 4 9-6 4-12 4z" fill="#FBE7D6" ${o}/><circle cx="31" cy="10" r="2.4" fill="#FBE7D6" ${o}/><circle cx="35.5" cy="14.5" r="2.1" fill="#FBE7D6" ${o}/><circle cx="37.5" cy="20" r="1.9" fill="#FBE7D6" ${o}/>${face(19.5,29,m)}`,
 /* ancien */ visage_old:m=>`<circle cx="24" cy="8.5" r="5.5" fill="#8C6A5E" ${o}/><circle cx="24" cy="27" r="17" fill="#8C6A5E" ${o}/><ellipse cx="24" cy="29.5" rx="13" ry="13.5" fill="#FBE7D6" ${o}/><path d="M12 27c0-6 5-10.5 12-10.5S36 21 36 27c0 8.5-5 14-12 14s-12-5.5-12-14z" fill="#FFFFFF" stroke="${SK}" stroke-width="1.2" stroke-opacity=".5"/>${face(24,29.5,m)}`,
@@ -1952,7 +1958,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='41';
+const APP_VER='42';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
