@@ -397,7 +397,7 @@ function face(x,y,m){const st=`stroke="${INK}" stroke-width="1.7" fill="none" st
 const o=`stroke="${SK}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"`;
 const CHAR={
  vaisselle:m=>`<circle cx="24" cy="25" r="17" fill="#FFFBF5" ${o}/><circle cx="24" cy="25" r="11.5" fill="#EAF2F6" stroke="${SK}" stroke-opacity=".35" stroke-width="1.4"/>${m==='ok'?`<circle cx="40" cy="9" r="3" fill="#FFFBF5" ${o} stroke-width="1.2"/><circle cx="44" cy="15" r="1.8" fill="#FFFBF5" ${o} stroke-width="1.1"/>`:''}${face(24,25,m)}`,
- arrosage:m=>`<path d="M31 25l9-9M37 13l5 5" fill="none" ${o}/><path d="M14 20a6.5 6.5 0 0 1 13 0" fill="none" ${o}/><rect x="8" y="19" width="25" height="22" rx="7" fill="#CFE3D2" ${o}/>${m==='ok'?`<path d="M44 21v2M41 24v2" ${o} stroke="#A4BED3"/>`:''}${face(20.5,30,m)}`,
+ arrosage:m=>`<path d="M31 25l9-9M37 13l5 5" fill="none" ${o}/><path d="M14 20a6.5 6.5 0 0 1 13 0" fill="none" ${o}/><rect x="8" y="19" width="25" height="22" rx="7" fill="#CFE3D2" ${o}/><g fill="#A4BED3"><path d="M44.6 19.4c-.8 1.3-1.3 2.1-1.3 2.8a1.3 1.3 0 0 0 2.6 0c0-.7-.5-1.5-1.3-2.8z"/><path d="M41.6 24.6c-.8 1.3-1.3 2.1-1.3 2.8a1.3 1.3 0 0 0 2.6 0c0-.7-.5-1.5-1.3-2.8z"/><path d="M46 26.4c-.7 1.1-1.1 1.8-1.1 2.4a1.1 1.1 0 0 0 2.2 0c0-.6-.4-1.3-1.1-2.4z"/><path d="M43 31c-.6 1-1 1.6-1 2.1a1 1 0 0 0 2 0c0-.5-.4-1.1-1-2.1z"/></g>${face(20.5,30,m)}`,
  aspiration:m=>`<path d="M30 24c3-4 4-10 3-15h6" fill="none" ${o}/><rect x="5" y="20" width="29" height="19" rx="9.5" fill="#E9DDF0" ${o}/><circle cx="11" cy="41" r="3" fill="#FFFBF5" ${o}/><circle cx="28" cy="41" r="3" fill="#FFFBF5" ${o}/>${face(19.5,29.5,m)}`,
  nettoyage:m=>`<path d="M20 11h9l7 4" fill="none" ${o}/><rect x="19" y="11" width="10" height="7" rx="2" fill="#FFFBF5" ${o}/><rect x="13" y="18" width="22" height="25" rx="7" fill="#D6E6F2" ${o}/><path d="M39 10h2M39 15h3" ${o}/>${face(24,31,m)}`,
  rangement:m=>`<rect x="8" y="19" width="32" height="22" rx="6" fill="#F3E2CC" ${o}/><rect x="6" y="12" width="36" height="9" rx="4" fill="#F8EBDA" ${o}/>${face(24,30.5,m)}`,
@@ -636,6 +636,7 @@ function persist(){const state={};PKEYS.forEach(k=>{state[k]=S[k];const j=JSON.s
 const nowMs=()=>Date.now();
 const visible=it=>!(it.done&&it.doneAt&&nowMs()-it.doneAt>864e5);
 function migrate(){if(!S.flags)S.flags={};let ch=false;
+  if(!S.flags.plantes1){S.chores.forEach(c=>{if(c.zone==='plantes'&&/donner de l.eau/i.test(c.title)){c.title='Arroser les plantes';S.items.forEach(it=>{if(it.chore===c.id)it.title='Arroser les plantes'})}});S.flags.plantes1=1;ch=true}
   if(!S.flags.courses1){S.items.forEach(it=>{if(it.link==='courses')it.theme='courses'});S.flags.courses1=1;ch=true}
   if(S.flags.menage2&&!S.flags.menage3){S.chores.forEach(c=>{if(!c.paused&&!choreItem(c))activateChore(c,c.next&&c.next>TODAY?c.next:TODAY)});S.flags.menage3=1;ch=true}
   if(!S.flags.moi2){const by=(sec,re)=>S.care.find(c=>c.sec===sec&&re.test(norm(c.title)));
@@ -683,6 +684,13 @@ function moodSvg(k,s=34){const m=MOODS.find(x=>x[0]===k)||MOODS[0],I='#4B3D3A',s
     triste:eyesDot+flat+`<path d="M16.6 13.2c-.6 1-1 1.6-1 2.1a1 1 0 0 0 2 0c0-.5-.4-1.1-1-2.1z" fill="#A4BED3"/>`,irritable:`<path d="M8 12.6l2.2-.9M16 12.6l-2.2-.9" ${st}/>`+`<path d="M10.8 15.6q1.2-.8 2.4 0" ${st}/>`+`<ellipse cx="7" cy="14.6" rx="2" ry="1.3" fill="#EDA5B0" opacity=".85"/><ellipse cx="17" cy="14.6" rx="2" ry="1.3" fill="#EDA5B0" opacity=".85"/>`+`<path d="M18.2 6.6c.6-.9 1.8-.9 2.2 0M19 4.6c.4-.6 1.2-.6 1.5 0" fill="none" stroke="#C9B9AE" stroke-width=".8" stroke-linecap="round"/>`,
     anxieuse:eyesDot+`<path d="M10 15.6q.7-.8 1.4 0t1.4 0 1.4 0" ${st}/>`+`<path d="M17.4 8.4c-.5.8-.8 1.3-.8 1.7a.8.8 0 0 0 1.6 0c0-.4-.3-.9-.8-1.7z" fill="#A4BED3"/>`}[m[0]];
   return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8.6" fill="${m[2]}" stroke="#6B5A55" stroke-width="1.2"/>${f}</svg>`}
+const MOODC={sereine:'#E6CF84',joyeuse:'#F2B872',energique:'#EF9A5C',confiante:'#D3A285',caline:'#E8899B',sensible:'#C3A6DA',fatiguee:'#9DB6D8',triste:'#7FA3CC',irritable:'#DB7D86',anxieuse:'#97C394',stressee:'#AE93CF',brouillard:'#B5ADA6'};
+function moodRing(){const D=S.cycle.days||{},cnt={};Object.keys(D).forEach(k=>{if(k.slice(0,7)===S.cyMon)(D[k].mood||[]).forEach(x=>cnt[x]=(cnt[x]||0)+1)});
+  const L=MOODS.filter(m=>cnt[m[0]]).map(m=>[m[0],m[1],cnt[m[0]]]).sort((a,b)=>b[2]-a[2]),tot=L.reduce((a,b)=>a+b[2],0);if(!tot)return '';
+  const R=46,C=2*Math.PI*R;let off=0;const arcs=L.map(([id,,n])=>{const len=C*n/tot,g=L.length>1?2.2:0,seg=`<circle cx="60" cy="60" r="${R}" fill="none" stroke="${MOODC[id]}" stroke-width="16" stroke-dasharray="${Math.max(.1,len-g).toFixed(2)} ${C.toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 60 60)"/>`;off+=len;return seg}).join('');
+  const m0=pd(S.cyMon+'-01');
+  return `<div class="cycard"><div class="lbl" style="margin-bottom:8px">Humeurs · ${MON[m0.getMonth()]}</div><div style="display:flex;align-items:center;gap:14px"><div style="position:relative;width:120px;height:120px;flex:none"><svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">${arcs}</svg><div style="position:absolute;inset:0;display:grid;place-items:center">${moodSvg(L[0][0],44)}</div></div>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">${L.map(([id,l,n])=>`<div style="display:flex;align-items:center;gap:7px;font-size:13px"><i style="width:9px;height:9px;border-radius:5px;background:${MOODC[id]};flex:none"></i>${moodSvg(id,20)}<span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l}</span><b style="font-weight:700">${Math.round(n*100/tot)} %</b></div>`).join('')}</div></div></div>`}
 const dropSvg=(fill,s=12,op=1)=>`<svg width="${s}" height="${s*1.2}" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 .8C3.2 3.6 1.4 5.6 1.4 7.8a3.6 3.6 0 0 0 7.2 0C8.6 5.6 6.8 3.6 5 .8z" fill="${fill}" fill-opacity="${op}"/></svg>`;
 function cyStats(){const D=(S.cycle&&S.cycle.days)||{},ks=Object.keys(D).filter(k=>D[k]&&D[k].flow>0).sort(),per=[];
   ks.forEach(k=>{const l=per[per.length-1];if(l&&diff(l.end,k)<=2)l.end=k;else per.push({start:k,end:k})});
@@ -718,13 +726,14 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
   const moods=MOODS.map(([id,l])=>`<button class="cym ${(e.mood||[]).includes(id)?'on':''}" data-a="cymood" data-v="${id}">${moodSvg(id,36)}<span>${l}</span></button>`).join('');
   const syms=SYMS.map(x=>`<button class="txt ${(e.sym||[]).includes(x)?'on':''}" style="--d:#F4C3C8" data-a="cysym" data-v="${esc(x)}">${x}</button>`).join('');
   const hist=[...c.per].reverse().slice(0,6).map(p=>`<div class="row" style="padding:3px 0"><span style="font-size:14px;font-weight:600">${shortR(p.start,p.end)}</span><span class="meta">${diff(p.start,p.end)+1} j</span></div>`).join('');
-  return `<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:12px">${top}${cal}
+  return `<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:12px">${top}${cal}${moodRing()}
     <div class="cycard"><div class="hf" style="font-size:17px;margin-bottom:10px">${dl}</div>
       <div class="lbl">Règles</div><div class="cyflows">${flows}</div>
       <div class="lbl" style="margin-top:12px">Humeur</div><div class="cymoods">${moods}</div>
       <div class="lbl" style="margin-top:12px;line-height:0"><svg width="30" height="20" viewBox="0 0 36 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#F4C3C8" transform="translate(1 2) scale(.8)"/><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0" stroke="#FFFBF5" stroke-width="1.6" transform="translate(13 4) scale(.8)"/></svg></div><div class="cysex"><button class="cyf ${e.sex?'':'on'}" aria-label="Non" data-a="cysex" data-v="0"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="none" stroke="#CBBDB6" stroke-width="1.8"/></svg></button><button class="cyf ${e.sex?'on':''}" aria-label="Oui" data-a="cysex" data-v="1"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0"/></svg></button></div>
       <div class="lbl" style="margin-top:12px">Symptômes</div><div class="pick">${syms}</div></div>
     ${hist?`<div class="cycard"><div class="lbl" style="margin-bottom:4px">Dernières règles</div>${hist}</div>`:''}</div>`}
+const itIcon=(it,sz)=>{if(it.chore){const c=S.chores.find(x=>x.id===it.chore);if(c&&c.sub)return charSvg(c.sub,'ok',Math.round(sz*1.12))}return kw(it.theme,sz)};
 const cdTxt=n=>n>0?'J-'+n:n===0?'Jour J':'+'+(-n)+' j';
 const cdCls=n=>n<0?'late':n<=1?'today':'';
 const FLAG='<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 4.5h11.5l-2.6 4 2.6 4H6z" fill="currentColor"/></svg>';
@@ -743,19 +752,19 @@ function calHTML(){
   if(S.view==='jour'){
     const H=56,list=onDate(S.sel),allday=list.filter(it=>!timed(it)&&!it.due),tl=list.filter(timed);
     const av=avantOn(S.sel);
-    if(av.length)dayTop+=`<div class="avant">${av.map(it=>{const n=diff(S.sel,it.due);return `<button class="chip mx" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="edit" data-id="${it.id}"><span class="ic tint">${kw(it.theme,20)}</span>${esc(it.title)}<span class="dchip ${cdCls(n)}" style="height:21px;font-size:12px;padding:0 7px;margin-left:2px">${cdTxt(n)}</span></button>`}).join('')}</div>`;
-    if(allday.length)dayTop+=`<div class="avant">${allday.map(it=>`<button class="chip mx ${it.allDay?'adb':''}" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}"><span class="ic tint">${kw(it.theme,20)}</span>${esc(it.title)}</button>`).join('')}</div>`;
+    if(av.length)dayTop+=`<div class="avant">${av.map(it=>{const n=diff(S.sel,it.due);return `<button class="chip mx" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="edit" data-id="${it.id}"><span class="ic tint">${itIcon(it,20)}</span>${esc(it.title)}<span class="dchip ${cdCls(n)}" style="height:21px;font-size:12px;padding:0 7px;margin-left:2px">${cdTxt(n)}</span></button>`}).join('')}</div>`;
+    if(allday.length)dayTop+=`<div class="avant">${allday.map(it=>`<button class="chip mx ${it.allDay?'adb':''}" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}"><span class="ic tint">${itIcon(it,20)}</span>${esc(it.title)}</button>`).join('')}</div>`;
     let labs='';for(let h=5;h<=23;h++)labs+=`<span class="hl ${tl.some(it=>it.start<h+1&&(it.end||it.start+1)>h)?'':'soft'}" style="top:${(h-5)*H+10}px">${h} h</span>`;
     const lanes=[];const evs=tl.map(it=>{let l=0;while(lanes[l]!==undefined&&lanes[l]>it.start)l++;lanes[l]=it.end||it.start+1;return{it,l}});
     const cards=evs.map(o=>{const it=o.it,end=it.end||it.start+1,ov=evs.some(p=>p!==o&&p.it.start<end&&(p.it.end||p.it.start+1)>it.start);const top=(it.start-5)*H+10,h=Math.max((end-it.start)*H-4,46);
-      return `<div class="ev mx" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}" style="cursor:pointer;--d:${TH[it.theme].d};top:${top}px;height:${h}px;left:calc(38px + ${ov?o.l*50:0}% - ${ov?o.l*19:0}px);width:calc(${ov?50:100}% - ${ov?19:38}px)"><span class="ic tint">${kw(it.theme,24)}</span><div style="min-width:0"><div class="ttl">${esc(it.title)}</div><div class="meta">${hm(it.start)} – ${hm(end)}</div>${it.note&&h>=70?`<div class="note" style="-webkit-line-clamp:${h>=110?2:1}">${esc(it.note)}</div>`:''}</div></div>`}).join('');
+      return `<div class="ev mx" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}" style="cursor:pointer;--d:${TH[it.theme].d};top:${top}px;height:${h}px;left:calc(38px + ${ov?o.l*50:0}% - ${ov?o.l*19:0}px);width:calc(${ov?50:100}% - ${ov?19:38}px)"><span class="ic tint">${itIcon(it,24)}</span><div style="min-width:0"><div class="ttl">${esc(it.title)}</div><div class="meta">${hm(it.start)} – ${hm(end)}</div>${it.note&&h>=70?`<div class="note" style="-webkit-line-clamp:${h>=110?2:1}">${esc(it.note)}</div>`:''}</div></div>`}).join('');
     body+=`<div class="day" style="height:${18*H+20}px;${adBg(list,22)}border-radius:18px">${labs}${cards}</div>`;
   } else if(S.view==='semaine'){
     let cols='';const wEnd=add(mon,6),bStart=TODAY>mon?TODAY:mon;
     const bands=S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&it.due>=bStart&&bStart<=wEnd).sort((a,b)=>a.due<b.due?-1:1).slice(0,4);
     for(let i=0;i<7;i++){const k=add(mon,i),list=onDate(k);
       const dl=bands.filter(it=>k>=bStart&&k<=it.due),cm=cyMark(k),bars=dl.length||cm?`<span class="wdots">${dl.map(it=>`<i style="--d:${TH[it.theme].d}"></i>`).join('')}${cm?dropSvg('#EDA5B0',7,cm==='p'?1:.4):''}</span>`:'';
-      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" style="${adBg(list,16)}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${kw(it.theme,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}</div>`}
+      cols+=`<div class="wcol ${k===TODAY?'today':''} ${i>=5?'we':''}" style="${adBg(list,16)}" data-a="day" data-k="${k}" role="button"><small>${DOW[i]}</small><b>${pd(k).getDate()}</b>${list.map(it=>`<button class="ic tint" style="--d:${TH[it.theme].d}" aria-label="${esc(it.title)}" data-a="goitem" data-id="${it.id}">${itIcon(it,26)}${it.due&&!it.date?`<span class="flg" style="color:color-mix(in srgb,${TH[it.theme].d} 45%,#4B3D3A)">${FLAG}</span>`:''}</button>`).join('')}${bars}</div>`}
     body=`<div class="week">${cols}</div>${legend()}`;
   } else {
     const start=monday(fk(new Date(selD.getFullYear(),selD.getMonth(),1)));let cells='';
@@ -781,7 +790,7 @@ function taskCard(it){
   else if(urg)foot=`<span class="meta">depuis ${diff(it.urgentSince,TODAY)===0?'aujourd’hui':diff(it.urgentSince,TODAY)+' j'}</span><span class="bang" aria-label="Urgence ${lv}">${'!'.repeat(lv)}</span>`;
   else if(isTask&&it.folder==='afaire'){const r=Math.min(it.reports||0,S.seuil);foot=`<span class="dots ${r>=S.seuil-1?'hot':''}" aria-label="Reportée ${r} fois sur ${S.seuil}">${Array.from({length:S.seuil},(_,i)=>`<i class="${i<r?'f':''}"></i>`).join('')}</span><button class="procr" title="Procrastiner" aria-label="Procrastiner" data-a="procrast" data-id="${it.id}">${ART.escargot.replace('width="24" height="18"','width="30" height="22"')}</button>`}
   return `<div class="sw" data-sw="item" data-id="${it.id}">${swDel('item',it.id)}<div class="task mx swc ${it.done?'done':''} ${urg?'u'+lv:''} ${S.pop===it.id?'popcard':''}" style="--d:${t.d}">
-    <span class="ic tint tile" style="--d:${t.d}">${kw(it.theme,32)}</span>
+    <span class="ic tint tile" style="--d:${t.d}">${itIcon(it,32)}</span>
     <div class="body" data-a="edit" data-id="${it.id}" style="cursor:pointer"><div class="ttl">${esc(it.title)}</div>${it.note?`<div class="note">${esc(it.note)}</div>`:''}<div style="display:flex;gap:6px;flex-wrap:wrap">${date}${rep}</div></div>
     <button class="chk ${S.pop===it.id?'pop':''}" aria-label="${it.done?'Fait':'À faire'}" data-a="check" data-id="${it.id}">${faceChk(it.done,30)}${S.pop===it.id?burst(t.d):''}</button>
     ${foot?`<div class="foot">${foot}</div>`:''}</div></div>`;
@@ -1406,7 +1415,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='29';
+const APP_VER='30';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
