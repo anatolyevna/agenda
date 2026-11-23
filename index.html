@@ -730,7 +730,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
   const row=(l,v)=>`<div class="row" style="padding:2px 0"><span class="meta" style="font-size:13.5px">${l}</span><span style="font-size:14px;font-weight:600">${v}</span></div>`;
   let info='';
   if(c.next){info+=row('Prochaines règles',`${cdTxt(nIn)} <span style="color:#D9536F;font-weight:600;margin-left:4px">${short(c.next)}</span>`);
-    info+=row('Fenêtre fertile estimée',shortR(c.fa,c.fb));info+=row('Cycle moyen',c.avgC+' j'+(c.hasC?'':' (par défaut)'));info+=row('Règles',c.avgP+' j');}
+    info+=row('Fenêtre fertile estimée',shortR(c.fa,c.fb));info+=row('Cycle moyen',c.avgC+' j');info+=row('Règles',c.avgP+' j');}
   const top=`<div class="cycard"><div style="display:flex;align-items:center;justify-content:center;gap:16px">${ring}<div><div class="hf" style="font-size:28px">${c.day?'Jour '+c.day:'—'}</div><div class="meta">${c.day?'du cycle':''}</div></div></div>${info?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">${info}</div>`:''}</div>`;
   const m0=pd(S.cyMon+'-01'),st=monday(fk(m0));let cells='';
   for(let i=0;i<42;i++){const d=add(st,i),dd=pd(d);if(i>=35&&dd.getMonth()!==m0.getMonth())break;const mk=cyMark(d),f=c.fert.has(d)&&d>=TODAY,has=D[d]&&((D[d].mood||[]).length||(D[d].sym||[]).length||D[d].sex);
@@ -1010,7 +1010,7 @@ function renderInner(){
     <main>${content}</main>
     ${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
     <nav>${tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${kw(t[2],28)}${t[1]}</button>`).join('')}</nav>
-    ${S.undo?`<button class="undo" aria-label="Annuler" data-a="undo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7 4.5 11.5 9 16"/><path d="M5 11.5h9a5 5 0 0 1 0 10h-2"/></svg>${ART.escargot.replace('width="24" height="18"','width="26" height="20"')}</button>`:''}${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
+    ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
     ${sheetHTML()}`;
   const ns=ph.querySelector('.scroll');
   if(ns){if(S._scrollTo!==undefined){ns.scrollTop=Math.max(0,(S._scrollTo-6)*56);S._scrollTo=undefined}else if(S._key===key)ns.scrollTop=keep;else if(S.tab==='cal'&&S.view==='jour')ns.scrollTop=3*56;}
@@ -1047,6 +1047,10 @@ function stepCal(n){if(S.view==='jour')S.sel=add(S.sel,n);else if(S.view==='sema
 function addCourse(name,rayon){const ex=S.courses.find(c=>!c.done&&norm(c.name)===norm(name));if(ex)ex.qty++;else S.courses.push({id:S.nextId++,rayon,name,qty:1})}
 
 let toastTimer;
+(function keyboardFix(){const reset=()=>{if(document.activeElement&&/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName))return;window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0};
+  document.addEventListener('focusout',()=>setTimeout(reset,80));
+  if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>setTimeout(reset,80));
+  window.addEventListener('scroll',()=>{if(window.scrollY&&!(document.activeElement&&/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)))reset()},{passive:true})})();
 let SWO=null;
 (function swipeDel(){const OPEN=-104;let el=null,c=null,x0=0,y0=0,base=0,dir=0,dx=0;
   const close=w=>{if(!w)return;w.classList.remove('drag','open');const k=w.querySelector('.swc');if(k)k.style.transform='';if(SWO===w)SWO=null};
@@ -1436,7 +1440,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='39';
+const APP_VER='40';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
