@@ -63,7 +63,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .hl{position:absolute;left:0;width:30px;text-align:right;font-size:12px;color:var(--muted);transform:translateY(-50%);font-weight:600}
 .hl.soft{opacity:.45}
 .hline{position:absolute;left:38px;right:0;height:0;border-top:1.5px dotted color-mix(in srgb,var(--ink) 13%,transparent)}
-.dayart{position:absolute;left:38px;right:0;display:flex;justify-content:center;opacity:.55;pointer-events:none}
+.dayart{position:fixed;left:50%;top:56%;transform:translate(-50%,-50%);opacity:.6;pointer-events:none;z-index:1}
 .ev{position:absolute;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:18px;overflow:hidden}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 4px;border-radius:12px;font-size:13px}
 .chip .ic{width:24px;height:24px;border-radius:8px}
@@ -85,6 +85,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .cyc{position:relative;width:38px;height:38px;border-radius:19px;font-size:14px;font-weight:600;color:var(--ink);display:grid;place-items:center}
 .cyc.out{opacity:.35}.cyc.p{background:#EDA5B0;color:#FFFBF5}.cyc.q{background:#F7E3DE}.cyc.f{background:#E3EDD9}
 .cyc.today{box-shadow:inset 0 0 0 2px var(--acc)}.cyc.sel{box-shadow:0 0 0 2px var(--ink)}
+.cypoo{position:absolute;top:-3px;right:-3px;line-height:0}
 .cyc i{position:absolute;bottom:3px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:2px;background:#C4A8C9}
 .cyleg{display:flex;justify-content:center;gap:14px;margin-top:10px;font-size:12px;color:var(--muted)}.cyleg span{display:flex;align-items:center;gap:5px}.cyleg i{width:10px;height:10px;border-radius:5px}
 .cyflows{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
@@ -108,6 +109,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .mc{height:58px;border-radius:14px;border:1px solid var(--line);background:var(--card);padding-top:6px;display:flex;flex-direction:column;align-items:center;gap:4px}
 .mc.we{background:color-mix(in srgb,#C4A8C9 16%,var(--card));border-color:color-mix(in srgb,#C4A8C9 35%,var(--card))}.mc.we b{color:#7E5F86}
 .mdow.we{color:#7E5F86;font-weight:700}
+.mc.pz{background:color-mix(in srgb,#CDBBA7 34%,var(--card));border-color:color-mix(in srgb,#CDBBA7 50%,var(--card))}.mc.pz b{color:#9C8B80}
 .mc.out{opacity:.4}.mc.today{border:2px solid var(--acc);background:color-mix(in srgb,var(--acc) 24%,var(--card))}
 .mc b{font-size:15px;font-weight:500}.mc.today b{color:var(--red);font-weight:700}
 .mdots{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;max-width:36px}.mdots i{width:7px;height:7px;border-radius:4px;background:var(--d)}
@@ -214,6 +216,8 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .qbtn{flex:none;display:grid;place-items:center;width:30px;height:28px;border-radius:10px;background:var(--card);border:1px solid #D3C4B6;box-shadow:0 1px 3px rgba(75,50,45,.12);color:#6B5A55}
 .qp button{width:24px;height:24px;font-size:15px;font-weight:700;color:#8A7A72;line-height:1}
 .qp span{min-width:16px;text-align:center;font-size:12.5px;font-weight:800}
+.cartfab.yay{animation:yay .7s cubic-bezier(.3,1.6,.5,1)}@keyframes yay{0%{transform:scale(1)}30%{transform:scale(1.22) translateY(-10px) rotate(-8deg)}60%{transform:scale(.95) rotate(5deg)}100%{transform:none}}
+.yayb{position:absolute;top:-30px;left:50%;transform:translateX(-50%);padding:3px 9px;border-radius:12px;background:var(--acc);color:var(--card);font-size:13px;font-weight:800;white-space:nowrap;animation:yayb 1.4s ease-out forwards;pointer-events:none}@keyframes yayb{0%{opacity:0;transform:translate(-50%,8px) scale(.6)}20%{opacity:1;transform:translate(-50%,0) scale(1.05)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-10px)}}
 .cartfab{position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom) + 90px);width:64px;height:64px;border-radius:32px;background:var(--card);box-shadow:0 6px 18px rgba(75,50,45,.16);display:grid;place-items:center;z-index:6}
 .cartfab em{position:absolute;top:-2px;right:-2px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--acc);color:var(--card);font-style:normal;font-size:11px;font-weight:800;display:grid;place-items:center}
 @keyframes bump{0%,100%{transform:scale(1)}40%{transform:scale(1.18) rotate(-6deg)}}
@@ -234,12 +238,17 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .wday .t{margin-left:auto;font-weight:700;font-size:15px}
 .wday .t small{font-weight:500;color:var(--muted);margin-left:6px}
 /* Commun */
-.fab{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom) + 92px);width:58px;height:58px;border-radius:29px;background:var(--acc);display:grid;place-items:center;box-shadow:0 8px 20px rgba(207,107,100,.32);z-index:5}
-nav{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);height:68px;border-radius:24px;background:var(--card);box-shadow:0 4px 20px rgba(75,50,45,.10);display:flex;gap:2px;padding:6px;z-index:5}
+.fab{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom) + 94px);width:46px;height:46px;border-radius:23px;background:var(--acc);display:grid;place-items:center;box-shadow:0 0 0 3px var(--card),0 6px 14px rgba(207,107,100,.30);z-index:5}.fab svg{width:20px;height:20px}
+nav{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);height:70px;border-radius:26px;background:linear-gradient(180deg,#FFF7F1,#F9E9E1);border:1.5px solid color-mix(in srgb,var(--acc) 26%,var(--card));box-shadow:0 8px 24px rgba(150,90,80,.20);display:flex;gap:3px;padding:6px;z-index:5}
 nav button{flex:1;min-width:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#9A8A82;font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden}
-nav button.on{background:color-mix(in srgb,var(--acc) 14%,var(--card));color:var(--ink)}
-nav button:not(.on) svg{filter:saturate(.35);opacity:.75}
-.bigcloud{padding:6px 0 100px}.bigcloud .cbw{justify-self:center}.bigcloud .lbl2{font-size:15px!important}
+nav button{transition:transform .25s,background .25s}nav button.on{background:color-mix(in srgb,var(--tc) 50%,#fff);color:var(--ink);transform:translateY(-4px);box-shadow:0 4px 10px color-mix(in srgb,var(--tc) 55%,transparent)}
+nav button.pop svg{animation:tabhop .55s cubic-bezier(.3,1.6,.5,1)}@keyframes tabhop{0%{transform:scale(.7) translateY(5px)}55%{transform:scale(1.2) translateY(-4px) rotate(-6deg)}100%{transform:none}}
+nav button:not(.on) svg{filter:saturate(.7);opacity:.9}
+.bigcloud{padding:6px 0 140px;display:flex;flex-direction:column}
+.scat{display:flex!important;flex-wrap:wrap;justify-content:center;align-content:center;gap:22px 2px;flex:1;max-width:344px;margin:0 auto;padding:0!important}
+.bubble.blob{border:none!important;background:radial-gradient(circle at 50% 60%,color-mix(in srgb,var(--d) 10%,#fff) 0%,color-mix(in srgb,var(--d) 30%,#fff) 68%,color-mix(in srgb,var(--d) 50%,#fff) 100%)!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--d) 42%,#fff),inset -5px -7px 12px color-mix(in srgb,var(--d) 26%,transparent),0 3px 8px rgba(120,90,80,.10)}
+.bubble.blob::after{content:'';position:absolute;left:19%;top:14%;width:24%;height:14%;border-radius:50%;border-top:3px solid rgba(255,255,255,.95);transform:rotate(-28deg);pointer-events:none}
+.bubble.blob::before{content:'';position:absolute;left:17%;top:31%;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none}.bigcloud .cbw{justify-self:center}.bigcloud .lbl2{font-size:15px!important}
 .undo{position:absolute;left:20px;bottom:calc(env(safe-area-inset-bottom) + 92px);z-index:6;height:52px;padding:0 14px 0 12px;border-radius:26px;background:#8C7A73;display:flex;align-items:center;gap:6px;box-shadow:0 8px 20px rgba(75,50,45,.25)}
 .toast{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 6px);z-index:40;padding:10px 16px 10px 10px;border-radius:22px;background:var(--acc);color:var(--card);font-size:14px;font-weight:700;box-shadow:0 10px 26px rgba(207,107,100,.35);display:flex;align-items:center;gap:10px}
 .empty{display:flex;flex-direction:column;align-items:center;padding:24px 0}
@@ -514,7 +523,7 @@ const THEMES=[
  {id:'proches',name:'Famille et amis',d:'#C49CD2'},{id:'loisirs',name:'Sorties',d:'#86C495'},{id:'apprendre',name:'Apprentissage',d:'#EDAE84'}];
 const TH=Object.fromEntries(THEMES.map(t=>[t.id,t]));
 const MENAGE=[['arrosage','Arrosage'],['nettoyage','Nettoyage'],['aspiration','Aspiration'],['rangement','Rangement'],['lessive','Lessive'],['vetements','Vêtements'],['trier','Trier'],['vaisselle','Vaisselle'],['poubelles','Poubelles'],['draps','Draps'],['sac','Courses'],['aerer','Aérer'],['sol','Sol'],['toilettes','Toilettes'],['douche','Douche'],['lavabo','Lavabo'],['miroir','Miroir'],['plumeau','Poussière'],['replanter','Replanter']];
-const CARE=[['visage','Visage','#EDA5B0'],['cheveux','Cheveux','#EEB87D'],['corps','Corps','#8EC6BD'],['mains','Mains et pieds','#F4C3C8'],['complements','Compléments','#F7EBC9'],['sportm','Sport','#EBAE6B'],['journal','Journaling','#D9C27E'],['lecture','Lecture','#C4A8C9'],['recette','Recettes','#F6CFC9']];
+const CARE=[['visage','Visage','#EDA5B0'],['cheveux','Cheveux','#EEB87D'],['corps','Corps','#8EC6BD'],['mains','Mains et pieds','#F4C3C8'],['complements','Compléments','#F7EBC9'],['sportm','Sport','#EBAE6B'],['journal','Journaling','#D9C27E'],['recette','Recettes','#F6CFC9']];
 const ZONES=[['salon','Salon'],['cuisine','Cuisine'],['sdb','Salle de bain'],['chambre','Chambre'],['vetements','Vêtements'],['plantes','Plantes']];
 const SUGG0=[['plantes','Ajouter de l’engrais'],['plantes','Vaporiser les feuilles'],['plantes','Dépoussiérer les feuilles'],['plantes','Tourner les pots vers la lumière'],['plantes','Vérifier les nuisibles'],['salon','Laver les vitres'],['salon','Secouer les coussins'],['chambre','Aérer la chambre'],['chambre','Aspirer sous le lit'],['chambre','Laver les oreillers'],['sdb','Laver les serviettes'],['sdb','Détartrer la robinetterie'],['vetements','Mettre de côté ce qui est à donner']];
 function subFor(t){t=norm(t);return /feuille|poussi/.test(t)&&/poussi/.test(t)?'plumeau':/engrais|pots|nuisible|replant/.test(t)?'replanter':/vaporis|eau/.test(t)?'arrosage':/aer/.test(t)?'aerer':/sol/.test(t)?'sol':/toilette/.test(t)?'toilettes':/douche/.test(t)?'douche':/lavabo|robinet/.test(t)?'lavabo':/miroir|vitre/.test(t)?'miroir':/trier|donner|cote/.test(t)?'trier':/aspir/.test(t)?'aspiration':/arros/.test(t)?'arrosage':/vaisselle/.test(t)?'vaisselle':/poubelle/.test(t)?'poubelles':/courses/.test(t)?'sac':/repass/.test(t)?'fer':/drap|lit/.test(t)?'draps':/lessive|serviette|linge/.test(t)?'lessive':/vetement/.test(t)?'vetements':/rang|trier|coussin/.test(t)?'rangement':'nettoyage'}
@@ -680,6 +689,7 @@ function migrate(){if(!S.flags)S.flags={};let ch=false;
     S.flags.moi2=1;ch=true}
   if(!S.flags.menage2){S.chores.forEach(c=>{if(c.zone==='vetements'&&norm(c.title)==='nettoyer')c.sub='lessive';if(c.zone==='sdb'&&norm(c.title)==='nettoyer')c.sub='sol';if(!c.paused&&st(c).left>=1){c.paused=true;delete c.next}else if(!c.paused&&!c.next){c.next=nextOf(c)}});S.flags.menage2=1;ch=true}if(!S.flags.moi3){const MAP={visage:{'routine du matin':'matin','routine du soir':'soir','masque':'masqueV','masque visage':'masqueV'},cheveux:{'huile':'huile2','huile sur les pointes':'huile2','couper les cheveux':'ciseaux2'}};S.care.forEach(c=>{const t=MAP[c.sec]&&MAP[c.sec][norm(c.title)];if(t)c.sub=t});S.flags.moi3=1;ch=true}
   if(!S.flags.moi4){const MAP={visage:{'gua sha':'gs'},cheveux:{'soin du cuir chevelu':'brosse2','repousse':'repousse2'}};S.care.forEach(c=>{const t=MAP[c.sec]&&MAP[c.sec][norm(c.title)];if(t)c.sub=t});S.flags.moi4=1;ch=true}
+  if(!S.flags.cyc2&&S.cycle&&S.cycle.days){const mp={'Crampes':'Crampes et ballonnements','Ballonnements':'Crampes et ballonnements','Douleur généralisée':'Raideur généralisée'};Object.values(S.cycle.days).forEach(e=>{if(e.sym)e.sym=[...new Set(e.sym.map(x=>mp[x]||x))]});S.flags.cyc2=1;ch=true}
   if(!S.flags.moi5){S.care.forEach(c=>{if(c.sec==='cheveux'&&/^masque/.test(norm(c.title)))c.sub='masqueC2'});S.flags.moi5=1;ch=true}
   if(!S.flags.aerer){if(!S.chores.some(c=>c.zone==='salon'&&norm(c.title)==='aerer'))S.chores.push({id:S.nextId++,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:TODAY,paused:true});S.flags.aerer=1;return true}return ch}
 function housekeeping(){const t=nowMs();S.items=S.items.filter(it=>!(it.done&&it.doneAt&&t-it.doneAt>7*864e5));S.courses=S.courses.filter(c=>!(c.done&&c.doneDay&&c.doneDay<TODAY))}
@@ -703,7 +713,9 @@ const worst=L0=>{const list=L0.filter(c=>!off(c));return list.some(c=>st(c).m===
 
 const adBg=(list,pct)=>{const cs=[...new Set(list.filter(it=>it.allDay).map(it=>TH[it.theme].d))].slice(0,3).map(d=>`color-mix(in srgb,${d} ${pct}%,var(--card))`);if(!cs.length)return '';if(cs.length===1)return `background:${cs[0]};`;const w=100/cs.length;return `background:linear-gradient(90deg,${cs.map((c,i)=>`${c} ${i*w}% ${(i+1)*w}%`).join(',')});`};
 const MOODS=[['sereine','Calme','#F7EBC9'],['joyeuse','Joyeuse','#F8DDB8'],['energique','Énergique','#FBE3C8'],['confiante','Confiante','#F3E2D2'],['caline','Désir','#F6CFC9'],['sensible','Sensible','#E9DDF0'],['fatiguee','Fatiguée','#E3EEF8'],['triste','Triste','#DCEBF6'],['irritable','Irritable','#F4C3C8'],['anxieuse','Anxieuse','#E3EDD9'],['stressee','Stressée','#EDE4F4'],['brouillard','Dans le brouillard','#ECEAE6']];
-const SYMS=['Crampes','Douleur généralisée','Maux de tête','Mal de dos','Seins sensibles','Ballonnements','Rétention d’eau','Jambes lourdes','Fatigue','Insomnie','Nausées','Vertiges','Bouffées de chaleur','Peau','Acné','Pertes blanches','Saignements légers','Diarrhée','Constipation','Envies sucrées','Envies salées','Envie de junk food','Fringales'];
+const SYMS=['Crampes et ballonnements','Raideur généralisée','Maux de tête','Seins sensibles','Jambes lourdes','Fatigue','Insomnie','Nausées','Acné','Pertes blanches','Diarrhée','Constipation','Envies sucrées','Envies salées','Envie de junk food','Fringales'];
+const poopSvg=(sz,on)=>{const st=on?'stroke="#6B5A55" stroke-width="1.3" stroke-linejoin="round"':'stroke="#CBBDB6" stroke-width="1.6" stroke-linejoin="round"',f=on?'#C49A78':'none',f2=on?'#D4AE8C':'none';
+ return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18.4c0-2 1.6-3.2 3.4-3.4h9.2c1.8.2 3.4 1.4 3.4 3.4 0 1.6-1.4 2.8-3.2 2.8H7.2C5.4 21.2 4 20 4 18.4z" fill="${f}" ${st}/><path d="M6.4 15c0-2 1.6-3.2 3.4-3.2h4.4c1.8 0 3.4 1.2 3.4 3.2z" fill="${f2}" ${st}/><path d="M8.8 11.8c0-2 1.4-3.4 3.2-3.6.4-1 .4-2-.4-3 2.4.2 3.6 2 3.4 4 .6.6.8 1.6.8 2.6z" fill="${f}" ${st}/>${on?`<circle cx="10" cy="17.8" r=".9" fill="#4B3D3A"/><circle cx="14" cy="17.8" r=".9" fill="#4B3D3A"/><path d="M11 19.2q1 .9 2 0" stroke="#4B3D3A" stroke-width=".8" fill="none" stroke-linecap="round"/><ellipse cx="8.4" cy="19" rx=".9" ry=".5" fill="#EDA5B0"/><ellipse cx="15.6" cy="19" rx=".9" ry=".5" fill="#EDA5B0"/>`:''}</svg>`};
 const FLOWS=[[0,'Pas de règles'],[1,'Léger'],[2,'Moyen'],[3,'Abondant']];
 function moodSvg(k,s=34){const m=MOODS.find(x=>x[0]===k)||MOODS[0],I='#4B3D3A',st=`stroke="${I}" stroke-width="1.3" fill="none" stroke-linecap="round"`;
   const eyesDot=`<circle cx="9.2" cy="12" r="1.1" fill="${I}"/><circle cx="14.8" cy="12" r="1.1" fill="${I}"/>`,eyesShut=`<path d="M7.8 12.2q1.4-1.3 2.8 0M13.4 12.2q1.4-1.3 2.8 0" ${st}/>`,eyesSleep=`<path d="M7.9 12h2.6M13.5 12h2.6" ${st}/>`;
@@ -751,11 +763,12 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
   const top=`<div class="cycard"><div style="display:flex;align-items:center;justify-content:center;gap:16px">${ring}<div><div class="hf" style="font-size:28px">${c.day?'Jour '+c.day:'—'}</div><div class="meta">${c.day?'du cycle':''}</div></div></div>${info?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">${info}</div>`:''}</div>`;
   const m0=pd(S.cyMon+'-01'),st=monday(fk(m0));let cells='';
   for(let i=0;i<42;i++){const d=add(st,i),dd=pd(d);if(i>=35&&dd.getMonth()!==m0.getMonth())break;const mk=cyMark(d),f=c.fert.has(d)&&d>=TODAY,has=D[d]&&((D[d].mood||[]).length||(D[d].sym||[]).length||D[d].sex);
-    cells+=`<button class="cyc ${dd.getMonth()!==m0.getMonth()?'out':''} ${mk} ${f&&!mk?'f':''} ${d===TODAY?'today':''} ${d===k?'sel':''}" data-a="cyday" data-v="${d}">${dd.getDate()}${has?'<i></i>':''}</button>`}
+    cells+=`<button class="cyc ${dd.getMonth()!==m0.getMonth()?'out':''} ${mk} ${f&&!mk?'f':''} ${d===TODAY?'today':''} ${d===k?'sel':''}" data-a="cyday" data-v="${d}">${dd.getDate()}${has?'<i></i>':''}${D[d]&&D[d].poo?`<span class="cypoo">${poopSvg(11,1)}</span>`:''}</button>`}
+  const nPoo=Object.keys(D).filter(d=>d.slice(0,7)===S.cyMon&&D[d].poo).length;
   const arrow=dd=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${dd}"/></svg>`;
   const cal=`<div class="cycard"><div class="bar" style="margin-bottom:8px"><button class="nav40 ghost" aria-label="Mois précédent" data-a="cymon" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:16px">${MON[m0.getMonth()][0].toUpperCase()+MON[m0.getMonth()].slice(1)} ${m0.getFullYear()}</div><button class="nav40 ghost" aria-label="Mois suivant" data-a="cymon" data-v="1">${arrow('M9 18l6-6-6-6')}</button></div>
     <div class="cygrid">${DL.map(l=>`<span class="meta" style="text-align:center;font-size:11px">${l}</span>`).join('')}${cells}</div>
-    <div class="cyleg"><span><i style="background:${PINK}"></i>Règles</span><span><i style="background:#F7E3DE"></i>Prévues</span><span><i style="background:#E3EDD9"></i>Fertile</span></div></div>`;
+    <div class="cyleg"><span><i style="background:${PINK}"></i>Règles</span><span><i style="background:#F7E3DE"></i>Prévues</span><span><i style="background:#E3EDD9"></i>Fertile</span><span style="gap:3px">${poopSvg(15,1)}<b style="font-weight:700;color:var(--ink)">${nPoo}</b></span></div></div>`;
   const dl=k===TODAY?'Aujourd’hui':DOWL[wd(k)]+' '+pd(k).getDate()+' '+MON[pd(k).getMonth()];
   const flows=FLOWS.map(([v,l])=>`<button class="cyf ${(e.flow||0)===v?'on':''}" data-a="cyflow" data-v="${v}"><span style="display:flex;gap:1px;height:16px;align-items:end">${v?Array.from({length:v},()=>dropSvg(PINK,11)).join(''):dropSvg('#E2D8D2',11)}</span>${l}</button>`).join('');
   const moods=MOODS.map(([id,l])=>`<button class="cym ${(e.mood||[]).includes(id)?'on':''}" data-a="cymood" data-v="${id}">${moodSvg(id,36)}<span>${l}</span></button>`).join('');
@@ -766,6 +779,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
       <div class="lbl">Règles</div><div class="cyflows">${flows}</div>
       <div class="lbl" style="margin-top:12px">Humeur</div><div class="cymoods">${moods}</div>
       <div class="lbl" style="margin-top:12px;line-height:0"><svg width="30" height="20" viewBox="0 0 36 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#F4C3C8" transform="translate(1 2) scale(.8)"/><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0" stroke="#FFFBF5" stroke-width="1.6" transform="translate(13 4) scale(.8)"/></svg></div><div class="cysex"><button class="cyf ${e.sex?'':'on'}" aria-label="Non" data-a="cysex" data-v="0"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="none" stroke="#CBBDB6" stroke-width="1.8"/></svg></button><button class="cyf ${e.sex?'on':''}" aria-label="Oui" data-a="cysex" data-v="1"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0"/></svg></button></div>
+      <div class="lbl" style="margin-top:12px;line-height:0">${poopSvg(24,1)}</div><div class="cysex"><button class="cyf ${e.poo?'':'on'}" aria-label="Non" data-a="cypoo" data-v="0">${poopSvg(22,0)}</button><button class="cyf ${e.poo?'on':''}" aria-label="Oui" data-a="cypoo" data-v="1">${poopSvg(22,1)}</button></div>
       <div class="lbl" style="margin-top:12px">Symptômes</div><div class="pick">${syms}</div></div>
     ${hist?`<div class="cycard"><div class="lbl" style="margin-bottom:4px">Dernières règles</div>${hist}</div>`:''}</div>`}
 const itIcon=(it,sz)=>{if(it.chore){const c=S.chores.find(x=>x.id===it.chore);if(c&&c.sub)return charSvg(c.sub,'ok',Math.round(sz*1.12))}return kw(it.theme,sz)};
@@ -805,7 +819,15 @@ const lila=(sleep)=>{
  ${blush(cx-10.4,37.4)}${blush(cx+10.4,37.4)}</g>`};
 
 // ---------- MISHA : petit spitz assis ; le poil fait partie du visage
-return (sleep,w=150)=>`<svg width="${w}" height="${Math.round(w*.8)}" viewBox="-2 8 104 83" aria-hidden="true" style="overflow:visible">${lila(sleep)}${sleep?'<text x="88" y="16" font-size="8" font-weight="800" fill="#A4BED3" font-family="Nunito">z</text>':''}</svg>`})();
+const ring=(cx,cy,R,n,r)=>{let C='';for(let i=0;i<n;i++){const a=i/n*Math.PI*2;C+=`<circle cx="${(cx+R*Math.cos(a)).toFixed(1)}" cy="${(cy+R*Math.sin(a)).toFixed(1)}" r="${r}"/>`}return C+`<circle cx="${cx}" cy="${cy}" r="${R}"/>`};
+const fluff=(C)=>[`<g fill="${BL}" stroke="${SK}" stroke-width="3">${C}</g>`,`<g fill="${BL}">${C}</g>`];
+// Misha de dos, assis contre Lila, il la regarde
+const mishaBack=()=>{const c=118;const body=fluff(ring(c,72,10,12,4.4)),head=fluff(ring(c-1,49,8.4,11,3.4)),tail=fluff(ring(c+1,63,5,9,2.8));
+ return `${body[0]}${head[0]}<path d="M${c-9} 46c-2-5-1.6-10 .6-13 1-1.4 2.6-1.4 3.6-.2 2 2.4 3 5.2 3.4 8M${c+7} 46c2-5 1.6-10-.6-13-1-1.4-2.6-1.4-3.6-.2-2 2.4-3 5.2-3.4 8" fill="${BL}" ${O}/>${body[1]}${head[1]}
+ <path d="M${c-12} 87c0-3 2-5 4.6-5s4.6 2 4.6 5zM${c+3} 87c0-3 2-5 4.6-5s4.6 2 4.6 5z" fill="${TAN}" ${O}/>
+ ${tail[0]}${tail[1]}<path d="M${c+1} 63.4c0-1.4 1.4-2.2 2.6-1.4s.8 3-1 3.6c-2.2.8-4.4-.8-4.2-3.2.2-2.8 3-4.4 5.6-3.4" stroke="#7A6A64" stroke-width=".9" fill="none" stroke-linecap="round"/>`};
+return (sleep,w=150)=>`<svg width="${w}" height="${Math.round(w*.58)}" viewBox="-6 8 144 84" aria-hidden="true" style="overflow:visible">${mishaBack()}${lila(sleep)}${sleep?'<text x="88" y="16" font-size="8" font-weight="800" fill="#A4BED3" font-family="Nunito">z</text>':''}</svg>`})();
+const PAUSES=[['2026-12-21','2027-02-10']];
 const cdTxt=n=>n>0?'J-'+n:n===0?'Jour J':'+'+(-n)+' j';
 const cdCls=n=>n<0?'late':n<=1?'today':'';
 const FLAG='<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 4.5h11.5l-2.6 4 2.6 4H6z" fill="currentColor"/></svg>';
@@ -816,7 +838,7 @@ const legend=()=>`<div class="leg">${THEMES.map(t=>{const n=S.items.filter(it=>i
 function calHTML(){
   const views=[['jour','Jour'],['semaine','Semaine'],['mois','Mois']].map(v=>`<button class="${S.view===v[0]?'on':''}" data-a="view" data-v="${v[0]}">${v[1]}</button>`).join('');
   const selD=pd(S.sel),mon=monday(S.sel);
-  let label;
+  let label;S._dogs='';
   if(S.view==='jour')label=DOWL[wd(S.sel)]+' '+selD.getDate()+' '+MON[selD.getMonth()];
   else if(S.view==='semaine'){const a=pd(mon),b=pd(add(mon,6));label=a.getMonth()===b.getMonth()?a.getDate()+' – '+b.getDate()+' '+MON[b.getMonth()]:a.getDate()+' '+MONS[a.getMonth()]+' – '+b.getDate()+' '+MONS[b.getMonth()]}
   else label=MON[selD.getMonth()][0].toUpperCase()+MON[selD.getMonth()].slice(1)+' '+selD.getFullYear();
@@ -826,7 +848,7 @@ function calHTML(){
     const av=avantOn(S.sel);
     if(av.length)dayTop+=`<div class="avant">${av.map(it=>{const n=diff(S.sel,it.due);return `<button class="chip mx" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="edit" data-id="${it.id}"><span class="ic tint">${itIcon(it,20)}</span>${esc(it.title)}<span class="dchip ${cdCls(n)}" style="height:21px;font-size:12px;padding:0 7px;margin-left:2px">${cdTxt(n)}</span></button>`}).join('')}</div>`;
     if(allday.length)dayTop+=`<div class="avant">${allday.map(it=>`<button class="chip mx ${it.allDay?'adb':''}" style="--d:${TH[it.theme].d};font:inherit;font-size:13px;color:inherit" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}"><span class="ic tint">${itIcon(it,20)}</span>${esc(it.title)}</button>`).join('')}</div>`;
-    let labs='';for(let h=5;h<=23;h++)labs+=`<span class="hl ${tl.some(it=>it.start<h+1&&(it.end||it.start+1)>h)?'':'soft'}" style="top:${(h-5)*H+10}px">${h} h</span>`;for(let h=5;h<=23;h++)labs+=`<i class="hline" style="top:${(h-5)*H+10}px"></i>`;if(!tl.length){const hh=new Date().getHours();labs+=`<div class="dayart" style="top:${(12-5)*H-40}px">${lilaSvg(hh>=20||hh<6)}</div>`}
+    let labs='';for(let h=5;h<=23;h++)labs+=`<span class="hl ${tl.some(it=>it.start<h+1&&(it.end||it.start+1)>h)?'':'soft'}" style="top:${(h-5)*H+10}px">${h} h</span>`;for(let h=5;h<=23;h++)labs+=`<i class="hline" style="top:${(h-5)*H+10}px"></i>`;if(!tl.length){const hh=new Date().getHours();S._dogs=lilaSvg(hh>=20||hh<6,280)}else S._dogs='';
     const lanes=[];const evs=tl.map(it=>{let l=0;while(lanes[l]!==undefined&&lanes[l]>it.start)l++;lanes[l]=it.end||it.start+1;return{it,l}});
     const cards=evs.map(o=>{const it=o.it,end=it.end||it.start+1,ov=evs.some(p=>p!==o&&p.it.start<end&&(p.it.end||p.it.start+1)>it.start);const top=(it.start-5)*H+10,h=Math.max((end-it.start)*H-4,46);
       return `<div class="ev mx" data-a="${it.link==='courses'?'gocourses':'edit'}" data-id="${it.id}" style="cursor:pointer;--d:${TH[it.theme].d};top:${top}px;height:${h}px;left:calc(38px + ${ov?o.l*50:0}% - ${ov?o.l*19:0}px);width:calc(${ov?50:100}% - ${ov?19:38}px)"><span class="ic tint">${itIcon(it,24)}</span><div style="min-width:0"><div class="ttl">${esc(it.title)}</div><div class="meta">${hm(it.start)} – ${hm(end)}</div>${it.note&&h>=70?`<div class="note" style="-webkit-line-clamp:${h>=110?2:1}">${esc(it.note)}</div>`:''}</div></div>`}).join('');
@@ -840,13 +862,13 @@ function calHTML(){
     body=`<div class="week">${cols}</div>${legend()}`;
   } else {
     const start=monday(fk(new Date(selD.getFullYear(),selD.getMonth(),1)));let cells='';
-    for(let i=0;i<42;i++){const k=add(start,i),d=pd(k),th=[...new Set(onDate(k).map(x=>x.theme))];cells+=`<button class="mc ${d.getMonth()!==selD.getMonth()?'out':''} ${k===TODAY?'today':''} ${wd(k)>=5?'we':''}" style="${adBg(onDate(k),40)}" data-a="day" data-k="${k}">${(m=>m?`<svg class="cyd" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 .8C3.2 3.6 1.4 5.6 1.4 7.8a3.6 3.6 0 0 0 7.2 0C8.6 5.6 6.8 3.6 5 .8z" fill="#EDA5B0" fill-opacity="${m==='p'?1:.4}"/></svg>`:'')(cyMark(k))}<b>${d.getDate()}</b><span class="mdots">${th.slice(0,6).map(t=>`<i style="--d:${TH[t].d}"></i>`).join('')}</span></button>`}
+    for(let i=0;i<42;i++){const k=add(start,i),d=pd(k),th=[...new Set(onDate(k).map(x=>x.theme))];cells+=`<button class="mc ${d.getMonth()!==selD.getMonth()?'out':''} ${k===TODAY?'today':''} ${wd(k)>=5?'we':''} ${PAUSES.some(([a,b])=>k>=a&&k<=b)?'pz':''}" style="${adBg(onDate(k),40)}" data-a="day" data-k="${k}">${(m=>m?`<svg class="cyd" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 .8C3.2 3.6 1.4 5.6 1.4 7.8a3.6 3.6 0 0 0 7.2 0C8.6 5.6 6.8 3.6 5 .8z" fill="#EDA5B0" fill-opacity="${m==='p'?1:.4}"/></svg>`:'')(cyMark(k))}<b>${d.getDate()}</b><span class="mdots">${th.slice(0,6).map(t=>`<i style="--d:${TH[t].d}"></i>`).join('')}</span></button>`}
     body=`<div style="padding:2px 16px 0"><div class="mgrid">${['L','M','M','J','V','S','D'].map((l,i)=>`<div class="mdow ${i>=5?'we':''}">${l}</div>`).join('')}</div><div class="mgrid">${cells}</div></div>${legend()}`;
   }
   const arrow=d=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
   return `<div style="padding:0 20px 8px;display:flex;flex-direction:column;gap:10px"><div class="seg ghost">${views}</div>
     <div class="bar"><button class="nav40 ghost" aria-label="Précédent" data-a="step" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:17px">${label}${S.view==='jour'&&cyMark(S.sel)?' '+dropSvg('#EDA5B0',9,cyMark(S.sel)==='p'?1:.4):''}</div><button class="nav40 ghost" aria-label="Suivant" data-a="step" data-v="1">${arrow('M9 18l6-6-6-6')}</button><button class="today-btn" data-a="today">Aujourd’hui</button></div></div>
-    ${dayTop?`<div class="${S._slide||''}">${dayTop}</div>`:''}<div class="scroll" id="calscroll"><div class="${S._slide||''}">${body}</div></div>`;
+    ${dayTop?`<div class="${S._slide||''}">${dayTop}</div>`:''}<div class="scroll" id="calscroll"><div class="${S._slide||''}">${body}</div></div>${S._dogs?`<div class="dayart">${S._dogs}</div>`:''}`;
 }
 
 function pips(n,hot){return `<span class="pips ${hot?'hot':''}">${Array.from({length:Math.min(n,6)},()=>'<i></i>').join('')}${n>6?'<em>+</em>':''}</span>`}
@@ -895,16 +917,19 @@ function tasksHTML(){
 function charBubble(c,list){const A=list==='chores'?'ctap':'open';if(off(c))return `<button class="cbw" style="opacity:.75" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb" style="--d:#CEC3BB;width:80px;height:80px">${charSvg(c.sub,'late',48)}</span><span class="lbl2" style="color:var(--muted)">${esc(c.title)}</span></button>`;const s=st(c);
   const bang=c.link==='courses'&&s.when&&s.left<=0?`<span class="cnt" style="background:var(--acc);color:var(--card);left:-2px;right:auto;font-size:15px;font-weight:900">!</span>`:'';
   return `<button class="cbw" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m} ${S.popChore===c.id?'pop':''}">${charSvg(c.sub,s.m,58)}${bang}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
+const BLOBS=['62% 38% 56% 44%/46% 58% 42% 54%','42% 58% 38% 62%/58% 42% 60% 40%','55% 45% 64% 36%/40% 60% 40% 60%','38% 62% 46% 54%/60% 40% 58% 42%','58% 42% 40% 60%/52% 48% 56% 44%','46% 54% 60% 40%/44% 56% 46% 54%','52% 48% 42% 58%/62% 38% 54% 46%','64% 36% 50% 50%/48% 52% 38% 62%','40% 60% 58% 42%/54% 46% 62% 38%'];
+const SCAT=[[-8,0,94],[6,16,84],[-2,-8,90],[10,-4,86],[-4,12,96],[0,-10,86],[-10,6,90],[8,-6,94],[2,10,88]];
+const scatBtn=(i,a,v,id,m,name,extra)=>{const [x,y,sz]=SCAT[i%SCAT.length];return `<button class="cbw" style="width:112px;transform:translate(${x}px,${y}px)" data-a="${a}" data-v="${v}"><span class="bubble cb blob ${m}" style="width:${sz}px;height:${sz}px;border-radius:${BLOBS[i%BLOBS.length]}">${charSvg(id,m,Math.round(sz*.62))}${extra||''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`};
 function menageHTML(){
   const zones=ZONES.map(([id,name])=>{const its=S.chores.filter(c=>c.zone===id),m=its.length?worst(its):'ok',n=its.filter(c=>!off(c)).length;
-    return `<button class="cbw" style="width:150px" data-a="zone" data-v="${id}"><span class="bubble cb ${m}" style="width:136px;height:136px">${charSvg(id,m,88)}${n?`<span class="zn">${n}</span>`:''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
+    return scatBtn(ZONES.findIndex(z=>z[0]===id),'zone',id,id,m,name,n?`<span class="zn">${n}</span>`:'')}).join('');
   const sg='';const _sg=S.sugg.length?`<button class="cbw" style="width:108px" data-a="suggs"><span class="bubble cb" style="width:98px;height:98px;--d:#EEB87D">${charSvg('idee','ok',62)}</span><span class="lbl2" style="font-size:13.5px">Suggestions</span></button>`:'';
-  return `<div class="scroll bigcloud"><div class="cloud" style="display:grid;grid-template-columns:repeat(2,150px);justify-content:center;align-content:space-evenly;gap:10px 24px;min-height:100%">${zones}${sg}</div></div>`;
+  return `<div class="scroll bigcloud"><div class="cloud scat">${zones}${sg}</div></div>`;
 }
 function moiHTML(){
-  const secs=CARE.map(([id,name])=>{const its=S.care.filter(c=>c.sec===id),m=worst(its),n=its.filter(c=>st(c).m!=='ok').length;
-    return `<button class="cbw" style="width:114px" data-a="${id==='recette'?'recettes':'sec'}" data-v="${id}"><span class="bubble cb ${m}" style="width:110px;height:110px">${charSvg(id,m,72)}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`}).join('');
-  return `<div class="scroll bigcloud"><div class="cloud" style="display:grid;grid-template-columns:repeat(3,114px);justify-content:center;align-content:space-evenly;gap:10px 4px;min-height:100%">${secs}</div></div>`;
+  const secs=CARE.map(([id,name],i)=>{const its=S.care.filter(c=>c.sec===id),m=worst(its);
+    return scatBtn(i+3,id==='recette'?'recettes':'sec',id,id,m,name)}).join('');
+  return `<div class="scroll bigcloud"><div class="cloud scat">${secs}</div></div>`;
 }
 
 function catAll(){const out=[];RAYONS.forEach(r=>r.cat.forEach(n=>out.push({n,r:r.id})));return out}
@@ -924,7 +949,8 @@ function coursesHTML(){
   const inCart=S.courses.filter(c=>c.done);
   const cart=`<div class="cart" id="cartzone">${ART.panier}<div class="cartin">${inCart.map(c=>`<button class="mx" style="--d:${RY[c.rayon].d}" data-a="buy" data-id="${c.id}">${prod(c,22)}${c.qty>1?c.qty+' ':''}${esc(c.name)}</button>`).join('')}</div></div>`;
   const nCart=S.courses.filter(c=>c.done).length;
-  return `<button class="cartfab" id="cartfab" aria-label="Panier" data-a="tocart">${ART.panier.replace('width="74" height="66"','width="44" height="40"')}${nCart?`<em>${nCart}</em>`:''}</button><button class="orga" data-a="orga">${kw('calendrier',30)}Organiser</button><div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" value="${esc(S.q)}" placeholder="Commence à écrire" autocomplete="off"><button class="qx ${S.q?'on':''}" id="qx" aria-label="Fermer la recherche" data-a="qclear">×</button></div><div class="sugg" id="sugg">${suggHTML()}</div>
+  const yay=S._yay;S._yay=0;
+  return `<button class="cartfab ${yay?'yay':''}" id="cartfab" aria-label="Panier" data-a="tocart">${yay?'<span class="yayb">Yay !</span>'+burst('#F6C79A'):''}${ART.panier.replace('width="74" height="66"','width="44" height="40"')}${nCart?`<em>${nCart}</em>`:''}</button><button class="orga" data-a="orga">${kw('calendrier',30)}Organiser</button><div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" value="${esc(S.q)}" placeholder="Commence à écrire" autocomplete="off"><button class="qx ${S.q?'on':''}" id="qx" aria-label="Fermer la recherche" data-a="qclear">×</button></div><div class="sugg" id="sugg">${suggHTML()}</div>
     <div class="rstrip hs">${strip}</div><div class="scroll" style="padding:0 20px 150px">${groups}${cart}</div>`;
 }
 function catChips(){const r=RY[S.catRayon],mine=S.courses.filter(c=>c.rayon===r.id&&!c.done).map(c=>c.name);
@@ -1056,14 +1082,14 @@ function renderInner(){
   const se=ph.querySelector('.scroll'),keep=se?se.scrollTop:0,key=S.tab+S.view+S.folder;
   const sh=ph.querySelector('.sheet'),keepSh=sh?sh.scrollTop:0;
   const city=S.city==='Ma position'?'Roubaix':S.city;
-  const tabs=[['cal','Calendrier','calendrier'],['taches','Tâches','taches'],['courses','Courses','courses'],['menage','Ménage','seau'],['moi','Bien-être','perso'],['cycle','Cycle','cycle']];S._cy=cyStats();
+  const tabs=[['cal','Calendrier','calendrier','#A9CFE8'],['taches','Tâches','taches','#CDBEEB'],['courses','Courses','courses','#F6C79A'],['menage','Ménage','seau','#B9D59C'],['moi','Bien-être','perso','#F2B6CC'],['cycle','Cycle','cycle','#EFA9B3']];S._cy=cyStats();
   const content={cal:calHTML,taches:tasksHTML,courses:coursesHTML,menage:menageHTML,moi:moiHTML,cycle:cycleHTML}[S.tab]();
-  ph.innerHTML=`<header><div style="flex:none;display:flex;align-items:center;gap:10px;margin-right:14px"><span class="dnum">${pd(TODAY).getDate()}</span><span class="dtxt"><b>${DOWL[wd(TODAY)]}</b><span>${MON[pd(TODAY).getMonth()]} <i style="font-style:normal;font-size:9px;font-weight:500;opacity:.3">(${new Date(pd(TODAY).getFullYear(),pd(TODAY).getMonth()+1,0).getDate()})</i></span></span></div>
+  ph.innerHTML=`<header><div style="flex:none;display:flex;align-items:center;gap:10px;margin-right:14px;cursor:pointer" data-a="gomonth" role="button" aria-label="Voir le mois"><span class="dnum">${pd(TODAY).getDate()}</span><span class="dtxt"><b>${DOWL[wd(TODAY)]}</b><span>${MON[pd(TODAY).getMonth()]} <i style="font-style:normal;font-size:9px;font-weight:500;opacity:.3">(${new Date(pd(TODAY).getFullYear(),pd(TODAY).getMonth()+1,0).getDate()})</i></span></span></div>
     <button class="wx mx" data-a="meteo" aria-label="Météo de la semaine">${W?ART[W.icon](48):ART.nuage(48)}<div><span class="nf" style="font-size:26px;line-height:1">${W?Math.round(W.cur)+'°':'–'}</span><small>${esc(W?W.name:(S.city==='Ma position'?'Ma position':S.city))}</small><small>${W&&W.days[0]?Math.round(W.days[0].max)+'° / '+Math.round(W.days[0].min)+'°':''}</small></div></button>
     <button class="gear" aria-label="Réglages" data-a="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button></header>
     <main>${content}</main>
     ${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
-    <nav>${tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${kw(t[2],28)}${t[1]}</button>`).join('')}</nav>
+    <nav>${(()=>{const pp=S._tabPop;S._tabPop='';return tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}${pp===t[0]?' pop':''}" style="--tc:${t[3]}" data-a="tab" data-v="${t[0]}">${kw(t[2],28)}${t[1]}</button>`).join('')})()}</nav>
     ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
     ${sheetHTML()}`;
   const ns=ph.querySelector('.scroll');
@@ -1098,7 +1124,7 @@ function stepCal(n){if(S.view==='jour')S.sel=add(S.sel,n);else if(S.view==='sema
   document.addEventListener('touchstart',e=>{const el=e.target.closest('#calscroll');if(!el||S.sheet){on=false;return}on=true;x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now()},{passive:true});
   document.addEventListener('touchend',e=>{if(!on)return;on=false;const t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5&&Date.now()-t0<700){S._swiped=Date.now();stepCal(dx<0?1:-1)}},{passive:true});
 })();
-function addCourse(name,rayon){const ex=S.courses.find(c=>!c.done&&norm(c.name)===norm(name));if(ex)ex.qty++;else S.courses.push({id:S.nextId++,rayon,name,qty:1})}
+function addCourse(name,rayon){S._yay=1;const ex=S.courses.find(c=>!c.done&&norm(c.name)===norm(name));if(ex)ex.qty++;else S.courses.push({id:S.nextId++,rayon,name,qty:1})}
 
 let toastTimer;
 (function keyboardFix(){const reset=()=>{if(document.activeElement&&/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName))return;window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0};
@@ -1132,12 +1158,13 @@ document.addEventListener('click',e=>{
   const upd=(id,fn)=>{S.items=S.items.map(x=>x.id===id?fn(x):x)};
   const cur=()=>S[S.sheetList].find(x=>x.id===S.sheetId);
   switch(a){
-    case 'tab':S.tab=v;S.q='';if(v==='cycle'){S.cyDay=TODAY;S.cyMon=TODAY.slice(0,7)}break;
+    case 'tab':if(S.tab!==v)S._tabPop=v;S.tab=v;S.q='';if(v==='cycle'){S.cyDay=TODAY;S.cyMon=TODAY.slice(0,7)}break;
     case 'view':S.view=v;break;
     case 'step':{const n=+v;if(S.view==='jour')S.sel=add(S.sel,n);else if(S.view==='semaine')S.sel=add(S.sel,7*n);else{const d=pd(S.sel);S.sel=fk(new Date(d.getFullYear(),d.getMonth()+n,1))}break}
     case 'today':S.sel=TODAY;break;
     case 'day':S.sel=el.dataset.k;S.view='jour';break;
     case 'folder':S.folder=v;break;
+    case 'gomonth':S.tab='cal';S.view='mois';S.sel=TODAY;break;
     case 'filter':S.filter=v;break;
     case 'rtheme':S.rTheme=S.rTheme===v?'':v;break;
     case 'check':{const it=S.items.find(x=>x.id===id);if(!it.done){S.pop=id;clearTimeout(S._popT);S._popT=setTimeout(()=>{S.pop=0},800);spawnNext(it)}
@@ -1149,7 +1176,7 @@ document.addEventListener('click',e=>{
     case 'sugok':{const [z,t]=S.sugg[+v];S.chores.push({id:S.nextId++,zone:z,sub:subFor(t),title:t,freq:7,last:TODAY});S.sugg.splice(+v,1);if(!S.sugg.length)S.sheet='';S._sheetKeep=true;break}
     case 'sugno':S.sugg.splice(+v,1);if(!S.sugg.length)S.sheet='';S._sheetKeep=true;break;
     case 'addzone':S.chores.push({id:S.nextId++,zone:S.zoneId,sub:subFor(v),title:v,freq:7,last:add(TODAY,-7),link:/courses/i.test(v)?'courses':undefined});S._sheetKeep=true;break;
-    case 'goth':if(v==='menage'){S.tab='menage'}else if(v==='courses'){S.tab='courses'}else if(v==='perso'){S.tab='moi'}else{S.tab='taches';S.folder='afaire';S.filter=v}break;
+    case 'goth':if(v==='menage'){S.tab='menage'}else if(v==='courses'){S.tab='courses'}else if(v==='perso'){S.tab='moi'}else{const cnt=f=>S.items.filter(it=>it.kind==='tache'&&it.folder===f&&it.theme===v&&!it.done&&visible(it)).length;const na=cnt('afaire'),nu=cnt('urgent');S.tab='taches';S.folder=nu>=na&&nu>0?'urgent':'afaire';S.filter=v}break;
     case 'goitem':{e.stopPropagation&&e.stopPropagation();const it=S.items.find(x=>x.id===id);if(!it)break;if(it.link==='courses'){S.tab='courses';S.sheet='';break}if(it.kind==='tache'){S.tab='taches';S.folder=it.folder==='urgent'?'urgent':'afaire';S.filter='all'}else if(it.kind==='rappel'){S.tab='taches';S.folder='rappels';S.rTheme=it.theme}else{S.sel=it.date;S.view='jour';S._scrollTo=it.start}break}
     case 'donec':{const c=cur();if(S.sheetList==='chores'){finishItem(choreItem(c));S.sheet=S.zoneId?'zone':'';break}c.last=TODAY;delete c.next;S.sheet=S.sheetList==='care'?'sec':(c.zone?'zone':'');break}
     case 'setfreq':{const c=cur();c.freq=+v;delete c.days;delete c.next;S._sheetKeep=true;break}
@@ -1217,8 +1244,8 @@ document.addEventListener('click',e=>{
     case 'settings':S.sheet='settings';break;
     case 'cyday':S.cyDay=v;break;
     case 'cymon':{const d=pd(S.cyMon+'-01');d.setMonth(d.getMonth()+(+v));S.cyMon=fk(d).slice(0,7);break}
-    case 'cyflow':case 'cymood':case 'cysym':case 'cysex':{const D=S.cycle.days,k=S.cyDay,e={...(D[k]||{})};
-      if(a==='cysex'){if(+v)e.sex=1;else delete e.sex}else if(a==='cyflow')e.flow=+v;else{const f=a==='cymood'?'mood':'sym',l=e[f]||[];e[f]=l.includes(v)?l.filter(x=>x!==v):[...l,v]}
+    case 'cyflow':case 'cymood':case 'cysym':case 'cysex':case 'cypoo':{const D=S.cycle.days,k=S.cyDay,e={...(D[k]||{})};
+      if(a==='cysex'){if(+v)e.sex=1;else delete e.sex}else if(a==='cypoo'){if(+v)e.poo=1;else delete e.poo}else if(a==='cyflow')e.flow=+v;else{const f=a==='cymood'?'mood':'sym',l=e[f]||[];e[f]=l.includes(v)?l.filter(x=>x!==v):[...l,v]}
       if(!e.flow)delete e.flow;['mood','sym'].forEach(f=>{if(e[f]&&!e[f].length)delete e[f]});
       const nd={...D};if(Object.keys(e).length)nd[k]=e;else delete nd[k];S.cycle={...S.cycle,days:nd};break}
     case 'swdel':{if(v==='item')S.items=S.items.filter(x=>x.id!==id);else if(v==='course'){S.courses=S.courses.filter(x=>x.id!==id);S.qOpen=0}
@@ -1999,7 +2026,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='44';
+const APP_VER='45';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
