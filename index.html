@@ -832,50 +832,41 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
       <div class="lbl" style="margin-top:12px">Symptômes</div><div class="pick">${syms}</div></div>
     ${hist?`<div class="cycard"><div class="lbl" style="margin-bottom:4px">Dernières règles</div>${hist}</div>`:''}${sleepCard()}</div>`}
 const itIcon=(it,sz)=>{if(it.bday)return kw('gateau',sz);if(it.chore){const c=S.chores.find(x=>x.id===it.chore);if(c&&c.sub)return charSvg(c.sub,'ok',Math.round(sz*1.12))}return kw(it.theme,sz)};
-const lilaSvg=(()=>{const SK='#6B5A55',O=`stroke="${SK}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"`;
-const BL='#4E4240',W='#FFFBF5',TAN='#D9944F',TANL='#E9B57A',PK='#F2A7B5',COL='#9A6B4E';
-const blush=(x,y,r=2.4)=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*.55}" fill="#EDA5B0" opacity=".85"/>`;
-const sleepEye=(x,y,w=3)=>`<path d="M${x-w} ${y-.4}q${w} 1.8 ${w*2} 0" stroke="#B9AAA3" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M${x-w-.4} ${y+.2}l-.8.6M${x+w+.4} ${y+.2}l.8.6" stroke="#B9AAA3" stroke-width=".8" stroke-linecap="round"/>`;
+const lilaSvg=(()=>{const SK='#221A18',SW=1.7,O=`stroke="${SK}" stroke-width="${SW}" stroke-linejoin="round" stroke-linecap="round"`;
+ // contour en touffes irrégulières, style dessin
+ const fur=(cx,cy,rx,ry,n,len,pinch=0,seed=1)=>{const P=t=>{const a=t*Math.PI*2-Math.PI/2,sn=Math.sin(a),k=sn>0?1-pinch*sn*sn:1;return[cx+rx*k*Math.cos(a),cy+ry*sn]};let d='';
+   for(let i=0;i<=n;i++){const [x,y]=P(i/n);if(!i){d=`M${x.toFixed(1)} ${y.toFixed(1)}`;continue}const j=len?(i%3===0?1.25:i%2?.85:1):0,[px,py]=P((i-1)/n),[mx,my]=P((i-.15)/n),nx=mx-cx,ny=my-cy,L=Math.hypot(nx,ny)||1,tx=mx+nx/L*len*j,ty=my+ny/L*len*j;
+   d+=`Q${(px+nx/L*len*.55).toFixed(1)} ${(py+ny/L*len*.55).toFixed(1)} ${tx.toFixed(1)} ${ty.toFixed(1)}Q${(x+nx/L*len*.15).toFixed(1)} ${(y+ny/L*len*.15).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`}return d+'Z'};
+ const zz=(pts,k=1)=>'M'+pts.map(p=>p.map(v=>v.toFixed(1)).join(' ')).join('L')+'Z';
+ const shine=(x,y,r,iris)=>`<circle cx="${x}" cy="${y}" r="${r+.7}" fill="#F4EBE4" ${O}/><circle cx="${x+.5}" cy="${y-.4}" r="${r}" fill="${iris}"/><circle cx="${x+.6}" cy="${y}" r="${r*.55}" fill="#120C0A"/><circle cx="${x-r*.3}" cy="${y-r*.35}" r="${r*.36}" fill="#fff"/><circle cx="${x+r*.38}" cy="${y+r*.38}" r="${r*.16}" fill="#fff"/>`;
+ const shut=(x,y,w)=>`<path d="M${x-w} ${y}q${w} ${w*.7} ${w*2} 0" stroke="${SK}" stroke-width="1.3" fill="none" stroke-linecap="round"/>`;
+ const smile=(c,y,open)=>open?`<path d="M${c-6.4} ${y-1.6}Q${c-5} ${y+.8} ${c-3.4} ${y}" stroke="${SK}" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M${c+6.4} ${y-1.6}Q${c+5} ${y+.8} ${c+3.4} ${y}" stroke="${SK}" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M${c-3.8} ${y-.4}Q${c} ${y+1.2} ${c+3.8} ${y-.4}Q${c+3.2} ${y+5.6} ${c} ${y+5.8}Q${c-3.2} ${y+5.6} ${c-3.8} ${y-.4}z" fill="#3A1E1C" ${O}/><path d="M${c-2.4} ${y+1.6}Q${c} ${y+2.2} ${c+2.4} ${y+1.6}Q${c+2.2} ${y+5} ${c} ${y+5}Q${c-2.2} ${y+5} ${c-2.4} ${y+1.6}z" fill="#F07C8C"/>`
+  :`<path d="M${c-4} ${y}q2 1.8 4 0q2 1.8 4 0" stroke="${SK}" stroke-width="1.1" fill="none" stroke-linecap="round"/>`;
+ const paws=(c,dx,col)=>`<path d="M${c-dx-4.6} 89.6c-.4-3 1.4-4.6 4.6-4.6s5 1.6 4.6 4.6zM${c+dx+4.6} 89.6c.4-3-1.4-4.6-4.6-4.6s-5 1.6-4.6 4.6z" fill="${col}" ${O}/><path d="M${c-dx-1.6} 89.6v-1.8M${c-dx+1.6} 89.6v-1.8M${c+dx-1.6} 89.6v-1.8M${c+dx+1.6} 89.6v-1.8" stroke="${SK}" stroke-width="1" stroke-linecap="round"/>`;
 
-const lila=(sleep)=>{
- const cx=70;
- let sp='';[[24,76],[30,68],[38,64],[18,80],[46,66],[36,76],[44,78],[52,70],[50,60],[28,82]].forEach(([x,y])=>sp+=`<circle cx="${x}" cy="${y}" r="1" fill="${BL}"/>`);
- const eye=(x,y,f)=>sleep?sleepEye(x,y+.4,3.2):
-  `<ellipse cx="${x}" cy="${y}" rx="3.7" ry="3.5" fill="#FFF"/><circle cx="${x+f*.5}" cy="${y-1.1}" r="2.7" fill="#D9822E"/><circle cx="${x+f*.5}" cy="${y-1.3}" r="1.3" fill="#2E2422"/><circle cx="${x+f*.5-.9}" cy="${y-2.3}" r=".75" fill="#FFF"/>`;
- const brow=(x,y,f)=>`<path d="M${x-2.6*f} ${y-5.4}q${2.2*f} -1.6 ${4.4*f} -.2" stroke="#E9DED6" stroke-width="1.1" fill="none" stroke-linecap="round"/>`;
- return `
- <g transform="translate(8 0)"><path d="M10 79C0 75-7 78-7 86.4" fill="none" stroke="${SK}" stroke-width="4.4" stroke-linecap="round"/><path d="M10 79C0 75-7 78-7 86.4" fill="none" stroke="${W}" stroke-width="1.8" stroke-linecap="round"/><path d="M10 79C6 77.4 3.4 77 1 77.4" fill="none" stroke="${BL}" stroke-width="1.8" stroke-linecap="round"/>
- <path id="lbody" d="M8 86C5 69 18 56 40 56c10 0 15-5 19-14h22c4 10 9 26 9 44z" fill="${W}"/>${sp}
- <clipPath id="lbc"><use href="#lbody"/></clipPath><path clip-path="url(#lbc)" d="M2 72C6 60 18 57 25 62c5 4 4 12-2 16-5 3.4-12 4-16 2.6C3 79 1.4 76 2 72z" fill="${BL}"/>
- <path d="M8 86C5 69 18 56 40 56c10 0 15-5 19-14h22c4 10 9 26 9 44z" fill="none" ${O}/>
- <path d="M48 87c0-5 2.6-8 6.6-8s6.4 3 6.4 8zM78 87c0-5 2.6-8 6.6-8s6.4 3 6.4 8z" fill="${W}" ${O}/>
- <path d="M52.6 87v-2M56.6 87v-2M82.6 87v-2M86.6 87v-2" stroke="${SK}" stroke-width="1" stroke-linecap="round"/><circle cx="58" cy="82" r=".8" fill="${BL}"/><circle cx="83" cy="83" r=".8" fill="${BL}"/>
- <circle cx="64" cy="66" r=".9" fill="${BL}"/><circle cx="80" cy="70" r=".9" fill="${BL}"/><circle cx="72" cy="74" r=".9" fill="${BL}"/>
- <path d="M58.6 50.6c3.6 2.6 7.6 3.6 11.4 3.6s7.8-1 11.4-3.6" fill="none" stroke="${COL}" stroke-width="3.2" stroke-linecap="round"/>
- <!-- oreilles en rose, repliées vers l'arrière -->
- <path d="M58 19C51.6 18 47.4 22 46.6 28c-.8 6 0 12 1.8 15.6 1.2 2.4 4 2.2 5-.2L58 30z" fill="${BL}" ${O}/>
- <path d="M82 19c6.4-1 10.6 3 11.4 9 .8 6 0 12-1.8 15.6-1.2 2.4-4 2.2-5-.2L82 30z" fill="${BL}" ${O}/>
- <!-- tête : crâne rond, long museau qui descend -->
- <path id="lh" d="M${cx} 15c-10.6 0-16 6.6-16 14.6 0 5.4 2 9 4.6 11.6l3 14.4c1 4.4 4.4 7 8.4 7s7.4-2.6 8.4-7l3-14.4c2.6-2.6 4.6-6.2 4.6-11.6 0-8-5.4-14.6-16-14.6z" fill="${BL}"/>
- <!-- liste blanche : tache sur le haut du front, fine entre les yeux, large sur le museau -->
- <clipPath id="lc"><use href="#lh"/></clipPath>
- <path clip-path="url(#lc)" fill="${W}" d="M${cx-4} 12L${cx+4} 12C${cx+3.6} 20 ${cx+3} 26 ${cx+3} 31C${cx+6} 35 ${cx+7.4} 40 ${cx+6.6} 44L${cx+4.6} 55C${cx+3.8} 59 ${cx+2} 61.6 ${cx} 61.6C${cx-2} 61.6 ${cx-3.8} 59 ${cx-4.6} 55L${cx-6.6} 44C${cx-7.4} 40 ${cx-6} 35 ${cx-3} 31C${cx-3} 26 ${cx-3.6} 20 ${cx-4} 12Z"/>
- <path d="M${cx-2.2} 14.4h4.4c.4 0 .6.4.4.8L${cx+.6} 19.4c-.3.5-.9.5-1.2 0L${cx-2.6} 15.2c-.2-.4 0-.8.4-.8z" fill="${BL}"/>
- <path d="M${cx} 15c-10.6 0-16 6.6-16 14.6 0 5.4 2 9 4.6 11.6l3 14.4c1 4.4 4.4 7 8.4 7s7.4-2.6 8.4-7l3-14.4c2.6-2.6 4.6-6.2 4.6-11.6 0-8-5.4-14.6-16-14.6z" fill="none" ${O}/>
- <ellipse cx="${cx+.6}" cy="50" rx="3.4" ry="2.4" fill="#F6D9D4"/><ellipse cx="${cx-3.4}" cy="51.4" rx="1.7" ry="1.2" fill="#7E706C" opacity=".45"/><ellipse cx="${cx+3}" cy="49.6" rx="1.3" ry="1" fill="#7E706C" opacity=".4"/>
- <ellipse cx="${cx}" cy="56.4" rx="5.4" ry="3.7" fill="${BL}"/><ellipse cx="${cx-1.6}" cy="55.4" rx="1.4" ry=".8" fill="#FFF" opacity=".7"/>
- ${eye(cx-8.2,30,1)}${eye(cx+8.2,30,-1)}${sleep?'':brow(cx-8.2,30,1)+brow(cx+8.2,30,-1)}
- ${blush(cx-10.4,37.4)}${blush(cx+10.4,37.4)}</g>`};
+ const lila=(sleep)=>{const c=58,W='#FFFBF5',BK='#2B2220',G='#9E928E';
+  const dots=[[-8,74],[-12,86],[10,68],[13,76],[8,82],[-6,66],[6,62],[-7,80],[12,85]].map(([x,y])=>`<circle cx="${c+x}" cy="${y}" r="1" fill="${BK}"/>`).join('');
+  return `<path d="M${c-14} 82C${c-24} 84 ${c-30} 76 ${c-27} 64" fill="none" stroke="${SK}" stroke-width="5.4" stroke-linecap="round"/><path d="M${c-14} 82C${c-24} 84 ${c-30} 76 ${c-27} 64" fill="none" stroke="${W}" stroke-width="2.4" stroke-linecap="round"/><path d="M${c-14} 82C${c-18} 83 ${c-21} 82.6 ${c-23} 81.4" fill="none" stroke="${BK}" stroke-width="2.6" stroke-linecap="round"/>
+  <clipPath id="lbc"><path d="M${c-9} 56C${c-14} 60 ${c-17} 70 ${c-16.4} 80C${c-16} 86 ${c-12} 89.6 ${c-8} 89.6H${c+8}C${c+12} 89.6 ${c+16} 86 ${c+16.4} 80C${c+17} 70 ${c+14} 60 ${c+9} 56Z"/></clipPath>
+  <path d="M${c-9} 56C${c-14} 60 ${c-17} 70 ${c-16.4} 80C${c-16} 86 ${c-12} 89.6 ${c-8} 89.6H${c+8}C${c+12} 89.6 ${c+16} 86 ${c+16.4} 80C${c+17} 70 ${c+14} 60 ${c+9} 56Z" fill="${W}" ${O}/>
+  <g clip-path="url(#lbc)"><path d="M${c-20} 68C${c-14} 65 ${c-9} 70 ${c-11} 78C${c-12.6} 83 ${c-18} 84 ${c-21} 81z" fill="${BK}"/></g>${dots}
+  <path d="M${c-3.4} 73v14M${c+3.4} 73v14" stroke="${SK}" stroke-width="1.3" stroke-linecap="round"/>
+  ${paws(c,5.4,W)}<circle cx="${c-5}" cy="87" r=".8" fill="${BK}"/><circle cx="${c+6.6}" cy="87.4" r=".8" fill="${BK}"/>
+  <path d="M${c-9} 55.4Q${c} 60 ${c+9} 55.4" stroke="#B07A55" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path d="M${c-10.4} 24C${c-17} 23 ${c-21} 28 ${c-21.4} 35C${c-21.8} 42 ${c-20} 49 ${c-17} 51.6C${c-15} 53 ${c-12.6} 52 ${c-12} 49L${c-8.6} 30z" fill="${BK}" ${O}/>
+  <path d="M${c+10.4} 24C${c+17} 23 ${c+21} 28 ${c+21.4} 35C${c+21.8} 42 ${c+20} 49 ${c+17} 51.6C${c+15} 53 ${c+12.6} 52 ${c+12} 49L${c+8.6} 30z" fill="${BK}" ${O}/>
+  <clipPath id="lhc"><path id="lhp" d="M${c} 18C${c-9.6} 18 ${c-14.4} 24.6 ${c-14.4} 32.4C${c-14.4} 38 ${c-12.8} 41.4 ${c-10.6} 44L${c-8.4} 52.4C${c-7.4} 56.4 ${c-4} 58.4 ${c} 58.4S${c+7.4} 56.4 ${c+8.4} 52.4L${c+10.6} 44C${c+12.8} 41.4 ${c+14.4} 38 ${c+14.4} 32.4C${c+14.4} 24.6 ${c+9.6} 18 ${c} 18z"/></clipPath>
+  <use href="#lhp" fill="${BK}"/>
+  <path clip-path="url(#lhc)" fill="${W}" d="M${c-3.4} 16H${c+3.4}C${c+3} 23 ${c+2.6} 29 ${c+2.8} 33.4C${c+6} 37 ${c+7.6} 42 ${c+7} 46L${c+5} 56C${c+4} 59.4 ${c+2} 61 ${c} 61S${c-4} 59.4 ${c-5} 56L${c-7} 46C${c-7.6} 42 ${c-6} 37 ${c-2.8} 33.4C${c-2.6} 29 ${c-3} 23 ${c-3.4} 16z"/>
+  <path d="M${c-1.6} 19.6h3.2l-1.6 3.2z" fill="${BK}"/>
+  <path d="M${c} 18C${c-9.6} 18 ${c-14.4} 24.6 ${c-14.4} 32.4C${c-14.4} 38 ${c-12.8} 41.4 ${c-10.6} 44L${c-8.4} 52.4C${c-7.4} 56.4 ${c-4} 58.4 ${c} 58.4S${c+7.4} 56.4 ${c+8.4} 52.4L${c+10.6} 44C${c+12.8} 41.4 ${c+14.4} 38 ${c+14.4} 32.4C${c+14.4} 24.6 ${c+9.6} 18 ${c} 18z" fill="none" ${O}/>
+  <circle cx="${c-3.2}" cy="47.6" r=".7" fill="${G}"/><circle cx="${c+3.4}" cy="46.8" r=".7" fill="${G}"/><circle cx="${c-4.2}" cy="50" r=".6" fill="${G}"/><circle cx="${c+4.4}" cy="49.6" r=".6" fill="${G}"/>
+  ${sleep?shut(c-7.2,32.6,3)+shut(c+7.2,32.6,3):shine(c-7.2,32,3.6,'#D9822E')+shine(c+7.2,32,3.6,'#D9822E')}
+  <path d="M${c-3.6} 51.6C${c-3.6} 49.8 ${c+3.6} 49.8 ${c+3.6} 51.6C${c+3.6} 53.4 ${c+1.6} 54.4 ${c} 54.4C${c-1.6} 54.4 ${c-3.6} 53.4 ${c-3.6} 51.6z" fill="#1A1210" ${O}/><ellipse cx="${c-1}" cy="51.2" rx="1" ry=".45" fill="#9A8E8A"/>
+  ${sleep?'':`<path d="M${c-3.4} 56.2q1.7 1.4 3.4 0q1.7 1.4 3.4 0" stroke="${SK}" stroke-width="1" fill="none" stroke-linecap="round"/>`}
+  <ellipse cx="${c-9.6}" cy="40.4" rx="2" ry="1.1" fill="#F09AA4" opacity=".75"/><ellipse cx="${c+9.6}" cy="40.4" rx="2" ry="1.1" fill="#F09AA4" opacity=".75"/>`};
+ return (sleep,w=150)=>`<svg width="${w}" height="${Math.round(w*.512)}" viewBox="-14 8 164 84" aria-hidden="true" style="overflow:visible">${lila(sleep)}<image href="misha.png" x="84" y="16" width="62" height="75"/>${sleep?'<text x="82" y="18" font-size="8" font-weight="800" fill="#A4BED3" font-family="Nunito">z</text>':''}</svg>`})();
 
-// ---------- MISHA : petit spitz assis ; le poil fait partie du visage
-const ring=(cx,cy,R,n,r)=>{let C='';for(let i=0;i<n;i++){const a=i/n*Math.PI*2;C+=`<circle cx="${(cx+R*Math.cos(a)).toFixed(1)}" cy="${(cy+R*Math.sin(a)).toFixed(1)}" r="${r}"/>`}return C+`<circle cx="${cx}" cy="${cy}" r="${R}"/>`};
-const fluff=(C)=>[`<g fill="${BL}" stroke="${SK}" stroke-width="3">${C}</g>`,`<g fill="${BL}">${C}</g>`];
-// Misha de dos, assis contre Lila, il la regarde
-const mishaBack=()=>{const c=118;const body=fluff(ring(c,72,10,12,4.4)),head=fluff(ring(c-1,49,8.4,11,3.4)),tail=fluff(ring(c+1,63,5,9,2.8));
- return `${body[0]}${head[0]}<path d="M${c-9} 46c-2-5-1.6-10 .6-13 1-1.4 2.6-1.4 3.6-.2 2 2.4 3 5.2 3.4 8M${c+7} 46c2-5 1.6-10-.6-13-1-1.4-2.6-1.4-3.6-.2-2 2.4-3 5.2-3.4 8" fill="${BL}" ${O}/>${body[1]}${head[1]}
- <path d="M${c-12} 87c0-3 2-5 4.6-5s4.6 2 4.6 5zM${c+3} 87c0-3 2-5 4.6-5s4.6 2 4.6 5z" fill="${TAN}" ${O}/>
- ${tail[0]}${tail[1]}<path d="M${c+1} 63.4c0-1.4 1.4-2.2 2.6-1.4s.8 3-1 3.6c-2.2.8-4.4-.8-4.2-3.2.2-2.8 3-4.4 5.6-3.4" stroke="#7A6A64" stroke-width=".9" fill="none" stroke-linecap="round"/>`};
-return (sleep,w=150)=>`<svg width="${w}" height="${Math.round(w*.58)}" viewBox="-6 8 144 84" aria-hidden="true" style="overflow:visible">${mishaBack()}${lila(sleep)}${sleep?'<text x="88" y="16" font-size="8" font-weight="800" fill="#A4BED3" font-family="Nunito">z</text>':''}</svg>`})();
 const PAUSES=[['2026-12-21','2027-02-10']];
 const DECO=(()=>{
  const sv=b=>b, flake=c=>`<g stroke="${c}" stroke-width="1.5" stroke-linecap="round" fill="none">${[0,60,120,180,240,300].map(a=>`<path transform="rotate(${a} 12 12)" d="M12 12V2.6M12 6.4 9.8 4.2M12 6.4l2.2-2.2M12 9.4l-1.4-1.3M12 9.4l1.4-1.3"/>`).join('')}</g><circle cx="12" cy="12" r="1.6" fill="#D3E4F5"/>`;
@@ -2231,7 +2222,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='69';
+const APP_VER='70';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
