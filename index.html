@@ -65,7 +65,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .day{position:relative;margin:0 14px 0 8px}
 .hl{position:absolute;left:0;width:30px;text-align:right;font-size:12px;color:var(--muted);transform:translateY(-50%);font-weight:600}
 .hl.soft{opacity:.45}
-.hline{position:absolute;left:38px;right:0;height:0;border-top:1.5px dotted color-mix(in srgb,var(--ink) 13%,transparent)}
+.hline{display:none}.bdl{background:#FFF4F3;border:1px solid #F6D9DC;border-radius:18px;padding:4px 6px;margin:0 0 12px}.bdr{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:8px 6px;text-align:left;font:inherit;color:var(--ink)}.bdr+.bdr{border-top:1px solid #F6E3E5}.bdn{flex:1;min-width:0;font-weight:700;font-size:15px}.bdd{font-size:13px;color:var(--muted);white-space:nowrap}
 .adm{position:relative;aspect-ratio:600/586;margin:0 auto;max-width:100%}.adm-ly{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;pointer-events:none}.adm-ly.on{opacity:1;pointer-events:auto}
 .adm-i{position:absolute;left:0;bottom:0;width:100%;height:auto;user-select:none;-webkit-user-select:none;will-change:transform}div.adm-i{aspect-ratio:600/586}
 .adm-p{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-select:none;pointer-events:none}svg.adm-p{overflow:visible}
@@ -74,7 +74,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .adm-earL{animation:admEar 7.4s ease-in-out infinite 2.4s;--a:5deg}.adm-earR{animation:admEar 7.4s ease-in-out infinite 2.55s;--a:-5deg}
 .adm-earM{animation:admEar 6.2s ease-in-out infinite 3.6s;--a:-8deg}.adm-earM2{animation:admEar 8.6s ease-in-out infinite 1.1s;--a:8deg}
 @keyframes admEar{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(var(--a))}92%{transform:rotate(calc(var(--a) * -.4))}95%{transform:rotate(0)}}
-.adm-wag{animation:admWag 2.6s ease-in-out infinite}@keyframes admWag{0%,100%{transform:rotate(-4.5deg)}50%{transform:rotate(4.5deg)}}
+.adm-wag{animation:admWag 2.6s ease-in-out infinite}@keyframes admWag{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
 .adm-night .adm-i{bottom:6%}
 @keyframes admBreath{0%,100%{transform:scale(1,1)}50%{transform:scale(1.006,1.014)}}
 @keyframes admTilt{0%,82%,100%{rotate:0deg}87%{rotate:-1.4deg}93%{rotate:.8deg}}
@@ -856,10 +856,10 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
 const itIcon=(it,sz)=>{if(it.bday)return kw('gateau',sz);if(it.chore){const c=S.chores.find(x=>x.id===it.chore);if(c&&c.sub)return charSvg(c.sub,'ok',Math.round(sz*1.12))}return kw(it.theme,sz)};
 
 /* ---- AnimatedDogMascots : Lila (gauche, plus grande) et le chien noir et feu (droite). Jour 5 h–20 h, nuit 20 h–5 h, heure locale, sans réseau ---- */
-const ADM_V='78',admNight=()=>{const h=new Date().getHours();return h>=20||h<5};
+const ADM_V='79',admNight=()=>{const h=new Date().getHours();return h>=20||h<5};
 const admStill=()=>{try{return matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){return false}};
 const ADM_DAY={l:{n:'lila',parts:[['earl','24.2% 11.9%','adm-earL'],['earr','48.3% 11.6%','adm-earR']],eyes:[[191,120,21,19],[273,117,18,19]],lid:'#4B3A37',bl:'adm-blinkL'},
- r:{n:'misha',parts:[['tail','83.3% 81.9%','adm-wag'],['earl','64.7% 36.5%','adm-earM'],['earr','78% 38.9%','adm-earM2']],eyes:[[371,272,21,20],[445,290,19,18]],lid:'#473634',bl:'adm-blinkM'}};
+ r:{n:'misha',parts:[['tail','84.3% 81.6%','adm-wag'],['earl','64.7% 36.5%','adm-earM'],['earr','78% 38.9%','adm-earM2']],eyes:[[371,272,21,20],[445,290,19,18]],lid:'#473634',bl:'adm-blinkM'}};
 function AnimatedDogMascots(w=280){const n=admNight(),img=(f,cls='',st='')=>`<img class="adm-p ${cls}" src="mascots/${f}.png?v=${ADM_V}" alt="" draggable="false"${st?` style="${st}"`:''}>`,
  dog=(d,m)=>{if(m==='night')return `<img class="adm-i adm-${d}" src="mascots/${d==='l'?'lila':'misha'}-night.png?v=${ADM_V}" alt="" draggable="false">`;const D=ADM_DAY[d];
   return `<div class="adm-i adm-${d}">${img(D.n+'-day-base')}${D.parts.map(([p,o,c])=>img(D.n+'-day-'+p,c,'transform-origin:'+o)).join('')}<svg class="adm-p" viewBox="0 0 600 586">${D.eyes.map(([x,y,rx,ry])=>`<g class="adm-lid ${D.bl}" style="transform-origin:${x}px ${y-ry}px"><ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${D.lid}"/><path d="M${x-rx+3} ${y+2}q${rx-3} ${ry*.5} ${2*rx-6} 0" stroke="#1E1412" stroke-width="3.2" fill="none" stroke-linecap="round"/></g>`).join('')}</svg></div>`};
@@ -989,7 +989,7 @@ const DECO=(()=>{
  const SET={1:['flake','mitten','mug','snowman','star','flake'],2:['heart','letter','crepe','flake','heart','star'],3:['clover','tulip','rain','daisy','fly','sprout'],4:['egg','bell','chick','petal','tulip','fly'],5:['muguet','daisy','bug','bee','petal'],6:['straw','cherry','sun','fly','daisy'],7:['shell','starfish','ice','melon','sun'],8:['sunflower','peach','lemon','shell','ice','star'],9:['apple','pencil','grapes','leaf','acorn'],10:['pumpkin','maple','leaf','mush','acorn','chest'],11:['maple','leaf','acorn','maple','mush','leaf','chest'],12:['flake','sapin','cane','gift','holly','ginger','bauble','star']};
  return (m,i,sz)=>{const L=SET[m],k=L[i%L.length];return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24">${M[k](i)}</svg>`};
 })();
-function seasonArt(){const m=pd(TODAY).getMonth()+1,P=[[4,14,24,-20],[18,31,18,30],[88,11,22,10],[70,25,20,-35],[95,40,18,25],[7,47,22,40],[31,57,18,-15],[61,44,24,15],[83,61,20,-25],[15,71,24,20],[47,77,18,-30],[93,81,22,35],[37,19,16,5],[54,91,20,-10],[25,89,18,25],[76,94,16,-20]];
+function seasonArt(){const m=pd(TODAY).getMonth()+1,P=[[4,14,24,-20],[18,31,18,30],[88,11,22,10],[70,25,20,-35],[95,40,18,25],[5,47,22,40],[5,60,18,-15],[62,33,24,15],[95,62,20,-25],[4,74,24,20],[44,87,18,-30],[93,81,22,35],[37,19,16,5],[60,93,20,-10],[24,91,18,25],[80,95,16,-20],[9,86,20,15],[15,96,18,-25]];
  return P.map(([x,y,sz,r],i)=>(sz=Math.round(sz*1.35),`<i style="left:${x}%;top:${y}%;animation-delay:${(i%6)*.3}s;animation-duration:${4.8+(i%4)*.55}s"><b style="--r:${r}deg;animation-delay:${(i%6)*.3}s;animation-duration:${4.8+(i%4)*.55}s">${DECO(m,i,sz)}</b></i>`)).join('')}
 const tmrFace=(sleep,sz)=>`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.6 20.6 7.4 18.4M18.4 20.6l-1.8-2.2" stroke="#6B5A55" stroke-width="1.6" stroke-linecap="round"/><circle cx="5.8" cy="5.6" r="2.8" fill="#F7E3A1" stroke="#6B5A55" stroke-width="1.2"/><circle cx="18.2" cy="5.6" r="2.8" fill="#F7E3A1" stroke="#6B5A55" stroke-width="1.2"/><circle cx="12" cy="12.6" r="8" fill="#F9D3DC" stroke="#6B5A55" stroke-width="1.3"/><circle cx="12" cy="12.6" r="6" fill="#FFFBF5"/>${sleep?'<path d="M8.8 12.2q1.1 1 2.2 0M13 12.2q1.1 1 2.2 0" stroke="#4B3D3A" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M11.2 15.2q.8.5 1.6 0" stroke="#4B3D3A" stroke-width=".9" fill="none" stroke-linecap="round"/><path d="M19.6 13.4h2.6l-2.6 2.8h2.6" stroke="#8FB7D6" stroke-width="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>':'<circle cx="9.8" cy="12" r="1.05" fill="#4B3D3A"/><circle cx="14.2" cy="12" r="1.05" fill="#4B3D3A"/><circle cx="10.2" cy="11.6" r=".35" fill="#fff"/><circle cx="14.6" cy="11.6" r=".35" fill="#fff"/><path d="M11 14.4q1 1.1 2 0z" fill="#4B3D3A" stroke="#4B3D3A" stroke-width=".7" stroke-linejoin="round"/>'}<ellipse cx="8.4" cy="14.4" rx="1" ry=".6" fill="#EDA5B0"/><ellipse cx="15.6" cy="14.4" rx="1" ry=".6" fill="#EDA5B0"/><path d="M12 4.6V3.2" stroke="#6B5A55" stroke-width="1.4" stroke-linecap="round"/></svg>`;
 try{S.timer=JSON.parse(localStorage.getItem('ag_timer')||'null')}catch(e){S.timer=null}
@@ -1011,7 +1011,8 @@ const cdTxt=n=>n>0?'J-'+n:n===0?'Jour J':'+'+(-n)+' j';
 const cdCls=n=>n<0?'late':n<=1?'today':'';
 const FLAG='<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 4.5h11.5l-2.6 4 2.6 4H6z" fill="currentColor"/></svg>';
 const avantOn=k=>S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&(k<=it.due?k>=TODAY:k===TODAY));
-const onDate=k=>S.items.filter(it=>(it.date===k||(!it.date&&it.due===k)||(it.bday&&it.date&&it.date<k&&it.date.slice(5)===k.slice(5)))&&visible(it)).sort((a,b)=>(timed(a)?a.start:-1)-(timed(b)?b.start:-1));
+const bdAge=(it,k)=>it.bday&&it.by?(+k.slice(0,4))-it.by:null;
+const onDate=k=>S.items.filter(it=>(it.date===k||(!it.date&&it.due===k)||(it.bday&&it.date&&it.date<k&&it.date.slice(5)===k.slice(5)))&&visible(it)).map(it=>{const a=bdAge(it,k);return a!==null&&a>=0?{...it,title:`${it.title} · ${a} an${a>1?'s':''}`}:it}).sort((a,b)=>(timed(a)?a.start:-1)-(timed(b)?b.start:-1));
 const legend=()=>`<div class="leg">${THEMES.map(t=>{const n=S.items.filter(it=>it.kind==='tache'&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="mx" style="--d:${t.d};position:relative" data-a="goth" data-v="${t.id}"><span class="ic tint">${kw(t.id,22)}</span>${t.name}${n?`<span class="lgn">${n}</span>`:''}</button>`}).join('')}</div>`;
 
 function calHTML(){
@@ -1079,9 +1080,12 @@ function tasksHTML(){
     const used=THEMES,cur=S.filter==='all'?null:TH[S.filter];
     top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>{const n=S.items.filter(it=>inF(it,'afaire')&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}${n?' : '+n:''}" data-a="filter" data-v="${t.id}">${kw(t.id,23)}${n?`<span class="fbn">${n}</span>`:''}</button>`}).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
     if(S.filter!=='all')list=list.filter(it=>it.theme===S.filter);
+    let bdTop='';if(S.filter==='proches'){const Y=+TODAY.slice(0,4),nx=it=>{let k=Y+it.date.slice(4);if(k<TODAY)k=(Y+1)+it.date.slice(4);return k};
+      const bl=S.items.filter(it=>it.bday&&it.date).map(it=>({it,k:nx(it)})).sort((a,b)=>a.k<b.k?-1:1);
+      if(bl.length)bdTop=`<div class="bdl">${bl.map(({it,k})=>{const d=pd(k),a=bdAge(it,k),n=Math.round((d-pd(TODAY))/864e5);return `<button class="bdr" data-a="edit" data-id="${it.id}">${kw('gateau',22)}<span class="bdn">${esc(it.title)}</span><span class="bdd">${d.getDate()} ${MONS[d.getMonth()]}${a!==null&&a>=0?` · ${a} an${a>1?'s':''}`:''}${n===0?' · aujourd’hui':n<=30?` · J-${n}`:''}</span></button>`}).join('')}</div>`}
     list.sort((a,b)=>(!!a.done-!!b.done)||(isMinor(a)-isMinor(b))||((a.date||a.due||'9')<(b.date||b.due||'9')?-1:1));
-    body=list.map(taskCard).join('');
-    if(!list.length)body=`<div class="empty" style="opacity:.75;position:absolute;left:0;right:0;top:0;bottom:96px;justify-content:center;padding:0">${AnimatedDogMascots(300)}</div>`;
+    body=bdTop+list.map(taskCard).join('');
+    if(!list.length&&!bdTop)body=`<div class="empty" style="opacity:.75;position:absolute;left:0;right:0;top:0;bottom:96px;justify-content:center;padding:0">${AnimatedDogMascots(300)}</div>`;
   } else if(S.folder==='notes'){
     body=`<div class="qn"><textarea id="qnote" rows="1" placeholder="Note rapide" autocomplete="off">${esc(S.qnT||'')}</textarea><button aria-label="Ajouter" data-a="qnadd"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>`
       +[...(S.notes||[])].reverse().map(n=>`<div class="qnc"><div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:600;white-space:pre-wrap;word-break:break-word">${esc(n.t)}</div><div class="meta" style="font-size:12px;margin-top:2px">${pd(n.at).getDate()} ${MONS[pd(n.at).getMonth()]}</div></div><button class="qnto" data-a="qnto" data-id="${n.id}">${kw('afaire',20)}À faire</button><button class="qnx" aria-label="Supprimer" data-a="qndel" data-id="${n.id}">×</button></div>`).join('');
@@ -1097,6 +1101,7 @@ function tasksHTML(){
   return `<div class="folders">${folders}</div>${top}<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:10px;position:relative">${body}</div>`;
 }
 
+const tapSnap=()=>{S._snap=JSON.stringify({items:S.items,chores:S.chores,care:S.care})},tapUndo=()=>{if(!S._snap)return;const o=JSON.parse(S._snap);S.items=o.items;S.chores=o.chores;S.care=o.care;S._snap=null};
 function ctog(c){return ['sportm','complements','journal','mains'].includes(c.sec)||/epilation|repousse|couper/.test(norm(c.title))}
 function charBubble(c,list){const A=list==='chores'?'ctap':'mtap';if(off(c))return `<button class="cbw" style="opacity:.75" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb" style="--d:#CEC3BB;width:80px;height:80px">${charSvg(c.sub,'late',48)}</span><span class="lbl2" style="color:var(--muted)">${esc(c.title)}</span></button>`;const s=st(c);
   const bang=c.link==='courses'&&s.when&&s.left<=0?`<span class="cnt" style="background:var(--acc);color:var(--card);left:-2px;right:auto;font-size:15px;font-weight:900">!</span>`:'';
@@ -1281,7 +1286,7 @@ function sheetHTML(){
       <div><div class="lbl" style="margin-bottom:6px">Thème · <b style="color:var(--ink);font-weight:700">${TH[D.theme]?TH[D.theme].name:''}</b></div><div class="thg">${THEMES.map(t=>`<button class="${D.theme===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}" data-a="dtheme" data-v="${t.id}">${kw(t.id,26)}</button>`).join('')}</div></div>`;
     if(kind==='tache')inner+=`<div class="seg ghost"><button class="${!D.date&&!D.due?'on':''}" data-a="dnodate" data-v="1">Sans date</button><button class="${D.date?'on':''}" data-a="dnodate" data-v="0">Avec date</button><button class="${!D.date&&D.due?'on':''}" data-a="dnodate" data-v="2">Avant le</button></div>`;
     if(kind==='tache'&&!D.date&&D.due)inner+=`<div class="f2">${cell('Avant le',din('ddue',D.due))}</div>`;
-    if(kind==='rdv'){inner+=`<div class="f2">${cell('Date',din('ddate',D.date))}<div class="cell"><span class="lbl">&nbsp;</span><button class="adt ${D.allDay?'on':''}" data-a="dallday">Journée entière</button></div></div>${D.theme==='proches'?`<button class="adt ${D.bday?'on':''}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:6px" data-a="dbday">${kw('gateau',22)}Anniversaire</button>`:''}`;
+    if(kind==='rdv'){inner+=`<div class="f2">${cell('Date',din('ddate',D.date))}<div class="cell"><span class="lbl">&nbsp;</span><button class="adt ${D.allDay?'on':''}" data-a="dallday">Journée entière</button></div></div>${D.theme==='proches'?`<button class="adt ${D.bday?'on':''}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:6px" data-a="dbday">${kw('gateau',22)}Anniversaire</button>${D.bday?`<div class="cell" style="margin-top:10px"><span class="lbl">Année de naissance</span><select class="din" data-in="dby"><option value="">—</option>${Array.from({length:100},(_,i)=>pd(TODAY).getFullYear()-i).map(y=>`<option value="${y}" ${+D.by===y?'selected':''}>${y}</option>`).join('')}</select></div>`:''}`:''}`;
       if(!D.allDay)inner+=`<div class="f2">${cell('Début',tin('dhour',toHM(D.start)))}${cell('Fin',tin('dend',toHM(Math.min(24,(D.start===null?12:D.start)+D.dur))))}</div>`}
     else if(D.date)inner+=`<div class="f2">${cell('Date',din('ddate',D.date))}${cell('Heure',tin('dhour',toHM(D.start)))}</div>`;
     if(kind==='rappel'||(kind==='tache'&&D.date)){const rp=D.repeat||'',isD=rp.startsWith('d:');
@@ -1375,6 +1380,7 @@ let SWO=null;
 document.addEventListener('change',e=>{const el=e.target.closest&&e.target.closest('[data-in]');if(!el)return;const v=el.value,a=el.dataset.in;
   const tH=x=>{if(!x)return null;const q=x.split(':').map(Number);return Math.min(23.75,Math.max(5,q[0]+(q[1]||0)/60))};
   if(a==='ddate'){if(v)S.D.date=v}
+  if(a==='dby'){S.D.by=v;return}
   else if(a==='ddue'){if(v)S.D.due=v}
   else if(a==='cdd'){S.cdD=v}
   else if(a==='seuil'){S.seuil=+v}
@@ -1446,7 +1452,7 @@ document.addEventListener('click',e=>{
       if(S.tab==='menage'||S.tab==='moi'){S.sheet='add';break}
       const kind=S.tab==='cal'?'rdv':S.folder==='rappels'?'rappel':'tache';
       S.D={kind,title:'',theme:S.tab==='taches'&&S.filter!=='all'?S.filter:'perso',date:kind==='tache'?null:(S.tab==='cal'?S.sel:TODAY),start:kind==='tache'?null:12,dur:1,repeat:'',folder:kind==='tache'?S.folder:undefined};S.sheet='new';break}
-    case 'edit':{const it=S.items.find(x=>x.id===id);if(!it)break;S.D={kind:it.kind,id:it.id,title:it.title,theme:it.bday?'proches':it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:timed(it)&&it.end?it.end-it.start:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link,note:it.note||'',due:it.due||null,allDay:!!it.allDay,bday:!!it.bday};S.sheet='edit';break}
+    case 'edit':{const it=S.items.find(x=>x.id===id);if(!it)break;S.D={kind:it.kind,id:it.id,title:it.title,theme:it.bday?'proches':it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:timed(it)&&it.end?it.end-it.start:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link,note:it.note||'',due:it.due||null,allDay:!!it.allDay,bday:!!it.bday,by:it.by||''};S.sheet='edit';break}
     case 'dtheme':S.D.theme=v;S._sheetKeep=true;break;
     case 'dnodate':if(v==='1'){S.D.date=null;S.D.start=null;S.D.due=null}else if(v==='2'){S.D.date=null;S.D.start=null;S.D.repeat='';if(!S.D.due){let n=(5-wd(TODAY)+7)%7;if(!n)n=7;S.D.due=add(TODAY,n)}}else{S.D.date=S.D.date||TODAY;S.D.due=null}S._sheetKeep=true;break;
     case 'ddate':S.D.date=add(S.D.date,+v);S._sheetKeep=true;break;
@@ -1472,19 +1478,19 @@ document.addEventListener('click',e=>{
     case 'lecchk':S.lectures=S.lectures.map(x=>x.id===id?{...x,done:!x.done}:x);S._sheetKeep=true;break;
     case 'lecdel':S.lectures=S.lectures.filter(x=>x.id!==id);S._sheetKeep=true;break;
     case 'save':{const D=S.D,t=(document.getElementById('titre')||{}).value||D.title;if(!t.trim())return;
-      const base={title:t.trim(),note:(D.note||'').trim()||undefined,due:!D.date&&D.due?D.due:undefined,theme:D.kind==='rdv'&&D.theme==='proches'&&D.bday?'anniv':D.theme,date:D.date||null,start:D.start,end:D.start!==null?D.start+(D.kind==='rdv'?D.dur:.5):undefined,allDay:D.kind==='rdv'&&D.allDay?true:undefined,bday:D.kind==='rdv'&&D.theme==='proches'&&D.bday?true:undefined};
+      const base={title:t.trim(),note:(D.note||'').trim()||undefined,due:!D.date&&D.due?D.due:undefined,theme:D.kind==='rdv'&&D.theme==='proches'&&D.bday?'anniv':D.theme,date:D.date||null,start:D.start,end:D.start!==null?D.start+(D.kind==='rdv'?D.dur:.5):undefined,allDay:D.kind==='rdv'&&D.allDay?true:undefined,bday:D.kind==='rdv'&&D.theme==='proches'&&D.bday?true:undefined,by:D.kind==='rdv'&&D.theme==='proches'&&D.bday&&D.by?+D.by:undefined};
       if(D.kind==='rappel'||D.kind==='tache')base.repeat=D.date?D.repeat:'';
       if(S.sheet==='edit')upd(D.id,x=>({...x,...base}));
       else S.items.push({id:S.nextId++,kind:D.kind,...base,...(D.chore?{chore:D.chore}:{}),...(D.link?{link:D.link}:{}),folder:D.kind==='tache'?D.folder:undefined,reports:0,urgentSince:D.folder==='urgent'?TODAY:undefined});
       S.sheet=S.backZone&&S.zoneId&&S.tab==='menage'?'zone':'';S.backZone=0;break}
     case 'delitem':S.items=S.items.filter(x=>x.id!==S.D.id);S.sheet=S.backZone&&S.zoneId&&S.tab==='menage'?'zone':'';S.backZone=0;break;
     case 'ctap':{const c=S.chores.find(x=>x.id===id);if(!c)break;
-      if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;const it=choreItem(c);if(it){S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link};S.sheet='edit';S.backZone=1}else{S.sheet='chore';S.sheetList='chores';S.sheetId=id}break}
-      clearTimeout(S._tapT);S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;const it=choreItem(c);if(!it)activateChore(c);else{finishItem(it);S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},300);return}
+      if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;tapUndo();const c2=S.chores.find(x=>x.id===id)||c;const it=choreItem(c2);if(it){S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link};S.sheet='edit';S.backZone=1}else{S.sheet='chore';S.sheetList='chores';S.sheetId=id}break}
+      clearTimeout(S._tapT);tapSnap();S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;S._snap=null},320);{const it=choreItem(c);if(!it)activateChore(c);else{finishItem(it);S.popChore=id}setTimeout(()=>{S.popChore=0},600)}break}
     case 'dogtap':admTap(el,el.dataset.v);return;
     case 'mtap':{const c=S.care.find(x=>x.id===id);if(!c)break;
-      if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;S.sheet='chore';S.sheetList='care';S.sheetId=id;break}
-      clearTimeout(S._tapT);S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;if(c.paused){c.paused=false;c.next=TODAY}else{c.paused=true;c.last=TODAY;delete c.next;S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},300);return}
+      if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;tapUndo();S.sheet='chore';S.sheetList='care';S.sheetId=id;break}
+      clearTimeout(S._tapT);tapSnap();S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;S._snap=null},320);if(c.paused){c.paused=false;c.next=TODAY}else{c.paused=true;c.last=TODAY;delete c.next;S.popChore=id}setTimeout(()=>{S.popChore=0},600);break}
     case 'pause':{const c=cur();c.paused=true;delete c.next;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
     case 'unpause':{const c=cur();if(S.sheetList==='chores'){activateChore(c);S.sheet=S.zoneId?'zone':'';break}c.paused=false;c.next=TODAY;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
     case 'delchore':{const L2=S.sheetList;if(L2==='chores')S.items=S.items.filter(x=>x.chore!==S.sheetId||x.done);S[L2]=S[L2].filter(x=>x.id!==S.sheetId);S.sheet=L2==='care'?'sec':(S.zoneId?'zone':'');break}
@@ -2288,7 +2294,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='78';
+const APP_VER='79';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
