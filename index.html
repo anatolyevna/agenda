@@ -701,7 +701,6 @@ function hairCard(){const p=hairPh(),P=HAIR_PH[p],W=HAIR_WEEK[p===1?1:2],d=wd(TO
  <div class="hg">Phase en cours</div><div class="pick" style="margin:4px 0 6px">${[1,2,3].map(n=>`<button class="txt ${p===n?'on':''}" style="--d:#EEB87D" data-a="hairp" data-v="${n}">Phase ${n}</button>`).join('')}</div>
  <div class="ht">${P[0]}</div>${P[1].map(x=>`<div class="hp">· ${x}</div>`).join('')}
  <div class="hg">Semaine type</div>${W.map((t,i)=>`<div class="hs" style="${i===d?'background:#FDEFD9;border-radius:10px;padding-left:6px':''}"><div class="hb"><span class="ht">${J[i]}</span> <span class="hp">· ${t}</span></div></div>`).join('')}
- <div class="hp" style="padding:4px 0">Les jours se changent dans les réglages de chaque bulle (double appui), selon ton planning de vol.</div>
  <div class="hwarn" style="margin:8px 0">Tu changes de phase toi-même. Le massage et le sérum de densité ne démarrent qu’une fois le cuir chevelu cicatrisé : active la bulle Massage à ce moment-là.</div>
  <div class="hg">Saison · ${sn}</div><div class="hp">${HAIR_SEASON[sk]}</div>
  <div class="hg">Profil</div><div class="hp">Cheveux longs et fins, ondulés à bouclés ; perte de densité et chute chronique ; racines grasses en 1 à 2 jours ; longueurs sèches, cassantes, fourchues, trop élastiques mouillées, vite emmêlées et alourdies ; cuir chevelu qui démange, rougit, pellicules et croûtes ; coloration semi-permanente des racines.</div>
@@ -1393,7 +1392,7 @@ function sheetHTML(){
     title=`<span style="display:flex;align-items:center;gap:10px"><span class="ic tint" style="--d:${r.d};width:40px;height:40px;border-radius:14px">${kw(r.id,30)}</span>${r.name}</span>`;
     inner=`<div class="cat" id="catlist">${catChips()}</div><div class="csearch" style="position:sticky"><div style="position:relative"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round" style="position:absolute;left:15px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="cq" value="${esc(S.cq)}" placeholder="Commence à écrire" autocomplete="off" style="padding-left:44px;width:100%"></div></div>`;
   } else if(S.sheet==='chore'){
-    [title,inner]=choreSheet();{const c=S.sheetList==='care'&&S.care.find(x=>x.id===S.sheetId);if(c&&c.sec==='visage'&&SKIN[c.sub])inner=skinDetail(c.sub)+inner;if(c&&c.sec==='cheveux'&&c.hk)inner=hairDetail(c)+inner}
+    [title,inner]=choreSheet();{const c=S.sheetList==='care'&&S.care.find(x=>x.id===S.sheetId);if(c){inner=c.sec==='visage'&&SKIN[c.sub]?skinDetail(c.sub):c.sec==='cheveux'&&c.hk?hairDetail(c):''}}
   } else if(S.sheet==='zone'){
     const z=ZONES.find(x=>x[0]===S.zoneId),its=S.chores.filter(c=>c.zone===S.zoneId).sort((a,b)=>st(a).left-st(b).left);
     title=`<span style="display:flex;align-items:center;gap:10px">${charSvg(S.zoneId,its.length?worst(its):'ok',40)}${z[1]}</span>`;
@@ -2459,7 +2458,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='87';
+const APP_VER='88';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
