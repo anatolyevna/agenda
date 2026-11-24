@@ -85,7 +85,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .cyc{position:relative;width:38px;height:38px;border-radius:19px;font-size:14px;font-weight:600;color:var(--ink);display:grid;place-items:center}
 .cyc.out{opacity:.35}.cyc.p{background:#EDA5B0;color:#FFFBF5}.cyc.q{background:#F7E3DE}.cyc.f{background:#E3EDD9}
 .cyc.today{box-shadow:inset 0 0 0 2px var(--acc)}.cyc.sel{box-shadow:0 0 0 2px var(--ink)}
-.cypoo{position:absolute;top:-3px;right:-3px;line-height:0}
+.cyc.hp{padding-bottom:11px}.cypoo{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);line-height:0}
 .cyc i{position:absolute;bottom:3px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:2px;background:#C4A8C9}
 .cyleg{display:flex;justify-content:center;gap:14px;margin-top:10px;font-size:12px;color:var(--muted)}.cyleg span{display:flex;align-items:center;gap:5px}.cyleg i{width:10px;height:10px;border-radius:5px}
 .cyflows{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
@@ -216,6 +216,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .qbtn{flex:none;display:grid;place-items:center;width:30px;height:28px;border-radius:10px;background:var(--card);border:1px solid #D3C4B6;box-shadow:0 1px 3px rgba(75,50,45,.12);color:#6B5A55}
 .qp button{width:24px;height:24px;font-size:15px;font-weight:700;color:#8A7A72;line-height:1}
 .qp span{min-width:16px;text-align:center;font-size:12.5px;font-weight:800}
+.cat button.wig svg{animation:wig .6s cubic-bezier(.3,1.6,.5,1)}@keyframes wig{0%{transform:none}25%{transform:translateY(-5px) rotate(-14deg) scale(1.2)}50%{transform:translateY(-2px) rotate(12deg) scale(1.15)}75%{transform:rotate(-6deg)}100%{transform:none}}
 .cartfab.yay{animation:yay .7s cubic-bezier(.3,1.6,.5,1)}@keyframes yay{0%{transform:scale(1)}30%{transform:scale(1.22) translateY(-10px) rotate(-8deg)}60%{transform:scale(.95) rotate(5deg)}100%{transform:none}}
 .yayb{position:absolute;top:-30px;left:50%;transform:translateX(-50%);padding:3px 9px;border-radius:12px;background:var(--acc);color:var(--card);font-size:13px;font-weight:800;white-space:nowrap;animation:yayb 1.4s ease-out forwards;pointer-events:none}@keyframes yayb{0%{opacity:0;transform:translate(-50%,8px) scale(.6)}20%{opacity:1;transform:translate(-50%,0) scale(1.05)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-10px)}}
 .cartfab{position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom) + 90px);width:64px;height:64px;border-radius:32px;background:var(--card);box-shadow:0 6px 18px rgba(75,50,45,.16);display:grid;place-items:center;z-index:6}
@@ -238,14 +239,13 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .wday .t{margin-left:auto;font-weight:700;font-size:15px}
 .wday .t small{font-weight:500;color:var(--muted);margin-left:6px}
 /* Commun */
-.fab{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom) + 94px);width:46px;height:46px;border-radius:23px;background:var(--acc);display:grid;place-items:center;box-shadow:0 0 0 3px var(--card),0 6px 14px rgba(207,107,100,.30);z-index:5}.fab svg{width:20px;height:20px}
-nav{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);height:70px;border-radius:26px;background:linear-gradient(180deg,#FFF7F1,#F9E9E1);border:1.5px solid color-mix(in srgb,var(--acc) 26%,var(--card));box-shadow:0 8px 24px rgba(150,90,80,.20);display:flex;gap:3px;padding:6px;z-index:5}
+.fab{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom) + 94px);width:46px;height:46px;border-radius:23px;background:var(--acc);display:grid;place-items:center;background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 78%,#fff),var(--acc) 60%);box-shadow:0 5px 12px rgba(207,107,100,.34);z-index:5}.fab svg{width:20px;height:20px}
+nav{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);height:70px;border-radius:26px;background:#EFE9E3;border:1.5px solid #E0D7CF;box-shadow:0 3px 10px rgba(75,50,45,.10);display:flex;gap:3px;padding:6px;z-index:5}
 nav button{flex:1;min-width:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#9A8A82;font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden}
-nav button{transition:transform .25s,background .25s}nav button.on{background:color-mix(in srgb,var(--tc) 50%,#fff);color:var(--ink);transform:translateY(-4px);box-shadow:0 4px 10px color-mix(in srgb,var(--tc) 55%,transparent)}
-nav button.pop svg{animation:tabhop .55s cubic-bezier(.3,1.6,.5,1)}@keyframes tabhop{0%{transform:scale(.7) translateY(5px)}55%{transform:scale(1.2) translateY(-4px) rotate(-6deg)}100%{transform:none}}
+nav button{transition:transform .25s,background .25s}nav button.on{background:color-mix(in srgb,var(--tc) 55%,#fff);color:var(--ink)}
 nav button:not(.on) svg{filter:saturate(.7);opacity:.9}
 .bigcloud{padding:6px 0 140px;display:flex;flex-direction:column}
-.scat{display:flex!important;flex-wrap:wrap;justify-content:center;align-content:center;gap:22px 2px;flex:1;max-width:344px;margin:0 auto;padding:0!important}
+.scat{position:relative;flex:1;min-height:560px;padding:0!important;display:block!important}
 .bubble.blob{border:none!important;background:radial-gradient(circle at 50% 60%,color-mix(in srgb,var(--d) 10%,#fff) 0%,color-mix(in srgb,var(--d) 30%,#fff) 68%,color-mix(in srgb,var(--d) 50%,#fff) 100%)!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--d) 42%,#fff),inset -5px -7px 12px color-mix(in srgb,var(--d) 26%,transparent),0 3px 8px rgba(120,90,80,.10)}
 .bubble.blob::after{content:'';position:absolute;left:19%;top:14%;width:24%;height:14%;border-radius:50%;border-top:3px solid rgba(255,255,255,.95);transform:rotate(-28deg);pointer-events:none}
 .bubble.blob::before{content:'';position:absolute;left:17%;top:31%;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none}.bigcloud .cbw{justify-self:center}.bigcloud .lbl2{font-size:15px!important}
@@ -337,10 +337,11 @@ const K={
  travail:`<path d="M3.5 18.5l1.5-2.5h14l1.5 2.5z" fill="#EEF3F8" ${ks}/><rect x="4" y="4.5" width="16" height="11.5" rx="2.5" fill="#DCE8F4" ${ks}/>`+fs(12,10.3),
  sport:`<path d="M2.6 5.6h18.8" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5"/><rect x="2.3" y="3.3" width="2.2" height="4.6" rx=".8" fill="#A99790" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><rect x="19.5" y="3.3" width="2.2" height="4.6" rx=".8" fill="#A99790" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><path d="M7.6 13.4 6.6 6.2M16.4 13.4l1-7.2" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.6"/><circle cx="6.6" cy="5.8" r="1.2" fill="#FFF3E6" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><circle cx="17.4" cy="5.8" r="1.2" fill="#FFF3E6" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><path d="M12 9.6c4.6 0 7 3.4 7 7.2 0 3-2.4 4.4-7 4.4s-7-1.4-7-4.4c0-3.8 2.4-7.2 7-7.2z" fill="#FFF3E6" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><circle cx="10.3" cy="15.6" r=".75" fill="#4B3D3A"/><circle cx="13.7" cy="15.6" r=".75" fill="#4B3D3A"/><path d="M11.3 17q.7 .6 1.4 0" stroke="#4B3D3A" stroke-width=".7" fill="none" stroke-linecap="round"/><ellipse cx="9.1" cy="17" rx=".9" ry=".5" fill="#EDA5B0"/><ellipse cx="14.9" cy="17" rx=".9" ry=".5" fill="#EDA5B0"/>`,
  sante:`<path d="M7 3.6v5.4a5 5 0 0 0 10 0V3.6" fill="none" stroke="#6B5A55" stroke-width="1.6" stroke-linecap="round"/><circle cx="7" cy="3.6" r="1.1" fill="#6B5A55"/><circle cx="17" cy="3.6" r="1.1" fill="#6B5A55"/><path d="M12 14v1.6a3 3 0 0 0 2 2.8" fill="none" stroke="#6B5A55" stroke-width="1.6" stroke-linecap="round"/><circle cx="17" cy="17.6" r="4.8" fill="#F6CFC9" ${ks}/>`+fs(17,17.9),
- menage:`<path d="M17.6 2.6 13 13" stroke="#C9A985" stroke-width="1.8" stroke-linecap="round"/><path d="M4.6 9.6h14.8l-1.7 10.6a1.8 1.8 0 0 1-1.8 1.5H8.1a1.8 1.8 0 0 1-1.8-1.5z" fill="#D6E6F2" ${ks}/><path d="M4.2 9.6h15.6" ${ks}/><path d="M11 9.4c.6-1.6 2.6-2 4-.6" fill="#FFFBF5" ${ks}/><circle cx="6.6" cy="6.6" r="1.3" fill="#FFFBF5" ${ks}/><circle cx="9" cy="4.6" r=".9" fill="#FFFBF5" ${ks}/>`+fs(12,15),
+ menage:`<path d="M7.4 10.4h7.4l1.4 2.2v7.4a1.6 1.6 0 0 1-1.6 1.6H7.8A1.6 1.6 0 0 1 6.2 20v-7.4z" fill="#CFE3D2" ${ks}/><rect x="7.6" y="6.4" width="6" height="4" rx="1.2" fill="#FFFBF5" ${ks}/><path d="M13.6 7.4h3.2l.8 1.6h-4" fill="#FFFBF5" ${ks}/><path d="M9.2 10.4 8 13" ${ks}/><path d="M19.8 3.4l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" fill="#F7E3A1" stroke="#6B5A55" stroke-width=".8" stroke-linejoin="round"/><circle cx="20.4" cy="10" r="1" fill="#DCEBF6" stroke="#6B5A55" stroke-width=".8"/>`+fs(11.2,16.4),
+ autre:`<path d="M4 13c0-3.8 3.6-6.6 8-6.6s8 2.8 8 6.6-3.6 6.6-8 6.6c-1.4 0-2.8-.3-4-.8L5 20l.8-2.8C4.6 16 4 14.6 4 13z" fill="#E3DCD6" ${ks}/><circle cx="8.6" cy="13" r="1.2" fill="#6B5A55"/><circle cx="12" cy="13" r="1.2" fill="#6B5A55"/><circle cx="15.4" cy="13" r="1.2" fill="#6B5A55"/>`,
  admin:`<path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#EEDCCB" ${ks}/>`+fs(12,13.6),
  perso:`<ellipse cx="8.6" cy="6.2" rx="2" ry="4.4" fill="#FFFBF5" ${ks}/><ellipse cx="15.4" cy="6.2" rx="2" ry="4.4" fill="#FFFBF5" ${ks}/><ellipse cx="8.6" cy="6.6" rx=".8" ry="2.6" fill="#F6CFC9"/><ellipse cx="15.4" cy="6.6" rx=".8" ry="2.6" fill="#F6CFC9"/><circle cx="12" cy="14.6" r="7" fill="#FFFBF5" ${ks}/>`+fs(12,15),
- proches:`<circle cx="8.4" cy="13.6" r="5.6" fill="#E9DDF0" ${ks}/><circle cx="16.6" cy="14.8" r="4.6" fill="#F6CFC9" ${ks}/><circle cx="6.6" cy="13.4" r=".85" fill="#4B3D3A"/><circle cx="10.2" cy="13.4" r=".85" fill="#4B3D3A"/><path d="M7.6 15.2q.8.7 1.6 0" stroke="#4B3D3A" stroke-width=".85" fill="none" stroke-linecap="round"/><circle cx="15.2" cy="14.6" r=".8" fill="#4B3D3A"/><circle cx="18.2" cy="14.6" r=".8" fill="#4B3D3A"/><path d="M16 16.2q.7.6 1.4 0" stroke="#4B3D3A" stroke-width=".8" fill="none" stroke-linecap="round"/>`,
+ proches:`<path d="M12.4 3.6c-.6-1.4-2.8-1.4-2.8.4 0 1.4 1.6 2.4 2.8 3.2 1.2-.8 2.8-1.8 2.8-3.2 0-1.8-2.2-1.8-2.8-.4z" fill="#EDA5B0" stroke="#6B5A55" stroke-width=".9" stroke-linejoin="round"/><circle cx="8.2" cy="14.6" r="5.4" fill="#E9DDF0" ${ks}/><circle cx="16.4" cy="15.2" r="4.8" fill="#F6CFC9" ${ks}/><path d="M6 13.8q.8-.9 1.6 0M9 13.8q.8-.9 1.6 0M14.8 14.4q.7-.8 1.4 0M17.4 14.4q.7-.8 1.4 0" stroke="#4B3D3A" stroke-width=".85" fill="none" stroke-linecap="round"/><path d="M7.4 15.8q.9 1.1 1.8 0z" fill="#4B3D3A" stroke="#4B3D3A" stroke-width=".7" stroke-linejoin="round"/><path d="M15.8 16.4q.8 1 1.6 0z" fill="#4B3D3A" stroke="#4B3D3A" stroke-width=".7" stroke-linejoin="round"/><ellipse cx="5.4" cy="16" rx="1" ry=".55" fill="#EDA5B0"/><ellipse cx="11" cy="16" rx="1" ry=".55" fill="#EDA5B0"/><ellipse cx="14" cy="16.6" rx=".9" ry=".5" fill="#EDA5B0"/><ellipse cx="19" cy="16.6" rx=".9" ry=".5" fill="#EDA5B0"/>`,
  loisirs:`<g fill="#FFF3D6" ${ks}><circle cx="7.6" cy="8.2" r="2.4"/><circle cx="16.4" cy="8.2" r="2.4"/><circle cx="10.2" cy="6.2" r="2.5"/><circle cx="13.8" cy="6.2" r="2.5"/><circle cx="12" cy="8.4" r="2.4"/></g><path d="M5 9.6h14l-1.8 11.2H6.8z" fill="#FFFBF5" ${ks}/><path d="M8.2 9.8l.8 10.8M15.8 9.8l-.8 10.8" stroke="#E8A094" stroke-width="2.2"/><path d="M12 9.8v10.8" stroke="#E8A094" stroke-width="2.2"/><rect x="7.6" y="12.6" width="8.8" height="5" rx="2" fill="#FFFBF5" ${ks}/><path d="M5 9.6h14l-1.8 11.2H6.8z" fill="none" ${ks}/>`+fs(12,15),
  apprendre:`<path d="M6.4 11.6v4.6c0 1.9 2.5 3.4 5.6 3.4s5.6-1.5 5.6-3.4v-4.6" fill="#FAE6D8" ${ks}/><path d="M2.4 9.6 12 5l9.6 4.6L12 14.2z" fill="#EDAE84" ${ks}/><path d="M20.2 10.4v5" ${ks}/><circle cx="20.2" cy="16" r="1.1" fill="#E8A094"/>`+fs(12,16.4),
  fruits:`<path d="M12 8c-1.6-1.3-4.8-1.1-6.1 1.3-1.3 2.4-.7 6.4 1.4 9 1.5 1.9 3.2 2.1 4.7 1.3 1.5.8 3.2.6 4.7-1.3 2.1-2.6 2.7-6.6 1.4-9C16.8 6.9 13.6 6.7 12 8z" fill="#F6CFC9" ${ks}/><path d="M12 8c0-2 .8-3.4 2.6-4.3" fill="none" ${ks}/><path d="M13 5.6c1.5-1 3-.8 3.6 0-1 1-2.3 1.2-3.6 0z" fill="#B4CA9C"/>`+fs(12,13.6),
@@ -364,7 +365,7 @@ const K={
  calendrier:`<rect x="4" y="5.5" width="16" height="15" rx="3.5" fill="#FFFBF5" ${ks}/><path d="M4 9.6V9a3.5 3.5 0 0 1 3.5-3.5h9A3.5 3.5 0 0 1 20 9v.6z" fill="#F6CFC9" ${ks}/><path d="M8.5 3.6v3M15.5 3.6v3" ${ks}/>`+fs(12,15),
  taches:`<rect x="5" y="5" width="14" height="16" rx="3" fill="#E3EDD9" ${ks}/><rect x="9" y="3.2" width="6" height="3.4" rx="1.2" fill="#FFFBF5" ${ks}/>`+fs(12,14),
  courses:`<path d="M5.5 9h13l-1 10.2a2 2 0 0 1-2 1.8h-7a2 2 0 0 1-2-1.8z" fill="#F8DDE0" ${ks}/><path d="M9 9V7.5a3 3 0 0 1 6 0V9" fill="none" ${ks}/>`+fs(12,14.6),
- seau:`<path d="M17.6 2.6 13 13" stroke="#C9A985" stroke-width="1.8" stroke-linecap="round"/><path d="M4.6 9.6h14.8l-1.7 10.6a1.8 1.8 0 0 1-1.8 1.5H8.1a1.8 1.8 0 0 1-1.8-1.5z" fill="#D6E6F2" ${ks}/><path d="M4.2 9.6h15.6" ${ks}/><path d="M11 9.4c.6-1.6 2.6-2 4-.6" fill="#FFFBF5" ${ks}/><circle cx="6.6" cy="6.6" r="1.3" fill="#FFFBF5" ${ks}/><circle cx="9" cy="4.6" r=".9" fill="#FFFBF5" ${ks}/>`+fs(12,15)};
+ seau:`<path d="M7.4 10.4h7.4l1.4 2.2v7.4a1.6 1.6 0 0 1-1.6 1.6H7.8A1.6 1.6 0 0 1 6.2 20v-7.4z" fill="#CFE3D2" ${ks}/><rect x="7.6" y="6.4" width="6" height="4" rx="1.2" fill="#FFFBF5" ${ks}/><path d="M13.6 7.4h3.2l.8 1.6h-4" fill="#FFFBF5" ${ks}/><path d="M9.2 10.4 8 13" ${ks}/><path d="M19.8 3.4l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" fill="#F7E3A1" stroke="#6B5A55" stroke-width=".8" stroke-linejoin="round"/><circle cx="20.4" cy="10" r="1" fill="#DCEBF6" stroke="#6B5A55" stroke-width=".8"/>`+fs(11.2,16.4)};
 const PR={};
 const eggs=`<path d="M3 15h18l-1.5 5h-15z" fill="#F3E2CC" ${ks}/><ellipse cx="8.2" cy="11.4" rx="3.7" ry="4.7" fill="#FFFBF5" ${ks}/><ellipse cx="15.8" cy="11.4" rx="3.7" ry="4.7" fill="#FFFBF5" ${ks}/><circle cx="9.4" cy="11.6" r=".8" fill="#4B3D3A"/><circle cx="10.9" cy="11.6" r=".8" fill="#4B3D3A"/><circle cx="13.1" cy="11.6" r=".8" fill="#4B3D3A"/><circle cx="14.6" cy="11.6" r=".8" fill="#4B3D3A"/><path d="M8.6 9.8l2.6.8M15.4 9.8l-2.6.8" stroke="#4B3D3A" stroke-width=".8" stroke-linecap="round"/><path d="M9.4 13.6h1.4M13.2 13.6h1.4" stroke="#4B3D3A" stroke-width=".8" stroke-linecap="round"/><path d="M12.4 3.2l-1.2 2.2h1.6l-1.2 2.2" fill="none" stroke="#EBAE6B" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>`;
 const bowl=(top)=>`<path d="M4 12h16a8 8 0 0 1-16 0z" fill="#F6CFC9" ${ks}/>${top}`+fs(12,15.6);
@@ -519,8 +520,8 @@ const ART={
 /* ---------- Données ---------- */
 const THEMES=[
  {id:'travail',name:'Travail',d:'#85C9E6'},{id:'sport',name:'Sport',d:'#F4A66A'},{id:'sante',name:'Santé',d:'#EE837E'},
- {id:'menage',name:'Ménage',d:'#B2CB8E'},{id:'courses',name:'Courses',d:'#F3B3C3'},{id:'admin',name:'Administratif',d:'#D9A47E'},{id:'organisation',name:'Organisation',d:'#66B1B8'},{id:'voiture',name:'Voiture',d:'#919FD0'},{id:'perso',name:'Moi',d:'#E06F8D'},
- {id:'proches',name:'Famille et amis',d:'#C49CD2'},{id:'loisirs',name:'Sorties',d:'#86C495'},{id:'apprendre',name:'Apprentissage',d:'#EDAE84'}];
+ {id:'menage',name:'Ménage',d:'#B2CB8E'},{id:'courses',name:'Courses',d:'#F3B3C3'},{id:'admin',name:'Administratif',d:'#D9A47E'},{id:'organisation',name:'Organisation',d:'#66B1B8'},{id:'voiture',name:'Voiture',d:'#919FD0'},{id:'perso',name:'Bien-être',d:'#E06F8D'},
+ {id:'proches',name:'Famille et amis',d:'#C49CD2'},{id:'loisirs',name:'Sorties',d:'#86C495'},{id:'apprendre',name:'Apprentissage',d:'#EDAE84'},{id:'autre',name:'Autre',d:'#C9C0BA'}];
 const TH=Object.fromEntries(THEMES.map(t=>[t.id,t]));
 const MENAGE=[['arrosage','Arrosage'],['nettoyage','Nettoyage'],['aspiration','Aspiration'],['rangement','Rangement'],['lessive','Lessive'],['vetements','Vêtements'],['trier','Trier'],['vaisselle','Vaisselle'],['poubelles','Poubelles'],['draps','Draps'],['sac','Courses'],['aerer','Aérer'],['sol','Sol'],['toilettes','Toilettes'],['douche','Douche'],['lavabo','Lavabo'],['miroir','Miroir'],['plumeau','Poussière'],['replanter','Replanter']];
 const CARE=[['visage','Visage','#EDA5B0'],['cheveux','Cheveux','#EEB87D'],['corps','Corps','#8EC6BD'],['mains','Mains et pieds','#F4C3C8'],['complements','Compléments','#F7EBC9'],['sportm','Sport','#EBAE6B'],['journal','Journaling','#D9C27E'],['recette','Recettes','#F6CFC9']];
@@ -763,7 +764,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
   const top=`<div class="cycard"><div style="display:flex;align-items:center;justify-content:center;gap:16px">${ring}<div><div class="hf" style="font-size:28px">${c.day?'Jour '+c.day:'—'}</div><div class="meta">${c.day?'du cycle':''}</div></div></div>${info?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">${info}</div>`:''}</div>`;
   const m0=pd(S.cyMon+'-01'),st=monday(fk(m0));let cells='';
   for(let i=0;i<42;i++){const d=add(st,i),dd=pd(d);if(i>=35&&dd.getMonth()!==m0.getMonth())break;const mk=cyMark(d),f=c.fert.has(d)&&d>=TODAY,has=D[d]&&((D[d].mood||[]).length||(D[d].sym||[]).length||D[d].sex);
-    cells+=`<button class="cyc ${dd.getMonth()!==m0.getMonth()?'out':''} ${mk} ${f&&!mk?'f':''} ${d===TODAY?'today':''} ${d===k?'sel':''}" data-a="cyday" data-v="${d}">${dd.getDate()}${has?'<i></i>':''}${D[d]&&D[d].poo?`<span class="cypoo">${poopSvg(11,1)}</span>`:''}</button>`}
+    cells+=`<button class="cyc ${dd.getMonth()!==m0.getMonth()?'out':''} ${mk} ${f&&!mk?'f':''} ${d===TODAY?'today':''} ${d===k?'sel':''} ${D[d]&&D[d].poo?'hp':''}" data-a="cyday" data-v="${d}">${dd.getDate()}${D[d]&&D[d].poo?`<span class="cypoo">${poopSvg(12,1)}</span>`:has?'<i></i>':''}</button>`}
   const nPoo=Object.keys(D).filter(d=>d.slice(0,7)===S.cyMon&&D[d].poo).length;
   const arrow=dd=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${dd}"/></svg>`;
   const cal=`<div class="cycard"><div class="bar" style="margin-bottom:8px"><button class="nav40 ghost" aria-label="Mois précédent" data-a="cymon" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:16px">${MON[m0.getMonth()][0].toUpperCase()+MON[m0.getMonth()].slice(1)} ${m0.getFullYear()}</div><button class="nav40 ghost" aria-label="Mois suivant" data-a="cymon" data-v="1">${arrow('M9 18l6-6-6-6')}</button></div>
@@ -918,17 +919,20 @@ function charBubble(c,list){const A=list==='chores'?'ctap':'open';if(off(c))retu
   const bang=c.link==='courses'&&s.when&&s.left<=0?`<span class="cnt" style="background:var(--acc);color:var(--card);left:-2px;right:auto;font-size:15px;font-weight:900">!</span>`:'';
   return `<button class="cbw" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m} ${S.popChore===c.id?'pop':''}">${charSvg(c.sub,s.m,58)}${bang}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
 const BLOBS=['62% 38% 56% 44%/46% 58% 42% 54%','42% 58% 38% 62%/58% 42% 60% 40%','55% 45% 64% 36%/40% 60% 40% 60%','38% 62% 46% 54%/60% 40% 58% 42%','58% 42% 40% 60%/52% 48% 56% 44%','46% 54% 60% 40%/44% 56% 46% 54%','52% 48% 42% 58%/62% 38% 54% 46%','64% 36% 50% 50%/48% 52% 38% 62%','40% 60% 58% 42%/54% 46% 62% 38%'];
-const SCAT=[[-8,0,94],[6,16,84],[-2,-8,90],[10,-4,86],[-4,12,96],[0,-10,86],[-10,6,90],[8,-6,94],[2,10,88]];
-const scatBtn=(i,a,v,id,m,name,extra)=>{const [x,y,sz]=SCAT[i%SCAT.length];return `<button class="cbw" style="width:112px;transform:translate(${x}px,${y}px)" data-a="${a}" data-v="${v}"><span class="bubble cb blob ${m}" style="width:${sz}px;height:${sz}px;border-radius:${BLOBS[i%BLOBS.length]}">${charSvg(id,m,Math.round(sz*.62))}${extra||''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`};
+const SIZES=[104,96,108,98,106,94,102,100,104];
+const ringPos=(n)=>{const inner=n>6?1:0,m=n-inner,JA=[0,3,-3,2,-2,3,-2,2],JR=[0,8,-6,5,-5,7,-3,6],rx=n>6?140:134,ry=n>6?196:170,a0=m===6?-60:-90;const P=[];
+  for(let i=0;i<m;i++){const a=(a0+i*360/m+JA[i%8])*Math.PI/180;P.push([Math.round(Math.cos(a)*(rx+JR[i%8])),Math.round(Math.sin(a)*(ry+JR[(i+3)%8]))])}
+  if(inner)P.push([4,6]);return P};
+const scatBtn=(i,a,v,id,m,name,extra,pos)=>{const [x,y]=pos[i],sz=SIZES[i%SIZES.length];return `<button class="cbw" style="position:absolute;width:120px;left:calc(50% + ${x}px);top:calc(50% + ${y}px);transform:translate(-50%,-50%)" data-a="${a}" data-v="${v}"><span class="bubble cb blob ${m}" style="width:${sz}px;height:${sz}px;border-radius:${BLOBS[i%BLOBS.length]}">${charSvg(id,m,Math.round(sz*.62))}${extra||''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`};
 function menageHTML(){
   const zones=ZONES.map(([id,name])=>{const its=S.chores.filter(c=>c.zone===id),m=its.length?worst(its):'ok',n=its.filter(c=>!off(c)).length;
-    return scatBtn(ZONES.findIndex(z=>z[0]===id),'zone',id,id,m,name,n?`<span class="zn">${n}</span>`:'')}).join('');
+    return scatBtn(ZONES.findIndex(z=>z[0]===id),'zone',id,id,m,name,n?`<span class="zn">${n}</span>`:'',ringPos(ZONES.length))}).join('');
   const sg='';const _sg=S.sugg.length?`<button class="cbw" style="width:108px" data-a="suggs"><span class="bubble cb" style="width:98px;height:98px;--d:#EEB87D">${charSvg('idee','ok',62)}</span><span class="lbl2" style="font-size:13.5px">Suggestions</span></button>`:'';
   return `<div class="scroll bigcloud"><div class="cloud scat">${zones}${sg}</div></div>`;
 }
 function moiHTML(){
   const secs=CARE.map(([id,name],i)=>{const its=S.care.filter(c=>c.sec===id),m=worst(its);
-    return scatBtn(i+3,id==='recette'?'recettes':'sec',id,id,m,name)}).join('');
+    return scatBtn(i,id==='recette'?'recettes':'sec',id,id,m,name,'',ringPos(CARE.length))}).join('');
   return `<div class="scroll bigcloud"><div class="cloud scat">${secs}</div></div>`;
 }
 
@@ -955,7 +959,7 @@ function coursesHTML(){
 }
 function catChips(){const r=RY[S.catRayon],mine=S.courses.filter(c=>c.rayon===r.id&&!c.done).map(c=>c.name);
   const res=match(r.cat.map(n=>({n})),S.cq);
-  let h=res.map(x=>`<button class="${mine.includes(x.n)?'in':''}" style="--d:${r.d};padding-left:6px" data-a="cat" data-v="${esc(x.n)}">${prod({name:x.n,rayon:r.id},24)}${esc(x.n)}</button>`).join('');
+  let h=res.map(x=>`<button class="${mine.includes(x.n)?'in':''}${S._wig&&S._wig.n===x.n&&Date.now()-S._wig.t<600?' wig':''}" style="--d:${r.d};padding-left:6px" data-a="cat" data-v="${esc(x.n)}">${prod({name:x.n,rayon:r.id},24)}${esc(x.n)}</button>`).join('');
   if(S.cq.trim()&&!res.some(x=>norm(x.n)===norm(S.cq.trim())))h+=`<button style="--d:${r.d}" data-a="catnew">+ ${esc(S.cq.trim())}</button>`;
   return h}
 
@@ -1007,7 +1011,7 @@ function sheetHTML(){
   } else if(S.sheet==='catalog'&&S.catRayon==='habituels'){
     const mine=S.courses.filter(c=>!c.done).map(c=>norm(c.name));
     title=`<span style="display:flex;align-items:center;gap:10px"><span class="ic tint" style="--d:#F4C3C8;width:40px;height:40px;border-radius:14px">${kw('habituels',30)}</span>Mes habituels</span>`;
-    inner=Object.keys(HABITUELS).map(rid=>{const r=RY[rid];return `<div class="grp" style="margin:6px 0 0"><span class="ic tint" style="--d:${r.d};width:28px;height:28px;border-radius:10px">${kw(rid,22)}</span><span class="hf" style="font-size:14px">${r.name}</span></div><div class="cat">${HABITUELS[rid].split(',').map(n=>`<button class="${mine.includes(norm(n))?'in':''}" style="--d:${r.d};padding-left:6px" data-a="habadd" data-v="${esc(n)}" data-r="${rid}">${prod({name:n,rayon:rid},24)}${esc(n)}</button>`).join('')}</div>`}).join('');
+    inner=Object.keys(HABITUELS).map(rid=>{const r=RY[rid];return `<div class="grp" style="margin:6px 0 0"><span class="ic tint" style="--d:${r.d};width:28px;height:28px;border-radius:10px">${kw(rid,22)}</span><span class="hf" style="font-size:14px">${r.name}</span></div><div class="cat">${HABITUELS[rid].split(',').map(n=>`<button class="${mine.includes(norm(n))?'in':''}${S._wig&&S._wig.n===n&&Date.now()-S._wig.t<600?' wig':''}" style="--d:${r.d};padding-left:6px" data-a="habadd" data-v="${esc(n)}" data-r="${rid}">${prod({name:n,rayon:rid},24)}${esc(n)}</button>`).join('')}</div>`}).join('');
   } else if(S.sheet==='catalog'){
     const r=RY[S.catRayon];
     title=`<span style="display:flex;align-items:center;gap:10px"><span class="ic tint" style="--d:${r.d};width:40px;height:40px;border-radius:14px">${kw(r.id,30)}</span>${r.name}</span>`;
@@ -1104,6 +1108,7 @@ function renderInner(){
   const inp=document.getElementById('titre');if(inp)inp.addEventListener('input',e=>{S.draft=e.target.value;if(S.D)S.D.title=e.target.value});
   const v=document.getElementById('ville');if(v)v.addEventListener('change',e=>{if(e.target.value.trim()){S.city=e.target.value.trim();W=null;render();loadWeather()}});
   const q=document.getElementById('q');if(q){q.addEventListener('input',e=>{S.q=e.target.value;document.getElementById('sugg').innerHTML=suggHTML();const x=document.getElementById('qx');if(x)x.classList.toggle('on',!!S.q)});if(S._focusQ){q.focus();S._focusQ=false}}
+  if(S._fly){const f=S._fly;S._fly=null;const c=S.courses.find(x=>!x.done&&norm(x.name)===norm(f.name)),row=c&&document.getElementById('row'+c.id);if(row&&row.animate){const r=row.getBoundingClientRect();row.animate([{transform:`translate(${f.x-r.left}px,${f.y-r.top}px) scale(1.03)`,boxShadow:'0 10px 24px rgba(75,50,45,.18)'},{transform:'none',boxShadow:'0 0 0 rgba(0,0,0,0)'}],{duration:650,easing:'cubic-bezier(.3,1.15,.5,1)'});row.animate([{filter:'brightness(1.08)'},{filter:'none'}],{duration:1200,delay:500})}}
   const cq=document.getElementById('cq');if(cq){cq.addEventListener('input',e=>{S.cq=e.target.value;document.getElementById('catlist').innerHTML=catChips()});if(S._focusCq){cq.focus();cq.setSelectionRange(cq.value.length,cq.value.length);S._focusCq=false}}
 }
 function flyToCart(id){
@@ -1150,7 +1155,9 @@ document.addEventListener('change',e=>{const el=e.target.closest&&e.target.close
   else if(a==='dhour'){const h=tH(v);if(h===null){if(S.D.kind==='tache')S.D.start=null}else S.D.start=h}
   else if(a==='dend'){const h=tH(v);if(h!==null){const st0=S.D.start===null?12:S.D.start;S.D.dur=Math.max(.25,h-st0)}}
   else if(a==='cnext'&&v){const c=S[S.sheetList].find(x=>x.id===S.sheetId);if(c){if(S.sheetList==='chores'){const it=choreItem(c);if(it)it.date=v}else c.next=v}}
+  if(el.classList.contains('din')&&document.activeElement===el){S._pend=1;return}
   S._sheetKeep=true;render()});
+document.addEventListener('focusout',e=>{if(S._pend&&e.target.classList&&e.target.classList.contains('din')){S._pend=0;setTimeout(()=>{if(document.activeElement&&document.activeElement.classList.contains('din'))return;S._sheetKeep=true;render()},60)}});
 document.addEventListener('click',e=>{
   const el=e.target.closest('[data-a]');if(!el)return;if(S._swiped&&Date.now()-S._swiped<350)return;
   const a=el.dataset.a,v=el.dataset.v,id=+el.dataset.id;
@@ -1192,12 +1199,12 @@ document.addEventListener('click',e=>{
     case 'qopen':S.qOpen=S.qOpen===id?0:id;break;
     case 'qty':S.courses=S.courses.map(c=>c.id===id?{...c,qty:Math.max(1,c.qty+(+v))}:c);break;
     case 'catalog':S.sheet='catalog';S.catRayon=v;S.cq='';break;
-    case 'habadd':{const ex=S.courses.find(c=>!c.done&&norm(c.name)===norm(v));if(ex)S.courses=S.courses.filter(c=>c!==ex);else addCourse(v,el.dataset.r);S._sheetKeep=true;break}
-    case 'cat':{const ex=S.courses.find(c=>!c.done&&c.rayon===S.catRayon&&c.name===v);if(ex)S.courses=S.courses.filter(c=>c!==ex);else addCourse(v,S.catRayon);S._sheetKeep=true;break}
+    case 'habadd':{const ex=S.courses.find(c=>!c.done&&norm(c.name)===norm(v));if(ex)S.courses=S.courses.filter(c=>c!==ex);else{addCourse(v,el.dataset.r);S._wig={n:v,t:Date.now()}}S._sheetKeep=true;break}
+    case 'cat':{const ex=S.courses.find(c=>!c.done&&c.rayon===S.catRayon&&c.name===v);if(ex)S.courses=S.courses.filter(c=>c!==ex);else{addCourse(v,S.catRayon);S._wig={n:v,t:Date.now()}}S._sheetKeep=true;break}
     case 'catnew':addCourse(S.cq.trim(),S.catRayon);S.cq='';S._sheetKeep=true;S._focusCq=true;break;
-    case 'sugg':addCourse(v,el.dataset.r);S.q='';S._focusQ=true;break;
+    case 'sugg':{const r=el.getBoundingClientRect();addCourse(v,el.dataset.r);S._yay=0;S._fly={x:r.left,y:r.top,name:v};S.q='';S._focusQ=true;break}
     case 'qclear':S.q='';if(document.activeElement)document.activeElement.blur();window.scrollTo(0,0);break;
-    case 'newitem':addCourse(S.q.trim(),el.dataset.r);S.q='';S._focusQ=true;break;
+    case 'newitem':{const b=document.getElementById('sugg'),r=b?b.getBoundingClientRect():el.getBoundingClientRect();const nm=S.q.trim();addCourse(nm,el.dataset.r);S._yay=0;S._fly={x:r.left,y:r.top,name:nm};S.q='';S._focusQ=true;break}
     case 'add':{S.draft='';if(S.tab==='moi'){S.draftSec=S.sheet==='sec'&&S.secId?S.secId:(S.draftSec||'visage');S.draftSub=pickList()[0][0]}else S.draftSub='arrosage';S.draftFreq=7;S.draftZone=S.zoneId||'salon';
       if(S.tab==='menage'||S.tab==='moi'){S.sheet='add';break}
       const kind=S.tab==='cal'?'rdv':S.folder==='rappels'?'rappel':'tache';
@@ -2026,7 +2033,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='45';
+const APP_VER='46';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
