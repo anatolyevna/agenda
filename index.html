@@ -248,7 +248,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .wday .t{margin-left:auto;font-weight:700;font-size:15px}
 .wday .t small{font-weight:500;color:var(--muted);margin-left:6px}
 /* Commun */
-.fab{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom) + 94px);width:46px;height:46px;border-radius:23px;background:var(--acc);display:grid;place-items:center;background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 78%,#fff),var(--acc) 60%);box-shadow:0 5px 12px rgba(207,107,100,.34);z-index:5}.fab svg{width:20px;height:20px}
+.fab.low{bottom:calc(env(safe-area-inset-bottom) + 86px)!important}.fab{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom) + 94px);width:46px;height:46px;border-radius:23px;background:var(--acc);display:grid;place-items:center;background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 78%,#fff),var(--acc) 60%);box-shadow:0 5px 12px rgba(207,107,100,.34);z-index:5}.fab svg{width:20px;height:20px}
 nav{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 8px);height:70px;border-radius:26px;background:#FBF0EE;border:1.5px solid #F1DEDA;box-shadow:0 3px 10px rgba(75,50,45,.10);display:flex;gap:3px;padding:6px;z-index:5}
 nav button{flex:1;min-width:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;color:#9A8A82;font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden}
 nav button.on{background:color-mix(in srgb,var(--tc) 55%,#fff);color:var(--ink)}
@@ -374,7 +374,7 @@ const K={
  asiatique:`<path d="M12 3.4c3 0 9 9.6 9 13.6a3.5 3.5 0 0 1-3.5 3.5h-11A3.5 3.5 0 0 1 3 17C3 13 9 3.4 12 3.4z" fill="#FFFBF5" ${ks}/><rect x="8.6" y="15" width="6.8" height="5.5" fill="#55604F"/>`+fs(12,12.2),
  plantes:`<path d="M12 11V8M12 9c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4zM12 8c0-2.4 1.6-4 4-4 0 2.4-1.6 4-4 4z" fill="#B4CA9C" ${ks}/><path d="M6.5 11h11l-1.3 9.5H7.8z" fill="#F3D9C2" ${ks}/>`+fs(12,15.4),
  voiture:`<path d="M2.8 15.6v-2.7c0-.9.6-1.6 1.5-1.8l2.3-.5 2-3.5c.4-.7 1.1-1.1 1.9-1.1h4.3c.8 0 1.5.4 1.9 1.1l2 3.5 1.2.3c.9.2 1.5 1 1.5 1.9v2.8c0 .6-.4 1-1 1H3.8c-.6 0-1-.4-1-1z" fill="#DFE5F3" ${ks}/><path d="M9 10.6l1.4-2.5c.2-.3.5-.5.9-.5h3.3c.4 0 .7.2.9.5l1.4 2.5z" fill="#FFFBF5" ${ks}/><circle cx="7.4" cy="16.8" r="2.1" fill="#FFFBF5" ${ks}/><circle cx="16.6" cy="16.8" r="2.1" fill="#FFFBF5" ${ks}/>`+fs(12,13.4),
- cyclune:`<path d="M5.8 2.2C3.6 5.8.6 9 .6 13.4a5.2 5.2 0 0 0 10.4 0C11 9 8 5.8 5.8 2.2z" fill="#F6CFC9" ${ks}/><circle cx="4" cy="13.4" r=".85" fill="#4B3D3A"/><circle cx="7.6" cy="13.4" r=".85" fill="#4B3D3A"/><circle cx="4.3" cy="13" r=".3" fill="#fff"/><circle cx="7.9" cy="13" r=".3" fill="#fff"/><path d="M5.1 15.3q.7.7 1.4 0" stroke="#4B3D3A" stroke-width=".8" fill="none" stroke-linecap="round"/><ellipse cx="2.6" cy="15.2" rx=".85" ry=".5" fill="#EDA5B0"/><ellipse cx="9" cy="15.2" rx=".85" ry=".5" fill="#EDA5B0"/><path d="M20.6 2.2A8.22 8.22 0 0 0 20.6 18.6A17.06 17.06 0 0 1 20.6 2.2z" fill="#F7E3A1" ${ks}/><path d="M14.1 10.2q.75.75 1.5 0M16.4 10.2q.75.75 1.5 0" stroke="#4B3D3A" stroke-width=".85" fill="none" stroke-linecap="round"/><path d="M15.3 12.3q.6.45 1.2 0" stroke="#4B3D3A" stroke-width=".75" fill="none" stroke-linecap="round"/><ellipse cx="14.2" cy="12" rx=".6" ry=".38" fill="#EDA5B0"/><ellipse cx="17.6" cy="12" rx=".6" ry=".38" fill="#EDA5B0"/><path d="M22 8.6l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z" fill="#F5D57E"/>`,
+ cyclune:`<path d="M5.8 2.2C3.6 5.8.6 9 .6 13.4a5.2 5.2 0 0 0 10.4 0C11 9 8 5.8 5.8 2.2z" fill="#F6CFC9" ${ks}/><circle cx="4" cy="13.4" r=".85" fill="#4B3D3A"/><circle cx="7.6" cy="13.4" r=".85" fill="#4B3D3A"/><circle cx="4.3" cy="13" r=".3" fill="#fff"/><circle cx="7.9" cy="13" r=".3" fill="#fff"/><path d="M5.1 15.3q.7.7 1.4 0" stroke="#4B3D3A" stroke-width=".8" fill="none" stroke-linecap="round"/><ellipse cx="2.6" cy="15.2" rx=".85" ry=".5" fill="#EDA5B0"/><ellipse cx="9" cy="15.2" rx=".85" ry=".5" fill="#EDA5B0"/><path d="M19.2 4.6a8.6 8.6 0 1 0 3.9 11.2A6.6 6.6 0 0 1 19.2 4.6z" fill="#F7E3A1" ${ks}/><path d="M13.9 12.2q.75.75 1.5 0M16.5 12.2q.75.75 1.5 0" stroke="#4B3D3A" stroke-width=".85" fill="none" stroke-linecap="round"/><path d="M15.4 14.4q.6.45 1.2 0" stroke="#4B3D3A" stroke-width=".75" fill="none" stroke-linecap="round"/><ellipse cx="13.8" cy="14" rx=".65" ry=".4" fill="#EDA5B0"/><ellipse cx="18" cy="14" rx=".65" ry=".4" fill="#EDA5B0"/><path d="M20.4 1.6h2.6l-2.6 2.8h2.6" stroke="#8FB7D6" stroke-width=".95" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.8 .9h1.4l-1.4 1.5h1.4" stroke="#8FB7D6" stroke-width=".75" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
  cycle:`<path d="M12 2.6C9 6.8 5.4 10.2 5.4 14.4a6.6 6.6 0 0 0 13.2 0C18.6 10.2 15 6.8 12 2.6z" fill="#F6CFC9" ${ks}/><path d="M8.6 12.6c.3-1.3 1-2.4 1.8-3.2" stroke="#FFFFFF" stroke-width="1.3" fill="none" stroke-linecap="round"/>`+fs(12,15.4),
  organisation:`<rect x="3.6" y="3.4" width="14.4" height="17.4" rx="2.6" fill="#D3E8EB" ${ks}/><path d="M7 3.4v17.4" ${ks}/><rect x="17.2" y="5.4" width="3.4" height="3.4" rx="1" fill="#F6CFC9" ${ks}/><rect x="17.2" y="10.4" width="3.4" height="3.4" rx="1" fill="#F7EBC9" ${ks}/><rect x="17.2" y="15.4" width="3.4" height="3.4" rx="1" fill="#D9ECE4" ${ks}/>`+fs(12.4,12.6),
  afaire:`<path d="M4.6 5.6a1.6 1.6 0 0 1 1.6-1.6h11.6a1.6 1.6 0 0 1 1.6 1.6v10.2l-4.8 4.8H6.2a1.6 1.6 0 0 1-1.6-1.6z" fill="#E6DCF5" ${ks}/><path d="M19.4 15.8h-3.2a1.6 1.6 0 0 0-1.6 1.6v3.2" fill="#D3C4EE" ${ks}/><rect x="7.4" y="6.8" width="3.6" height="3.6" rx="1" fill="#FFFBF5" ${ks}/><path d="M8.2 8.6l.9.9 1.6-1.8" fill="none" stroke="#B38FD9" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.8 8.6h3.8" ${ks}/>`+fs(11.6,14.6),
@@ -729,7 +729,7 @@ function spawnNext(it){if(!it.repeat||!it.date||it.spawned)return;const nd=nextD
 function finishItem(it){if(!it||it.done)return;spawnNext(it);it.done=true;it.doneAt=nowMs()}
 function nextOf(c){if(c.zone!==undefined){const it=choreItem(c);return it&&it.date?it.date:TODAY}if(c.next)return c.next;if(c.days&&c.days.length){let k=add(c.last,1);for(let i=0;i<8;i++){if(c.days.includes(wd(k)))return k;k=add(k,1)}return k}return add(c.last,c.freq||1)}
 function schedTxt(c){const d=c.days&&c.days.length?(c.days.length===7?'Chaque jour':c.days.map(x=>DL[x]).join(' ')):freqTxt(c.freq);const m=(c.moments||[]).map(x=>MOMENTS.find(y=>y[0]===x)[1].toLowerCase()).join(' · ');return d+(m?' · '+m:'')}
-function st(c){if(c.zone!==undefined){const it0=choreItem(c);if(it0&&!it0.date)return{left:0,m:'todo',when:''}}const left=diff(TODAY,nextOf(c));const m=left<0?'late':left<=1?'todo':'ok';
+function st(c){if(c.zone===undefined&&c.sec&&ctog(c))return{left:0,m:'todo',when:''};if(c.zone!==undefined){const it0=choreItem(c);if(it0&&!it0.date)return{left:0,m:'todo',when:''}}const left=diff(TODAY,nextOf(c));const m=left<0?'late':left<=1?'todo':'ok';
   const when=left<0?`${-left} j de retard`:left===0?'aujourd’hui':left===1?'demain':`dans ${left} j`;return{left,m,when}}
 const worst=L0=>{const list=L0.filter(c=>!off(c));return list.some(c=>st(c).m==='late')?'late':list.some(c=>st(c).m==='todo')?'todo':'ok'};
 
@@ -1040,10 +1040,10 @@ function tasksHTML(){
   return `<div class="folders">${folders}</div>${top}<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:10px;position:relative">${body}</div>`;
 }
 
-const ctog=c=>['sportm','complements','journal','mains'].includes(c.sec)||/epilation|repousse|couper/.test(norm(c.title));
-function charBubble(c,list){const A=list==='chores'?'ctap':ctog(c)?'mtap':'open';if(off(c))return `<button class="cbw" style="opacity:.75" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb" style="--d:#CEC3BB;width:80px;height:80px">${charSvg(c.sub,'late',48)}</span><span class="lbl2" style="color:var(--muted)">${esc(c.title)}</span></button>`;const s=st(c);
+function ctog(c){return ['sportm','complements','journal','mains'].includes(c.sec)||/epilation|repousse|couper/.test(norm(c.title))}
+function charBubble(c,list){const A=list==='chores'?'ctap':'mtap';if(off(c))return `<button class="cbw" style="opacity:.75" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb" style="--d:#CEC3BB;width:80px;height:80px">${charSvg(c.sub,'late',48)}</span><span class="lbl2" style="color:var(--muted)">${esc(c.title)}</span></button>`;const s=st(c);
   const bang=c.link==='courses'&&s.when&&s.left<=0?`<span class="cnt" style="background:var(--acc);color:var(--card);left:-2px;right:auto;font-size:15px;font-weight:900">!</span>`:'';
-  return `<button class="cbw" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m} ${S.popChore===c.id?'pop':''}">${charSvg(c.sub,s.m,58)}${bang}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
+  return `<button class="cbw" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m} ${S.popChore===c.id?'pop':''}">${charSvg(c.sub,s.m,58)}${bang}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'&&!ctog(c)?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
 const BLOBS=['62% 38% 56% 44%/46% 58% 42% 54%','42% 58% 38% 62%/58% 42% 60% 40%','55% 45% 64% 36%/40% 60% 40% 60%','38% 62% 46% 54%/60% 40% 58% 42%','58% 42% 40% 60%/52% 48% 56% 44%','46% 54% 60% 40%/44% 56% 46% 54%','52% 48% 42% 58%/62% 38% 54% 46%','64% 36% 50% 50%/48% 52% 38% 62%','40% 60% 58% 42%/54% 46% 62% 38%'];
 const LAY={6:{p:[[-88,-196],[86,-166],[-118,-30],[112,-2],[-72,134],[92,164]],z:[124,114,118,122,116,120]},
  8:{p:[[-105,-245],[85,-215],[-135,-90],[30,-75],[140,40],[-80,70],[40,190],[-125,235]],z:[100,94,96,100,92,98,96,94]}};
@@ -1096,7 +1096,8 @@ function choreSheet(){
     return[t2,`<div class="daterow"><span class="lbl">Prévu pour</span><input class="din" type="date" data-in="cnext" value="${nextOf(c)}"></div>${c.link==='courses'?'<button class="big" style="background:#E8A094" data-a="gocourses">Ouvrir la liste de courses</button>':''}<button class="big" style="background:#7FA36A" data-a="donec">C’est fait</button><button class="danger" data-a="delchore">Supprimer</button>`];
   }
   if(c.paused){return[`<span style="display:flex;align-items:center;gap:10px"><span class="bubble cb" style="--d:#CEC3BB;width:56px;height:56px;border-width:2px">${charSvg(c.sub,'late',38)}</span>${esc(c.title)}</span>`,
-    `<div class="lbl">Refaire</div><div class="pick">${FREQS.map(f=>`<button class="txt ${c.freq===f[0]?'on':''}" style="--d:#B4CA9C" data-a="setfreq" data-v="${f[0]}">${f[1]}</button>`).join('')}</div><button class="big" style="background:#7FA36A" data-a="unpause">Remettre dans ma liste</button><button class="danger" data-a="delchore">Supprimer</button>`]}
+    `${ctog(c)?'':`<div class="lbl">Refaire</div><div class="pick">${FREQS.map(f=>`<button class="txt ${c.freq===f[0]?'on':''}" style="--d:#B4CA9C" data-a="setfreq" data-v="${f[0]}">${f[1]}</button>`).join('')}</div>`}<button class="big" style="background:#7FA36A" data-a="unpause">Remettre dans ma liste</button><button class="danger" data-a="delchore">Supprimer</button>`]}
+  if(ctog(c))return[`<span style="display:flex;align-items:center;gap:10px"><span class="bubble cb todo" style="width:56px;height:56px;border-width:2px">${charSvg(c.sub,'todo',38)}</span>${esc(c.title)}</span>`,`<button class="big" style="background:#7FA36A" data-a="pause">C’est fait</button><button class="danger" data-a="delchore">Supprimer</button>`];
   const s=st(c),title=`<span style="display:flex;align-items:center;gap:10px"><span class="bubble cb ${s.m}" style="width:56px;height:56px;border-width:2px">${charSvg(c.sub,s.m,38)}</span>${esc(c.title)}</span>`;
   const byDays=!!(c.days&&c.days.length);
   let inner=`<div class="row"><span class="meta" style="font-size:14px">Prochaine fois</span><input class="din" type="date" data-in="cnext" value="${nextOf(c)}"></div>
@@ -1243,7 +1244,7 @@ function renderInner(){
     <button class="wx mx" data-a="meteo" aria-label="Météo de la semaine">${W?ART[W.icon](48):ART.nuage(48)}<div><span class="nf" style="font-size:26px;line-height:1">${W?Math.round(W.cur)+'°':'–'}</span><small>${esc(W?W.name:(S.city==='Ma position'?'Ma position':S.city))}</small><small>${W&&W.days[0]?Math.round(W.days[0].max)+'° / '+Math.round(W.days[0].min)+'°':''}</small></div></button>
     <button class="gear" aria-label="Réglages" data-a="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button></header>
     <main>${content}</main>
-    ${timerPill()}${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
+    ${timerPill()}${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab${S.tab==='cal'||S.tab==='taches'?' low':''}" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
     <nav>${(()=>{const pp=S._tabPop;S._tabPop='';return tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}${pp===t[0]?' pop':''}" style="--tc:${t[3]}" data-a="tab" data-v="${t[0]}">${kw(t[2],36)}${t[1]}</button>`).join('')})()}</nav>
     ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
     ${sheetHTML()}`;
@@ -1377,7 +1378,7 @@ document.addEventListener('click',e=>{
       S.items.push({id:nid,kind:'rappel',title:t,theme:S.D.theme||'autre',date:fk(ed),start:st,end:st+.5,reports:0});S.timer={end,nid,title:t,rappel:1};tmrSave();S.sheet='';break}
     case 'tmr':{if(tmrLeft()>0&&!confirm('Arrêter le minuteur ?'))return;tmrClear();break}
     case 'qnadd':{const t=(S.qnT||'').trim();if(!t){S._focusQn=true;break}S.notes=[...(S.notes||[]),{id:S.nextId++,t,at:TODAY}];S.qnT='';S._focusQn=true;break}
-    case 'qndel':S.notes=S.notes.filter(n=>n.id!==id);break;
+    case 'qndel':if(!confirm('Supprimer cette note ?'))return;S.notes=S.notes.filter(n=>n.id!==id);break;
     case 'qnto':{const n=S.notes.find(x=>x.id===id);if(!n)break;S.items.push({id:S.nextId++,kind:'tache',title:n.t,theme:'autre',folder:'afaire',reports:0});S.notes=S.notes.filter(x=>x!==n);S.toast='Ajoutée dans À faire';break}
     case 'add':{if(S.tab==='taches'&&S.folder==='notes'){S._focusQn=true;break}S.draft='';if(S.tab==='moi'){S.draftSec=S.sheet==='sec'&&S.secId?S.secId:(S.draftSec||'visage');S.draftSub=pickList()[0][0]}else S.draftSub='arrosage';S.draftFreq=7;S.draftZone=S.zoneId||'salon';
       if(S.tab==='menage'||S.tab==='moi'){S.sheet='add';break}
@@ -1420,7 +1421,7 @@ document.addEventListener('click',e=>{
       clearTimeout(S._tapT);S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;const it=choreItem(c);if(!it)activateChore(c);else{finishItem(it);S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},300);return}
     case 'mtap':{const c=S.care.find(x=>x.id===id);if(!c)break;
       if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;S.sheet='chore';S.sheetList='care';S.sheetId=id;break}
-      clearTimeout(S._tapT);S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;if(c.paused){c.paused=false;c.next=TODAY}else{c.paused=true;c.last=TODAY;delete c.next;S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},300);return}
+      clearTimeout(S._tapT);S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;if(c.paused){c.paused=false;c.next=TODAY}else if(ctog(c)){c.paused=true;c.last=TODAY;delete c.next;S.popChore=id}else{c.last=TODAY;delete c.next;S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},300);return}
     case 'pause':{const c=cur();c.paused=true;delete c.next;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
     case 'unpause':{const c=cur();if(S.sheetList==='chores'){activateChore(c);S.sheet=S.zoneId?'zone':'';break}c.paused=false;c.next=TODAY;S.sheet=S.sheetList==='care'?'sec':(S.zoneId?'zone':'');break}
     case 'delchore':{const L2=S.sheetList;if(L2==='chores')S.items=S.items.filter(x=>x.chore!==S.sheetId||x.done);S[L2]=S[L2].filter(x=>x.id!==S.sheetId);S.sheet=L2==='care'?'sec':(S.zoneId?'zone':'');break}
@@ -2224,7 +2225,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='65';
+const APP_VER='66';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
