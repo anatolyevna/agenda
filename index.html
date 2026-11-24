@@ -82,7 +82,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 @keyframes admSleep{0%,100%{transform:scale(1,1)}50%{transform:scale(1.008,1.03)}}
 .adm-z{position:absolute;top:34%;font:800 15px/1 Nunito,sans-serif;color:#A4BED3;pointer-events:none}.adm-z i{position:absolute;left:0;bottom:0;font-style:normal;opacity:0;animation:admZ 4.8s ease-in-out infinite}.adm-z i:nth-child(2){animation-delay:1.6s;font-size:12px}.adm-z i:nth-child(3){animation-delay:3.2s;font-size:10px}
 .adm-z+.adm-z i{animation-duration:5.4s}
-@keyframes admZ{0%{opacity:0;transform:translate(0,0)}20%{opacity:.9}70%{opacity:.6}100%{opacity:0;transform:translate(14px,-26px)}}
+@keyframes admZ{0%{opacity:0;transform:translate(0,0)}20%{opacity:.9}70%{opacity:.6}100%{opacity:0;transform:translate(7px,-15px)}}
 .adm-t{position:absolute;top:0;bottom:0;width:50%;background:none;border:0;padding:0;-webkit-tap-highlight-color:transparent}.adm-tl{left:0}.adm-tr{right:0}
 .adm .adm-i.adm-hop{animation:admHop .8s ease}@keyframes admHop{0%,100%{transform:none}30%{transform:translateY(-5%) scale(1.02)}55%{transform:translateY(0) scale(.99,1.01)}75%{transform:translateY(-1.5%)}}
 .adm .adm-i.adm-stir{animation:admStir 1s ease}@keyframes admStir{0%,100%{transform:none}30%{transform:rotate(-1.4deg) scale(1.01)}60%{transform:rotate(1deg)}}
@@ -1139,8 +1139,8 @@ const ADM_DAY={l:{n:'lila',parts:[['earl','24.2% 11.9%','adm-earL'],['earr','48.
 function AnimatedDogMascots(w=280){const n=admNight(),img=(f,cls='',st='')=>`<img class="adm-p ${cls}" src="mascots/${f}.png?v=${ADM_V}" alt="" draggable="false"${st?` style="${st}"`:''}>`,
  dog=(d,m)=>{if(m==='night')return `<img class="adm-i adm-${d}" src="mascots/${d==='l'?'lila':'misha'}-night.png?v=${ADM_V}" alt="" draggable="false">`;const D=ADM_DAY[d];
   return `<div class="adm-i adm-${d}">${img(D.n+'-day-base')}${D.parts.map(([p,o,c])=>img(D.n+'-day-'+p,c,'transform-origin:'+o)).join('')}<svg class="adm-p" viewBox="0 0 600 586">${D.eyes.map(([x,y,rx,ry])=>`<g class="adm-lid ${D.bl}" style="transform-origin:${x}px ${y-ry}px"><ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${D.lid}"/><path d="M${x-rx+3} ${y+2}q${rx-3} ${ry*.5} ${2*rx-6} 0" stroke="#1E1412" stroke-width="3.2" fill="none" stroke-linecap="round"/></g>`).join('')}</svg></div>`};
- const z=x=>`<span class="adm-z" style="left:${x}%"><i>z</i><i>z</i><i>z</i></span>`;
- const layer=m=>`<div class="adm-ly adm-${m}${(m==='night')===n?' on':''}">${dog('l',m)}${dog('r',m)}${m==='night'?z(30)+z(74):''}<button class="adm-t adm-tl" data-a="dogtap" data-v="l" aria-label="Lila"></button><button class="adm-t adm-tr" data-a="dogtap" data-v="r" aria-label="Le chien noir et feu"></button></div>`;
+ const z=(x,y)=>`<span class="adm-z" style="left:${x}%;top:${y}%"><i>z</i><i>z</i><i>z</i></span>`;
+ const layer=m=>`<div class="adm-ly adm-${m}${(m==='night')===n?' on':''}">${dog('l',m)}${dog('r',m)}${m==='night'?z(41,68)+z(69,69):''}<button class="adm-t adm-tl" data-a="dogtap" data-v="l" aria-label="Lila"></button><button class="adm-t adm-tr" data-a="dogtap" data-v="r" aria-label="Le chien noir et feu"></button></div>`;
  return `<div class="adm${document.hidden?' adm-pause':''}" style="width:${w}px">${layer('day')}${layer('night')}</div>`}
 (()=>{['lila-day-base','lila-day-earl','lila-day-earr','misha-day-base','misha-day-tail','misha-day-earl','misha-day-earr','lila-night','misha-night'].forEach(f=>{const i=new Image();i.src=`mascots/${f}.png?v=${ADM_V}`});
  const sync=()=>{const n=admNight();document.querySelectorAll('.adm').forEach(a=>{a.querySelector('.adm-day').classList.toggle('on',!n);a.querySelector('.adm-night').classList.toggle('on',n);a.classList.toggle('adm-pause',document.hidden)})};
@@ -2592,7 +2592,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='92';
+const APP_VER='93';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
