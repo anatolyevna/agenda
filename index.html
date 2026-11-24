@@ -65,8 +65,8 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .day{position:relative;margin:0 14px 0 8px}
 .hl{position:absolute;left:0;width:30px;text-align:right;font-size:12px;color:var(--muted);transform:translateY(-50%);font-weight:600}
 .hl.soft{opacity:.45}
-.hline{display:none}.bdl{background:#FFF4F3;border:1px solid #F6D9DC;border-radius:18px;padding:4px 6px;margin:0 0 12px}.bdr{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:8px 6px;text-align:left;font:inherit;color:var(--ink)}.bdr+.bdr{border-top:1px solid #F6E3E5}.bdn{flex:1;min-width:0;font-weight:700;font-size:15px}.bdd{font-size:13px;color:var(--muted);white-space:nowrap}
-.adm{position:relative;aspect-ratio:600/586;margin:0 auto;max-width:100%}.adm-ly{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;pointer-events:none}.adm-ly.on{opacity:1;pointer-events:auto}
+.hline{display:none}.seasonbg i.dz{visibility:hidden}.bdl{background:#FFF4F3;border:1px solid #F6D9DC;border-radius:18px;padding:4px 6px;margin:0 0 12px}.bdr{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:8px 6px;text-align:left;font:inherit;color:var(--ink)}.bdr+.bdr{border-top:1px solid #F6E3E5}.bdn{flex:1;min-width:0;font-weight:700;font-size:15px}.bdd{font-size:13px;color:var(--muted);white-space:nowrap}
+.adm{position:relative;aspect-ratio:600/586;opacity:.26;margin:0 auto;max-width:100%}.adm-ly{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;pointer-events:none}.adm-ly.on{opacity:1;pointer-events:auto}
 .adm-i{position:absolute;left:0;bottom:0;width:100%;height:auto;user-select:none;-webkit-user-select:none;will-change:transform}div.adm-i{aspect-ratio:600/586}
 .adm-p{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-select:none;pointer-events:none}svg.adm-p{overflow:visible}
 .adm-lid{transform-box:view-box;transform:scaleY(0)}.adm-blinkL{animation:admBlink 5.6s infinite 1.2s}.adm-blinkM{animation:admBlink 4.3s infinite .4s}
@@ -88,7 +88,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .adm-pause *{animation-play-state:paused!important}
 @media (prefers-reduced-motion: reduce){.adm *{animation:none!important}.adm-ly{transition:none}}
 .dayart .adm-ly.on{pointer-events:none}
-.dayart{position:absolute;left:50%;top:calc(50% - 45px);transform:translate(-50%,-50%);opacity:.45;pointer-events:none;z-index:0}
+.dayart{position:absolute;left:50%;top:calc(50% - 45px);transform:translate(-50%,-50%);opacity:1;pointer-events:none;z-index:0}
 .ev{position:absolute;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:18px;overflow:hidden}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 4px;border-radius:12px;font-size:13px}
 .chip .ic{width:24px;height:24px;border-radius:8px}
@@ -989,8 +989,18 @@ const DECO=(()=>{
  const SET={1:['flake','mitten','mug','snowman','star','flake'],2:['heart','letter','crepe','flake','heart','star'],3:['clover','tulip','rain','daisy','fly','sprout'],4:['egg','bell','chick','petal','tulip','fly'],5:['muguet','daisy','bug','bee','petal'],6:['straw','cherry','sun','fly','daisy'],7:['shell','starfish','ice','melon','sun'],8:['sunflower','peach','lemon','shell','ice','star'],9:['apple','pencil','grapes','leaf','acorn'],10:['pumpkin','maple','leaf','mush','acorn','chest'],11:['maple','leaf','acorn','maple','mush','leaf','chest'],12:['flake','sapin','cane','gift','holly','ginger','bauble','star']};
  return (m,i,sz)=>{const L=SET[m],k=L[i%L.length];return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24">${M[k](i)}</svg>`};
 })();
-function seasonArt(){const m=pd(TODAY).getMonth()+1,P=[[4,14,24,-20],[18,31,18,30],[88,11,22,10],[70,25,20,-35],[95,40,18,25],[5,47,22,40],[5,60,18,-15],[62,33,24,15],[95,62,20,-25],[4,74,24,20],[44,87,18,-30],[93,81,22,35],[37,19,16,5],[60,93,20,-10],[24,91,18,25],[80,95,16,-20],[9,86,20,15],[15,96,18,-25]];
- return P.map(([x,y,sz,r],i)=>(sz=Math.round(sz*1.35),`<i style="left:${x}%;top:${y}%;animation-delay:${(i%6)*.3}s;animation-duration:${4.8+(i%4)*.55}s"><b style="--r:${r}deg;animation-delay:${(i%6)*.3}s;animation-duration:${4.8+(i%4)*.55}s">${DECO(m,i,sz)}</b></i>`)).join('')}
+function seasonArt(){const m=pd(TODAY).getMonth()+1;let sd=m*7919+pd(TODAY).getFullYear();const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647,P=[];
+ for(let t=0;P.length<34&&t<4000;t++){const x=2+rnd()*94,y=6+rnd()*90;if(P.every(([a,b])=>Math.hypot(a-x,(b-y)*.55)>8.5))P.push([x,y,15+Math.round(rnd()*10),Math.round(rnd()*80-40)])}
+ return P.map(([x,y,sz,r],i)=>(sz=Math.round(sz*1.35),`<i data-x="${x}" data-y="${y}" data-s="${sz}" style="left:${x}%;top:${y}%;animation-delay:${(i%6)*.3}s;animation-duration:${4.8+(i%4)*.55}s"><b style="--r:${r}deg;animation-delay:${(i%6)*.3}s;animation-duration:${4.8+(i%4)*.55}s">${DECO(m,i,sz)}</b></i>`)).join('')}
+function decoGuard(){const sb=document.getElementById('seasonbg');if(!sb)return;const W=innerWidth,H=innerHeight,M=3;
+ const dogs=[...document.querySelectorAll('.adm')].map(a=>a.getBoundingClientRect()).filter(r=>r.width>0);
+ const hl=[...document.querySelectorAll('.hl')],cs=document.getElementById('calscroll');let col=null;
+ if(hl.length&&cs){const c=cs.getBoundingClientRect();col={l:0,r:Math.max(...hl.map(h=>h.getBoundingClientRect().right))+6,t:c.top,b:c.bottom}}
+ sb.querySelectorAll('i').forEach(el=>{const s=+el.dataset.s,x=+el.dataset.x/100*W,y=+el.dataset.y/100*H,cx=x+s/2,cy=y+s/2,hit=(l,t,r,b)=>cx+s/2+M>l&&cx-s/2-M<r&&cy+s/2+M>t&&cy-s/2-M<b;
+  let bad=col&&hit(col.l,col.t,col.r,col.b);
+  for(const r of dogs){if(bad)break;const X=u=>r.left+u*r.width,Y=v=>r.top+v*r.height;
+   bad=hit(X(.12),Y(0),X(.58),Y(.4))||hit(X(.02),Y(.35),X(.52),Y(1))||hit(X(.47),Y(.27),X(1),Y(.96))}
+  el.classList.toggle('dz',!!bad)})}
 const tmrFace=(sleep,sz)=>`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.6 20.6 7.4 18.4M18.4 20.6l-1.8-2.2" stroke="#6B5A55" stroke-width="1.6" stroke-linecap="round"/><circle cx="5.8" cy="5.6" r="2.8" fill="#F7E3A1" stroke="#6B5A55" stroke-width="1.2"/><circle cx="18.2" cy="5.6" r="2.8" fill="#F7E3A1" stroke="#6B5A55" stroke-width="1.2"/><circle cx="12" cy="12.6" r="8" fill="#F9D3DC" stroke="#6B5A55" stroke-width="1.3"/><circle cx="12" cy="12.6" r="6" fill="#FFFBF5"/>${sleep?'<path d="M8.8 12.2q1.1 1 2.2 0M13 12.2q1.1 1 2.2 0" stroke="#4B3D3A" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M11.2 15.2q.8.5 1.6 0" stroke="#4B3D3A" stroke-width=".9" fill="none" stroke-linecap="round"/><path d="M19.6 13.4h2.6l-2.6 2.8h2.6" stroke="#8FB7D6" stroke-width="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>':'<circle cx="9.8" cy="12" r="1.05" fill="#4B3D3A"/><circle cx="14.2" cy="12" r="1.05" fill="#4B3D3A"/><circle cx="10.2" cy="11.6" r=".35" fill="#fff"/><circle cx="14.6" cy="11.6" r=".35" fill="#fff"/><path d="M11 14.4q1 1.1 2 0z" fill="#4B3D3A" stroke="#4B3D3A" stroke-width=".7" stroke-linejoin="round"/>'}<ellipse cx="8.4" cy="14.4" rx="1" ry=".6" fill="#EDA5B0"/><ellipse cx="15.6" cy="14.4" rx="1" ry=".6" fill="#EDA5B0"/><path d="M12 4.6V3.2" stroke="#6B5A55" stroke-width="1.4" stroke-linecap="round"/></svg>`;
 try{S.timer=JSON.parse(localStorage.getItem('ag_timer')||'null')}catch(e){S.timer=null}
 const tmrSave=()=>{try{if(S.timer)localStorage.setItem('ag_timer',JSON.stringify(S.timer));else localStorage.removeItem('ag_timer')}catch(e){}};
@@ -999,7 +1009,7 @@ const mmss=ms=>{const t=Math.ceil(ms/1000),m=Math.floor(t/60),x=t%60;return m+':
 function tmrClear(){if(S.timer&&S.timer.nid&&!S.timer.rappel)S.items=S.items.filter(x=>x.id!==S.timer.nid);S.timer=null;tmrSave()}
 function timerPill(){if(!S.timer)return '';const done=tmrLeft()<=0;return `<button class="tmr ${done?'done':''}" data-a="tmr" aria-label="Minuteur">${tmrFace(done,30)}<span id="tmrt">${done?'Fini':mmss(tmrLeft())}</span></button>`}
 setInterval(()=>{if(!S.timer)return;const el=document.getElementById('tmrt'),left=tmrLeft();if(left<=0&&!S.timer.rang){S.timer.rang=1;tmrSave();if(S.timer.nid&&!S.timer.rappel)S.items=S.items.filter(x=>x.id!==S.timer.nid);const tk=S.items.find(x=>x.id===S.timer.task&&!x.done);if(tk){S.items=S.items.map(x=>x===tk?{...x,done:true,doneAt:nowMs()}:x);try{spawnNext(tk)}catch(e){}}if(typeof render==='function')render();return}if(el&&left>0)el.textContent=mmss(left)},1000);
-const seasonDrop=()=>{const sb=document.getElementById('seasonbg');if(sb){sb.innerHTML='';void sb.offsetWidth;sb.innerHTML=seasonArt()}};setTimeout(seasonDrop,0);let _dropAt=Date.now(),_away=false;const _back=()=>{if(!_away)return;_away=false;if(Date.now()-_dropAt<1500)return;_dropAt=Date.now();seasonDrop()};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')_away=true;else _back()});window.addEventListener('pagehide',()=>{_away=true});window.addEventListener('blur',()=>{_away=true});window.addEventListener('pageshow',()=>{_away=true;_back()});window.addEventListener('focus',_back);
+const seasonDrop=()=>{const sb=document.getElementById('seasonbg');if(sb){sb.innerHTML='';void sb.offsetWidth;sb.innerHTML=seasonArt();decoGuard()}};setTimeout(seasonDrop,0);let _dropAt=Date.now(),_away=false;const _back=()=>{if(!_away)return;_away=false;if(Date.now()-_dropAt<1500)return;_dropAt=Date.now();seasonDrop()};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')_away=true;else _back()});window.addEventListener('pagehide',()=>{_away=true});window.addEventListener('blur',()=>{_away=true});window.addEventListener('pageshow',()=>{_away=true;_back()});window.addEventListener('focus',_back);
 try{S.autoBk=localStorage.getItem('ag_autobk')!=='0'}catch(e){S.autoBk=true}
 const bkList=()=>{try{return JSON.parse(localStorage.getItem('ag_bk')||'[]')}catch(e){return []}};
 function autoBackup(){if(!S.autoBk)return;const L=bkList();if(L[0]&&L[0].d===TODAY)return;const snap={d:TODAY,state:Object.fromEntries(PKEYS.map(k=>[k,S[k]]))};const N=[snap,...L.filter(b=>b.d!==TODAY)].slice(0,7);for(let n=N.length;n>0;n--){try{localStorage.setItem('ag_bk',JSON.stringify(N.slice(0,n)));break}catch(e){}}}
@@ -1011,7 +1021,7 @@ const cdTxt=n=>n>0?'J-'+n:n===0?'Jour J':'+'+(-n)+' j';
 const cdCls=n=>n<0?'late':n<=1?'today':'';
 const FLAG='<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 4.5h11.5l-2.6 4 2.6 4H6z" fill="currentColor"/></svg>';
 const avantOn=k=>S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&(k<=it.due?k>=TODAY:k===TODAY));
-const bdAge=(it,k)=>it.bday&&it.by?(+k.slice(0,4))-it.by:null;
+const bdAge=(it,k)=>{if(!it.bday||!it.date)return null;const a=(+k.slice(0,4))-(it.by||+it.date.slice(0,4));return a>=1?a:null};
 const onDate=k=>S.items.filter(it=>(it.date===k||(!it.date&&it.due===k)||(it.bday&&it.date&&it.date<k&&it.date.slice(5)===k.slice(5)))&&visible(it)).map(it=>{const a=bdAge(it,k);return a!==null&&a>=0?{...it,title:`${it.title} · ${a} an${a>1?'s':''}`}:it}).sort((a,b)=>(timed(a)?a.start:-1)-(timed(b)?b.start:-1));
 const legend=()=>`<div class="leg">${THEMES.map(t=>{const n=S.items.filter(it=>it.kind==='tache'&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="mx" style="--d:${t.d};position:relative" data-a="goth" data-v="${t.id}"><span class="ic tint">${kw(t.id,22)}</span>${t.name}${n?`<span class="lgn">${n}</span>`:''}</button>`}).join('')}</div>`;
 
@@ -1286,7 +1296,7 @@ function sheetHTML(){
       <div><div class="lbl" style="margin-bottom:6px">Thème · <b style="color:var(--ink);font-weight:700">${TH[D.theme]?TH[D.theme].name:''}</b></div><div class="thg">${THEMES.map(t=>`<button class="${D.theme===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}" data-a="dtheme" data-v="${t.id}">${kw(t.id,26)}</button>`).join('')}</div></div>`;
     if(kind==='tache')inner+=`<div class="seg ghost"><button class="${!D.date&&!D.due?'on':''}" data-a="dnodate" data-v="1">Sans date</button><button class="${D.date?'on':''}" data-a="dnodate" data-v="0">Avec date</button><button class="${!D.date&&D.due?'on':''}" data-a="dnodate" data-v="2">Avant le</button></div>`;
     if(kind==='tache'&&!D.date&&D.due)inner+=`<div class="f2">${cell('Avant le',din('ddue',D.due))}</div>`;
-    if(kind==='rdv'){inner+=`<div class="f2">${cell('Date',din('ddate',D.date))}<div class="cell"><span class="lbl">&nbsp;</span><button class="adt ${D.allDay?'on':''}" data-a="dallday">Journée entière</button></div></div>${D.theme==='proches'?`<button class="adt ${D.bday?'on':''}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:6px" data-a="dbday">${kw('gateau',22)}Anniversaire</button>${D.bday?`<div class="cell" style="margin-top:10px"><span class="lbl">Année de naissance</span><select class="din" data-in="dby"><option value="">—</option>${Array.from({length:100},(_,i)=>pd(TODAY).getFullYear()-i).map(y=>`<option value="${y}" ${+D.by===y?'selected':''}>${y}</option>`).join('')}</select></div>`:''}`:''}`;
+    if(kind==='rdv'){inner+=`<div class="f2">${cell('Date',din('ddate',D.date))}<div class="cell"><span class="lbl">&nbsp;</span><button class="adt ${D.allDay?'on':''}" data-a="dallday">Journée entière</button></div></div>${D.theme==='proches'?`<button class="adt ${D.bday?'on':''}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:6px" data-a="dbday">${kw('gateau',22)}Anniversaire</button>`:''}`;
       if(!D.allDay)inner+=`<div class="f2">${cell('Début',tin('dhour',toHM(D.start)))}${cell('Fin',tin('dend',toHM(Math.min(24,(D.start===null?12:D.start)+D.dur))))}</div>`}
     else if(D.date)inner+=`<div class="f2">${cell('Date',din('ddate',D.date))}${cell('Heure',tin('dhour',toHM(D.start)))}</div>`;
     if(kind==='rappel'||(kind==='tache'&&D.date)){const rp=D.repeat||'',isD=rp.startsWith('d:');
@@ -1298,7 +1308,8 @@ function sheetHTML(){
   return `<div class="veil" data-a="close-veil"><div class="sheet ${S.sheet==='new'||S.sheet==='edit'?'ed':''}"><div class="row"><div class="hf" style="font-size:20px;min-width:0">${title}</div>${closeBtn}</div>${inner}</div></div>`;
 }
 
-function render(){try{renderInner()}finally{persist()}}
+function render(){try{renderInner()}finally{persist();requestAnimationFrame(()=>{try{decoGuard()}catch(e){}})}}
+addEventListener('resize',()=>decoGuard());
 function renderInner(){
   const ph=document.getElementById('phone');
   const se=ph.querySelector('.scroll'),keep=se?se.scrollTop:0,key=S.tab+S.view+S.folder;
@@ -2294,7 +2305,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='79';
+const APP_VER='80';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
