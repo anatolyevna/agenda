@@ -832,6 +832,33 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
       <div class="lbl" style="margin-top:12px">Symptômes</div><div class="pick">${syms}</div></div>
     ${hist?`<div class="cycard"><div class="lbl" style="margin-bottom:4px">Dernières règles</div>${hist}</div>`:''}${sleepCard()}</div>`}
 const itIcon=(it,sz)=>{if(it.bday)return kw('gateau',sz);if(it.chore){const c=S.chores.find(x=>x.id===it.chore);if(c&&c.sub)return charSvg(c.sub,'ok',Math.round(sz*1.12))}return kw(it.theme,sz)};
+const lilaNew=(sleep)=>{const K='#1E1715',SWd=2.6,O=`stroke="${K}" stroke-width="${SWd}" stroke-linejoin="round" stroke-linecap="round"`,W='#FFFDF9',B='#2E2422',G='#A79C98';
+ const dot=(x,y,r=1.7)=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*.8}" fill="${B}"/>`;
+ const paw=(x,y,w)=>`<path d="M${x-w} ${y}c0-5 3-7.6 ${w} -7.6s${w} 2.6 ${w} 7.6z" fill="${W}" ${O}/><path d="M${x-w/3} ${y}v-3.2M${x+w/3} ${y}v-3.2" stroke="${K}" stroke-width="1.8" stroke-linecap="round"/>`;
+ const eye=(x,y)=>sleep?`<path d="M${x-7} ${y+1}q7 6 14 0" stroke="${K}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`:
+  `<circle cx="${x}" cy="${y}" r="9" fill="${W}" ${O}/><circle cx="${x+1}" cy="${y-1}" r="8" fill="#C9782E"/><circle cx="${x+1.2}" cy="${y-.6}" r="4.8" fill="#1A100C"/><circle cx="${x-2}" cy="${y-4}" r="3" fill="#fff"/><circle cx="${x+4}" cy="${y+3}" r="1.3" fill="#fff"/>`;
+ const ear=f=>{const x=62+f*26;return `<path d="M${x} 36C${x+f*10} 34 ${x+f*17} 42 ${x+f*18} 56C${x+f*19} 64 ${x+f*21} 68 ${x+f*18.4} 72C${x+f*20} 78 ${x+f*17} 86 ${x+f*12} 92L${x+f*10} 87L${x+f*7.4} 94L${x+f*5} 87L${x+f*2} 90C${x+f*1} 82 ${x-f*1} 70 ${x-f*2} 58z" fill="${B}" ${O}/>`};
+ return `<g>
+ <path d="M34 132C14 130 6 112 12 94" fill="none" stroke="${K}" stroke-width="10" stroke-linecap="round"/><path d="M34 132C14 130 6 112 12 94" fill="none" stroke="${W}" stroke-width="5" stroke-linecap="round"/><path d="M34 132C27 131.6 22 129 19 126" fill="none" stroke="${B}" stroke-width="5.4" stroke-linecap="butt"/>
+ <clipPath id="lhl"><ellipse cx="32" cy="128" rx="16" ry="15"/></clipPath>
+ <ellipse cx="32" cy="128" rx="16" ry="15" fill="${W}" ${O}/><path clip-path="url(#lhl)" d="M14 112C26 110 36 116 34 128C33 136 24 142 14 140z" fill="${B}"/><ellipse cx="92" cy="128" rx="16" ry="15" fill="${W}" ${O}/>
+ ${paw(22,146,8)}${paw(102,146,8)}
+ <path d="M40 86C33 96 30 104 29.6 112L27 115L30 117C29.8 126 31 136 33 146H91C93 136 94.2 126 94 117L97 115L94.4 112C94 104 91 96 84 86z" fill="${W}" ${O}/><path d="M33 120C34 132 36 140 38 146H33z M91 120C90 132 88 140 86 146H91z" fill="#EDE5DE"/>
+ ${dot(40,108)}${dot(84,104)}${dot(88,118,1.4)}${dot(37,124,1.4)}${dot(92,132,1.3)}${dot(97,124,1.4)}${dot(26,134,1.3)}
+ <path d="M62 118V146" stroke="${K}" stroke-width="${SWd}" stroke-linecap="round"/>
+ ${paw(53,148,9)}${paw(71,148,9)}${dot(50,124,1.3)}${dot(73,130,1.3)}${dot(55,136,1.1)}
+ <path d="M40 86Q36 93 39 98Q43 96 45 101Q49 97 52 104Q56 99 62 105Q68 99 72 104Q75 97 79 101Q81 96 85 98Q88 93 84 86z" fill="${W}" ${O}/>
+ ${ear(-1)}${ear(1)}
+ <clipPath id="lhd"><path id="lhdp" d="M62 22C83 22 96 36 96 54C96 64 95 70 92 74L95 77L90 78L92 82L85 82C78 88 70 91 62 91S46 88 39 82L32 82L34 78L29 77L32 74C29 70 28 64 28 54C28 36 41 22 62 22z"/></clipPath>
+ <use href="#lhdp" fill="${B}"/>
+ <path clip-path="url(#lhd)" d="M57 18H67C66 30 65.4 40 66 46C74 52 80 60 80 70C80 82 72 92 62 92S44 82 44 70C44 60 50 52 58 46C58.6 40 58 30 57 18z" fill="${W}"/>
+ <path d="M59.4 26h5.2l-2.6 5z" fill="${B}"/>
+ <use href="#lhdp" fill="none" ${O}/>
+ <circle cx="54" cy="72" r="1" fill="${G}"/><circle cx="70" cy="72" r="1" fill="${G}"/><circle cx="51.6" cy="76" r=".9" fill="${G}"/><circle cx="72.4" cy="76" r=".9" fill="${G}"/><circle cx="56" cy="77" r=".8" fill="${G}"/><circle cx="68" cy="77" r=".8" fill="${G}"/>
+ ${eye(44,56)}${eye(80,56)}
+ <path d="M55 69C55 65.6 69 65.6 69 69C69 72.4 65 74.6 62 74.6S55 72.4 55 69z" fill="#1A1210" ${O}/><ellipse cx="60" cy="68" rx="2.6" ry="1" fill="#9A8E8A"/>
+ ${sleep?`<path d="M56 80q3 2 6 0q3 2 6 0" stroke="${K}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`:`<path d="M62 74.6V78M48 76Q50 81 54.4 80M76 76Q74 81 69.6 80" stroke="${K}" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M54.4 79.4Q62 82.6 69.6 79.4Q68 90 62 90.4Q56 90 54.4 79.4z" fill="#3A1E1C" ${O}/><path d="M57 83.2Q62 84.6 67 83.2Q66 89 62 89.2Q58 89 57 83.2z" fill="#F07C8C"/><path d="M62 84v3.6" stroke="#CF5E70" stroke-width="1" stroke-linecap="round"/>`}
+ </g>`};
 const lilaSvg=(()=>{const SK='#221A18',SW=1.7,O=`stroke="${SK}" stroke-width="${SW}" stroke-linejoin="round" stroke-linecap="round"`;
  // contour en touffes irrégulières, style dessin
  const fur=(cx,cy,rx,ry,n,len,pinch=0,seed=1)=>{const P=t=>{const a=t*Math.PI*2-Math.PI/2,sn=Math.sin(a),k=sn>0?1-pinch*sn*sn:1;return[cx+rx*k*Math.cos(a),cy+ry*sn]};let d='';
@@ -865,7 +892,7 @@ const lilaSvg=(()=>{const SK='#221A18',SW=1.7,O=`stroke="${SK}" stroke-width="${
   <path d="M${c-3.6} 51.6C${c-3.6} 49.8 ${c+3.6} 49.8 ${c+3.6} 51.6C${c+3.6} 53.4 ${c+1.6} 54.4 ${c} 54.4C${c-1.6} 54.4 ${c-3.6} 53.4 ${c-3.6} 51.6z" fill="#1A1210" ${O}/><ellipse cx="${c-1}" cy="51.2" rx="1" ry=".45" fill="#9A8E8A"/>
   ${sleep?'':`<path d="M${c-3.4} 56.2q1.7 1.4 3.4 0q1.7 1.4 3.4 0" stroke="${SK}" stroke-width="1" fill="none" stroke-linecap="round"/>`}
   <ellipse cx="${c-9.6}" cy="40.4" rx="2" ry="1.1" fill="#F09AA4" opacity=".75"/><ellipse cx="${c+9.6}" cy="40.4" rx="2" ry="1.1" fill="#F09AA4" opacity=".75"/>`};
- return (sleep,w=150)=>`<svg width="${w}" height="${Math.round(w*.512)}" viewBox="-14 8 164 84" aria-hidden="true" style="overflow:visible">${lila(sleep)}<image href="misha.png?v=71" x="84" y="16" width="62" height="75"/>${sleep?'<text x="82" y="18" font-size="8" font-weight="800" fill="#A4BED3" font-family="Nunito">z</text>':''}</svg>`})();
+ return (sleep,w=150)=>`<svg width="${w}" height="${Math.round(w*.512)}" viewBox="-14 8 164 84" aria-hidden="true" style="overflow:visible"><g transform="translate(16 16) scale(.5)">${lilaNew(sleep)}</g><image href="misha.png?v=71" x="84" y="16" width="62" height="75"/>${sleep?'<text x="82" y="18" font-size="8" font-weight="800" fill="#A4BED3" font-family="Nunito">z</text>':''}</svg>`})();
 
 const PAUSES=[['2026-12-21','2027-02-10']];
 const DECO=(()=>{
@@ -2222,7 +2249,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='71';
+const APP_VER='72';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
