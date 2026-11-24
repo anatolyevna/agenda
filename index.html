@@ -567,9 +567,6 @@ const THEMES=[
  {id:'proches',name:'Famille et amis',d:'#C49CD2'},{id:'loisirs',name:'Sorties',d:'#86C495'},{id:'apprendre',name:'Apprentissage',d:'#EDAE84'},{id:'autre',name:'Autre',d:'#C9C0BA'}];
 const TH=Object.fromEntries(THEMES.map(t=>[t.id,t]));TH.anniv={id:'anniv',name:'Anniversaire',d:'#F25C6B'};
 const MENAGE=[['arrosage','Arrosage'],['nettoyage','Nettoyage'],['aspiration','Aspiration'],['rangement','Rangement'],['lessive','Lessive'],['vetements','Vêtements'],['trier','Trier'],['vaisselle','Vaisselle'],['poubelles','Poubelles'],['draps','Draps'],['sac','Courses'],['aerer','Aérer'],['sol','Sol'],['toilettes','Toilettes'],['douche','Douche'],['lavabo','Lavabo'],['miroir','Miroir'],['plumeau','Poussière'],['replanter','Replanter']];
-const HAIR=[['Avant la douche',[['Bain d’huile','Longueurs','OGX','']]],
- ['Pendant la douche',[['Soin réparateur','','Olaplex n°3','1×/semaine'],['Shampoing clarifiant','Nettoie','Eucerin',''],['Shampoing classique','Mon type de cuir chevelu','Klorane',''],['Soin du cuir chevelu','Stimule','The Ordinary',''],['Bond repair','','Redken 14 % / K18','1×/semaine, autre jour que le soin réparateur, pas après l’après-shampoing'],['Après-shampoing / masque / gloss','','Klorane / Absolut Repair Quinoa / Elvive Glycolic Gloss','',['Laminage','1×/mois']]]],
- ['Après la douche',[['Sérum leave-in','','Redken 5 %',''],['Huile','','OGX',''],['Shampoing sec','En cas de démangeaisons','Klorane','']]]];
 /* ---- Routine visage (Bien-être → Visage), v2 ---- */
 const RL='Round Lab 1025 Dokdo Cleanser',AT='Anua Heartleaf 77% Soothing Toner',AO='Anua Heartleaf Pore Control Cleansing Oil',SN='COSRX Advanced Snail 96 Mucin Power Essence',AZ9='9LESS A-Control 10% Azelaic Acid Serum',CR='Crème hydratante légère',CI='Avène Cicalfate+',SPF='Beauty of Joseon Relief Sun SPF50+',NZ='Aroma-Zone Niacinamide 5% + Zinc',EY='SKIN1004 Probio-Cica Bakuchiol Eye Cream',HA='Aroma-Zone Acide hyaluronique 3,5%';
 const SKD={
@@ -650,7 +647,71 @@ function skinApply(p){const g=sub=>S.care.find(c=>c.sec==='visage'&&c.sub===sub)
  if(mq){delete mq.next;if(p===3){delete mq.freq;mq.days=[2]}else{delete mq.days;mq.freq=7}mq.moments=['soir']}
  if(nc){delete nc.freq;nc.days=[4];nc.moments=['soir'];delete nc.next;nc.paused=p<3}
  const m=g('matin'),s=g('soir');if(m){delete m.days;m.freq=1;m.moments=['matin']}if(s){delete s.days;s.freq=1;s.moments=['soir']}}
-const hairCard=()=>{let n=0;return `<details class="hair"><summary>${kw('perso',22)}<span>Routine capillaire</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary>${HAIR.map(([g,L])=>`<div class="hg">${g}</div>`+L.map(([t,w,pr,f,ex])=>`<div class="hs"><b class="hn">${++n}</b><div class="hb"><div class="ht">${t}${w?` <span class="hw">· ${w}</span>`:''}</div><div class="hp">${pr}</div>${f?`<span class="hf">${f}</span>`:''}${ex?`<span class="hf pk">${ex[0]} ${ex[1]}</span>`:''}</div></div>`).join('')).join('')}</details>`};
+/* ---- Routine cheveux (Bien-être → Cheveux) ---- */
+const HK='Klorane Pivoine',HAO='OGX Argan Oil of Morocco',HLI='Redken Acidic Bonding Concentrate Leave-In 5 %',HAS='Après-shampoing léger';
+const HD={
+ shamp:{e:'Shampoing',p:HK,alt:[[HK,'Doux, apaise le cuir chevelu'],['Klorane Ortie','Racines grasses, selon tolérance']],fn:'Nettoie le cuir chevelu en douceur',q:'Une noisette, une deuxième si besoin',z:'Cuir chevelu',av:'Frotter les longueurs : la mousse suffit en rinçant',m:'Eau tiède, masser du bout des doigts sans les ongles, rincer longuement',t:'1 min',r:'Rincer'},
+ cond:{e:'Après-shampoing',p:HAS,fn:'Démêle et adoucit sans alourdir',q:'Une noisette',z:'Longueurs et pointes',av:'Racines et cuir chevelu',m:'Répartir avec les doigts, démêler doucement',t:'2 à 3 min',r:'Rincer'},
+ leave:{e:'Protection des longueurs',p:HLI,fn:'Renforce et protège les longueurs',q:'Petite quantité (1 à 2 pressions)',z:'Longueurs humides',av:'Racines',m:'Sur cheveux essorés, répartir entre les paumes',r:'Sans rinçage'},
+ argan:{e:'Huile de finition',p:HAO,fn:'Nourrit les pointes sèches',q:'Une goutte',z:'Pointes',av:'Racines, cuir chevelu',m:'Chauffer entre les doigts, pincer les pointes',r:'Sans rinçage',f:'Si nécessaire'},
+ bath:{e:'Bain d’huile · facultatif',p:'OGX Coconut Miracle Oil',fn:'Nourrit et protège les longueurs avant le lavage',q:'De quoi gainer les longueurs, sans excès',z:'Longueurs',av:'Cuir chevelu',m:'Sur cheveux secs, avant la douche',t:'20 à 30 min',r:'Éliminé par le shampoing'},
+ mask:{e:'Masque',p:'L’Oréal Professionnel Absolut Repair Quinoa Mask',fn:'Répare et adoucit, remplace l’après-shampoing',q:'Une noisette à une demi-paume',z:'Longueurs et pointes',av:'Racines',m:'Sur cheveux essorés, répartir, démêler aux doigts',t:'Selon la notice',r:'Rincer'},
+ towel:{e:'Essorage',p:'Serviette microfibre',fn:'Absorbe l’eau sans casser',q:'—',z:'Toute la chevelure',av:'Frotter',m:'Presser et tamponner, sans frotter ni tordre',r:'—'}};
+const HROUT={express:['shamp','cond','leave','argan'],complet:['bath','shamp','mask','towel','leave','argan']};
+const HREP=[['K18 Leave-In Molecular Repair Hair Mask','Traitement réparateur prioritaire',['Laver avec un shampoing','Pas d’après-shampoing avant le K18','Essorer délicatement avec la serviette microfibre','Appliquer 1 à 3 pressions selon la longueur et la quantité','Répartir sur les longueurs et les pointes','Attendre 4 minutes','Ne pas rincer','Ensuite, éventuellement un soin léger'],'1 à 3 pressions','Longueurs et pointes','Racines, cuir chevelu','4 min','—','Sans rinçage','4 à 6 lavages consécutifs (phase 1), puis selon les besoins'],
+ ['Olaplex Nº3 Hair Perfector','Reconstruit la fibre',['Sur cheveux humides, avant le shampoing','Répartir sur les longueurs','Laisser agir 10 minutes','Rincer','Faire le shampoing','Après-shampoing léger'],'Une noisette à deux selon la longueur','Longueurs','Cuir chevelu','10 min','—','Rincer, puis shampoing','Phase 2 : en alternance avec Redken 14 %, après la cure K18'],
+ ['Redken Acidic Bonding Concentrate Intensive Treatment 14 %','Renforce les liaisons du cheveu',['Sur cheveux humides, avant le shampoing','Répartir sur les longueurs','Laisser agir selon la notice','Rincer','Faire le shampoing','Après-shampoing adapté'],'Selon la notice','Longueurs','Cuir chevelu','Selon la notice','—','Rincer, puis shampoing','En alternative à Olaplex ou K18']];
+const HAIR_PH={1:['Apaisement et réparation',['Lavages doux adaptés au cuir chevelu','Cure K18 pendant 4 à 6 lavages consécutifs','Protection des longueurs, démêlage doux, protection la nuit','Pas d’exfoliant, de gloss ni de laminage','Pas de massage ni de sérum de densité tant que le cuir chevelu est lésé']],
+ 2:['Entretien et renforcement',['Alterner Olaplex Nº3 et Redken 14 %','K18 ponctuellement, à la place d’un autre soin réparateur','Sérum de densité et massage après cicatrisation, progressivement','Développer la définition des boucles']],
+ 3:['Entretien complet',['Garder les soins précédents selon les besoins','Gloss et laminage éventuellement','Adapter à l’état des cheveux et du cuir chevelu']]};
+const HAIR_WEEK={1:['Shampoing + K18','Entretien quotidien','Entretien quotidien','Shampoing + K18','Entretien quotidien','Entretien quotidien','Shampoing + K18 si nécessaire'],
+ 2:['Olaplex Nº3 ou Redken 14 % + shampoing + après-shampoing','Entretien quotidien','Entretien quotidien','Lavage complet avec masque ou après-shampoing','Entretien quotidien','Entretien quotidien','Lavage express si nécessaire']};
+const HAIR_SEASON={printemps:'Soins légers, hydratation et définition des boucles.',ete:'Protéger du soleil, du sel et du chlore ; rincer après la baignade ; hydrater.',automne:'Attention particulière à la chute et à la fragilisation.',hiver:'Protéger les longueurs de la sécheresse, des frottements et de l’électricité statique.'};
+const hairPh=()=>(S.flags&&S.flags.hairP)||1;
+const hProd=k=>((S.flags.hairAlt||{})[k])||HD[k].p;
+function hRow(k,i){const s=HD[k],prod=hProd(k);
+ return `<details class="sks" ${S._skOpen==='h'+k?'open':''}><summary><b class="hn">${i+1}</b><span class="skm"><span class="ht">${s.e}</span><span class="hp">${prod}</span><span class="skz">${s.z} · ${s.r}${s.t?' · '+s.t:''}</span></span></summary><div class="skd">
+ ${s.alt?`<div class="hp"><span class="sk">Produit</span><select class="din skalt" data-in="halt" data-k="${k}">${s.alt.map(([n,f])=>`<option value="${esc(n)}" ${n===prod?'selected':''}>${esc(n)} — ${esc(f)}</option>`).join('')}</select></div>`:''}
+ <div class="hp"><span class="sk">Fonction</span> ${s.fn}</div><div class="hp"><span class="sk">Quantité</span> ${s.q}</div><div class="hp"><span class="sk">Zone</span> ${s.z}</div><div class="hp"><span class="sk">À éviter</span> ${s.av}</div><div class="hp"><span class="sk">Méthode</span> ${s.m}</div>${s.t?`<div class="hp"><span class="sk">Pose</span> ${s.t}</div>`:''}${s.w?`<div class="hp"><span class="sk">Attente</span> ${s.w}</div>`:''}<div class="hp"><span class="sk">Rinçage</span> ${s.r}</div>${s.f?`<div class="hp"><span class="sk">Fréquence</span> ${s.f}</div>`:''}${s.x?`<div class="hwarn">${s.x}</div>`:''}</div></details>`}
+const CURL_SVG=`<svg viewBox="0 0 240 120" width="100%" style="max-width:300px;display:block;margin:6px auto" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><marker id="har" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E08A5E"/></marker></defs>
+<g stroke="#B9967E" stroke-width="2.2"><path d="M30 12c-6 14 8 22 0 36s8 22 0 36s6 20 0 28"/><path d="M44 12c-6 14 8 22 0 36s8 22 0 36s6 20 0 28"/></g><rect x="52" y="78" width="26" height="12" rx="3" fill="#F6D9B8" stroke="#C98A52" stroke-width="1.6"/><path d="M56 78v-6M61 78v-6M66 78v-6M71 78v-6" stroke="#C98A52" stroke-width="1.6"/><path d="M90 104V46" stroke="#E08A5E" stroke-width="2.4" marker-end="url(#har)"/>
+<text x="20" y="117" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#9A6A4E">Démêler : pointes → racines</text>
+<g stroke="#B9967E" stroke-width="2.2"><path d="M160 14c-8 10 8 16 0 26s8 16 0 26"/><path d="M174 14c-8 10 8 16 0 26s8 16 0 26"/></g><path d="M150 92q17 10 34 0l-2 -12q-15 6-30 0z" fill="#F6D9B8" stroke="#C98A52" stroke-width="1.6"/><path d="M200 96V64" stroke="#E08A5E" stroke-width="2.4" marker-end="url(#har)"/>
+<text x="140" y="117" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#9A6A4E">Scrunch : remonter, serrer</text></svg>`;
+const HSUB={express:'douche',complet:'serviette',repar:'masqueC2',irrite:'brosse2',boucles:'boucles',quotidien:'brosse',massage:'massage',gloss:'tube'};
+function hairDetail(c){const k=c.hk,p=hairPh();if(!k)return '';const [sn,sk]=skSeason();let h='';
+ if(k==='express')h=`<div class="hp" style="padding:6px 0"><span class="sk">Fréquence</span> Tous les 2 à 3 jours ou selon les besoins. Pas d’espacement imposé si les racines sont grasses ou si le cuir chevelu démange.</div>`+HROUT.express.map(hRow).join('');
+ else if(k==='complet')h=HROUT.complet.map(hRow).join('')+`<div class="hwarn" style="margin:8px 0">Le masque remplace l’après-shampoing. Éviter les quantités excessives pour ne pas alourdir.</div>`;
+ else if(k==='repar')h=`<div class="hp" style="padding:6px 0">Trois protocoles à alterner, jamais cumulés lors d’un même lavage.${p===1?' <b>Phase 1 : cure K18 en priorité.</b>':''}</div>`+HREP.map(([n,fn,st,q,z,av,t,w,r,f],i)=>`<details class="sks" ${(p===1&&i===0)?'open':''}><summary><b class="hn">${i+1}</b><span class="skm"><span class="ht">${n}</span><span class="hp">${fn}</span><span class="skz">${z} · ${r} · ${t}</span></span></summary><div class="skd">${st.map((x,j)=>`<div class="hp">${j+1}. ${x}</div>`).join('')}<div class="hp"><span class="sk">Quantité</span> ${q}</div><div class="hp"><span class="sk">À éviter</span> ${av}</div><div class="hp"><span class="sk">Fréquence</span> ${f}</div></div></details>`).join('');
+ else if(k==='irrite')h=`<div class="hwarn" style="margin:6px 0">Prioritaire sur tous les autres soins tant que le cuir chevelu démange, rougit ou présente des croûtes ou des lésions.</div>
+  <div class="hg">Produits</div><div class="hp">· ${HK}, si bien toléré</div><div class="hp">· Shampoing antipelliculaire adapté, à choisir avec un professionnel de santé</div><div class="hp">· Après-shampoing léger, uniquement sur les longueurs</div>
+  <div class="hp" style="padding-top:4px"><span class="sk">Méthode</span> Eau tiède, aucun frottement, sécher en tamponnant</div>
+  <div class="hg">Suspendre</div><div class="hp">The Ordinary Glycolic Acid 7 % · The Ordinary Multi-Peptide Serum for Hair Density · shampoing sec · massage araignée · huiles sur le cuir chevelu · gommages et exfoliants · shampoings clarifiants agressifs · coloration sur cuir chevelu lésé</div>
+  <div class="hwarn" style="margin:8px 0">Croûtes persistantes, saignements et chute chronique : demander un avis médical.</div>`;
+ else if(k==='boucles')h=CURL_SVG+['Démêler délicatement, des pointes vers les racines, au peigne à dents larges ou aux doigts','Une petite quantité de mousse coiffante légère, répartie sur cheveux humides','Scrunch : remonter les longueurs vers les racines avec les mains, serrer doucement, relâcher','Absorber l’excédent d’eau avec la serviette microfibre, en pressant','Laisser sécher naturellement','Ne pas toucher les cheveux pendant le séchage'].map((x,i)=>`<div class="hs"><b class="hn">${i+1}</b><div class="hb"><div class="hp" style="color:var(--ink)">${x}</div></div></div>`).join('')+`<div class="hp" style="padding:6px 0"><span class="sk">Quand</span> Après les lavages, selon les besoins${p===1?' (à développer en phase 2)':''}</div><div class="hwarn" style="margin:6px 0">Textures légères seulement, pas de crèmes riches.</div>`;
+ else if(k==='quotidien')h=`<div class="hg">Matin</div><div class="hp">· Démêlage doux si nécessaire</div><div class="hp">· Une goutte d’${HAO} sur les pointes sèches</div><div class="hp">· Coiffure souple, pas d’attache serrée</div>
+  <div class="hg">Soir</div>${p>=2?`<div class="hp">Après cicatrisation seulement : quelques gouttes de The Ordinary Multi-Peptide Serum for Hair Density sur le cuir chevelu sec, répartir délicatement, sans rinçage.</div>`:`<div class="hp">Rien de plus en phase 1 : le sérum de densité attend la cicatrisation.</div>`}
+  <div class="hg">Nuit</div><div class="hp">· Tresse souple</div><div class="hp">· Bonnet en satin</div><div class="hp" style="padding-bottom:6px">· Jamais les cheveux mouillés ou attachés serré</div>`;
+ else if(k==='massage')h=`<div class="hp" style="padding-top:6px"><span class="sk">Accessoire</span> Masseur araignée</div><div class="hp"><span class="sk">Fréquence</span> 2 à 3 fois par semaine</div><div class="hp"><span class="sk">Durée</span> 2 à 5 minutes</div><div class="hp"><span class="sk">Pression</span> Très légère, mouvements doux de haut en bas</div><div class="hp"><span class="sk">Après</span> Nettoyer l’accessoire</div>
+  <div class="hwarn" style="margin:8px 0">Pas en cas de croûtes, plaies, rougeurs importantes ou irritation. Commencer seulement après guérison. Un moment de soin, pas un traitement de la chute.</div>`;
+ else if(k==='gloss')h=`<div class="hwarn" style="margin:6px 0">Seulement quand les longueurs sont moins fragilisées${p<3?' (phase 3)':''}. Un seul soin intensif par lavage.</div>`+[['L’Oréal Elvive Glycolic Gloss','Toutes les 2 à 4 semaines'],['Laminage capillaire','Une fois par mois au maximum'],['Absolut Repair Quinoa Mask','Une fois par semaine au début']].map(([n,f],i)=>`<div class="hs"><b class="hn">${i+1}</b><div class="hb"><div class="ht">${n}</div><span class="hf">${f}</span></div></div>`).join('')+`<div class="hp" style="padding:6px 0">Respecter le protocole exact de chaque produit.</div>`;
+ return `<div class="hair skin">${h}<div class="hp" style="padding:8px 0"><span class="sk">${sn}</span> ${HAIR_SEASON[sk]}</div></div>`}
+function hairCard(){const p=hairPh(),P=HAIR_PH[p],W=HAIR_WEEK[p===1?1:2],d=wd(TODAY),J=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'],[sn,sk]=skSeason();
+ return `<details class="hair"><summary>${kw('perso',22)}<span>Ma routine cheveux</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+ <div class="hg">Phase en cours</div><div class="pick" style="margin:4px 0 6px">${[1,2,3].map(n=>`<button class="txt ${p===n?'on':''}" style="--d:#EEB87D" data-a="hairp" data-v="${n}">Phase ${n}</button>`).join('')}</div>
+ <div class="ht">${P[0]}</div>${P[1].map(x=>`<div class="hp">· ${x}</div>`).join('')}
+ <div class="hg">Semaine type</div>${W.map((t,i)=>`<div class="hs" style="${i===d?'background:#FDEFD9;border-radius:10px;padding-left:6px':''}"><div class="hb"><span class="ht">${J[i]}</span> <span class="hp">· ${t}</span></div></div>`).join('')}
+ <div class="hp" style="padding:4px 0">Les jours se changent dans les réglages de chaque bulle (double appui), selon ton planning de vol.</div>
+ <div class="hwarn" style="margin:8px 0">Tu changes de phase toi-même. Le massage et le sérum de densité ne démarrent qu’une fois le cuir chevelu cicatrisé : active la bulle Massage à ce moment-là.</div>
+ <div class="hg">Saison · ${sn}</div><div class="hp">${HAIR_SEASON[sk]}</div>
+ <div class="hg">Profil</div><div class="hp">Cheveux longs et fins, ondulés à bouclés ; perte de densité et chute chronique ; racines grasses en 1 à 2 jours ; longueurs sèches, cassantes, fourchues, trop élastiques mouillées, vite emmêlées et alourdies ; cuir chevelu qui démange, rougit, pellicules et croûtes ; coloration semi-permanente des racines.</div>
+ <div class="hg">Objectifs</div><div class="hp">Apaiser le cuir chevelu, réduire pellicules et démangeaisons, limiter la casse, renforcer les longueurs, favoriser la pousse, plus de densité visible, retrouver les boucles, brillance, douceur et volume.</div>
+ <div class="hg">Achats éventuels</div><div class="hp" style="padding-bottom:8px">Shampoing antipelliculaire adapté · après-shampoing léger pour cheveux fins · peigne à dents larges · mousse coiffante légère · protecteur thermique si appareils chauffants · taie en satin (facultatif)</div></details>`}
+function hairApply(p){const g=k=>S.care.find(c=>c.sec==='cheveux'&&c.hk===k);const set=(k,o)=>{const c=g(k);if(!c)return;delete c.freq;delete c.days;delete c.next;Object.assign(c,o)};
+ set('quotidien',{freq:1,moments:['matin'],paused:false});
+ set('irrite',{freq:2});
+ if(p===1){set('repar',{days:[0,3],paused:false});set('express',{days:[6]});set('complet',{days:[3],paused:true});set('boucles',{days:[0,3],paused:true});set('massage',{days:[1,4],paused:true});set('gloss',{freq:21,paused:true})}
+ else{set('repar',{days:[0],paused:false});set('complet',{days:[3],paused:false});set('express',{days:[6],paused:false});set('boucles',{days:[0,3],paused:false});set('massage',{days:[1,4]});set('gloss',{freq:21,paused:p<3})}}
 const CARE=[['visage','Visage','#EDA5B0'],['cheveux','Cheveux','#EEB87D'],['corps','Corps','#8EC6BD'],['mains','Mains et pieds','#F4C3C8'],['complements','Compléments','#F7EBC9'],['sportm','Sport','#EBAE6B'],['journal','Journaling','#D9C27E'],['recette','Recettes','#F6CFC9']];
 const ZONES=[['salon','Salon'],['cuisine','Cuisine'],['sdb','Salle de bain'],['chambre','Chambre'],['vetements','Vêtements'],['plantes','Plantes']];
 const SUGG0=[['plantes','Ajouter de l’engrais'],['plantes','Vaporiser les feuilles'],['plantes','Dépoussiérer les feuilles'],['plantes','Tourner les pots vers la lumière'],['plantes','Vérifier les nuisibles'],['salon','Laver les vitres'],['salon','Secouer les coussins'],['chambre','Aérer la chambre'],['chambre','Aspirer sous le lit'],['chambre','Laver les oreillers'],['sdb','Laver les serviettes'],['sdb','Détartrer la robinetterie'],['vetements','Mettre de côté ce qui est à donner']];
@@ -820,6 +881,10 @@ function migrate(){if(!S.flags)S.flags={};let ch=false;
   if(!S.flags.sl3&&S.cycle&&S.cycle.days){Object.values(S.cycle.days).forEach(e=>{if(e.sl&&e.sl.q==='b')e.sl.q='tb'});S.flags.sl3=1;ch=true}
   if(!S.flags.bd1){let c2=0;S.items=S.items.map(x=>x.bday&&x.theme!=='anniv'?(c2=1,{...x,theme:'anniv',allDay:true,start:null}):x);S.flags.bd1=1;ch=true}
   if(!S.flags.cyc2&&S.cycle&&S.cycle.days){const mp={'Crampes':'Crampes et ballonnements','Ballonnements':'Crampes et ballonnements','Douleur généralisée':'Raideur généralisée'};Object.values(S.cycle.days).forEach(e=>{if(e.sym)e.sym=[...new Set(e.sym.map(x=>mp[x]||x))]});S.flags.cyc2=1;ch=true}
+  if(!S.flags.hair2){const L=[['express','Routine express'],['complet','Lavage complet'],['repar','Réparation intensive'],['irrite','Cuir chevelu irrité'],['boucles','Définition des boucles'],['quotidien','Entretien quotidien'],['massage','Massage du cuir chevelu'],['gloss','Gloss et laminage']];
+    S.care=S.care.filter(c=>!(c.sec==='cheveux'&&['huile2','masqueC2','brosse2','huile','brosse','serum'].includes(c.sub)&&!c.hk));let mx=Math.max(0,...S.care.map(c=>c.id||0));
+    L.forEach(([k,t])=>{if(!S.care.some(c=>c.hk===k))S.care.push({id:++mx,sec:'cheveux',sub:HSUB[k],hk:k,title:t,last:TODAY,paused:true})});
+    S.flags.hairP=S.flags.hairP||1;hairApply(S.flags.hairP);S.flags.hair2=1;ch=true}
   if(!S.flags.skin1){S.flags.skinP=S.flags.skinP||1;skinApply(S.flags.skinP);S.flags.skin1=1;ch=true}
   if(!S.flags.moi5){S.care.forEach(c=>{if(c.sec==='cheveux'&&/^masque/.test(norm(c.title)))c.sub='masqueC2'});S.flags.moi5=1;ch=true}
   if(!S.flags.aerer){if(!S.chores.some(c=>c.zone==='salon'&&norm(c.title)==='aerer'))S.chores.push({id:S.nextId++,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:TODAY,paused:true});S.flags.aerer=1;return true}return ch}
@@ -1328,7 +1393,7 @@ function sheetHTML(){
     title=`<span style="display:flex;align-items:center;gap:10px"><span class="ic tint" style="--d:${r.d};width:40px;height:40px;border-radius:14px">${kw(r.id,30)}</span>${r.name}</span>`;
     inner=`<div class="cat" id="catlist">${catChips()}</div><div class="csearch" style="position:sticky"><div style="position:relative"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round" style="position:absolute;left:15px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="cq" value="${esc(S.cq)}" placeholder="Commence à écrire" autocomplete="off" style="padding-left:44px;width:100%"></div></div>`;
   } else if(S.sheet==='chore'){
-    [title,inner]=choreSheet();{const c=S.sheetList==='care'&&S.care.find(x=>x.id===S.sheetId);if(c&&c.sec==='visage'&&SKIN[c.sub])inner=skinDetail(c.sub)+inner}
+    [title,inner]=choreSheet();{const c=S.sheetList==='care'&&S.care.find(x=>x.id===S.sheetId);if(c&&c.sec==='visage'&&SKIN[c.sub])inner=skinDetail(c.sub)+inner;if(c&&c.sec==='cheveux'&&c.hk)inner=hairDetail(c)+inner}
   } else if(S.sheet==='zone'){
     const z=ZONES.find(x=>x[0]===S.zoneId),its=S.chores.filter(c=>c.zone===S.zoneId).sort((a,b)=>st(a).left-st(b).left);
     title=`<span style="display:flex;align-items:center;gap:10px">${charSvg(S.zoneId,its.length?worst(its):'ok',40)}${z[1]}</span>`;
@@ -1476,6 +1541,7 @@ document.addEventListener('change',e=>{const el=e.target.closest&&e.target.close
   const tH=x=>{if(!x)return null;const q=x.split(':').map(Number);return Math.min(23.75,Math.max(5,q[0]+(q[1]||0)/60))};
   if(a==='ddate'){if(v)S.D.date=v}
   if(a==='dby'){S.D.by=v;return}
+  if(a==='halt'){S._skOpen='h'+el.dataset.k;S.flags.hairAlt={...(S.flags.hairAlt||{}),[el.dataset.k]:v};render();return}
   if(a==='skalt'){S._skOpen=el.dataset.k;S.flags.skinAlt={...(S.flags.skinAlt||{}),[el.dataset.k]:v};render();return}
   else if(a==='ddue'){if(v)S.D.due=v}
   else if(a==='cdd'){S.cdD=v}
@@ -1584,6 +1650,7 @@ document.addEventListener('click',e=>{
       if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;const it=choreItem(c);if(it){S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link};S.sheet='edit';S.backZone=1}else{S.sheet='chore';S.sheetList='chores';S.sheetId=id}break}
       clearTimeout(S._tapT);S._tapId=id;tapLook(el,!choreItem(c));S._tapT=setTimeout(()=>{S._tapT=0;const it=choreItem(c);if(!it)activateChore(c);else{finishItem(it);S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},340);return}
     case 'skinv':S.flags.skinV={d:TODAY,v};S._sheetKeep=true;break;
+    case 'hairp':S.flags.hairP=+v;hairApply(+v);S._sheetKeep=true;break;
     case 'skinp':S.flags.skinP=+v;skinApply(+v);S._sheetKeep=true;break;
     case 'dogtap':admTap(el,el.dataset.v);return;
     case 'mtap':{const c=S.care.find(x=>x.id===id);if(!c)break;
@@ -2392,7 +2459,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='86';
+const APP_VER='87';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
