@@ -422,6 +422,7 @@ function initPR(){
  def('Terreau|Terreau cactus|Terreau orchidées',`<path d="M6 6.4h12l1 14H5z" fill="#D7B998" ${ks}/><path d="M6 6.4 8 4.2h8l2 2.2" fill="none" ${ks}/>`+fs(12,13.6));
 }
 K.cd_gateau=K.gateau;K.anniv=K.gateau;
+const TABFIT={calendrier:'translate(12 12) scale(1.035) translate(-12.00 -12.05)',taches:'translate(12 12) scale(0.98) translate(-12.00 -12.10)',courses:'translate(12 12) scale(1.06) translate(-12.00 -12.75)',seau:'translate(12 12) scale(0.89) translate(-12.40 -12.00)',perso:'translate(12 12) scale(0.93) translate(-12.00 -11.70)',cyclune:'translate(12 12) scale(0.95) translate(-11.90 -10.40)'};
 const kw=(k,s=18,m)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true">${K[k]||''}</svg>`;
 const prod=(c,s=30)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;overflow:visible">${prodSvg(c)}</svg>`;
 const faceChk=(done,s=26)=>`<svg width="${s}" height="${s}" viewBox="5.5 6.5 13 13" aria-hidden="true" style="overflow:visible">${fs(12,12,done?'joy':'sleep').replace(/stroke-width="\.9"/g,'stroke-width="1.1"')}${done?'<circle cx="17.6" cy="17.4" r="2.6" fill="#7FA36A" stroke="#FFFBF5" stroke-width=".8"/><path class="ck" d="M16.4 17.4l.9.9 1.6-1.8" fill="none" stroke="#FFFBF5" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>':''}</svg>`;
@@ -1249,7 +1250,7 @@ function renderInner(){
     <button class="gear" aria-label="Réglages" data-a="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button></header>
     <main>${content}</main>
     ${timerPill()}${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab low" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
-    <nav>${(()=>{const pp=S._tabPop;S._tabPop='';return tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}${pp===t[0]?' pop':''}" style="--tc:${t[3]}" data-a="tab" data-v="${t[0]}">${kw(t[2],36)}${t[1]}</button>`).join('')})()}</nav>
+    <nav>${(()=>{const pp=S._tabPop;S._tabPop='';return tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}${pp===t[0]?' pop':''}" style="--tc:${t[3]}" data-a="tab" data-v="${t[0]}"><svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true" style="overflow:visible"><g transform="${TABFIT[t[2]]}">${K[t[2]]}</g></svg>${t[1]}</button>`).join('')})()}</nav>
     ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
     ${sheetHTML()}`;
   const ns=ph.querySelector('.scroll');
@@ -2230,7 +2231,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='68';
+const APP_VER='69';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
