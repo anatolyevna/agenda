@@ -1819,7 +1819,7 @@ document.addEventListener('click',e=>{
       else if(v==='lec'){S.lectures=S.lectures.filter(x=>x.id!==id);S._sheetKeep=true}SWO=null;break}
     case 'notif':enablePush();return;
     case 'notiftest':sync.testPush().then(r=>{S.toast=r&&r.sent?'Essai envoyé':'Essai non envoyé';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{S.toast='';render()},3200);render()});return;
-    case 'close':case 'close-veil':S.sheet=S.sheet==='recette'?'recettes':S.sheet==='lectures'?'sec':(S.sheet==='edit'&&S.backZone&&S.zoneId&&S.tab==='menage')?'zone':'';S.backZone=0;break;
+    case 'close':case 'close-veil':if(S.sheet==='chore'&&S.sheetList==='care'){const c=S.care.find(x=>x.id===S.sheetId);if(c&&c.sec){S.secId=c.sec;S.sheet='sec';break}}S.sheet=S.sheet==='recette'?'recettes':S.sheet==='lectures'?'sec':(S.sheet==='edit'&&S.backZone&&S.zoneId&&S.tab==='menage')?'zone':'';S.backZone=0;break;
     case 'zone':S.backZone=0;S.sheet='zone';S.zoneId=v;break;
     case 'hour':S.draftHour=Math.min(22.5,Math.max(5,S.draftHour+0.5*(+v)));break;
     case 'freq':S.draftFreq=+v;break;
@@ -2592,7 +2592,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='91';
+const APP_VER='92';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
