@@ -865,7 +865,7 @@ const lilaSvg=(()=>{const SK='#221A18',SW=1.7,O=`stroke="${SK}" stroke-width="${
   <path d="M${c-3.6} 51.6C${c-3.6} 49.8 ${c+3.6} 49.8 ${c+3.6} 51.6C${c+3.6} 53.4 ${c+1.6} 54.4 ${c} 54.4C${c-1.6} 54.4 ${c-3.6} 53.4 ${c-3.6} 51.6z" fill="#1A1210" ${O}/><ellipse cx="${c-1}" cy="51.2" rx="1" ry=".45" fill="#9A8E8A"/>
   ${sleep?'':`<path d="M${c-3.4} 56.2q1.7 1.4 3.4 0q1.7 1.4 3.4 0" stroke="${SK}" stroke-width="1" fill="none" stroke-linecap="round"/>`}
   <ellipse cx="${c-9.6}" cy="40.4" rx="2" ry="1.1" fill="#F09AA4" opacity=".75"/><ellipse cx="${c+9.6}" cy="40.4" rx="2" ry="1.1" fill="#F09AA4" opacity=".75"/>`};
- return (sleep,w=150)=>`<svg width="${w}" height="${Math.round(w*.512)}" viewBox="-14 8 164 84" aria-hidden="true" style="overflow:visible">${lila(sleep)}<image href="misha.png" x="84" y="16" width="62" height="75"/>${sleep?'<text x="82" y="18" font-size="8" font-weight="800" fill="#A4BED3" font-family="Nunito">z</text>':''}</svg>`})();
+ return (sleep,w=150)=>`<svg width="${w}" height="${Math.round(w*.512)}" viewBox="-14 8 164 84" aria-hidden="true" style="overflow:visible">${lila(sleep)}<image href="misha.png?v=71" x="84" y="16" width="62" height="75"/>${sleep?'<text x="82" y="18" font-size="8" font-weight="800" fill="#A4BED3" font-family="Nunito">z</text>':''}</svg>`})();
 
 const PAUSES=[['2026-12-21','2027-02-10']];
 const DECO=(()=>{
@@ -2222,7 +2222,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='70';
+const APP_VER='71';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
