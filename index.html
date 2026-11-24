@@ -75,8 +75,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .adm-earM{animation:admEar 6.2s ease-in-out infinite 3.6s;--a:-4deg}.adm-earM2{animation:admEar 8.6s ease-in-out infinite 1.1s;--a:4deg}
 @keyframes admEar{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(var(--a))}92%{transform:rotate(calc(var(--a) * -.4))}95%{transform:rotate(0)}}
 .adm-wag{animation:admWag 2.6s ease-in-out infinite}@keyframes admWag{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-.adm-day .adm-l{transform-origin:34% 100%;animation:admBreath 4.2s ease-in-out infinite}.adm-day .adm-r{transform-origin:66% 100%;animation:admBreath 3.4s ease-in-out -1.3s infinite,admTilt 9s ease-in-out 2s infinite}
-.adm-night .adm-i{bottom:6%}.adm-night .adm-l{transform-origin:24% 100%;animation:admSleep 5.2s ease-in-out infinite}.adm-night .adm-r{transform-origin:72% 100%;animation:admSleep 4.6s ease-in-out -2s infinite}
+.adm-night .adm-i{bottom:6%}
 @keyframes admBreath{0%,100%{transform:scale(1,1)}50%{transform:scale(1.006,1.014)}}
 @keyframes admTilt{0%,82%,100%{rotate:0deg}87%{rotate:-1.4deg}93%{rotate:.8deg}}
 @keyframes admSleep{0%,100%{transform:scale(1,1)}50%{transform:scale(1.008,1.03)}}
@@ -857,7 +856,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
 const itIcon=(it,sz)=>{if(it.bday)return kw('gateau',sz);if(it.chore){const c=S.chores.find(x=>x.id===it.chore);if(c&&c.sub)return charSvg(c.sub,'ok',Math.round(sz*1.12))}return kw(it.theme,sz)};
 
 /* ---- AnimatedDogMascots : Lila (gauche, plus grande) et le chien noir et feu (droite). Jour 5 h–20 h, nuit 20 h–5 h, heure locale, sans réseau ---- */
-const ADM_V='75',admNight=()=>{const h=new Date().getHours();return h>=20||h<5};
+const ADM_V='76',admNight=()=>{const h=new Date().getHours();return h>=20||h<5};
 const admStill=()=>{try{return matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){return false}};
 const ADM_DAY={l:{n:'lila',parts:[['earl','24.2% 11.9%','adm-earL'],['earr','48.3% 11.6%','adm-earR']],eyes:[[191,120,21,19],[273,117,18,19]],lid:'#4B3A37',bl:'adm-blinkL'},
  r:{n:'misha',parts:[['tail','84.2% 80.2%','adm-wag'],['earl','64.7% 36.5%','adm-earM'],['earr','78% 38.9%','adm-earM2']],eyes:[[371,272,21,20],[445,290,19,18]],lid:'#473634',bl:'adm-blinkM'}};
@@ -2289,7 +2288,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='75';
+const APP_VER='76';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
