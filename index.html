@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap">
 <style>
-:root{--bg:#FCF4EB;--card:#FFFBF5;--ink:#4B3D3A;--muted:#7C6A63;--line:#F0E1D4;--acc:#CF6B64;--red:#A9433C;--ok:#9DBF86;--todo:#EBAE6B;--late:#E28F86}
+:root{--bg:#FCF4EB;--card:#FFFBF5;--ink:#4B3D3A;--muted:#7C6A63;--line:#F0E1D4;--acc:#CF6B64;--red:#A9433C;--ok:#9DBF86;--todo:#EFA3B4;--late:#E28F86}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);height:100%;overscroll-behavior:none}
 body{position:fixed;inset:0;overflow:hidden}
@@ -245,7 +245,7 @@ nav button{flex:1;min-width:0;border-radius:18px;display:flex;flex-direction:col
 nav button.on{background:color-mix(in srgb,var(--tc) 55%,#fff);color:var(--ink)}
 nav button:not(.on) svg{filter:saturate(.7);opacity:.9}
 .bigcloud{padding:6px 0 140px;display:flex;flex-direction:column}
-.scat{position:relative;flex:1;min-height:600px;padding:0!important;display:block!important}
+.scat{position:relative;flex:1;min-height:640px;padding:0!important;display:block!important}
 .bubble.blob{border:none!important;background:radial-gradient(circle at 50% 60%,color-mix(in srgb,var(--d) 10%,#fff) 0%,color-mix(in srgb,var(--d) 30%,#fff) 68%,color-mix(in srgb,var(--d) 50%,#fff) 100%)!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--d) 42%,#fff),inset -5px -7px 12px color-mix(in srgb,var(--d) 26%,transparent),0 3px 8px rgba(120,90,80,.10)}
 .bubble.blob::after{content:'';position:absolute;left:19%;top:14%;width:24%;height:14%;border-radius:50%;border-top:3px solid rgba(255,255,255,.95);transform:rotate(-28deg);pointer-events:none}
 .bubble.blob::before{content:'';position:absolute;left:17%;top:31%;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none}.bigcloud .cbw{justify-self:center}.bigcloud .lbl2{font-size:15px!important}
@@ -920,7 +920,7 @@ function charBubble(c,list){const A=list==='chores'?'ctap':'open';if(off(c))retu
   return `<button class="cbw" data-a="${A}" data-v="${list}" data-id="${c.id}"><span class="bubble cb ${s.m} ${S.popChore===c.id?'pop':''}">${charSvg(c.sub,s.m,58)}${bang}</span><span class="lbl2">${esc(c.title)}</span><span class="when ${s.m}">${s.when}</span>${list==='care'?`<span class="sched">${schedTxt(c)}</span>`:''}</button>`}
 const BLOBS=['62% 38% 56% 44%/46% 58% 42% 54%','42% 58% 38% 62%/58% 42% 60% 40%','55% 45% 64% 36%/40% 60% 40% 60%','38% 62% 46% 54%/60% 40% 58% 42%','58% 42% 40% 60%/52% 48% 56% 44%','46% 54% 60% 40%/44% 56% 46% 54%','52% 48% 42% 58%/62% 38% 54% 46%','64% 36% 50% 50%/48% 52% 38% 62%','40% 60% 58% 42%/54% 46% 62% 38%'];
 const LAY={6:{p:[[-88,-196],[86,-166],[-118,-30],[112,-2],[-72,134],[92,164]],z:[124,114,118,122,116,120]},
- 8:{p:[[-92,-214],[80,-196],[-126,-80],[4,-62],[128,-46],[-90,62],[96,84],[-4,192]],z:[108,104,110,106,104,110,106,104]}};
+ 8:{p:[[-95,-232],[92,-208],[-118,-82],[70,-62],[-62,72],[122,96],[-110,224],[48,236]],z:[104,100,104,100,102,100,104,100]}};
 const ringPos=n=>LAY[n].p;
 const scatBtn=(i,a,v,id,m,name,extra,pos)=>{const [x,y]=pos[i],sz=LAY[pos.length].z[i];return `<button class="cbw" style="position:absolute;width:120px;left:calc(50% + ${x}px);top:calc(50% + ${y}px);transform:translate(-50%,-50%)" data-a="${a}" data-v="${v}"><span class="bubble cb blob ${m}" style="width:${sz}px;height:${sz}px;border-radius:${BLOBS[i%BLOBS.length]}">${charSvg(id,m,Math.round(sz*.62))}${extra||''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`};
 function menageHTML(){
@@ -2039,7 +2039,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='49';
+const APP_VER='50';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
