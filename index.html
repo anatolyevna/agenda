@@ -65,7 +65,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .day{position:relative;margin:0 14px 0 8px}
 .hl{position:absolute;left:6px;width:28px;text-align:right;font-size:12px;color:var(--muted);transform:translateY(-50%);font-weight:600}
 .hl.soft{opacity:.45}
-.hline{display:none}.seasonbg i.dz{opacity:.14!important}.bdl{background:#FFF4F3;border:1px solid #F6D9DC;border-radius:18px;padding:4px 6px;margin:0 0 12px}.bdr{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:8px 6px;text-align:left;font:inherit;color:var(--ink)}.bdr+.bdr{border-top:1px solid #F6E3E5}.bdn{flex:1;min-width:0;font-weight:700;font-size:15px}.bdd{font-size:13px;color:var(--muted);white-space:nowrap}
+.hline{display:none}.seasonbg i.dz{opacity:.34!important}.bdl{background:#FFF4F3;border:1px solid #F6D9DC;border-radius:18px;padding:4px 6px;margin:0 0 12px}.bdr{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:8px 6px;text-align:left;font:inherit;color:var(--ink)}.bdr+.bdr{border-top:1px solid #F6E3E5}.bdn{flex:1;min-width:0;font-weight:700;font-size:15px}.bdd{font-size:13px;color:var(--muted);white-space:nowrap}
 .adm{position:relative;aspect-ratio:600/586;opacity:.33;margin:0 auto;max-width:100%}.adm-ly{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;pointer-events:none}.adm-ly.on{opacity:1;pointer-events:auto}
 .adm-i{position:absolute;left:0;bottom:0;width:100%;height:auto;user-select:none;-webkit-user-select:none;will-change:transform}div.adm-i{aspect-ratio:600/586}
 .adm-p{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-select:none;pointer-events:none}svg.adm-p{overflow:visible}
@@ -856,7 +856,7 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
 const itIcon=(it,sz)=>{if(it.bday)return kw('gateau',sz);if(it.chore){const c=S.chores.find(x=>x.id===it.chore);if(c&&c.sub)return charSvg(c.sub,'ok',Math.round(sz*1.12))}return kw(it.theme,sz)};
 
 /* ---- AnimatedDogMascots : Lila (gauche, plus grande) et le chien noir et feu (droite). Jour 5 h–20 h, nuit 20 h–5 h, heure locale, sans réseau ---- */
-const ADM_V='81',admNight=()=>{const h=new Date().getHours();return h>=20||h<5};
+const ADM_V='82',admNight=()=>{const h=new Date().getHours();return h>=20||h<5};
 const admStill=()=>{try{return matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){return false}};
 const ADM_DAY={l:{n:'lila',parts:[['earl','24.2% 11.9%','adm-earL'],['earr','48.3% 11.6%','adm-earR']],eyes:[[191,120,21,19],[273,117,18,19]],lid:'#4B3A37',bl:'adm-blinkL'},
  r:{n:'misha',parts:[['tail','84.3% 81.6%','adm-wag'],['earl','64.7% 36.5%','adm-earM'],['earr','78% 38.9%','adm-earM2']],eyes:[[371,272,21,20],[445,290,19,18]],lid:'#473634',bl:'adm-blinkM'}};
@@ -1407,7 +1407,7 @@ document.addEventListener('click',e=>{
   const upd=(id,fn)=>{S.items=S.items.map(x=>x.id===id?fn(x):x)};
   const cur=()=>S[S.sheetList].find(x=>x.id===S.sheetId);
   switch(a){
-    case 'tab':if(S.tab!==v)S._tabPop=v;S.tab=v;S.q='';if(v==='cycle'){S.cyDay=TODAY;S.cyMon=TODAY.slice(0,7)}break;
+    case 'tab':if(S.tab!==v)S._tabPop=v;S.tab=v;S.q='';if(v==='cycle'){S.cyDay=TODAY;S.cyMon=TODAY.slice(0,7)}if(v==='taches')S.folder='afaire';break;
     case 'view':S.view=v;break;
     case 'step':{const n=+v;if(S.view==='jour')S.sel=add(S.sel,n);else if(S.view==='semaine')S.sel=add(S.sel,7*n);else{const d=pd(S.sel);S.sel=fk(new Date(d.getFullYear(),d.getMonth()+n,1))}break}
     case 'today':S.sel=TODAY;break;
@@ -2302,7 +2302,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='81';
+const APP_VER='82';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
