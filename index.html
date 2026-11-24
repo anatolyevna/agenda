@@ -63,7 +63,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .hl{position:absolute;left:0;width:30px;text-align:right;font-size:12px;color:var(--muted);transform:translateY(-50%);font-weight:600}
 .hl.soft{opacity:.45}
 .hline{position:absolute;left:38px;right:0;height:0;border-top:1.5px dotted color-mix(in srgb,var(--ink) 13%,transparent)}
-.dayart{position:fixed;left:50%;top:56%;transform:translate(-50%,-50%);opacity:.6;pointer-events:none;z-index:1}
+.dayart{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);opacity:.45;pointer-events:none;z-index:0}
 .ev{position:absolute;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:18px;overflow:hidden}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 4px;border-radius:12px;font-size:13px}
 .chip .ic{width:24px;height:24px;border-radius:8px}
@@ -869,7 +869,7 @@ function calHTML(){
   const arrow=d=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
   return `<div style="padding:0 20px 8px;display:flex;flex-direction:column;gap:10px"><div class="seg ghost">${views}</div>
     <div class="bar"><button class="nav40 ghost" aria-label="Précédent" data-a="step" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:17px">${label}${S.view==='jour'&&cyMark(S.sel)?' '+dropSvg('#EDA5B0',9,cyMark(S.sel)==='p'?1:.4):''}</div><button class="nav40 ghost" aria-label="Suivant" data-a="step" data-v="1">${arrow('M9 18l6-6-6-6')}</button><button class="today-btn" data-a="today">Aujourd’hui</button></div></div>
-    ${dayTop?`<div class="${S._slide||''}">${dayTop}</div>`:''}<div class="scroll" id="calscroll"><div class="${S._slide||''}">${body}</div></div>${S._dogs?`<div class="dayart">${S._dogs}</div>`:''}`;
+    ${dayTop?`<div class="${S._slide||''}">${dayTop}</div>`:''}<div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column">${S._dogs?`<div class="dayart">${S._dogs}</div>`:''}<div class="scroll" id="calscroll" style="position:relative;z-index:1"><div class="${S._slide||''}">${body}</div></div></div>`;
 }
 
 function pips(n,hot){return `<span class="pips ${hot?'hot':''}">${Array.from({length:Math.min(n,6)},()=>'<i></i>').join('')}${n>6?'<em>+</em>':''}</span>`}
@@ -895,17 +895,17 @@ function tasksHTML(){
   const F=[['afaire','À faire','#ECE6F7'],['urgent','Urgent','#E8A094'],['rappels','Rappels','#EEB87D']];
   const inF=(it,f)=>f==='rappels'?it.kind==='rappel':(it.kind==='tache'&&it.folder===f);
   const folders=F.map(f=>{const n=S.items.filter(it=>inF(it,f[0])&&!it.done&&visible(it)).length;return `<button class="fold mx ${S.folder===f[0]?'on':''}" style="--d:${f[2]}" data-a="folder" data-v="${f[0]}" aria-label="${f[1]} : ${n}">${kw(f[0],46)}<span class="l">${f[1]} <span class="fc ${f[0]==='urgent'&&n?'hot':''}">${n}</span></span></button>`}).join('');
-  let list=S.items.filter(it=>inF(it,S.folder)&&visible(it)),body='',top='';
+  let list=S.items.filter(it=>inF(it,S.folder)&&visible(it)&&(!it.done||nowMs()-(it.doneAt||0)<4000)),body='',top='';
   if(S.folder==='afaire'){
     const used=THEMES,cur=S.filter==='all'?null:TH[S.filter];
     top=`<div class="filters"><button class="fb all ${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Tout</button>${used.map(t=>{const n=S.items.filter(it=>inF(it,'afaire')&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="fb th ${S.filter===t.id?'on':''}" style="--d:${t.d}" aria-label="${t.name}${n?' : '+n:''}" data-a="filter" data-v="${t.id}">${kw(t.id,23)}${n?`<span class="fbn">${n}</span>`:''}</button>`}).join('')}</div>${cur?`<div style="padding:0 20px 10px;margin-top:-4px" class="fname">${cur.name}</div>`:''}`;
     if(S.filter!=='all')list=list.filter(it=>it.theme===S.filter);
     list.sort((a,b)=>(!!a.done-!!b.done)||((a.date||a.due||'9')<(b.date||b.due||'9')?-1:1));
     body=list.map(taskCard).join('');
-    if(!list.length)body=`<div class="empty" style="opacity:.75">${lilaSvg((h=>h>=20||h<6)(new Date().getHours()),230)}</div>`;
+    if(!list.length)body=`<div class="empty" style="opacity:.75;flex:1;justify-content:center;min-height:52vh">${lilaSvg((h=>h>=20||h<6)(new Date().getHours()),300)}</div>`;
   } else if(S.folder==='urgent'){
     list.sort((a,b)=>(!!a.done-!!b.done)||(urgLevel(b)-urgLevel(a)));body=list.map(taskCard).join('');
-    if(!list.length)body=`<div class="empty" style="opacity:.75">${lilaSvg((h=>h>=20||h<6)(new Date().getHours()),230)}</div>`;
+    if(!list.length)body=`<div class="empty" style="opacity:.75;flex:1;justify-content:center;min-height:52vh">${lilaSvg((h=>h>=20||h<6)(new Date().getHours()),300)}</div>`;
   } else {
     const groups=THEMES.map(t=>({t,its:list.filter(it=>it.theme===t.id)})).filter(g=>g.its.length);
     const cloud=`<div class="cloud">${groups.map(g=>{const n=g.its.filter(x=>!x.done).length,sz=84;return `<button class="bubble mx ${S.rTheme===g.t.id?'on':''}" style="--d:${g.t.d};--p:30%;width:${sz}px;height:${sz}px" data-a="rtheme" data-v="${g.t.id}"><span style="color:color-mix(in srgb,${g.t.d} 55%,#4B3D3A)">${kw(g.t.id,32)}</span><span class="nm">${g.t.name}</span></button>`}).join('')}</div>`;
@@ -1181,7 +1181,7 @@ document.addEventListener('click',e=>{
     case 'filter':S.filter=v;break;
     case 'rtheme':S.rTheme=S.rTheme===v?'':v;break;
     case 'check':{const it=S.items.find(x=>x.id===id);if(!it.done){S.pop=id;clearTimeout(S._popT);S._popT=setTimeout(()=>{S.pop=0},800);spawnNext(it)}
-      upd(id,x=>({...x,done:!x.done,doneAt:!x.done?nowMs():undefined}));break}
+      upd(id,x=>({...x,done:!x.done,doneAt:!x.done?nowMs():undefined}));clearTimeout(S._hideT);S._hideT=setTimeout(()=>{if(S.tab==='taches'&&!S.sheet)render()},4200);break}
     case 'procrast':{const it=S.items.find(x=>x.id===id),r=(it.reports||0)+1,go=r>=S.seuil;S.undo={id,prev:{reports:it.reports||0,date:it.date,folder:it.folder,urgentSince:it.urgentSince}};clearTimeout(S._undoT);S._undoT=setTimeout(()=>{S.undo=null;render()},6000);upd(id,x=>({...x,reports:r,date:x.date?add(x.date,1):null,folder:go?'urgent':x.folder,urgentSince:go?TODAY:x.urgentSince}));if(go){S.toast='« '+it.title+' » passe dans Urgent';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{S.toast='';render()},3200)}break}
     case 'open':S.sheet='chore';S.sheetList=v;S.sheetId=id;break;
     case 'sec':S.sheet='sec';S.secId=v;break;
@@ -2039,7 +2039,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='47';
+const APP_VER='48';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
