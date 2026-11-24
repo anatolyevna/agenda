@@ -1582,7 +1582,7 @@ function sheetHTML(){
   return `<div class="veil" data-a="close-veil"><div class="sheet ${S.sheet==='new'||S.sheet==='edit'?'ed':''}"><div class="row"><div class="hf" style="font-size:20px;min-width:0">${title}</div>${closeBtn}</div>${inner}</div></div>`;
 }
 
-function admCenter(){document.querySelectorAll('.adm').forEach(a=>{a.style.removeProperty('--ns');const r=a.getBoundingClientRect();if(!r.width)return;a.style.setProperty('--ns',Math.round(innerHeight/2-(r.top+r.height/2))+'px')})}
+function admCenter(){document.querySelectorAll('.adm').forEach(a=>{a.style.removeProperty('--ns');const r=a.getBoundingClientRect();if(!r.width)return;a.style.setProperty('--ns',Math.round(innerHeight*.56-(r.top+r.height/2))+'px')})}
 function render(){try{renderInner()}finally{persist();requestAnimationFrame(()=>{try{admCenter();decoGuard()}catch(e){}})}}
 addEventListener('resize',()=>{admCenter();decoGuard()});
 function renderInner(){
@@ -2593,7 +2593,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='94';
+const APP_VER='95';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
