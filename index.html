@@ -66,7 +66,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .hl{position:absolute;left:6px;width:28px;text-align:right;font-size:12px;color:var(--muted);transform:translateY(-50%);font-weight:600}
 .hl.soft{opacity:.45}
 .hline{display:none}.hair{margin-top:16px;background:#FFF7EE;border:1px solid #F3E1CC;border-radius:20px;padding:4px 14px}.hair summary{list-style:none;display:flex;align-items:center;gap:10px;padding:10px 0;font-weight:800;font-size:16px;cursor:pointer}.hair summary::-webkit-details-marker{display:none}.hair summary span{flex:1}.hair .chev{transition:transform .2s;color:var(--muted)}.hair[open] .chev{transform:rotate(180deg)}
-.hg{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#C98A52;margin:10px 0 4px}.hs{display:flex;gap:10px;padding:7px 0;border-top:1px solid #F3E6D6}.hg+.hs{border-top:0}.hn{flex:none;width:24px;height:24px;border-radius:50%;background:#F6D9B8;color:#8A5A33;font-size:12px;display:grid;place-items:center}.hb{flex:1;min-width:0}.ht{font-weight:700;font-size:14.5px}.hw{font-weight:600;color:var(--muted)}.hp{font-size:13.5px;color:#6B5A55;margin-top:1px}.hf{display:inline-block;margin:4px 6px 0 0;font-size:11.5px;font-weight:700;color:#3E8FB0;background:#E3F2F8;border-radius:10px;padding:2px 8px}.hf.pk{color:#C2408F;background:#FBE3F1}.seasonbg i.dz{opacity:.34!important}.bdl{background:#FFF4F3;border:1px solid #F6D9DC;border-radius:18px;padding:4px 6px;margin:0 0 12px}.bdr{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:8px 6px;text-align:left;font:inherit;color:var(--ink)}.bdr+.bdr{border-top:1px solid #F6E3E5}.bdn{flex:1;min-width:0;font-weight:700;font-size:15px}.bdd{font-size:13px;color:var(--muted);white-space:nowrap}
+.hg{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#C98A52;margin:10px 0 4px}.hs{display:flex;gap:10px;padding:7px 0;border-top:1px solid #F3E6D6}.hg+.hs{border-top:0}.hn{flex:none;width:24px;height:24px;border-radius:50%;background:#F6D9B8;color:#8A5A33;font-size:12px;display:grid;place-items:center}.hb{flex:1;min-width:0}.ht{font-weight:700;font-size:14.5px}.hw{font-weight:600;color:var(--muted)}.hp{font-size:13.5px;color:#6B5A55;margin-top:1px}.hf{display:inline-block;margin:4px 6px 0 0;font-size:11.5px;font-weight:700;color:#3E8FB0;background:#E3F2F8;border-radius:10px;padding:2px 8px}.hf.pk{color:#C2408F;background:#FBE3F1}.sk{font-size:11px;font-weight:800;color:#C98A52;text-transform:uppercase;letter-spacing:.03em;margin-right:4px}.hwarn{margin-top:5px;font-size:12.5px;line-height:1.35;color:#9A5B4E;background:#FBEDEA;border-radius:10px;padding:6px 9px}.skin{margin:0 0 12px}.seasonbg i.dz{opacity:.34!important}.bdl{background:#FFF4F3;border:1px solid #F6D9DC;border-radius:18px;padding:4px 6px;margin:0 0 12px}.bdr{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:8px 6px;text-align:left;font:inherit;color:var(--ink)}.bdr+.bdr{border-top:1px solid #F6E3E5}.bdn{flex:1;min-width:0;font-weight:700;font-size:15px}.bdd{font-size:13px;color:var(--muted);white-space:nowrap}
 .adm{position:relative;aspect-ratio:600/586;opacity:.33;margin:0 auto;max-width:100%}.adm-ly{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;pointer-events:none}.adm-ly.on{opacity:1;pointer-events:auto}
 .adm-i{position:absolute;left:0;bottom:0;width:100%;height:auto;user-select:none;-webkit-user-select:none;will-change:transform}div.adm-i{aspect-ratio:600/586}
 .adm-p{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-select:none;pointer-events:none}svg.adm-p{overflow:visible}
@@ -570,6 +570,59 @@ const MENAGE=[['arrosage','Arrosage'],['nettoyage','Nettoyage'],['aspiration','A
 const HAIR=[['Avant la douche',[['Bain d’huile','Longueurs','OGX','']]],
  ['Pendant la douche',[['Soin réparateur','','Olaplex n°3','1×/semaine'],['Shampoing clarifiant','Nettoie','Eucerin',''],['Shampoing classique','Mon type de cuir chevelu','Klorane',''],['Soin du cuir chevelu','Stimule','The Ordinary',''],['Bond repair','','Redken 14 % / K18','1×/semaine, autre jour que le soin réparateur, pas après l’après-shampoing'],['Après-shampoing / masque / gloss','','Klorane / Absolut Repair Quinoa / Elvive Glycolic Gloss','',['Laminage','1×/mois']]]],
  ['Après la douche',[['Sérum leave-in','','Redken 5 %',''],['Huile','','OGX',''],['Shampoing sec','En cas de démangeaisons','Klorane','']]]];
+/* ---- Routine visage (Bien-être → Visage) ---- */
+const SKIN={
+ matin:{steps:[
+  ['Nettoyage','Round Lab 1025 Dokdo Cleanser','Nettoie en douceur sans dessécher','Une noisette, ou eau seule','Faire mousser dans les mains, masser doucement, rincer à l’eau tiède','Chaque matin',''],
+  ['Lotion apaisante · facultatif','Anua Heartleaf 77% Soothing Toner','Apaise et hydrate','Quelques gouttes','Tapoter avec les mains','Chaque matin, si besoin',''],
+  ['Sérum','Aroma-Zone Niacinamide 5% + Zinc','Pores, sébum, rougeurs, teint','2 à 3 gouttes','Sur peau sèche, tapoter','À partir de la phase 2, progressivement','Introduire seul, sans autre nouvel actif en même temps'],
+  ['Contour des yeux · facultatif','SKIN1004 Probio-Cica Bakuchiol Eye Cream','Ridules et cernes','Un grain de riz par œil','Tapoter avec l’annulaire sur l’os autour de l’œil','Chaque matin, si besoin','Ne pas appliquer au ras des cils'],
+  ['Hydratation','Crème hydratante légère','Hydrate et protège la barrière cutanée','Une noisette','Visage et cou','Chaque matin',''],
+  ['Protection solaire','Beauty of Joseon Relief Sun SPF50+','Protège du soleil et des taches','Quantité suffisante pour le visage et le cou','En dernier, avant de sortir','Chaque matin, même par temps couvert','Peau très sensible au soleil : renouveler en cas d’exposition']]},
+ soir:{steps:[
+  ['Démaquillage','Anua Heartleaf Pore Control Cleansing Oil','Dissout maquillage, crème solaire et sébum','Deux pressions, si nécessaire','Sur peau sèche, masser, émulsionner avec un peu d’eau, rincer','Les soirs avec maquillage ou crème solaire',''],
+  ['Nettoyage','Round Lab 1025 Dokdo Cleanser','Nettoie en douceur','Une noisette','Faire mousser, masser doucement, rincer','Chaque soir',''],
+  ['Lotion · facultatif','Anua Heartleaf 77% Soothing Toner','Apaise et hydrate','Quelques gouttes','Tapoter avec les mains','Si besoin',''],
+  ['Essence · facultatif','COSRX Advanced Snail 96 Mucin Power Essence','Hydrate et aide à réparer','Une pression','Tapoter jusqu’à absorption','Si besoin',''],
+  ['Soin ciblé','9LESS A-Control 10% Azelaic Acid Serum','Boutons, rougeurs, taches','Selon le planning, une fine couche','Sur peau sèche, éviter le contour des yeux et des lèvres','Phase 2 : deux soirs par semaine · Phase 3 : lundi et jeudi','Picotements légers possibles ; pas le même soir que le BHA'],
+  ['Medicube AGE-R Booster Pro · les soirs prévus','Mode Booster, niveau 1','Aide les soins à pénétrer','5 minutes','Avec un soin hydratant compatible, mouvements doux','Phase 3 : mardi et dimanche','Pas sur les lésions ; attendre la cicatrisation ; respecter les contre-indications du fabricant. Air Shot plus tard ; MC (fermeté, ridules) et Derma Shot (tonification) facultatifs'],
+  ['Hydratation','Crème hydratante légère','Hydrate et protège la barrière cutanée','Une noisette','Visage et cou','Chaque soir',''],
+  ['Réparation','Avène Cicalfate+','Répare les zones abîmées','Localement, si nécessaire','En dernier, sur les zones grattées ou irritées','Si nécessaire','']]},
+ gs:{info:[['Fréquence','Une à deux fois par semaine · Phase 3 : samedi'],['Durée','Cinq minutes'],['Soin','Un soin qui permet à la pierre de glisser'],['Méthode','Mouvements doux, du centre du visage vers l’extérieur'],['Après','Nettoyer la pierre']],warn:'Pas sur les boutons inflammés, croûtes, plaies ou zones irritées. Commencer uniquement après cicatrisation (pas en phase 1).'},
+ masqueV:{steps:[
+  ['Apaisant · facultatif','Medicube Super Cica Daily Quick Mask','Apaise et hydrate','Un masque','Selon la notice','Une fois par semaine au maximum · Phase 3 : mercredi',''],
+  ['Pores · facultatif, plus tard','SKIN1004 Poremizing Clay Stick','Excès de sébum et pores','Couche fine sur la zone T','Selon la notice','À introduire ultérieurement','']],warn:'Au maximum un masque par semaine au début, selon l’état de la peau. Ne pas cumuler un masque potentiellement irritant avec une exfoliation ou un autre soin agressif.'},
+ mousse:{steps:[
+  ['Démaquillage','Anua Heartleaf Pore Control Cleansing Oil','Dissout sébum et impuretés','Deux pressions','Sur peau sèche, masser, émulsionner, rincer','',''],
+  ['Nettoyage','Round Lab 1025 Dokdo Cleanser','Nettoie en douceur','Une noisette','Faire mousser, masser doucement, rincer','',''],
+  ['Exfoliant','Isntree Chestnut BHA 2% Clear Liquid','Désobstrue les pores, points noirs','Quelques gouttes','Sur peau sèche, avec les mains ou un coton, sans frotter ni rincer','Une fois par semaine maximum · Phase 3 : vendredi','Pas sur une peau blessée ou irritée ; remplace le soin ciblé de ce soir-là'],
+  ['Lotion','Anua Heartleaf 77% Soothing Toner','Apaise','Quelques gouttes','Tapoter','',''],
+  ['Hydratation','Crème hydratante légère','Hydrate','Une noisette','Visage et cou','','']],warn:'Soin approfondi sans nettoyage agressif ni extraction manuelle des points noirs. Seulement après introduction progressive et bonne tolérance des soins précédents.'}};
+const SKIN_WEEK=[['Lundi','Acide azélaïque'],['Mardi','Medicube Booster'],['Mercredi','Réparation et masque apaisant facultatif'],['Jeudi','Acide azélaïque'],['Vendredi','Nettoyage complet avec BHA'],['Samedi','Gua sha et hydratation'],['Dimanche','Medicube Booster']];
+const SKIN_PH={1:['Réparation','Semaines 1 à 3, à titre indicatif',['Nettoyage doux','Hydratation','Apaisement','Protection solaire','Réparation cutanée','Aucun exfoliant','Aucun Medicube ni gua sha tant que la peau présente des lésions']],
+ 2:['Traitement','Semaines 4 à 8, à titre indicatif',['Maintenir les soins de base','Introduire progressivement la niacinamide','Acide azélaïque deux soirs par semaine','Un seul nouvel actif à la fois']],
+ 3:['Routine complète','À partir de la semaine 9, après cicatrisation et bonne tolérance',[]]};
+const skinPh=()=>(S.flags&&S.flags.skinP)||1;
+const skinTonight=()=>{const p=skinPh(),d=wd(TODAY);if(p===3)return SKIN_WEEK[d][1];if(p===2)return d===0||d===3?'Acide azélaïque':'Soins de base';return 'Soins de base, réparation'};
+function skinDetail(sub){const D=SKIN[sub];if(!D)return '';
+ const steps=(D.steps||[]).map(([e,p,f,q,m,fr,w],i)=>`<div class="hs"><b class="hn">${i+1}</b><div class="hb"><div class="ht">${e}</div><div class="hp" style="font-weight:700;color:var(--ink)">${p}</div><div class="hp">${f}</div><div class="hp"><span class="sk">Quantité</span> ${q}</div><div class="hp"><span class="sk">Méthode</span> ${m}</div>${fr?`<span class="hf">${fr}</span>`:''}${w?`<div class="hwarn">${w}</div>`:''}</div></div>`).join('');
+ const info=(D.info||[]).map(([k,v])=>`<div class="hp" style="padding:4px 0"><span class="sk">${k}</span> ${v}</div>`).join('');
+ return `<div class="hair skin">${sub==='soir'?`<div class="hp" style="padding:8px 0 2px"><span class="sk">Ce soir</span> <b>${skinTonight()}</b></div>`:''}${steps}${info}${D.warn?`<div class="hwarn" style="margin:8px 0">${D.warn}</div>`:''}</div>`}
+function skinCard(){const p=skinPh(),P=SKIN_PH[p],d=wd(TODAY);
+ return `<details class="hair"><summary>${kw('perso',22)}<span>Ma routine visage</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+ <div class="hg">Phase en cours</div><div class="pick" style="margin:4px 0 6px">${[1,2,3].map(n=>`<button class="txt ${p===n?'on':''}" style="--d:#EEB87D" data-a="skinp" data-v="${n}">Phase ${n}</button>`).join('')}</div>
+ <div class="ht">${P[0]}</div><div class="hp">${P[1]}</div>${P[2].map(x=>`<div class="hp">· ${x}</div>`).join('')}
+ ${p===3?`<div class="hg">Soirs de la semaine</div>${SKIN_WEEK.map(([j,t],i)=>`<div class="hs" style="${i===d?'background:#FDEFD9;border-radius:10px;padding-left:6px':''}"><div class="hb"><span class="ht">${j}</span> <span class="hp">· ${t}</span></div></div>`).join('')}`:''}
+ <div class="hwarn" style="margin:8px 0">Les durées sont indicatives : tu changes de phase toi-même, après une période suffisante de bonne tolérance. Un seul nouvel actif à la fois.</div>
+ <div class="hg">Profil de peau</div><div class="hp">Mixte à grasse et réactive, déshydratation possible, pores visibles et points noirs, grain irrégulier, boutons récurrents, rougeurs et taches, cicatrices creuses et en relief, peau fragilisée par le grattage, teint terne, premières ridules, cernes violacés, très sensible au soleil. Textures légères, non grasses, non collantes.</div>
+ <div class="hg">Autres produits, plus tard</div><div class="hp">Aroma-Zone Acide azélaïque 10 % · Anua Niacinamide 10 % + TXA 4 % · AXIS-Y Dark Spot Correcting Glow Serum · Beauty of Joseon Glow Serum Propolis + Niacinamide · Aroma-Zone Collagène vegan 1,5 % · Aroma-Zone Acide hyaluronique 3,5 % · Aroma-Zone Bakuchiol · Beauty of Joseon Revive Eye Serum Retinal · Aroma-Zone Acide glycolique 10 % · Dr. Althea Gentle Vitamin C 20 % · Anua Heartleaf 77 Clear Pad</div>
+ <div class="hwarn" style="margin:8px 0">Ne pas cumuler les produits qui ont la même fonction ni plusieurs actifs potentiellement irritants. Vérifier les références et la conservation avant utilisation.</div>
+ <div class="hg">Achats éventuels</div><div class="hp">· Patchs hydrocolloïdes, pour ne pas gratter les boutons</div><div class="hp" style="padding-bottom:8px">· La Roche-Posay Toleriane Sensitive Fluide, si tu n’as pas déjà de crème hydratante légère adaptée</div></details>`}
+function skinApply(p){const g=sub=>S.care.find(c=>c.sec==='visage'&&c.sub===sub);const gs=g('gs'),mq=g('masqueV'),nc=g('mousse');
+ if(gs){delete gs.freq;gs.days=[5];gs.moments=['soir'];delete gs.next;if(p<3)gs.paused=true;else gs.paused=false}
+ if(mq){delete mq.next;if(p===3){delete mq.freq;mq.days=[2]}else{delete mq.days;mq.freq=7}mq.moments=['soir']}
+ if(nc){delete nc.freq;nc.days=[4];nc.moments=['soir'];delete nc.next;nc.paused=p<3}
+ const m=g('matin'),s=g('soir');if(m){delete m.days;m.freq=1;m.moments=['matin']}if(s){delete s.days;s.freq=1;s.moments=['soir']}}
 const hairCard=()=>{let n=0;return `<details class="hair"><summary>${kw('perso',22)}<span>Routine capillaire</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary>${HAIR.map(([g,L])=>`<div class="hg">${g}</div>`+L.map(([t,w,pr,f,ex])=>`<div class="hs"><b class="hn">${++n}</b><div class="hb"><div class="ht">${t}${w?` <span class="hw">· ${w}</span>`:''}</div><div class="hp">${pr}</div>${f?`<span class="hf">${f}</span>`:''}${ex?`<span class="hf pk">${ex[0]} ${ex[1]}</span>`:''}</div></div>`).join('')).join('')}</details>`};
 const CARE=[['visage','Visage','#EDA5B0'],['cheveux','Cheveux','#EEB87D'],['corps','Corps','#8EC6BD'],['mains','Mains et pieds','#F4C3C8'],['complements','Compléments','#F7EBC9'],['sportm','Sport','#EBAE6B'],['journal','Journaling','#D9C27E'],['recette','Recettes','#F6CFC9']];
 const ZONES=[['salon','Salon'],['cuisine','Cuisine'],['sdb','Salle de bain'],['chambre','Chambre'],['vetements','Vêtements'],['plantes','Plantes']];
@@ -740,6 +793,7 @@ function migrate(){if(!S.flags)S.flags={};let ch=false;
   if(!S.flags.sl3&&S.cycle&&S.cycle.days){Object.values(S.cycle.days).forEach(e=>{if(e.sl&&e.sl.q==='b')e.sl.q='tb'});S.flags.sl3=1;ch=true}
   if(!S.flags.bd1){let c2=0;S.items=S.items.map(x=>x.bday&&x.theme!=='anniv'?(c2=1,{...x,theme:'anniv',allDay:true,start:null}):x);S.flags.bd1=1;ch=true}
   if(!S.flags.cyc2&&S.cycle&&S.cycle.days){const mp={'Crampes':'Crampes et ballonnements','Ballonnements':'Crampes et ballonnements','Douleur généralisée':'Raideur généralisée'};Object.values(S.cycle.days).forEach(e=>{if(e.sym)e.sym=[...new Set(e.sym.map(x=>mp[x]||x))]});S.flags.cyc2=1;ch=true}
+  if(!S.flags.skin1){S.flags.skinP=S.flags.skinP||1;skinApply(S.flags.skinP);S.flags.skin1=1;ch=true}
   if(!S.flags.moi5){S.care.forEach(c=>{if(c.sec==='cheveux'&&/^masque/.test(norm(c.title)))c.sub='masqueC2'});S.flags.moi5=1;ch=true}
   if(!S.flags.aerer){if(!S.chores.some(c=>c.zone==='salon'&&norm(c.title)==='aerer'))S.chores.push({id:S.nextId++,zone:'salon',sub:'aerer',title:'Aérer',freq:1,last:TODAY,paused:true});S.flags.aerer=1;return true}return ch}
 function housekeeping(){const t=nowMs();S.items=S.items.filter(it=>!(it.done&&it.doneAt&&t-it.doneAt>7*864e5));S.courses=S.courses.filter(c=>!(c.done&&c.doneDay&&c.doneDay<TODAY))}
@@ -1246,7 +1300,7 @@ function sheetHTML(){
     title=`<span style="display:flex;align-items:center;gap:10px"><span class="ic tint" style="--d:${r.d};width:40px;height:40px;border-radius:14px">${kw(r.id,30)}</span>${r.name}</span>`;
     inner=`<div class="cat" id="catlist">${catChips()}</div><div class="csearch" style="position:sticky"><div style="position:relative"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round" style="position:absolute;left:15px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="cq" value="${esc(S.cq)}" placeholder="Commence à écrire" autocomplete="off" style="padding-left:44px;width:100%"></div></div>`;
   } else if(S.sheet==='chore'){
-    [title,inner]=choreSheet();
+    [title,inner]=choreSheet();{const c=S.sheetList==='care'&&S.care.find(x=>x.id===S.sheetId);if(c&&c.sec==='visage'&&SKIN[c.sub])inner=skinDetail(c.sub)+inner}
   } else if(S.sheet==='zone'){
     const z=ZONES.find(x=>x[0]===S.zoneId),its=S.chores.filter(c=>c.zone===S.zoneId).sort((a,b)=>st(a).left-st(b).left);
     title=`<span style="display:flex;align-items:center;gap:10px">${charSvg(S.zoneId,its.length?worst(its):'ok',40)}${z[1]}</span>`;
@@ -1275,7 +1329,7 @@ function sheetHTML(){
     const sec=CARE.find(x=>x[0]===S.secId),its=S.care.filter(c=>c.sec===S.secId).sort((a,b)=>st(a).left-st(b).left);
     title=`<span style="display:flex;align-items:center;gap:10px">${charSvg(S.secId,worst(its),40)}${sec[1]}</span>`;
     const act=its.filter(c=>!off(c)),pz=its.filter(c=>off(c));
-    inner=`<div class="cloud" style="gap:14px 8px;padding:0">${act.map(c=>charBubble(c,'care')).join('')}${S.secId==='lecture'?`<button class="cbw" data-a="lectures"><span class="bubble cb ok">${charSvg('pile','ok',58)}</span><span class="lbl2">Liste de lecture</span></button>`:''}</div>${pz.length?`<div class="cloud" style="gap:10px 8px;padding:0;margin-top:10px">${pz.map(c=>charBubble(c,'care')).join('')}</div>`:''}${S.secId==='cheveux'?hairCard():''}`;
+    inner=`<div class="cloud" style="gap:14px 8px;padding:0">${act.map(c=>charBubble(c,'care')).join('')}${S.secId==='lecture'?`<button class="cbw" data-a="lectures"><span class="bubble cb ok">${charSvg('pile','ok',58)}</span><span class="lbl2">Liste de lecture</span></button>`:''}</div>${pz.length?`<div class="cloud" style="gap:10px 8px;padding:0;margin-top:10px">${pz.map(c=>charBubble(c,'care')).join('')}</div>`:''}${S.secId==='cheveux'?hairCard():''}${S.secId==='visage'?skinCard():''}`;
   } else if(S.sheet==='add'&&(S.tab==='menage'||S.tab==='moi')){
     const kind=S.tab==='menage'?'chore':'moi';
     title=kind==='chore'?'Nouvelle tâche ménagère':'Nouveau soin';
@@ -1500,6 +1554,7 @@ document.addEventListener('click',e=>{
     case 'ctap':{const c=S.chores.find(x=>x.id===id);if(!c)break;
       if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;tapUndo();const c2=S.chores.find(x=>x.id===id)||c;const it=choreItem(c2);if(it){S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link};S.sheet='edit';S.backZone=1}else{S.sheet='chore';S.sheetList='chores';S.sheetId=id}break}
       clearTimeout(S._tapT);tapSnap();S._tapId=id;S._tapT=setTimeout(()=>{S._tapT=0;S._snap=null},320);{const it=choreItem(c);if(!it)activateChore(c);else{finishItem(it);S.popChore=id}setTimeout(()=>{S.popChore=0},600)}break}
+    case 'skinp':S.flags.skinP=+v;skinApply(+v);S._sheetKeep=true;break;
     case 'dogtap':admTap(el,el.dataset.v);return;
     case 'mtap':{const c=S.care.find(x=>x.id===id);if(!c)break;
       if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;tapUndo();S.sheet='chore';S.sheetList='care';S.sheetId=id;break}
@@ -2307,7 +2362,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='83';
+const APP_VER='84';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
