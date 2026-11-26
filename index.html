@@ -1280,7 +1280,7 @@ function sleepCard(){const D=S.cycle.days||{},k=S.cyDay,sl=(D[k]&&D[k].sl)||{},k
   <div style="${ks.length?'margin-top:12px;border-top:1px solid var(--line);padding-top:10px':''}"><div class="lbl">${dl}</div>
   <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><select class="din" style="min-width:0;flex:none;width:104px" data-in="cyslh" aria-label="Heures de sommeil"><option value="">—</option>${Array.from({length:19},(_,i)=>3+i*.5).map(h=>`<option value="${h}" ${sl.h===h?'selected':''}>${hm(h)}</option>`).join('')}</select><div class="cyslq">${SLQ.map(([q,l])=>`<button class="${sl.q===q?'on':''}" style="--q:${SLQC[q]}" data-a="cyslq" data-v="${q}" aria-label="${l}">${sleepSvg(q,34)}</button>`).join('')}</div></div>
   <div class="pick" style="margin-top:10px">${DREAMS.map(x=>`<button class="txt ${(sl.dr||[]).includes(x)?'on':''}" style="--d:#C4B5E6" data-a="cydr" data-v="${esc(x)}">${x}</button>`).join('')}</div>
-  <textarea id="drnote" placeholder="Note de rêve" rows="2" style="margin-top:10px;width:100%;min-height:52px;border-radius:16px;border:1px solid var(--line);background:var(--bg);padding:10px 14px;font:inherit;color:var(--ink);resize:none">${esc(sl.note||'')}</textarea></div>
+  <textarea id="drnote" placeholder="Note de rêve" rows="2" style="margin-top:10px;width:100%;min-height:52px;border-radius:16px;border:1px solid var(--line);background:var(--bg);padding:10px 14px;font:inherit;color:var(--ink);resize:none">${esc(sl.note||'')}</textarea><div style="display:flex;justify-content:flex-end;margin-top:6px"><button data-a="drok" style="height:32px;padding:0 18px;border-radius:999px;background:#E9E1F6;color:#5E4C7A;font-size:13.5px;font-weight:700">${S._drOk?'Enregistré ✓':'OK'}</button></div></div>
   ${notes.filter(x=>x!==k).length?`<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">${notes.filter(x=>x!==k).map(x=>`<button class="row" style="justify-content:flex-start;gap:10px;padding:8px 12px;border-radius:14px;background:var(--bg);text-align:left;width:100%" data-a="cyday" data-v="${x}"><span class="hf" style="font-size:13px;flex:none">${pd(x).getDate()} ${MONS[pd(x).getMonth()]}</span><span class="meta" style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(D[x].sl.note)}</span></button>`).join('')}</div>`:''}</div>`}
 const MOODS=[['sereine','Calme','#F7EBC9'],['joyeuse','Joyeuse','#F8DDB8'],['energique','Énergique','#FBE3C8'],['confiante','Confiante','#F3E2D2'],['caline','Désir','#F6CFC9'],['sensible','Sensible','#E9DDF0'],['fatiguee','Fatiguée','#E3EEF8'],['triste','Triste','#DCEBF6'],['irritable','Irritable','#F4C3C8'],['anxieuse','Anxieuse','#E3EDD9'],['stressee','Stressée','#EDE4F4'],['brouillard','Dans le brouillard','#ECEAE6']];
 const SYMS=['Crampes et ballonnements','Raideur généralisée','Maux de tête','Seins sensibles','Jambes lourdes','Fatigue','Insomnie','Nausées','Acné','Pertes blanches','Diarrhée','Constipation','Envies sucrées','Envies salées','Envie de junk food','Fringales'];
@@ -2045,6 +2045,7 @@ document.addEventListener('click',e=>{
     case 'cdadd':{const t=(S.cdT||'').trim();if(!t||!S.cdD){S.toast='Ajoute un titre et une date';break}S.cds=[...(S.cds||[]),{id:S.nextId++,t,date:S.cdD,ic:S.cdIc||'etoile'}];S.cdT='';S.cdD='';S._sheetKeep=true;break}
     case 'cyday':S.cyDay=v;break;
     case 'cymon':{const d=pd(S.cyMon+'-01');d.setMonth(d.getMonth()+(+v));S.cyMon=fk(d).slice(0,7);break}
+    case 'drok':{const t=document.getElementById('drnote');if(t)t.blur();persist();S._drOk=1;clearTimeout(window._drT);window._drT=setTimeout(()=>{S._drOk=0;render()},1600);break}
     case 'cyslq':case 'cydr':{const D=S.cycle.days,k=S.cyDay,e={...(D[k]||{})},sl={...(e.sl||{})};
       if(a==='cyslq'){if(sl.q===v)delete sl.q;else sl.q=v}else{const l=sl.dr||[];sl.dr=l.includes(v)?l.filter(x=>x!==v):[...l,v];if(!sl.dr.length)delete sl.dr}
       if(Object.keys(sl).length)e.sl=sl;else delete e.sl;const nd={...D};if(Object.keys(e).length)nd[k]=e;else delete nd[k];S.cycle={...S.cycle,days:nd};break}
@@ -2830,7 +2831,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='109';
+const APP_VER='110';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
