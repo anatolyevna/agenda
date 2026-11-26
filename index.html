@@ -887,6 +887,166 @@ function suppCard(){const row=k=>{const x=SUP[k];return `<div class="hs" style="
  <div class="hg">Interactions</div><div class="hp">Si un traitement par lévothyroxine est repris sur prescription : respecter la prise à jeun prescrite, espacer le fer, le calcium et le magnésium d’au moins 4 heures, et vérifier les autres interactions avec un pharmacien. Ce traitement n’est pas pris actuellement.</div>
  <div class="hp">Vérifier les cumuls de vitamines et de minéraux entre plusieurs produits.</div>
  <div class="hwarn" style="margin:8px 0">La biotine fortement dosée peut fausser certaines analyses de sang, notamment thyroïdiennes.</div></details>`}
+/* ---- Sport : personnage kawaii (même modèle partout) ---- */
+const KF=(P,o={})=>{const W=o.w||110,ol='#7A5A4E',sk='#FCE3D4',top='#F3B3C3',bot='#CDBEEB',dark='#B9A4D9';
+ const pt=k=>P[k];const L=(a,b,w,c)=>`<path d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+ const limb=(pts,c,cd)=>{let s='';for(let i=0;i<pts.length-1;i++)s+=L(pts[i],pts[i+1],10,ol);for(let i=0;i<pts.length-1;i++)s+=L(pts[i],pts[i+1],7.2,c);return s};
+ const far=P.far||'L';const side=x=>x===far;
+ const arm=s=>limb([P.N,P[s+'e'],P[s+'h']],side(s)?'#F5D3C2':sk);
+ const leg=s=>limb([P.P,P[s+'k'],P[s+'f']],side(s)?dark:bot)+`<circle cx="${P[s+'f'][0]}" cy="${P[s+'f'][1]}" r="3.6" fill="${side(s)?'#F5D3C2':sk}" stroke="${ol}" stroke-width="1.3"/>`;
+ const hand=s=>`<circle cx="${P[s+'h'][0]}" cy="${P[s+'h'][1]}" r="3.2" fill="${side(s)?'#F5D3C2':sk}" stroke="${ol}" stroke-width="1.3"/>`;
+ const C=P.C||[(P.N[0]+P.P[0])/2,(P.N[1]+P.P[1])/2];const torso=w=>`<path d="M${P.N[0]} ${P.N[1]}Q${C[0]} ${C[1]} ${P.P[0]} ${P.P[1]}" stroke="${w===16?ol:top}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`;
+ const [hx,hy]=P.H;const fl=P.look===-1?-1:1;
+ const head=`<g><circle cx="${hx}" cy="${hy-10.5}" r="5.6" fill="#6B4A3E"/><circle cx="${hx}" cy="${hy}" r="11.5" fill="${sk}" stroke="${ol}" stroke-width="1.6"/><path d="M${hx-11.5} ${hy-1}Q${hx-10.5} ${hy-12.5} ${hx} ${hy-12}Q${hx+10.5} ${hy-12.5} ${hx+11.5} ${hy-1}Q${hx+5} ${hy-7} ${hx} ${hy-7}Q${hx-6} ${hy-7} ${hx-11.5} ${hy-1}z" fill="#6B4A3E"/>${P.sleep||P.closed?`<path d="M${hx-5.5} ${hy+1}q2 1.6 4 0M${hx+1.5} ${hy+1}q2 1.6 4 0" stroke="#3E2C26" stroke-width="1.3" fill="none" stroke-linecap="round"/>`:`<circle cx="${hx-3.5+fl*.6}" cy="${hy+1}" r="1.4" fill="#3E2C26"/><circle cx="${hx+3.5+fl*.6}" cy="${hy+1}" r="1.4" fill="#3E2C26"/>`}<ellipse cx="${hx-6}" cy="${hy+4}" rx="1.9" ry="1.1" fill="#F3A7B6" opacity=".8"/><ellipse cx="${hx+6}" cy="${hy+4}" rx="1.9" ry="1.1" fill="#F3A7B6" opacity=".8"/><path d="M${hx-1.6+fl*.6} ${hy+5}q1.6 1.3 3.2 0" stroke="#3E2C26" stroke-width="1.2" fill="none" stroke-linecap="round"/></g>`;
+ const F=far,N2=far==='L'?'R':'L';
+ const extra=(P.arrows||[]).map(d=>`<path d="${d}" stroke="#E08A5E" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#ka)"/>`).join('')+(P.mark||'');
+ const ys=Object.values(P).filter(v=>Array.isArray(v)&&typeof v[1]==='number').map(v=>v[1]),vt=Math.max(0,Math.min(...ys)-24);return `<svg viewBox="0 ${vt} 120 ${116-vt}" width="${W}" height="${Math.round(W*(116-vt)/120)}" style="flex:none;overflow:visible"><defs><marker id="ka" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E08A5E"/></marker></defs>${o.ground===false?'':`<path d="M6 109H114" stroke="#E9DCD2" stroke-width="2" stroke-linecap="round"/>`}${P.mat?`<rect x="6" y="106" width="108" height="4" rx="2" fill="#F3E1EA"/>`:''}${arm(F)}${leg(F)}${torso(16)}${torso(12.5)}${leg(N2)}${head}${arm(N2)}${hand(F)}${hand(N2)}${extra}</svg>`};
+const POSE=(()=>{const p=(H,N,P,Le,Lh,Re,Rh,Lk,Lf,Rk,Rf,x={})=>Object.assign({H,N,P,Le,Lh,Re,Rh,Lk,Lf,Rk,Rf},x);
+ return {
+ stand:p([60,22],[60,36],[60,68],[52,52],[50,66],[68,52],[70,66],[56,88],[56,106],[64,88],[64,106]),
+ armsUp:p([60,24],[60,38],[60,70],[54,24],[56,8],[66,24],[64,8],[56,90],[56,106],[64,90],[64,106]),
+ breathe:p([60,48],[60,62],[60,92],[50,76],[58,82],[70,72],[62,68],[40,100],[54,104],[80,100],[66,104],{mat:1,closed:1}),
+ child:p([30,98],[42,94],[74,92],[26,102],[12,105],[28,103],[14,106],[54,104],[82,106],[56,105],[84,106],{mat:1,closed:1}),
+ cat:p([26,86],[36,74],[78,74],[36,90],[36,106],[34,90],[34,106],[80,104],[100,106],[78,104],[98,106],{C:[57,58],mat:1,closed:1}),
+ cow:p([28,66],[36,76],[78,74],[36,90],[36,106],[34,90],[34,106],[80,104],[100,106],[78,104],[98,106],{C:[57,88],mat:1}),
+ sphinx:p([36,74],[44,88],[78,100],[44,104],[28,105],[46,104],[30,106],[94,103],[108,104],[92,104],[106,105],{mat:1}),
+ butterfly:p([60,46],[60,60],[60,92],[48,80],[56,100],[72,80],[64,100],[36,98],[57,103],[84,98],[63,103],{mat:1}),
+ twist:p([16,98],[28,100],[60,100],[30,88],[22,78],[40,104],[52,106],[74,84],[68,102],[78,86],[72,103],{mat:1,closed:1}),
+ corpse:p([14,99],[26,101],[62,102],[36,105],[48,106],[38,106],[50,107],[82,103],[102,103],[80,104],[100,104],{mat:1,closed:1}),
+ dog:p([30,94],[38,82],[66,54],[32,94],[24,106],[30,94],[22,106],[82,80],[98,106],[80,80],[96,106],{mat:1}),
+ cobra:p([32,64],[42,78],[78,100],[44,92],[44,106],[42,92],[42,106],[94,103],[108,104],[92,104],[106,105],{mat:1}),
+ warrior1:p([58,24],[58,38],[58,74],[54,24],[56,8],[62,24],[60,8],[38,86],[30,106],[76,90],[94,106]),
+ warrior2:p([60,26],[60,40],[60,74],[42,40],[24,40],[78,40],[96,40],[40,86],[34,106],[80,90],[94,106],{far:'R'}),
+ tree:p([60,22],[60,36],[60,68],[52,30],[58,18],[68,30],[62,18],[58,88],[58,106],[76,80],[61,86]),
+ bridge:p([14,100],[26,101],[62,78],[38,104],[50,106],[40,105],[52,107],[80,82],[84,106],[78,83],[82,107],{mat:1}),
+ lunge:p([52,46],[54,60],[64,90],[52,44],[52,28],[56,44],[56,28],[42,86],[38,106],[84,102],[104,104],{mat:1}),
+ fold:p([52,96],[52,86],[62,64],[50,96],[50,106],[54,96],[54,106],[60,86],[60,106],[64,86],[64,106]),
+ plank:p([24,74],[32,80],[72,90],[32,94],[32,106],[34,94],[34,106],[88,98],[104,106],[86,98],[102,106],{mat:1}),
+ plankKnees:p([24,74],[32,80],[66,92],[32,94],[32,106],[34,94],[34,106],[84,104],[102,100],[82,104],[100,100],{mat:1}),
+ warrior3:p([24,62],[36,64],[62,66],[24,68],[12,66],[26,70],[14,68],[62,88],[62,106],[84,64],[104,62]),
+ triangle:p([36,40],[46,52],[62,70],[42,70],[38,92],[50,34],[52,16],[36,88],[30,106],[86,88],[94,106],{far:'R'}),
+ chair:p([66,38],[62,50],[50,78],[70,40],[80,26],[72,42],[82,28],[74,88],[66,106],[72,89],[64,107]),
+ boat:p([40,52],[46,66],[60,96],[60,72],[74,70],[62,74],[76,72],[76,74],[92,86],[78,76],[94,88],{mat:1}),
+ balance:p([60,22],[60,36],[60,68],[44,40],[30,38],[76,40],[90,38],[58,88],[58,106],[70,70],[66,90]),
+ walk:p([64,24],[62,38],[60,68],[66,52],[74,60],[56,52],[50,62],[70,86],[76,106],[52,86],[44,104]),
+ run:p([66,24],[63,38],[58,66],[70,50],[78,42],[52,52],[50,64],[72,76],[70,94],[50,86],[36,96]),
+ runFront:p([60,24],[60,38],[60,68],[48,50],[50,40],[72,52],[74,62],[56,86],[57,106],[64,80],[63,96]),
+ kneeUp:p([62,24],[60,38],[60,68],[54,50],[58,40],[68,52],[72,62],[72,70],[70,90],[58,88],[58,106]),
+ buttKick:p([62,24],[60,38],[60,68],[54,52],[52,64],[68,52],[70,64],[58,88],[58,106],[60,88],[50,72]),
+ ankle:p([60,22],[60,36],[60,68],[50,48],[44,58],[70,48],[76,58],[58,88],[58,106],[70,86],[80,98],{arrows:['M74 104a7 7 0 1 0 12 -6']}),
+ calfWall:p([40,26],[42,40],[56,70],[34,46],[26,46],[36,48],[28,48],[48,86],[44,106],[70,88],[84,106],{mark:'<rect x="18" y="20" width="5" height="88" rx="2" fill="#E9DCD2"/>'}),
+ neck:p([54,24],[60,38],[60,70],[52,24],[50,16],[70,54],[72,68],[56,90],[56,106],[64,90],[64,106],{arrows:['M44 14q-6 6-4 14']}),
+ shoulder:p([60,22],[60,36],[60,68],[64,48],[74,42],[56,46],[76,44],[56,88],[56,106],[64,88],[64,106],{far:'R'}),
+ trap:p([56,26],[60,38],[60,70],[50,30],[52,18],[70,54],[72,68],[56,90],[56,106],[64,90],[64,106],{closed:1}),
+ triceps:p([60,24],[60,38],[60,70],[70,22],[62,34],[52,24],[66,18],[56,90],[56,106],[64,90],[64,106],{far:'R'}),
+ forearm:p([60,22],[60,36],[60,68],[52,50],[64,46],[74,44],[88,44],[56,88],[56,106],[64,88],[64,106],{arrows:['M90 36q4 4 0 8']}),
+ wrist:p([60,22],[60,36],[60,68],[50,48],[58,46],[70,48],[62,46],[56,88],[56,106],[64,88],[64,106],{arrows:['M54 40a5 5 0 1 1 8 0']}),
+ chest:p([60,22],[60,36],[60,68],[50,50],[56,72],[70,50],[64,72],[56,88],[56,106],[64,88],[64,106]),
+ upperBack:p([60,26],[60,40],[60,70],[46,46],[54,52],[74,46],[66,52],[56,88],[56,106],[64,88],[64,106],{C:[54,54],closed:1}),
+ kneesChest:p([16,98],[28,100],[60,100],[44,90],[56,82],[46,92],[58,84],[62,78],[50,72],[64,80],[52,74],{mat:1,closed:1}),
+ side:p([56,24],[58,38],[62,68],[52,22],[46,14],[68,52],[70,64],[58,88],[58,106],[66,88],[66,106],{C:[56,52]}),
+ hips:p([60,22],[60,36],[60,68],[50,50],[54,66],[70,50],[66,66],[56,88],[56,106],[64,88],[64,106],{arrows:['M44 74a16 6 0 1 0 32 0']}),
+ figure4:p([16,98],[28,100],[60,100],[40,94],[64,84],[42,96],[66,86],[66,78],[74,96],[78,84],[64,78],{mat:1}),
+ quad:p([60,22],[60,36],[60,68],[52,52],[50,66],[66,54],[58,72],[56,88],[56,106],[60,88],[56,74]),
+ hamstring:p([42,48],[44,62],[46,96],[56,76],[78,96],[58,78],[80,98],[70,96],[100,98],[56,90],[50,104],{mat:1}),
+ adductor:p([60,46],[60,60],[60,92],[48,80],[56,100],[72,80],[64,100],[36,98],[57,103],[84,98],[63,103],{mat:1,arrows:['M36 90v8','M84 90v8']}),
+ footStretch:p([60,40],[60,54],[60,90],[52,72],[54,90],[68,72],[66,90],[50,104],[72,104],[70,104],[78,104],{mat:1}),
+ cooldown:p([64,24],[62,38],[60,68],[64,52],[68,64],[56,52],[52,64],[66,88],[70,106],[54,88],[50,106]),
+ badLean:p([74,32],[68,44],[58,70],[70,56],[78,50],[56,58],[52,68],[72,80],[70,96],[50,88],[38,98],{mark:'<g stroke="#D9425E" stroke-width="3" stroke-linecap="round"><path d="M96 14l12 12M108 14l-12 12"/></g>'}),
+ overstride:p([64,24],[62,38],[58,68],[68,52],[74,44],[52,54],[50,64],[78,84],[94,104],[50,86],[36,96],{mark:'<g stroke="#D9425E" stroke-width="3" stroke-linecap="round"><path d="M96 14l12 12M108 14l-12 12"/></g>'})
+ }})();
+/* ---- Sport : exercices ---- */
+// [clé, nom, poses, niveau(1-3), objectif, muscles, départ, étapes[], durée, rythme, respiration, récup, erreurs, précautions, plus facile, plus difficile]
+const YOGA=[
+ ['respi','Respiration abdominale',['breathe'],1,'Se poser, calmer le souffle','Diaphragme, abdominaux profonds','Assise en tailleur ou sur une chaise, dos long',['Une main sur le ventre, une sur la poitrine','Inspirer par le nez : le ventre se gonfle, la poitrine bouge peu','Expirer lentement : le ventre rentre'],'1 à 3 min','Lent, sans forcer','Inspire 4 temps, expire 6 temps','—','Lever les épaules, gonfler la poitrine','Arrêter si vertige','Allongée sur le dos','Allonger l’expiration à 8 temps'],
+ ['montagne','Posture de la montagne',['stand'],1,'Trouver un bon alignement debout','Jambes, abdominaux, dos','Debout, pieds largeur de hanches',['Répartir le poids sur tout le pied','Genoux souples, bassin neutre','Grandir le sommet de la tête vers le ciel, épaules basses'],'30 s à 1 min','Immobile','Calme, par le nez','—','Bloquer les genoux, cambrer','—','Dos contre un mur','Bras levés'],
+ ['enfant','Posture de l’enfant',['child'],1,'Repos, détente du dos','Dos, hanches','À genoux, gros orteils qui se touchent',['Asseoir les fesses vers les talons','Poser le ventre sur les cuisses, front au sol','Bras allongés devant ou le long du corps'],'1 à 2 min','Immobile','Respirer dans le dos','—','Forcer les fesses vers les talons','Genoux sensibles : coussin sous les genoux','Coussin sous le front ou les fesses','Bras loin devant, mains écartées'],
+ ['chatvache','Chat-vache',['cat','cow'],1,'Assouplir la colonne','Dos, abdominaux','À quatre pattes, mains sous les épaules, genoux sous les hanches',['Chat : expirer, arrondir le dos, rentrer le menton','Vache : inspirer, creuser doucement, regard devant','Alterner lentement'],'6 à 10 cycles','Suivre le souffle','Inspire en vache, expire en chat','—','Creuser trop fort, plier les coudes','Poignets sensibles : sur les poings','Sur une chaise, mains sur les genoux','Ajouter des cercles du bassin'],
+ ['sphinx','Sphinx',['sphinx'],1,'Ouvrir doucement le devant du corps','Dos, poitrine','À plat ventre, avant-bras au sol, coudes sous les épaules',['Pousser les avant-bras dans le sol','Allonger le dos, épaules loin des oreilles','Jambes détendues'],'30 s à 1 min','Immobile','Calme','Posture de l’enfant','Écraser le bas du dos, hausser les épaules','Douleur lombaire : avancer les coudes','Coudes plus en avant','Cobra doux'],
+ ['papillon','Papillon',['butterfly'],1,'Ouvrir les hanches','Adducteurs, hanches','Assise, plantes de pieds collées',['Tenir les pieds','Grandir le dos','Laisser les genoux descendre sans forcer'],'1 à 2 min','Immobile','Expirer pour relâcher','—','Appuyer sur les genoux, dos rond','Genoux sensibles : coussins dessous','Coussin sous les fesses','Pencher le buste en avant, dos long'],
+ ['torsion','Torsion allongée',['twist'],1,'Détendre le dos','Dos, fessiers','Allongée sur le dos, genoux pliés',['Bras en croix','Laisser tomber les genoux d’un côté','Tourner la tête de l’autre côté','Changer de côté'],'30 s à 1 min de chaque côté','Lent','Expirer en descendant','—','Décoller l’épaule opposée','Coussin sous les genoux','Coussin entre les genoux','Jambe du dessus allongée'],
+ ['cadavre','Posture du cadavre',['corpse'],1,'Relâchement final','Tout le corps','Allongée sur le dos',['Bras le long du corps, paumes vers le ciel','Pieds qui tombent sur les côtés','Relâcher chaque partie du corps'],'3 à 10 min','Immobile','Naturelle','—','Rester crispée','Bas du dos sensible : coussin sous les genoux','Couverture sur soi','Scanner corporel guidé'],
+ ['chien','Chien tête en bas',['dog'],2,'Étirer l’arrière du corps, renforcer les bras','Épaules, ischio-jambiers, mollets','À quatre pattes',['Orteils retournés','Pousser les mains, lever les fesses','Genoux pliés au début, dos long avant tout'],'5 respirations','Immobile','Profonde','Posture de l’enfant','Dos rond pour garder les talons au sol','Poignets ou épaules douloureux : pause','Genoux bien pliés','Pédaler les talons, puis jambes plus tendues'],
+ ['cobra','Cobra doux',['cobra'],2,'Renforcer le dos, ouvrir la poitrine','Dos, fessiers','À plat ventre, mains sous les épaules',['Coudes serrés','Inspirer : décoller la poitrine avec le dos, pas avec les bras','Bas des côtes au sol'],'3 à 5 respirations','Lent','Inspire en montant','Enfant','Pousser trop sur les bras, coincer la nuque','Lombaires sensibles : rester en sphinx','Sphinx','Mains décollées du sol'],
+ ['guerrier1','Guerrier I',['warrior1'],2,'Force et ancrage','Jambes, fessiers, épaules','Debout, grand pas en arrière',['Genou avant plié au-dessus de la cheville','Pied arrière à 45°','Bassin vers l’avant, bras levés'],'5 respirations de chaque côté','Immobile','Profonde','Montagne','Genou qui dépasse les orteils ou rentre vers l’intérieur','Genou fragile : moins plier','Mains sur les hanches, pas plus court','Plier plus, bras tendus'],
+ ['guerrier2','Guerrier II',['warrior2'],2,'Force des jambes, ouverture des hanches','Cuisses, fessiers, épaules','Debout, jambes très écartées',['Pied avant vers l’avant, pied arrière parallèle au bord du tapis','Plier le genou avant au-dessus de la cheville','Bras à l’horizontale, regard sur la main avant'],'5 respirations de chaque côté','Immobile','Profonde','Montagne','Buste penché vers l’avant','Genou fragile : moins plier','Moins plier','Tenir plus longtemps'],
+ ['arbre','Posture de l’arbre',['tree'],2,'Équilibre et concentration','Chevilles, jambes, abdominaux','Debout, main sur un mur si besoin',['Poids sur une jambe','Pied sur la cheville ou le mollet (jamais sur le genou)','Mains jointes ou bras levés'],'5 respirations de chaque côté','Immobile','Calme','—','Pied posé sur le genou, hanche qui sort','—','Orteils au sol, main au mur','Bras levés, yeux fermés'],
+ ['pont','Pont',['bridge'],2,'Renforcer fessiers et dos','Fessiers, ischio-jambiers, dos','Allongée, genoux pliés, pieds près des fesses',['Pousser dans les pieds','Monter le bassin vertèbre par vertèbre','Redescendre lentement'],'5 à 8 répétitions','2 s pour monter, 2 s pour descendre','Inspire en montant','30 s','Cambrer, genoux qui s’écartent','Nuque : ne pas tourner la tête','Petite amplitude','Tenir 5 respirations en haut'],
+ ['fente','Fente basse',['lunge'],2,'Ouvrir l’avant des hanches','Fléchisseurs de hanche, cuisses','À genoux, un pied devant',['Genou arrière au sol (coussin)','Avancer le bassin doucement','Buste droit, mains sur la cuisse ou levées'],'5 respirations de chaque côté','Immobile','Profonde','—','Genou avant qui dépasse beaucoup la cheville','Genou arrière : coussin','Mains sur des blocs','Bras levés'],
+ ['salut1','Salutation au soleil simplifiée',['armsUp','fold','lunge','dog','cobra','stand'],2,'Enchaîner et s’échauffer','Tout le corps','Debout, pieds joints',['Bras levés','Flexion avant, genoux pliés','Fente basse','Chien tête en bas','Cobra doux','Retour debout en passant par la flexion'],'2 à 4 tours','Une respiration par mouvement','Inspire en ouvrant, expire en fermant','30 s','Aller trop vite','Dos : genoux toujours pliés en flexion','Genou au sol à chaque étape','Ajouter la planche'],
+ ['salut2','Salutation au soleil complète adaptée',['armsUp','fold','lunge','plank','plankKnees','cobra','dog','lunge','fold','armsUp'],3,'Enchaînement complet','Tout le corps','Debout',['Bras levés','Flexion avant','Fente basse','Planche','Descente genoux au sol','Cobra','Chien tête en bas','Fente de l’autre côté','Flexion avant','Bras levés puis montagne'],'3 à 5 tours','Fluide','Une respiration par mouvement','1 min','Descendre en creusant le dos','Poignets : sur les poings','Genoux au sol','Garder les genoux décollés'],
+ ['guerrier3','Guerrier III adapté',['warrior3'],3,'Équilibre et force','Fessiers, ischio-jambiers, dos','Debout, mains sur un mur ou un dossier',['Basculer le buste vers l’avant','Lever la jambe arrière dans l’alignement du dos','Bassin bien de face'],'3 à 5 respirations de chaque côté','Immobile','Calme','Montagne','Hanche de la jambe levée qui s’ouvre','—','Mains sur un mur','Bras devant'],
+ ['triangle','Triangle',['triangle'],3,'Étirer les côtés, ouvrir la poitrine','Flancs, ischio-jambiers, hanches','Jambes écartées, pied avant vers l’avant',['Allonger le buste au-dessus de la jambe avant','Main sur le tibia (pas sur le genou)','Autre bras vers le ciel'],'5 respirations de chaque côté','Immobile','Profonde','—','S’effondrer vers l’avant','—','Main sur une chaise','Main plus bas'],
+ ['chaise','Chaise',['chair'],3,'Renforcer les cuisses','Cuisses, fessiers','Debout, pieds joints ou largeur de hanches',['Plier les genoux, fesses en arrière','Poids dans les talons','Bras levés'],'3 à 5 respirations','Immobile','Calme','30 s','Genoux qui rentrent','—','Moins plier','Plier plus bas'],
+ ['planche','Planche adaptée',['plankKnees','plank'],3,'Gainage','Abdominaux, épaules','À quatre pattes',['Mains sous les épaules','Reculer les genoux, corps aligné','Puis jambes tendues si facile'],'15 à 30 s','Immobile','Ne pas bloquer','30 s','Fesses trop hautes ou trop basses','Poignets : sur les avant-bras','Genoux au sol','Jambes tendues, 45 s'],
+ ['bateau','Bateau adapté',['boat'],3,'Gainage','Abdominaux','Assise, genoux pliés',['Mains derrière les cuisses','Se pencher en arrière, dos long','Décoller les pieds si possible'],'3 à 5 respirations','Immobile','Calme','30 s','Dos rond','Bas du dos : pieds au sol','Pieds au sol','Bras tendus devant'],
+ ['equilibre','Postures d’équilibre progressives',['balance','tree','warrior3'],3,'Stabilité','Chevilles, jambes, abdominaux','Debout, près d’un mur',['Genou levé, bras ouverts','Arbre','Guerrier III'],'3 respirations par posture et par côté','Calme','Calme','—','Retenir sa respiration','—','Main au mur','Yeux fermés'],
+ ['flow','Enchaînements fluides',['stand','armsUp','warrior2','triangle','stand'],3,'Fluidité','Tout le corps','Debout',['Montagne','Bras levés','Guerrier II','Triangle','Retour montagne'],'3 tours de chaque côté','Fluide','Une respiration par passage','1 min','Aller plus vite que le souffle','—','Moins de postures','Rester 3 respirations dans chaque posture']];
+const STRETCH=[
+ ['nuque','Nuque',['neck'],'haut','Côté de la nuque','Un côté puis l’autre','Assise ou debout, épaules basses',['Incliner l’oreille vers l’épaule','Main posée sur la tête, sans tirer'],'20 à 30 s','2 fois de chaque côté'],
+ ['epaules','Épaules',['shoulder'],'haut','Arrière de l’épaule','Un bras puis l’autre','Debout',['Bras tendu devant la poitrine','L’autre main le ramène doucement'],'20 à 30 s','2 fois'],
+ ['trapezes','Trapèzes',['trap'],'haut','Haut des épaules','Un côté puis l’autre','Assise',['Tourner le nez vers l’aisselle','Laisser descendre la tête'],'20 s','2 fois'],
+ ['bras','Bras (triceps)',['triceps'],'haut','Arrière du bras','Un bras puis l’autre','Debout',['Main dans le dos derrière la tête','L’autre main pousse doucement le coude'],'20 à 30 s','2 fois'],
+ ['avantbras','Avant-bras',['forearm'],'haut','Avant-bras','Un bras puis l’autre','Debout',['Bras tendu, paume vers l’avant','L’autre main tire doucement les doigts'],'20 s','2 fois'],
+ ['poignets','Poignets',['wrist'],'haut','Poignets','Les deux','Assise',['Cercles lents des poignets','Dans un sens puis l’autre'],'30 s','10 cercles'],
+ ['poitrine','Poitrine',['chest'],'haut','Devant de la poitrine','Les deux','Debout',['Mains jointes dans le dos','Ouvrir la poitrine, épaules en arrière'],'20 à 30 s','2 fois'],
+ ['hautdos','Haut du dos',['upperBack'],'haut','Entre les omoplates','Les deux','Debout',['Bras devant, mains croisées','Arrondir le haut du dos, pousser les mains loin'],'20 s','2 fois'],
+ ['dos','Dos',['child'],'tronc','Tout le dos','Les deux','À genoux',['Posture de l’enfant','Bras loin devant'],'30 s à 1 min','1 fois'],
+ ['lombaires','Lombaires',['kneesChest'],'tronc','Bas du dos','Les deux','Allongée sur le dos',['Ramener les genoux vers la poitrine','Petits balancements possibles'],'30 s','2 fois'],
+ ['flancs','Flancs',['side'],'tronc','Côtés du buste','Un côté puis l’autre','Debout',['Bras au-dessus de la tête','Se pencher sur le côté sans basculer en avant'],'20 s','2 fois de chaque côté'],
+ ['bassin','Mobilité du bassin',['hips'],'tronc','Bassin, bas du dos','Les deux','Debout, mains sur les hanches',['Grands cercles du bassin','Dans un sens puis l’autre'],'30 s','8 cercles par sens'],
+ ['hanches','Hanches',['lunge'],'bas','Avant de la hanche','Un côté puis l’autre','À genoux, un pied devant',['Fente basse','Avancer doucement le bassin'],'20 à 30 s','2 fois'],
+ ['fessiers','Fessiers',['figure4'],'bas','Fessiers','Un côté puis l’autre','Allongée, genoux pliés',['Cheville sur le genou opposé','Ramener la jambe vers soi'],'20 à 30 s','2 fois'],
+ ['quadri','Quadriceps',['quad'],'bas','Avant de la cuisse','Une jambe puis l’autre','Debout, main sur un mur',['Attraper la cheville, talon vers les fesses','Genoux côte à côte'],'20 à 30 s','2 fois'],
+ ['ischios','Ischio-jambiers',['hamstring'],'bas','Arrière de la cuisse','Une jambe puis l’autre','Assise, une jambe tendue',['Dos long','Pencher le buste vers la jambe tendue'],'20 à 30 s','2 fois'],
+ ['adducteurs','Adducteurs',['adductor'],'bas','Intérieur des cuisses','Les deux','Assise',['Papillon','Laisser les genoux descendre'],'30 s','2 fois'],
+ ['mollets','Mollets',['calfWall'],'bas','Mollet','Une jambe puis l’autre','Face à un mur',['Une jambe derrière, talon au sol','Plier la jambe avant'],'20 à 30 s','2 fois'],
+ ['chevilles','Chevilles',['ankle'],'bas','Chevilles','Une puis l’autre','Assise ou debout',['Cercles lents de la cheville','Dans les deux sens'],'30 s','10 cercles'],
+ ['pieds','Pieds',['footStretch'],'bas','Voûte plantaire, orteils','Les deux','À genoux, orteils retournés',['S’asseoir doucement sur les talons','Revenir dès que ça tire trop'],'15 à 20 s','2 fois']];
+const RUN_INFO=[['walk','Marche active','Pas dynamiques, bras qui balancent, posture droite'],['run','Posture de course','Buste légèrement penché vers l’avant depuis les chevilles, regard loin'],['runFront','Mouvement des bras','Coudes à 90°, bras d’avant en arrière, pas devant la poitrine'],['run','Placement des pieds','Le pied se pose sous le corps, pas loin devant'],['kneeUp','Échauffement','Montées de genoux légères, 2 × 20 s'],['ankle','Mobilité des chevilles','10 cercles de chaque cheville'],['buttKick','Exercice préparatoire','Talons-fesses légers, 2 × 20 s'],['cooldown','Retour au calme','5 min de marche lente, puis étirement des mollets'],['badLean','Erreur : buste trop penché','Le dos se casse, les épaules montent'],['overstride','Erreur : pied trop loin devant','Choc sur le talon, freinage à chaque pas']];
+const RUN_PLAN=[[1,'30 s','2 min',8],[2,'1 min','2 min',8],[3,'1 min 30','2 min',8],[4,'2 min','2 min',7],[5,'3 min','2 min',6],[6,'5 min','2 min',4],[7,'8 min','2 min',3],[8,'10 min','2 min',2]];
+const RUN_L3=['Courir 15 minutes sans arrêt','Courir 20 minutes','Courir 25 minutes','Courir 30 minutes','Préparation progressive au 5 km'];
+const SP_LV=['Découverte','Débutant','Progression'];
+const spE=()=>{const v=S.flags.spE;return v&&v.d===TODAY?v.v:''};
+const spChip=(a,v,on,t)=>`<button class="txt ${on?'on':''}" style="--d:#EEB87D" data-a="${a}" data-v="${v}">${t}</button>`;
+const spField=(k,v)=>v&&v!=='—'?`<div class="hp"><span class="sk">${k}</span> ${v}</div>`:'';
+function yogaCard(x){const [k,n,poses,lv,o,mus,start,steps,dur,ry,resp,rec,err,prec,easy,hard]=x;
+ return `<details class="sks" ${S._skOpen==='y'+k?'open':''}><summary style="align-items:center">${KF(POSE[poses[0]],{w:66})}<span class="skm"><span class="ht">${n}</span><span class="skz">${SP_LV[lv-1]} · ${dur}</span></span></summary><div class="skd" style="padding-left:2px">
+ <div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:4px 0">${poses.map((p,i)=>`<div style="text-align:center">${KF(POSE[p],{w:poses.length>3?92:130})}${poses.length>1?`<div class="skz">${i+1}</div>`:''}</div>`).join('')}</div>
+ ${spField('Objectif',o)}${spField('Muscles',mus)}${spField('Départ',start)}${steps.map((t,i)=>`<div class="hp">${i+1}. ${t}</div>`).join('')}${spField('Durée',dur)}${spField('Rythme',ry)}${spField('Respiration',resp)}${spField('Récupération',rec)}${spField('Erreurs fréquentes',err)}${spField('Plus facile',easy)}${spField('Plus difficile',hard)}${prec&&prec!=='—'?`<div class="hwarn">${prec}</div>`:''}</div></details>`}
+const YOGA_SEQ={matin:['respi','chatvache','montagne','salut1','guerrier2','arbre','fente','chien','salut2','triangle','cadavre'],soir:['respi','enfant','chatvache','sphinx','papillon','torsion','pont','cadavre','fente','guerrier2'],express:['respi','chatvache','chien','montagne','enfant','salut1','torsion','cadavre'],relax:['respi','enfant','papillon','sphinx','torsion','pont','cadavre','chatvache'],complet:['respi','chatvache','salut1','guerrier1','guerrier2','triangle','arbre','chaise','planche','pont','torsion','cadavre']};
+const YN={5:3,10:5,15:7,20:8,30:10};
+function yogaSession(){const t=S._ySes||'matin',d=S._yDur||10,lv=S.flags.yogaLvl||1,Y=Object.fromEntries(YOGA.map(x=>[x[0],x]));
+ let L=YOGA_SEQ[t].filter(k=>Y[k]&&Y[k][3]<=lv);if(!L.includes('cadavre')&&t!=='express')L.push('cadavre');L=[...new Set(L)];
+ const n=Math.min(YN[d],L.length);let seq=L.slice(0,n-1);seq.push(L.includes('cadavre')?'cadavre':L[n-1]);seq=[...new Set(seq)];
+ const hold=Math.round(d*60/seq.length);const fmt=s=>s>=60?`${Math.round(s/60)} min`:`${s} s`;
+ return `<div class="pick" style="margin:6px 0;flex-wrap:wrap">${[['matin','Matin'],['soir','Soir'],['express','Express'],['relax','Relaxation'],['complet','Complet']].map(([k,n2])=>spChip('yses',k,k===t,n2)).join('')}</div>
+ <div class="pick" style="margin:6px 0;flex-wrap:wrap">${[5,10,15,20,30].map(m=>spChip('ydur',m,m===d,m+' min')).join('')}</div>
+ ${seq.map((k,i)=>{const x=Y[k];return `<div class="hs" style="align-items:center">${KF(POSE[x[2][0]],{w:66})}<div class="hb"><div class="ht">${i+1}. ${x[1]}</div><div class="hp">Maintien ≈ ${fmt(hold)} · ${x[10]}</div>${i<seq.length-1?`<div class="skz">Transition : revenir doucement, puis ${Y[seq[i+1]][1].toLowerCase()}</div>`:''}</div></div>`}).join('')}
+ <div class="hp" style="padding:6px 0">Niveau ${SP_LV[lv-1].toLowerCase()} : les postures suivent le niveau choisi plus haut.</div>`}
+function stretchCard(x){const [k,n,poses,grp,zone,side,start,steps,hold,rep]=x;
+ return `<details class="sks" ${S._skOpen==='s'+k?'open':''}><summary style="align-items:center">${KF(POSE[poses[0]],{w:66})}<span class="skm"><span class="ht">${n}</span><span class="skz">${zone} · ${hold}</span></span></summary><div class="skd" style="padding-left:2px"><div style="text-align:center">${KF(POSE[poses[0]],{w:130})}</div>
+ ${spField('Zone étirée',zone)}${spField('Côté',side)}${spField('Position',start)}${steps.map((t,i)=>`<div class="hp">${i+1}. ${t}</div>`).join('')}${spField('Maintien',hold)}${spField('Répétitions',rep)}${spField('Respiration','Lente ; relâcher un peu plus à chaque expiration')}${spField('Normal','Une tension douce, agréable')}<div class="hwarn">Arrêter si douleur vive, picotements, engourdissement ou douleur dans l’articulation.</div></div></details>`}
+const STR_R={matin:['nuque','epaules','bassin','flancs','chevilles','mollets'],soir:['dos','lombaires','fessiers','ischios','adducteurs','nuque'],express:['nuque','epaules','flancs','mollets'],complet:STRETCH.map(x=>x[0])};
+function sportDetail(c){const sub=c.sub,E=spE();
+ const energy=`<div class="hg">Mon énergie aujourd’hui</div><div class="pick" style="margin:4px 0;flex-wrap:wrap">${[['bas','Basse'],['moy','Moyenne'],['bon','Bonne']].map(([k,n])=>spChip('spe',k,E===k,n)).join('')}</div>${E?`<div class="hp" style="padding:2px 0 6px">${E==='bas'?'Séance courte et douce : 5 à 10 min, relaxation ou étirements du soir.':E==='moy'?'Séance de 10 à 20 min à ton niveau habituel.':'Tu peux faire une séance plus longue ou un exercice du niveau suivant, si les précédents sont faciles.'}</div>`:''}`;
+ if(sub==='yoga'){const tab=S._spTab||'post',lv=S.flags.yogaLvl||1;
+  return `<div class="hair skin">${energy}<div class="pick" style="margin:8px 0">${spChip('sptab','post',tab==='post','Postures')}${spChip('sptab','ses',tab==='ses','Séances')}</div>
+  <div class="hg">Mon niveau</div><div class="pick" style="margin:4px 0 6px">${[1,2,3].map(n=>spChip('ylvl',n,lv===n,SP_LV[n-1])).join('')}</div>
+  ${tab==='ses'?yogaSession():YOGA.filter(x=>x[3]===lv).map(yogaCard).join('')+`<div class="hp" style="padding:6px 0">Tu changes de niveau quand tu veux : rien ne se débloque automatiquement.</div>`}</div>`}
+ if(sub==='course'){const lv=S.flags.runLvl||1,wk=S.flags.runWk||1;
+  return `<div class="hair skin">${energy}<div class="hwarn" style="margin:6px 0">Avec les gonflements déjà signalés, demande un avis médical avant un programme de course intensif.</div>
+  <div class="hg">Mon niveau</div><div class="pick" style="margin:4px 0 6px;flex-wrap:wrap">${[[1,'Préparation'],[2,'Marche et course'],[3,'Endurance']].map(([n,t])=>spChip('rlvl',n,lv===n,t)).join('')}</div>
+  ${lv===1?RUN_INFO.map(([p,t,d])=>`<div class="hs" style="align-items:center">${KF(POSE[p],{w:92})}<div class="hb"><div class="ht">${t}</div><div class="hp">${d}</div></div></div>`).join('')+`<div class="hp" style="padding:6px 0">Marche active 20 à 30 min, 2 à 3 fois par semaine. Allure : tu peux parler sans être trop essoufflée.</div>`:''}
+  ${lv===2?`<div class="hp" style="padding:4px 0">2 à 3 séances par semaine, jamais deux jours de suite. Chaque séance : 5 min d’échauffement, l’alternance, puis 5 min de retour au calme.</div>${RUN_PLAN.map(([w,c2,m,r])=>`<div class="hs" style="${w===wk?'background:#FDEFD9;border-radius:10px;padding-left:6px':''}"><div class="hb"><span class="ht">Semaine ${w}</span> <span class="hp">· ${r} × (${c2} de course lente + ${m} de marche)</span></div></div>`).join('')}<div class="pick" style="margin:8px 0">${spChip('rwk','next',false,'Semaine réussie')}${spChip('rwk','same',false,'Répéter la semaine')}</div>`:''}
+  ${lv===3?RUN_L3.map((t,i)=>`<div class="hs"><b class="hn">${i+1}</b><div class="hb"><div class="hp" style="color:var(--ink)">${t}</div></div></div>`).join('')+`<div class="hp" style="padding:6px 0">Ajouter environ 5 minutes seulement quand l’étape précédente est confortable.</div>`:''}
+  <div class="hg">Routines de course</div>${[['Échauffement','5 min de marche active, cercles de chevilles, montées de genoux légères'],['Marche active','20 à 30 min, pas dynamiques'],['Alternance marche-course','Selon la semaine du plan'],['Course d’endurance','Allure où tu peux parler'],['Retour au calme','5 min de marche lente'],['Récupération','Étirements doux des mollets, des cuisses et des hanches, boire de l’eau']].map(([t,d])=>`<div class="hp" style="padding:3px 0"><b>${t}</b> · ${d}</div>`).join('')}
+  <div class="hp" style="padding:6px 0 8px">Pas de vitesse, de distance ni d’objectif calorique imposés.</div></div>`}
+ if(sub==='etir'){const tab=S._stTab||'lib',r=S._stR||'matin';
+  return `<div class="hair skin">${energy}<div class="pick" style="margin:8px 0">${spChip('sttab','lib',tab==='lib','Bibliothèque')}${spChip('sttab','rout',tab==='rout','Routines')}</div>
+  <div class="hp" style="padding:2px 0 6px">Avant le sport : mobilité en mouvement (cercles, balancés). Après l’effort : étirements doux et tenus. Ne jamais forcer ni chercher la douleur.</div>
+  ${tab==='lib'?[['haut','Haut du corps'],['tronc','Tronc'],['bas','Bas du corps']].map(([g,t])=>`<div class="hg">${t}</div>`+STRETCH.filter(x=>x[3]===g).map(stretchCard).join('')).join(''):`<div class="pick" style="margin:6px 0;flex-wrap:wrap">${[['matin','Matin'],['soir','Soir'],['express','Express'],['complet','Complet']].map(([k,n])=>spChip('str',k,k===r,n)).join('')}</div>${STR_R[r].map(k=>stretchCard(STRETCH.find(x=>x[0]===k))).join('')}`}</div>`}
+ return ''}
 const CARE=[['visage','Visage','#EDA5B0'],['cheveux','Cheveux','#EEB87D'],['corps','Corps','#EEB87D'],['mains','Mains et pieds','#F4C3C8'],['complements','Compléments','#F7EBC9'],['sportm','Sport','#EBAE6B'],['journal','Journaling','#D9C27E'],['recette','Recettes','#F6CFC9']];
 const ZONES=[['salon','Salon'],['cuisine','Cuisine'],['sdb','Salle de bain'],['chambre','Chambre'],['vetements','Vêtements'],['plantes','Plantes']];
 const SUGG0=[['plantes','Ajouter de l’engrais'],['plantes','Vaporiser les feuilles'],['plantes','Dépoussiérer les feuilles'],['plantes','Tourner les pots vers la lumière'],['plantes','Vérifier les nuisibles'],['salon','Laver les vitres'],['salon','Secouer les coussins'],['chambre','Aérer la chambre'],['chambre','Aspirer sous le lit'],['chambre','Laver les oreillers'],['sdb','Laver les serviettes'],['sdb','Détartrer la robinetterie'],['vetements','Mettre de côté ce qui est à donner']];
@@ -1580,7 +1740,7 @@ function sheetHTML(){
     title=`<span style="display:flex;align-items:center;gap:10px"><span class="ic tint" style="--d:${r.d};width:40px;height:40px;border-radius:14px">${kw(r.id,30)}</span>${r.name}</span>`;
     inner=`<div class="cat" id="catlist">${catChips()}</div><div class="csearch" style="position:sticky"><div style="position:relative"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="2" stroke-linecap="round" style="position:absolute;left:15px;top:14px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="cq" value="${esc(S.cq)}" placeholder="Commence à écrire" autocomplete="off" style="padding-left:44px;width:100%"></div></div>`;
   } else if(S.sheet==='chore'){
-    [title,inner]=choreSheet();{const c=S.sheetList==='care'&&S.care.find(x=>x.id===S.sheetId);if(c){inner=c.sec==='visage'&&SKIN[c.sub]?skinDetail(c.sub):c.sec==='cheveux'&&c.hk?hairDetail(c):c.sec==='complements'&&SUP[c.hk]?suppDetail(c):c.hk&&(BR[c.hk]||BODY_IPL[c.hk]||c.hk==='cibles')?bodyDetail(c):''}}
+    [title,inner]=choreSheet();{const c=S.sheetList==='care'&&S.care.find(x=>x.id===S.sheetId);if(c){inner=c.sec==='visage'&&SKIN[c.sub]?skinDetail(c.sub):c.sec==='cheveux'&&c.hk?hairDetail(c):c.sec==='complements'&&SUP[c.hk]?suppDetail(c):c.sec==='sportm'&&['yoga','course','etir'].includes(c.sub)?sportDetail(c):c.hk&&(BR[c.hk]||BODY_IPL[c.hk]||c.hk==='cibles')?bodyDetail(c):''}}
   } else if(S.sheet==='zone'){
     const z=ZONES.find(x=>x[0]===S.zoneId),its=S.chores.filter(c=>c.zone===S.zoneId).sort((a,b)=>st(a).left-st(b).left);
     title=`<span style="display:flex;align-items:center;gap:10px">${charSvg(S.zoneId,its.length?worst(its):'ok',40)}${z[1]}</span>`;
@@ -1842,6 +2002,15 @@ document.addEventListener('click',e=>{
     case 'bodyp':S._cardOpen='corps';S.flags.bodyP=+v;bodyApply(+v);S._sheetKeep=true;break;
     case 'bstate':{S._cardOpen='corps';const st=bState();S.flags.bodyState={d:TODAY,s:st.includes(v)?st.filter(x=>x!==v):st.concat(v)};S._sheetKeep=true;break}
     case 'bodyz':S._cardOpen='corps';S._bodyZ=S._bodyZ===v?'':v;S._sheetKeep=true;break;
+    case 'spe':S.flags.spE={d:TODAY,v};S._sheetKeep=true;break;
+    case 'sptab':S._spTab=v;S._sheetKeep=true;break;
+    case 'ylvl':S.flags.yogaLvl=+v;S._sheetKeep=true;break;
+    case 'yses':S._ySes=v;S._sheetKeep=true;break;
+    case 'ydur':S._yDur=+v;S._sheetKeep=true;break;
+    case 'rlvl':S.flags.runLvl=+v;S._sheetKeep=true;break;
+    case 'rwk':if(v==='next')S.flags.runWk=Math.min(8,(S.flags.runWk||1)+1);S._sheetKeep=true;break;
+    case 'sttab':S._stTab=v;S._sheetKeep=true;break;
+    case 'str':S._stR=v;S._sheetKeep=true;break;
     case 'cibopt':S._cibOpt=v;S._sheetKeep=true;break;
     case 'bodyopen':S.sheet='chore';S.sheetList='care';S.sheetId=id;break;
     case 'ipltest':{const c=S.care.find(x=>x.id===S.sheetId);if(c){c.iplTest=TODAY;c.next=add(TODAY,1);c.paused=false;iplSync(c)}S._sheetKeep=true;break}
@@ -2656,7 +2825,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='98';
+const APP_VER='99';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
