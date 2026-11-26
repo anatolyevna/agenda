@@ -1213,6 +1213,7 @@ function persist(){const state={};PKEYS.forEach(k=>{state[k]=S[k];const j=JSON.s
 const nowMs=()=>Date.now();
 const visible=it=>!it.timer&&!(it.done&&it.doneAt&&nowMs()-it.doneAt>864e5);
 function migrate(){if(!S.flags)S.flags={};let ch=false;
+  if(!S.flags.wb2&&Array.isArray(S.care)&&S.care.length){const y=add(TODAY,-1);S.care.forEach(c=>{if(!['visage','cheveux','corps','sportm','complements'].includes(c.sec))return;c.paused=false;if(c.wbPrev&&c.last===TODAY)return;if(BODY_IPL[c.hk])return;c.last=y;delete c.next});S.flags.wb1=1;S.flags.wb2=1;ch=true}
   if(!S.flags.wb1&&Array.isArray(S.care)&&S.care.length){const y=add(TODAY,-1);S.care.forEach(c=>{if(!['visage','cheveux','corps','sportm','complements'].includes(c.sec)||c.paused||c.wbPrev)return;if(BODY_IPL[c.hk])return;c.last=y;delete c.next});S.flags.wb1=1;ch=true}
   if(S.flags.dr2&&!S.flags.dr3&&S.cycle&&S.cycle.days){const nd={};Object.entries(S.cycle.days).forEach(([k,e])=>{nd[k]=e&&e.sl&&e.sl.dr?{...e,sl:{...e.sl,dr:e.sl.dr.map(x=>x==='Visite d’un proche disparu'?'Défunt vivant':x)}}:e});S.cycle={...S.cycle,days:nd};S.flags.dr3=1;ch=true}
   if(!S.flags.dr2&&S.cycle&&S.cycle.days){S.flags.dr3=1;const M={'Rêve doux':'Doux','Rêve actif':'Agité','Rêve romantique':'Romantique','Rêve lucide':'Lucide','Rêve étrange':'Étrange','Rêve drôle':'Drôle','Rêve récurrent':'Récurrent','Rêve nostalgique':'Nostalgique','Rêve agité':'Agité'};const nd={};Object.entries(S.cycle.days).forEach(([k,e])=>{if(e&&e.sl&&e.sl.dr){const dr=[...new Set(e.sl.dr.map(x=>M[x]||x).filter(x=>DRC[x]))];nd[k]={...e,sl:{...e.sl,dr}};if(!dr.length)delete nd[k].sl.dr}else nd[k]=e});S.cycle={...S.cycle,days:nd};S.flags.dr2=1;ch=true}
@@ -1671,7 +1672,14 @@ function menageHTML(){
 const WB_SECS=['visage','cheveux','corps','complements'];
 const wbMoment=()=>{if(S._wbM&&S._wbM.d===TODAY)return S._wbM.v;const h=new Date().getHours();return h>=20||h<5?'soir':'matin'};
 const wbMom=c=>{const m=Array.isArray(c.moments)&&c.moments[0];return c.sec==='complements'?(m||'midi'):(m==='matin'?'matin':'soir')};
-function wbDue(c){if(c.paused)return false;if(c.last===TODAY)return true;if(c.sec==='complements'||ctog(c))return c.last<TODAY;return nextOf(c)<=TODAY}
+const WB_SITU={cheveux:['irrite','sport','voyage'],corps:['express','voyage','sport','exfo','cibles']};
+function wbEl(c){if(c.sec==='complements'||c.sec==='sportm')return true;const k=c.hk;
+  if((WB_SITU[c.sec]||[]).includes(k))return false;
+  if(c.sec==='visage'){if(c.sub==='gs'||c.sub==='mousse')return skinPh()>=3;return true}
+  if(c.sec==='cheveux'){const p=hairPh();if(['complet','boucles','refresh','massage'].includes(k))return p>=2;if(k==='gloss')return p>=3;return true}
+  if(c.sec==='corps'){if(BODY_IPL[k])return bodyPh()>=3;const r=BR[k];return r?r.ph<=bodyPh():true}
+  return false}
+function wbDue(c){if(!wbEl(c))return false;if(c.last===TODAY)return true;if(c.sec==='complements'||ctog(c))return c.last<TODAY;return nextOf(c)<=TODAY}
 const wbLate=c=>c.last!==TODAY&&c.sec!=='complements'&&!ctog(c)&&(c.days||c.freq>1)&&nextOf(c)<TODAY;
 const wbDone=c=>c.last===TODAY;
 function wbBody(){const p=bodyPh(),P=BODY_PH[p],[sn,sk]=skSeason();
@@ -1681,31 +1689,36 @@ function wbDetail(c){if(c.sec==='sportm')return ['yoga','course','etir'].include
   return c.sec==='visage'&&SKIN[c.sub]?skinDetail(c.sub):c.sec==='cheveux'&&c.hk?hairDetail(c):c.sec==='complements'&&SUP[c.hk]?suppDetail(c):c.hk&&(BR[c.hk]||BODY_IPL[c.hk]||c.hk==='cibles')?bodyDetail(c):''}
 const HST_HK={gras:'express',sec:'complet',casse:'repar',elast:'repar',deform:'refresh',friso:'boucles',irrit:'irrite',pell:'irrite',transp:'sport',temps:'express'};
 function wbAdvice(listed){const out=[],V=S.flags.wbV&&S.flags.wbV.d===TODAY?S.flags.wbV.k:[];
+  if(S.care.some(c=>c.sec==='sportm'&&c.last===TODAY)){const h=S.care.find(x=>x.sec==='cheveux'&&x.hk==='sport'),b=S.care.find(x=>x.sec==='corps'&&x.hk==='sport');
+    if(h)out.push({key:'s:h',title:'Routine sport',sub:'Cheveux · après ton sport',why:'auto',col:'#EEB87D',ic:h.sub,html:hairDetail(h)});
+    if(b)out.push({key:'s:b',title:'Après le sport',sub:'Corps · après ton sport',why:'auto',col:'#EEB87D',ic:b.sub,html:bodyDetail(b)})}
+  if((cyMark(TODAY)||'')[0]==='p'&&BR.regles)out.push({key:'c:r',title:'Confort pendant les règles',sub:'Corps · selon ton cycle',why:'auto',col:'#EDA5B0',ic:'serviette',html:bodyDetail({hk:'regles',sec:'corps',sub:'tube'})});
   HSTATE.filter(x=>hState().includes(x[0])).forEach(([k,n,r])=>{const hk=HST_HK[k],c=hk&&S.care.find(x=>x.sec==='cheveux'&&x.hk===hk);if(c&&listed.includes(c))return;const key='h:'+k;if(out.some(o=>o.det===(c&&c.id)))return;out.push({key,title:r,sub:'Cheveux · '+n,col:'#EEB87D',ic:c?c.sub:'boucles',det:c?c.id:null,html:c?hairDetail(c):''})});
   BODY_STATE.filter(x=>bState().includes(x[0])&&x[0]!=='normale').forEach(([k,n,r])=>{const hk=BSTATE_R[k],c=hk&&S.care.find(x=>x.sec==='corps'&&x.hk===hk);if(c&&listed.includes(c))return;out.push({key:'b:'+k,title:r,sub:'Corps · '+n,col:'#EEB87D',ic:c?c.sub:'tube',html:c?bodyDetail(c):hk&&BR[hk]?bodyDetail({hk,sec:'corps',sub:'tube'}):hk?bodyMini(hk):''})});
   return out.map(o=>({...o,done:V.includes(o.key)}))}
 function wbAdvRow(o){const op=(S._wbOpen||{})[o.key],open=op===undefined?!o.done:op;
-  return `<div class="wbi ${o.done?'dn':''}" style="--d:${o.col}"><div class="wbh"><button class="wbck" data-a="wbvchk" data-v="${o.key}">${o.done?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':''}</button><span class="wbic">${charSvg(o.ic,'ok',34)}</span><button class="wbt" data-a="wbvopen" data-v="${o.key}"><span class="wbn">${esc(o.title)}</span><span class="wbs">${o.sub} · <b style="color:#C98A3E">conseillé</b></span></button>${o.html?`<button class="wbch" data-a="wbvopen" data-v="${o.key}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6"/></svg></button>`:''}</div>${o.html&&open?`<div class="wbd hair">${o.html}</div>`:''}</div>`}
+  return `<div class="wbi ${o.done?'dn':''}" style="--d:${o.col}"><div class="wbh"><button class="wbck" data-a="wbvchk" data-v="${o.key}">${o.done?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':''}</button><span class="wbic">${charSvg(o.ic,'ok',34)}</span><button class="wbt" data-a="wbvopen" data-v="${o.key}"><span class="wbn">${esc(o.title)}</span><span class="wbs">${o.sub}${o.why?'':' · <b style="color:#C98A3E">conseillé</b>'}</span></button>${o.html?`<button class="wbch" data-a="wbvopen" data-v="${o.key}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6"/></svg></button>`:''}</div>${o.html&&open?`<div class="wbd hair">${o.html}</div>`:''}</div>`}
 function wbRow(c){const col=(CARE.find(x=>x[0]===c.sec)||[])[2]||'#EDA5B0',dn=wbDone(c),op=(S._wbOpen||{})[c.id],open=op===undefined?(!dn&&c.sec!=='sportm'):op,det=wbDetail(c),sn=(CARE.find(x=>x[0]===c.sec)||[])[1]||'';
   return `<div class="wbi ${dn?'dn':''}" style="--d:${col}"><div class="wbh"><button class="wbck" data-a="wbchk" data-id="${c.id}" aria-label="${dn?'Annuler':'Fait'}">${dn?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':''}</button><span class="wbic">${charSvg(c.sub,'ok',34)}</span><button class="wbt" data-a="wbopen" data-id="${c.id}"><span class="wbn">${esc(c.title)}</span><span class="wbs">${sn}${wbLate(c)?' · <b class="wbl">reporté</b>':''}</span></button>${det?`<button class="wbch" data-a="wbopen" data-id="${c.id}" aria-label="Détails"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6"/></svg></button>`:''}</div>${det&&open?`<div class="wbd hair">${det}</div>`:''}</div>`}
 function wbSet(){const sv={c:'Complète',e:'Express',i:'Peau irritée'}[skVer()];
   return `<button class="wbset" data-a="wbset"><span>Visage · phase ${skinPh()} · ${sv}</span><span>Cheveux · phase ${hairPh()}</span><span>Corps · phase ${bodyPh()}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>`}
-function moiHTML(){if(S._wbSoins)return `<button class="wbback" data-a="wbsoins">‹ Aujourd’hui</button>`+soinsHTML();
+function moiHTML(){
   const m=wbMoment(),care=S.care.filter(c=>WB_SECS.includes(c.sec));
   const L=mm=>care.filter(c=>wbMom(c)===mm&&wbDue(c)).sort((a,b)=>WB_SECS.indexOf(a.sec)-WB_SECS.indexOf(b.sec)||wbDone(a)-wbDone(b));
-  const main=L(m),midi=m==='matin'?L('midi'):[];
+  const main=L(m),midi=m==='matin'?L('midi'):[],forgot=m==='soir'?L('matin').concat(L('midi')).filter(c=>!wbDone(c)):[];
   const sport=S.care.filter(c=>c.sec==='sportm'&&!c.paused),adv=m==='soir'?wbAdvice(main):[];
   const left=main.concat(midi).filter(c=>!wbDone(c)).length+adv.filter(o=>!o.done).length;
   const sun=`<svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#F5DE9A" stroke="#6B5A55" stroke-width="1.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="#E9B949" stroke-width="1.6" stroke-linecap="round"/></svg>`;
   const tabs=[['matin','Matin',sun],['soir','Soir',moonSvg(.25,30)]].map(([k,l,ic])=>`<button class="${m===k?'on':''}" data-a="wbm" data-v="${k}">${ic}${l}</button>`).join('');
   const chips=(arr,lbl)=>arr.length?`<div class="wbg">${lbl}</div><div class="pick wbchips">${arr.map(c=>`<button class="txt ${wbDone(c)?'on':''}" style="--d:#B4D29A;padding-left:6px" data-a="wbchk" data-id="${c.id}"><span style="line-height:0">${charSvg(c.sub,'ok',26)}</span>${esc(c.title)}${wbDone(c)?' ✓':''}</button>`).join('')}</div>`:'';
   return `<div class="scroll" style="padding:4px 18px 150px">
-    <div class="wbtop"><div class="wbtabs">${tabs}</div><button class="wbsoinsb" data-a="wbsoins">Mes soins</button></div>
+    <div class="wbtop"><div class="wbtabs">${tabs}</div></div>
     ${wbSet()}
     <div class="wbg">${m==='soir'?'Ce soir':'Ce matin'}${left?` · <span class="wbcnt">${left} à faire</span>`:main.length?' · tout est fait ✨':''}</div>
     ${main.length?main.map(wbRow).join(''):'<div class="wbempty">Rien de prévu pour ce moment.</div>'}
     ${midi.length?`<div class="wbg">Midi</div>${midi.map(wbRow).join('')}`:''}
-    ${adv.length?`<div class="wbg">Conseillé selon l’état du jour</div>${adv.map(wbAdvRow).join('')}`:''}
+    ${adv.length?`<div class="wbg">Ajouté pour aujourd’hui</div>${adv.map(wbAdvRow).join('')}`:''}
+    ${forgot.length?`<div class="wbg">Pas coché ce matin · <span class="wbcnt">${forgot.length}</span></div>${forgot.map(c=>{S._wbOpen=S._wbOpen||{};if(S._wbOpen[c.id]===undefined)S._wbOpen[c.id]=false;return wbRow(c)}).join('')}`:''}
     ${sport.length?`<div class="wbg">Sport</div>${sport.map(wbRow).join('')}`:''}</div>`}
 function soinsHTML(){
   const secs=CARE.map(([id,name],i)=>{const its=S.care.filter(c=>c.sec===id),m=worst(its);
@@ -1912,7 +1925,7 @@ function renderInner(){
     <button class="wx mx" data-a="meteo" aria-label="Météo de la semaine">${W?ART[W.icon](48):ART.nuage(48)}<div><span class="nf" style="font-size:26px;line-height:1">${W?Math.round(W.cur)+'°':'–'}</span><small>${esc(W?W.name:(S.city==='Ma position'?'Ma position':S.city))}</small><small>${W&&W.days[0]?Math.round(W.days[0].max)+'° / '+Math.round(W.days[0].min)+'°':''}</small></div></button>
     <button class="gear" aria-label="Réglages" data-a="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C6A63" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button></header>
     <main>${content}</main>
-    ${timerPill()}${S.tab!=='courses'&&S.tab!=='cycle'?`<button class="fab low" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
+    ${timerPill()}${S.tab!=='courses'&&S.tab!=='cycle'&&S.tab!=='moi'?`<button class="fab low" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
     <nav>${(()=>{const pp=S._tabPop;S._tabPop='';return tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}${pp===t[0]?' pop':''}" style="--tc:${t[3]}" data-a="tab" data-v="${t[0]}"><svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true" style="overflow:visible"><g transform="${TABFIT[t[2]]}">${K[t[2]]}</g></svg>${t[1]}</button>`).join('')})()}</nav>
     ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
     ${sheetHTML()}`;
@@ -2930,7 +2943,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='124';
+const APP_VER='125';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
