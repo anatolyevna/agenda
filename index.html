@@ -881,26 +881,30 @@ function suppCard(){const row=k=>{const x=SUP[k];return `<div class="hs" style="
  return `<details class="hair" ${S._cardOpen==='complements'?'open':''}><summary>${kw('perso',22)}<span>Mes compléments</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary>
  <div class="hg" style="display:flex;align-items:center;gap:6px">${SUP_ICON.meal} Pendant un repas</div>${['d3','o3','b12','c'].map(row).join('')}
  <div class="hg" style="display:flex;align-items:center;gap:6px">${SUP_ICON.moon} Le soir</div>${row('mg')}
- <div class="hp" style="padding:4px 0">Les horaires s’adaptent à ton planning : il suffit de les prendre avec un repas, même décalé.</div>
  <div class="hg" style="color:#C98A52">Seulement après un bilan</div><div class="hp">${SUP_BILAN.join(' · ')}</div><div class="hp">Ne pas les ajouter aux prises du quotidien sans résultat d’analyse.</div>
  <div class="hg" style="color:#C2566B">À éviter sans indication médicale</div><div class="hp">${SUP_AVOID.join(' · ')}</div>
- <div class="hg">Interactions</div><div class="hp">Si un traitement par lévothyroxine est repris sur prescription : respecter la prise à jeun prescrite, espacer le fer, le calcium et le magnésium d’au moins 4 heures, et vérifier les autres interactions avec un pharmacien. Ce traitement n’est pas pris actuellement.</div>
- <div class="hp">Vérifier les cumuls de vitamines et de minéraux entre plusieurs produits.</div>
+ <div class="hg">Interactions</div><div class="hp">Si un traitement par lévothyroxine est repris sur prescription : respecter la prise à jeun prescrite, espacer le fer, le calcium et le magnésium d’au moins 4 heures.</div>
  <div class="hwarn" style="margin:8px 0">La biotine fortement dosée peut fausser certaines analyses de sang, notamment thyroïdiennes.</div></details>`}
 /* ---- Sport : personnage kawaii (même modèle partout) ---- */
-const KF=(P,o={})=>{const W=o.w||110,ol='#7A5A4E',sk='#FCE3D4',top='#F3B3C3',bot='#CDBEEB',dark='#B9A4D9';
- const pt=k=>P[k];const L=(a,b,w,c)=>`<path d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
- const limb=(pts,c,cd)=>{let s='';for(let i=0;i<pts.length-1;i++)s+=L(pts[i],pts[i+1],10,ol);for(let i=0;i<pts.length-1;i++)s+=L(pts[i],pts[i+1],7.2,c);return s};
- const far=P.far||'L';const side=x=>x===far;
- const arm=s=>limb([P.N,P[s+'e'],P[s+'h']],side(s)?'#F5D3C2':sk);
- const leg=s=>limb([P.P,P[s+'k'],P[s+'f']],side(s)?dark:bot)+`<circle cx="${P[s+'f'][0]}" cy="${P[s+'f'][1]}" r="3.6" fill="${side(s)?'#F5D3C2':sk}" stroke="${ol}" stroke-width="1.3"/>`;
- const hand=s=>`<circle cx="${P[s+'h'][0]}" cy="${P[s+'h'][1]}" r="3.2" fill="${side(s)?'#F5D3C2':sk}" stroke="${ol}" stroke-width="1.3"/>`;
- const C=P.C||[(P.N[0]+P.P[0])/2,(P.N[1]+P.P[1])/2];const torso=w=>`<path d="M${P.N[0]} ${P.N[1]}Q${C[0]} ${C[1]} ${P.P[0]} ${P.P[1]}" stroke="${w===16?ol:top}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`;
- const [hx,hy]=P.H;const fl=P.look===-1?-1:1;
- const head=`<g><circle cx="${hx}" cy="${hy-10.5}" r="5.6" fill="#6B4A3E"/><circle cx="${hx}" cy="${hy}" r="11.5" fill="${sk}" stroke="${ol}" stroke-width="1.6"/><path d="M${hx-11.5} ${hy-1}Q${hx-10.5} ${hy-12.5} ${hx} ${hy-12}Q${hx+10.5} ${hy-12.5} ${hx+11.5} ${hy-1}Q${hx+5} ${hy-7} ${hx} ${hy-7}Q${hx-6} ${hy-7} ${hx-11.5} ${hy-1}z" fill="#6B4A3E"/>${P.sleep||P.closed?`<path d="M${hx-5.5} ${hy+1}q2 1.6 4 0M${hx+1.5} ${hy+1}q2 1.6 4 0" stroke="#3E2C26" stroke-width="1.3" fill="none" stroke-linecap="round"/>`:`<circle cx="${hx-3.5+fl*.6}" cy="${hy+1}" r="1.4" fill="#3E2C26"/><circle cx="${hx+3.5+fl*.6}" cy="${hy+1}" r="1.4" fill="#3E2C26"/>`}<ellipse cx="${hx-6}" cy="${hy+4}" rx="1.9" ry="1.1" fill="#F3A7B6" opacity=".8"/><ellipse cx="${hx+6}" cy="${hy+4}" rx="1.9" ry="1.1" fill="#F3A7B6" opacity=".8"/><path d="M${hx-1.6+fl*.6} ${hy+5}q1.6 1.3 3.2 0" stroke="#3E2C26" stroke-width="1.2" fill="none" stroke-linecap="round"/></g>`;
- const F=far,N2=far==='L'?'R':'L';
- const extra=(P.arrows||[]).map(d=>`<path d="${d}" stroke="#E08A5E" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#ka)"/>`).join('')+(P.mark||'');
- const ys=Object.values(P).filter(v=>Array.isArray(v)&&typeof v[1]==='number').map(v=>v[1]),vt=Math.max(0,Math.min(...ys)-24);return `<svg viewBox="0 ${vt} 120 ${116-vt}" width="${W}" height="${Math.round(W*(116-vt)/120)}" style="flex:none;overflow:visible"><defs><marker id="ka" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E08A5E"/></marker></defs>${o.ground===false?'':`<path d="M6 109H114" stroke="#E9DCD2" stroke-width="2" stroke-linecap="round"/>`}${P.mat?`<rect x="6" y="106" width="108" height="4" rx="2" fill="#F3E1EA"/>`:''}${arm(F)}${leg(F)}${torso(16)}${torso(12.5)}${leg(N2)}${head}${arm(N2)}${hand(F)}${hand(N2)}${extra}</svg>`};
+const KF=(P,o={})=>{const W=o.w||110,ol='#6E4E44',sk='#FCE3D4',skF='#EBC7B5',top='#F3B3C3',bot='#B9A4E0',botF='#D9CDEF';
+ const L=(a,b,w,c)=>`<path d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+ const far=P.far||'L',isF=x=>x===far;
+ const limb=(pts,c,f)=>{let s='';const w=f?8.4:10.4,wi=f?5.8:7.6;for(let i=0;i<pts.length-1;i++)s+=L(pts[i],pts[i+1],w,ol);for(let i=0;i<pts.length-1;i++)s+=L(pts[i],pts[i+1],wi,c);return s};
+ const lying=Math.abs(P.N[1]-P.P[1])<14,front=!lying&&Math.abs(P.H[0]-P.P[0])<=5,face=P.face||(P.H[0]>=P.P[0]?1:-1);
+ const shadow=(x,y)=>y>=102?`<ellipse cx="${x}" cy="109" rx="7" ry="1.8" fill="#EFA9B3" opacity=".55"/>`:'';
+ const foot=s=>{const [kx,ky]=P[s+'k'],[fx,fy]=P[s+'f'],f=isF(s);let ang;if(front)ang=0;else if(lying)ang=P.prone?90:-90;else ang=Math.atan2(fy-ky,fx-kx)*180/Math.PI-90*face;const r=ang*Math.PI/180,ox=front?(s==='L'?-2:2):Math.cos(r)*3,oy=front?0:Math.sin(r)*3;
+  return `<ellipse cx="${fx+ox}" cy="${fy+oy}" rx="5.6" ry="3.4" transform="rotate(${front?0:ang} ${fx+ox} ${fy+oy})" fill="${f?skF:'#FFFFFF'}" stroke="${ol}" stroke-width="1.5"/>`};
+ const hand=s=>{const [x,y]=P[s+'h'];return `<circle cx="${x}" cy="${y}" r="4" fill="${isF(s)?skF:sk}" stroke="${ol}" stroke-width="1.6"/>`};
+ const arm=s=>limb([P.N,P[s+'e'],P[s+'h']],isF(s)?skF:sk,isF(s));
+ const leg=s=>limb([P.P,P[s+'k'],P[s+'f']],isF(s)?botF:bot,isF(s))+foot(s);
+ const C=P.C||[(P.N[0]+P.P[0])/2,(P.N[1]+P.P[1])/2];const torso=(w,c)=>`<path d="M${P.N[0]} ${P.N[1]}Q${C[0]} ${C[1]} ${P.P[0]} ${P.P[1]}" stroke="${c}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`;
+ const [hx,hy]=P.H,fl=front?0:face;
+ const head=`<g><circle cx="${hx-fl*3}" cy="${hy-10.5}" r="5.6" fill="#6B4A3E"/><circle cx="${hx}" cy="${hy}" r="11.5" fill="${sk}" stroke="${ol}" stroke-width="1.7"/><path d="M${hx-11.5} ${hy-1}Q${hx-10.5} ${hy-12.5} ${hx} ${hy-12}Q${hx+10.5} ${hy-12.5} ${hx+11.5} ${hy-1}Q${hx+5} ${hy-7} ${hx} ${hy-7}Q${hx-6} ${hy-7} ${hx-11.5} ${hy-1}z" fill="#6B4A3E"/>${P.closed?`<path d="M${hx-5.5+fl*2} ${hy+1}q2 1.6 4 0M${hx+1.5+fl*2} ${hy+1}q2 1.6 4 0" stroke="#3E2C26" stroke-width="1.3" fill="none" stroke-linecap="round"/>`:`<circle cx="${hx-3.5+fl*2}" cy="${hy+1}" r="1.5" fill="#3E2C26"/><circle cx="${hx+3.5+fl*2}" cy="${hy+1}" r="1.5" fill="#3E2C26"/>`}<ellipse cx="${hx-6+fl*2}" cy="${hy+4}" rx="1.9" ry="1.1" fill="#F3A7B6" opacity=".85"/><ellipse cx="${hx+6+fl*2}" cy="${hy+4}" rx="1.9" ry="1.1" fill="#F3A7B6" opacity=".85"/><path d="M${hx-1.6+fl*2} ${hy+5}q1.6 1.3 3.2 0" stroke="#3E2C26" stroke-width="1.2" fill="none" stroke-linecap="round"/></g>`;
+ const N2=far==='L'?'R':'L';
+ const shadows=['L','R'].map(s=>shadow(...P[s+'f'])+shadow(...P[s+'h'])).join('');
+ const extra=(P.arrows||[]).map(d=>`<path d="${d}" stroke="#E08A5E" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#ka)"/>`).join('')+(P.mark||'');
+ const ys=Object.values(P).filter(v=>Array.isArray(v)&&typeof v[1]==='number').map(v=>v[1]),vt=Math.max(0,Math.min(...ys)-24);
+ return `<svg viewBox="0 ${vt} 120 ${116-vt}" width="${W}" height="${Math.round(W*(116-vt)/120)}" style="flex:none;overflow:visible"><defs><marker id="ka" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E08A5E"/></marker></defs>${o.ground===false?'':`<path d="M6 109H114" stroke="#E9DCD2" stroke-width="2" stroke-linecap="round"/>`}${P.mat?`<rect x="6" y="107" width="108" height="4" rx="2" fill="#F3E1EA"/>`:''}${shadows}${arm(far)}${leg(far)}${torso(16.5,ol)}${torso(13,top)}${leg(N2)}${head}${arm(N2)}${hand(far)}${hand(N2)}${extra}</svg>`};
 const POSE=(()=>{const p=(H,N,P,Le,Lh,Re,Rh,Lk,Lf,Rk,Rf,x={})=>Object.assign({H,N,P,Le,Lh,Re,Rh,Lk,Lf,Rk,Rf},x);
  return {
  stand:p([60,22],[60,36],[60,68],[52,52],[50,66],[68,52],[70,66],[56,88],[56,106],[64,88],[64,106]),
@@ -909,12 +913,12 @@ const POSE=(()=>{const p=(H,N,P,Le,Lh,Re,Rh,Lk,Lf,Rk,Rf,x={})=>Object.assign({H,
  child:p([30,98],[42,94],[74,92],[26,102],[12,105],[28,103],[14,106],[54,104],[82,106],[56,105],[84,106],{mat:1,closed:1}),
  cat:p([26,86],[36,74],[78,74],[36,90],[36,106],[34,90],[34,106],[80,104],[100,106],[78,104],[98,106],{C:[57,58],mat:1,closed:1}),
  cow:p([28,66],[36,76],[78,74],[36,90],[36,106],[34,90],[34,106],[80,104],[100,106],[78,104],[98,106],{C:[57,88],mat:1}),
- sphinx:p([36,74],[44,88],[78,100],[44,104],[28,105],[46,104],[30,106],[94,103],[108,104],[92,104],[106,105],{mat:1}),
+ sphinx:p([36,74],[44,88],[78,100],[44,104],[28,105],[46,104],[30,106],[94,103],[108,104],[92,104],[106,105],{mat:1,prone:1}),
  butterfly:p([60,46],[60,60],[60,92],[48,80],[56,100],[72,80],[64,100],[36,98],[57,103],[84,98],[63,103],{mat:1}),
  twist:p([16,98],[28,100],[60,100],[30,88],[22,78],[40,104],[52,106],[74,84],[68,102],[78,86],[72,103],{mat:1,closed:1}),
  corpse:p([14,99],[26,101],[62,102],[36,105],[48,106],[38,106],[50,107],[82,103],[102,103],[80,104],[100,104],{mat:1,closed:1}),
  dog:p([30,94],[38,82],[66,54],[32,94],[24,106],[30,94],[22,106],[82,80],[98,106],[80,80],[96,106],{mat:1}),
- cobra:p([32,64],[42,78],[78,100],[44,92],[44,106],[42,92],[42,106],[94,103],[108,104],[92,104],[106,105],{mat:1}),
+ cobra:p([32,64],[42,78],[78,100],[44,92],[44,106],[42,92],[42,106],[94,103],[108,104],[92,104],[106,105],{mat:1,prone:1}),
  warrior1:p([58,24],[58,38],[58,74],[54,24],[56,8],[62,24],[60,8],[38,86],[30,106],[76,90],[94,106]),
  warrior2:p([60,26],[60,40],[60,74],[42,40],[24,40],[78,40],[96,40],[40,86],[34,106],[80,90],[94,106],{far:'R'}),
  tree:p([60,22],[60,36],[60,68],[52,30],[58,18],[68,30],[62,18],[58,88],[58,106],[76,80],[61,86]),
@@ -1012,7 +1016,7 @@ const spChip=(a,v,on,t)=>`<button class="txt ${on?'on':''}" style="--d:#EEB87D" 
 const spField=(k,v)=>v&&v!=='—'?`<div class="hp"><span class="sk">${k}</span> ${v}</div>`:'';
 function yogaCard(x){const [k,n,poses,lv,o,mus,start,steps,dur,ry,resp,rec,err,prec,easy,hard]=x;
  return `<details class="sks" ${S._skOpen==='y'+k?'open':''}><summary style="align-items:center">${KF(POSE[poses[0]],{w:66})}<span class="skm"><span class="ht">${n}</span><span class="skz">${SP_LV[lv-1]} · ${dur}</span></span></summary><div class="skd" style="padding-left:2px">
- <div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:4px 0">${poses.map((p,i)=>`<div style="text-align:center">${KF(POSE[p],{w:poses.length>3?92:130})}${poses.length>1?`<div class="skz">${i+1}</div>`:''}</div>`).join('')}</div>
+ <div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:4px 0">${poses.map((p,i)=>`<div style="text-align:center">${KF(POSE[p],{w:poses.length>3?110:180})}${poses.length>1?`<div class="skz">${i+1}</div>`:''}</div>`).join('')}</div>
  ${spField('Objectif',o)}${spField('Muscles',mus)}${spField('Départ',start)}${steps.map((t,i)=>`<div class="hp">${i+1}. ${t}</div>`).join('')}${spField('Durée',dur)}${spField('Rythme',ry)}${spField('Respiration',resp)}${spField('Récupération',rec)}${spField('Erreurs fréquentes',err)}${spField('Plus facile',easy)}${spField('Plus difficile',hard)}${prec&&prec!=='—'?`<div class="hwarn">${prec}</div>`:''}</div></details>`}
 const YOGA_SEQ={matin:['respi','chatvache','montagne','salut1','guerrier2','arbre','fente','chien','salut2','triangle','cadavre'],soir:['respi','enfant','chatvache','sphinx','papillon','torsion','pont','cadavre','fente','guerrier2'],express:['respi','chatvache','chien','montagne','enfant','salut1','torsion','cadavre'],relax:['respi','enfant','papillon','sphinx','torsion','pont','cadavre','chatvache'],complet:['respi','chatvache','salut1','guerrier1','guerrier2','triangle','arbre','chaise','planche','pont','torsion','cadavre']};
 const YN={5:3,10:5,15:7,20:8,30:10};
@@ -1025,7 +1029,7 @@ function yogaSession(){const t=S._ySes||'matin',d=S._yDur||10,lv=S.flags.yogaLvl
  ${seq.map((k,i)=>{const x=Y[k];return `<div class="hs" style="align-items:center">${KF(POSE[x[2][0]],{w:66})}<div class="hb"><div class="ht">${i+1}. ${x[1]}</div><div class="hp">Maintien ≈ ${fmt(hold)} · ${x[10]}</div>${i<seq.length-1?`<div class="skz">Transition : revenir doucement, puis ${Y[seq[i+1]][1].toLowerCase()}</div>`:''}</div></div>`}).join('')}
  <div class="hp" style="padding:6px 0">Niveau ${SP_LV[lv-1].toLowerCase()} : les postures suivent le niveau choisi plus haut.</div>`}
 function stretchCard(x){const [k,n,poses,grp,zone,side,start,steps,hold,rep]=x;
- return `<details class="sks" ${S._skOpen==='s'+k?'open':''}><summary style="align-items:center">${KF(POSE[poses[0]],{w:66})}<span class="skm"><span class="ht">${n}</span><span class="skz">${zone} · ${hold}</span></span></summary><div class="skd" style="padding-left:2px"><div style="text-align:center">${KF(POSE[poses[0]],{w:130})}</div>
+ return `<details class="sks" ${S._skOpen==='s'+k?'open':''}><summary style="align-items:center">${KF(POSE[poses[0]],{w:66})}<span class="skm"><span class="ht">${n}</span><span class="skz">${zone} · ${hold}</span></span></summary><div class="skd" style="padding-left:2px"><div style="text-align:center">${KF(POSE[poses[0]],{w:180})}</div>
  ${spField('Zone étirée',zone)}${spField('Côté',side)}${spField('Position',start)}${steps.map((t,i)=>`<div class="hp">${i+1}. ${t}</div>`).join('')}${spField('Maintien',hold)}${spField('Répétitions',rep)}${spField('Respiration','Lente ; relâcher un peu plus à chaque expiration')}${spField('Normal','Une tension douce, agréable')}<div class="hwarn">Arrêter si douleur vive, picotements, engourdissement ou douleur dans l’articulation.</div></div></details>`}
 const STR_R={matin:['nuque','epaules','bassin','flancs','chevilles','mollets'],soir:['dos','lombaires','fessiers','ischios','adducteurs','nuque'],express:['nuque','epaules','flancs','mollets'],complet:STRETCH.map(x=>x[0])};
 function sportDetail(c){const sub=c.sub,E=spE();
@@ -1624,7 +1628,7 @@ function menageHTML(){
 }
 function moiHTML(){
   const secs=CARE.map(([id,name],i)=>{const its=S.care.filter(c=>c.sec===id),m=worst(its);
-    const nb=['visage','cheveux','corps'].includes(id)?its.filter(c=>!off(c)&&st(c).m!=='ok').length:0;
+    const nb=id!=='recette'?its.filter(c=>!off(c)&&st(c).m!=='ok').length:0;
     return scatBtn(i,id==='recette'?'recettes':'sec',id,id,m,name,nb?`<span class="zn">${nb}</span>`:'',ringPos(CARE.length))}).join('');
   return `<div class="scroll bigcloud"><div class="cloud scat">${secs}</div></div>`;
 }
@@ -1996,7 +2000,7 @@ document.addEventListener('click',e=>{
     case 'delitem':S.items=S.items.filter(x=>x.id!==S.D.id);S.sheet=S.backZone&&S.zoneId&&S.tab==='menage'?'zone':'';S.backZone=0;break;
     case 'ctap':{const c=S.chores.find(x=>x.id===id);if(!c)break;
       if(S._tapT&&S._tapId===id){clearTimeout(S._tapT);S._tapT=0;const it=choreItem(c);if(it){S.D={kind:it.kind,id:it.id,title:it.title,theme:it.theme,date:it.date||null,start:timed(it)?it.start:null,dur:1,repeat:it.repeat||'',folder:it.folder,chore:it.chore,link:it.link};S.sheet='edit';S.backZone=1}else{S.sheet='chore';S.sheetList='chores';S.sheetId=id}break}
-      clearTimeout(S._tapT);S._tapId=id;tapLook(el,!choreItem(c));S._tapT=setTimeout(()=>{S._tapT=0;const it=choreItem(c);if(!it)activateChore(c);else{finishItem(it);S.popChore=id}render();setTimeout(()=>{S.popChore=0},600)},340);return}
+      {const it=choreItem(c);if(!it)activateChore(c);else{finishItem(it);S.popChore=id}setTimeout(()=>{S.popChore=0},600)}break}
     case 'skinv':S.flags.skinV={d:TODAY,v};S._sheetKeep=true;break;
     case 'hstate':{S._cardOpen='cheveux';const st=hState(),v2=st.includes(v)?st.filter(x=>x!==v):st.concat(v);S.flags.hairState={d:TODAY,s:v2};S._sheetKeep=true;break}
     case 'bodyp':S._cardOpen='corps';S.flags.bodyP=+v;bodyApply(+v);S._sheetKeep=true;break;
@@ -2825,7 +2829,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='99';
+const APP_VER='100';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
