@@ -1206,7 +1206,8 @@ function persist(){const state={};PKEYS.forEach(k=>{state[k]=S[k];const j=JSON.s
 const nowMs=()=>Date.now();
 const visible=it=>!it.timer&&!(it.done&&it.doneAt&&nowMs()-it.doneAt>864e5);
 function migrate(){if(!S.flags)S.flags={};let ch=false;
-  if(!S.flags.dr2&&S.cycle&&S.cycle.days){const M={'Rêve doux':'Doux','Rêve actif':'Agité','Rêve romantique':'Romantique','Rêve lucide':'Lucide','Rêve étrange':'Étrange','Rêve drôle':'Drôle','Rêve récurrent':'Récurrent','Rêve nostalgique':'Nostalgique','Rêve agité':'Agité'};const nd={};Object.entries(S.cycle.days).forEach(([k,e])=>{if(e&&e.sl&&e.sl.dr){const dr=[...new Set(e.sl.dr.map(x=>M[x]||x).filter(x=>DRC[x]))];nd[k]={...e,sl:{...e.sl,dr}};if(!dr.length)delete nd[k].sl.dr}else nd[k]=e});S.cycle={...S.cycle,days:nd};S.flags.dr2=1;ch=true}
+  if(S.flags.dr2&&!S.flags.dr3&&S.cycle&&S.cycle.days){const nd={};Object.entries(S.cycle.days).forEach(([k,e])=>{nd[k]=e&&e.sl&&e.sl.dr?{...e,sl:{...e.sl,dr:e.sl.dr.map(x=>x==='Visite d’un proche disparu'?'Défunt vivant':x)}}:e});S.cycle={...S.cycle,days:nd};S.flags.dr3=1;ch=true}
+  if(!S.flags.dr2&&S.cycle&&S.cycle.days){S.flags.dr3=1;const M={'Rêve doux':'Doux','Rêve actif':'Agité','Rêve romantique':'Romantique','Rêve lucide':'Lucide','Rêve étrange':'Étrange','Rêve drôle':'Drôle','Rêve récurrent':'Récurrent','Rêve nostalgique':'Nostalgique','Rêve agité':'Agité'};const nd={};Object.entries(S.cycle.days).forEach(([k,e])=>{if(e&&e.sl&&e.sl.dr){const dr=[...new Set(e.sl.dr.map(x=>M[x]||x).filter(x=>DRC[x]))];nd[k]={...e,sl:{...e.sl,dr}};if(!dr.length)delete nd[k].sl.dr}else nd[k]=e});S.cycle={...S.cycle,days:nd};S.flags.dr2=1;ch=true}
   if(!S.flags.plantes1){S.chores.forEach(c=>{if(c.zone==='plantes'&&/donner de l.eau/i.test(c.title)){c.title='Arroser les plantes';S.items.forEach(it=>{if(it.chore===c.id)it.title='Arroser les plantes'})}});S.flags.plantes1=1;ch=true}
   if(!S.flags.courses1){S.items.forEach(it=>{if(it.link==='courses')it.theme='courses'});S.flags.courses1=1;ch=true}
   if(S.flags.menage2&&!S.flags.menage3){S.chores.forEach(c=>{if(!c.paused&&!choreItem(c))activateChore(c,c.next&&c.next>TODAY?c.next:TODAY)});S.flags.menage3=1;ch=true}
@@ -1260,7 +1261,7 @@ const worst=L0=>{const list=L0.filter(c=>!off(c));return list.some(c=>st(c).m===
 
 const adBg=(list,pct)=>{const cs=[...new Set(list.filter(it=>it.allDay).map(it=>TH[it.theme].d))].slice(0,3).map(d=>`color-mix(in srgb,${d} ${pct}%,var(--card))`);if(!cs.length)return '';if(cs.length===1)return `background:${cs[0]};`;const w=100/cs.length;return `background:linear-gradient(90deg,${cs.map((c,i)=>`${c} ${i*w}% ${(i+1)*w}%`).join(',')});`};
 const SLQ=[['tb','Bien'],['m','Moyen'],['mal','Mal']];
-const DRC={'Doux':'#F7C1CF','Romantique':'#E8708F','Drôle':'#F2D26E','Triste':'#7FA2D6','Nostalgique':'#C9A57F','Étrange':'#B5A2E6','Agité':'#F2A266','Cauchemar':'#8A6C9E','Cri':'#D9544C','Visite d’un proche disparu':'#D9A6DC','Lucide':'#6EC0B0','Récurrent':'#9CC883','Pas de souvenir':'#D2CBC5'};
+const DRC={'Doux':'#F7C1CF','Romantique':'#E8708F','Drôle':'#F2D26E','Triste':'#7FA2D6','Nostalgique':'#C9A57F','Étrange':'#B5A2E6','Agité':'#F2A266','Cauchemar':'#8A6C9E','Cri':'#D9544C','Défunt vivant':'#D9A6DC','Lucide':'#6EC0B0','Récurrent':'#9CC883','Pas de souvenir':'#D2CBC5'};
 const DREAMS=Object.keys(DRC);
 const sleepSvg=(q,sz)=>{const c={tb:'#B4D29A',b:'#D6E6A8',m:'#F5DE9A',mal:'#F4B3B3'}[q];const I='#4B3D3A';
  const eyes=q==='tb'?`<path d="M6.8 12.4q1.2-1.2 2.4 0M11.2 12.4q1.2-1.2 2.4 0" stroke="${I}" stroke-width="1" fill="none" stroke-linecap="round"/>`
@@ -2867,7 +2868,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='120';
+const APP_VER='121';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
