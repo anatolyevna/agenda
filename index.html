@@ -1270,13 +1270,17 @@ const sleepSvg=(q,sz)=>{const c={tb:'#B4D29A',b:'#D6E6A8',m:'#F5DE9A',mal:'#F4B3
  return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.6 3.75a9 9 0 1 0 4.8 11.65A7 7 0 0 1 15.6 3.75z" fill="${c}" stroke="#6B5A55" stroke-width="1.3" stroke-linejoin="round"/><g transform="translate(-1.4 0)">${eyes}${mouth}${q!=='mal'?'<ellipse cx="6" cy="14.6" rx=".9" ry=".5" fill="#EDA5B0"/><ellipse cx="13.2" cy="14.6" rx=".9" ry=".5" fill="#EDA5B0"/>':''}</g>${deco}</svg>`};
 const FOLDSVG=`<svg width="34" height="30" viewBox="0 0 34 30" aria-hidden="true"><path d="M3 7.5c0-1.4 1.1-2.5 2.5-2.5h7.2l2.6 3h13.2c1.4 0 2.5 1.1 2.5 2.5v14c0 1.4-1.1 2.5-2.5 2.5h-23C4.1 27 3 25.9 3 24.5z" fill="#E9E1F6" stroke="#6B5A55" stroke-width="1.3" stroke-linejoin="round"/><path d="M3 12h28" stroke="#6B5A55" stroke-width="1.1"/><circle cx="13.6" cy="18.6" r="1" fill="#4B3D3A"/><circle cx="20.4" cy="18.6" r="1" fill="#4B3D3A"/><path d="M15.8 20.6q1.2 1 2.4 0" stroke="#4B3D3A" stroke-width=".9" fill="none" stroke-linecap="round"/><ellipse cx="11.4" cy="20.4" rx="1.3" ry=".7" fill="#EDA5B0"/><ellipse cx="22.6" cy="20.4" rx="1.3" ry=".7" fill="#EDA5B0"/></svg>`;
 const SLQC={tb:'#B4D29A',b:'#D6E6A8',m:'#F5DE9A',mal:'#F4B3B3'};
+function dreamRing(dc){const L=DREAMS.filter(x=>dc[x]).map(x=>[x,dc[x]]).sort((a,b)=>b[1]-a[1]),tot=L.reduce((a,b)=>a+b[1],0);if(!tot)return '';
+  const R=46,C=2*Math.PI*R;let off=0;const arcs=L.map(([x,n])=>{const len=C*n/tot,g=L.length>1?2.2:0,seg=`<circle cx="60" cy="60" r="${R}" fill="none" stroke="${DRC[x]}" stroke-width="16" stroke-dasharray="${Math.max(.1,len-g).toFixed(2)} ${C.toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 60 60)"/>`;off+=len;return seg}).join('');
+  return `<div style="display:flex;align-items:center;gap:14px;margin-top:14px"><div style="position:relative;width:120px;height:120px;flex:none"><svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">${arcs}</svg><div style="position:absolute;inset:0;display:grid;place-items:center"><i style="width:34px;height:34px;border-radius:17px;background:${DRC[L[0][0]]}"></i></div></div>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">${L.map(([x,n])=>`<div style="display:flex;align-items:center;gap:7px;font-size:13px"><i style="width:9px;height:9px;border-radius:5px;background:${DRC[x]};flex:none"></i><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x}</span><b style="font-weight:700">${Math.round(n*100/tot)} %</b></div>`).join('')}</div></div>`}
 function sleepMonth(){const D=S.cycle.days||{},k=S.cyDay,sl=(D[k]&&D[k].sl)||{},ks=Object.keys(D).filter(x=>x.slice(0,7)===S.cyMon&&D[x].sl);
  const hs=ks.map(x=>D[x].sl.h).filter(h=>typeof h==='number'),avg=hs.length?hs.reduce((a,b)=>a+b,0)/hs.length:null;
  const qc={};ks.forEach(x=>{const q=D[x].sl.q;if(q)qc[q]=(qc[q]||0)+1});const nq=Object.values(qc).reduce((a,b)=>a+b,0);
  const dc={};ks.forEach(x=>(D[x].sl.dr||[]).forEach(d=>dc[d]=(dc[d]||0)+1));const topD=Object.keys(dc).sort((a,b)=>dc[b]-dc[a]).slice(0,3);
  const notes=ks.filter(x=>D[x].sl.note).sort().reverse();
  const bar=nq?`<div style="display:flex;height:10px;border-radius:5px;overflow:hidden;margin:8px 0 6px">${SLQ.filter(([q])=>qc[q]).map(([q])=>`<i style="flex:${qc[q]};background:${SLQC[q]}"></i>`).join('')}</div><div style="display:flex;flex-wrap:wrap;gap:4px 12px">${SLQ.map(([q,l])=>`<span class="meta" style="display:flex;align-items:center;gap:2px;font-size:12.5px;font-weight:700">${sleepSvg(q,20)}${qc[q]||0}</span>`).join('')}</div>`:'';
- const month=ks.length?`<div style="display:flex;align-items:baseline;gap:8px"><span class="hf" style="font-size:24px">${avg!==null?hm(Math.round(avg*4)/4):'—'}</span><span class="meta">par nuit</span></div>${bar}${topD.length?`<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 14px">${topD.map(x=>`<span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700" aria-label="${x}"><i style="width:16px;height:16px;border-radius:8px;background:${DRC[x]};flex:none"></i>${dc[x]}</span>`).join('')}</div>`:''}`:'';
+ const month=ks.length?`<div style="display:flex;align-items:baseline;gap:8px"><span class="hf" style="font-size:24px">${avg!==null?hm(Math.round(avg*4)/4):'—'}</span><span class="meta">par nuit</span></div>${bar}${dreamRing(dc)}`:'';
  return month}
 function sleepStats(){const D=S.cycle.days||{},ks=Object.keys(D).filter(x=>x.slice(0,7)===S.cyMon&&D[x].sl);if(!ks.length)return '';return `<div class="cycard"><div class="lbl" style="margin-bottom:8px">Sommeil · ${MON[pd(S.cyMon+'-01').getMonth()]}</div>${sleepMonth()}</div>`}
 function sleepCard(){const D=S.cycle.days||{},k=S.cyDay,sl=(D[k]&&D[k].sl)||{},ks=Object.keys(D).filter(x=>x.slice(0,7)===S.cyMon&&D[x].sl);
@@ -2860,7 +2864,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='115';
+const APP_VER='116';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
