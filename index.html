@@ -140,6 +140,9 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .wbzdone{width:100%;display:flex;align-items:center;gap:8px;margin:14px 0 4px;padding:10px 14px;border-radius:16px;background:#EEF6E8;border:1px solid #D4E8C6;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:15px;color:var(--ink)}.wbzdone b{color:#6FA35A}.wbzd2{margin-left:auto;font-family:Nunito,sans-serif;font-size:12px;color:var(--muted);font-weight:600}
 .wbhint{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:8px;padding:8px 12px;border-radius:14px;background:#FDF1E2;font-size:12.5px;color:#8A5A2E}.wbhint span{flex:1 1 100%}.wbhint button{height:28px;padding:0 12px;border-radius:999px;background:var(--card);border:1px solid #F0DCC6;font-weight:700;font-size:12px;color:#8A5A2E}
 .wbphs{display:flex;flex-direction:column;gap:6px}.wbph{text-align:left;padding:8px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:13px;color:var(--muted)}.wbph.on{background:#FBE3E6;border-color:#E9A9B4;color:var(--ink)}.wbphd{margin:6px 2px 0;padding:8px 10px;border-radius:12px;background:#FDF7F2}
+.wbtag{display:inline-flex;align-items:center;gap:6px;margin:14px 0 6px;padding:4px 12px 4px 8px;border-radius:999px;background:color-mix(in srgb,var(--d) 22%,var(--card));font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:14px;color:var(--ink);user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.wbtag span{color:color-mix(in srgb,var(--d) 70%,var(--ink))}.wbtag i{font-style:normal;color:#D9536F;font-family:Nunito,sans-serif;font-size:12px}.wbtag.lpok{background:#DDEFD2}
+.wbsh{display:flex;align-items:center;gap:10px;margin:22px 0 10px;padding:10px 14px;border-radius:16px;background:color-mix(in srgb,var(--d) 30%,var(--card));font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:20px;color:var(--ink)}.wbsh:first-child{margin-top:4px}
+.wbstp{cursor:pointer;border:1.5px solid #E2C9A8}.wbstp.on{background:#8FBF7A!important;color:#fff!important;border-color:#8FBF7A}
 .wbsum{font-size:13px;color:var(--muted);margin:10px 2px 0}.wbsum b{color:#D9536F}.wbz{margin-top:6px}
 .wbl8{margin:2px 0 6px}.wbl8 summary{list-style:none;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--muted);padding:6px 4px}.wbl8 summary::-webkit-details-marker{display:none}.wbl8 summary::after{content:' ›'}.wbl8[open] summary::after{content:' ⌄'}
 .wblts{display:flex;flex-direction:column;gap:6px}.wblt{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:14px;background:var(--card);border:1px dashed var(--line);text-align:left}.wblt span:nth-child(2){flex:1;display:flex;flex-direction:column;font-size:13px}.wblt i{font-style:normal;font-size:11px;color:var(--muted)}.wblt em{font-style:normal;font-weight:800;color:#C98A3E;font-size:18px}
@@ -611,8 +614,8 @@ function skSteps(sub){const p=skinPh(),d=wd(TODAY),v=skVer();let L=SKV[sub][v].s
  if(sub==='matin'&&v!=='i'&&p<2)L=L.filter(k=>k!=='nia');
  if(sub==='soir'&&v==='c'){const az=p===3?(d===0||d===3):p===2?(d===0||d===3):false,bo=p===3&&(d===1||d===6);if(!az)L=L.filter(k=>k!=='aza');if(!bo)L=L.filter(k=>k!=='booster')}
  return L}
-function skRow(k,i){const s=SKD[k],prod=skProd(k);
- return `<details class="sks" ${S._skOpen===k?'open':''}><summary><b class="hn">${i+1}</b><span class="skm"><span class="ht">${s.e}${s.f==='Facultatif'?' <span class="hw">· facultatif</span>':''}</span><span class="hp">${prod}</span><span class="skz">${s.z} · ${s.r}</span></span></summary><div class="skd">
+function skRow(k,i,sub){const s=SKD[k],prod=skProd(k),dn=sub&&wbStepDone(sub,k);
+ return `<details class="sks" ${S._skOpen===k?'open':''}><summary>${sub?`<b class="hn wbstp ${dn?'on':''}" data-a="wbstep" data-v="${sub}|${k}">${dn?'✓':i+1}</b>`:`<b class="hn">${i+1}</b>`}<span class="skm"><span class="ht">${s.e}${s.f==='Facultatif'?' <span class="hw">· facultatif</span>':''}</span><span class="hp">${prod}</span><span class="skz">${s.z} · ${s.r}</span></span></summary><div class="skd">
  ${s.alt?`<div class="hp"><span class="sk">Produit</span><select class="din skalt" data-in="skalt" data-k="${k}">${s.alt.map(([n,f])=>`<option value="${esc(n)}" ${n===prod?'selected':''}>${esc(n)} — ${esc(f)}</option>`).join('')}</select></div>`:''}
  <div class="hp"><span class="sk">Fonction</span> ${s.fn}</div><div class="hp"><span class="sk">Quantité</span> ${s.q}</div><div class="hp"><span class="sk">Application</span> ${s.t}</div>${s.w?`<div class="hp"><span class="sk">Attente</span> ${s.w}</div>`:''}<div class="hp"><span class="sk">Rinçage</span> ${s.r}</div><div class="hp"><span class="sk">Zones</span> ${s.z}</div><div class="hp"><span class="sk">À éviter</span> ${s.av}</div><div class="hp"><span class="sk">Méthode</span> ${s.m}</div>${s.f&&s.f!=='Facultatif'?`<div class="hp"><span class="sk">Fréquence</span> ${s.f==='PH_NIA'?(skinPh()===2?'D’abord un matin sur deux, puis chaque matin si bien toléré':'Chaque matin'):s.f==='PH_AZA'?(skinPh()===2?'Deux soirs par semaine : lundi et jeudi':'Lundi et jeudi'):s.f}</div>`:''}${s.x?`<div class="hwarn">${s.x}</div>`:''}</div></details>`}
 const GUA_SVG=`<svg viewBox="0 0 200 230" width="100%" style="max-width:260px;display:block;margin:6px auto" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><marker id="gar" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E08A5E"/></marker></defs><path d="M100 18c-38 0-62 28-62 68 0 34 12 62 30 80 9 9 20 14 32 14s23-5 32-14c18-18 30-46 30-80 0-40-24-68-62-68z" stroke="#C9B3A6" stroke-width="2.2" fill="#FFF6EF"/><path d="M78 172v40M122 172v40" stroke="#C9B3A6" stroke-width="2.2"/><path d="M70 92q10-6 20 0M110 92q10-6 20 0" stroke="#B49C90" stroke-width="2"/><path d="M100 104v20q-5 4 0 6" stroke="#C9B3A6" stroke-width="1.8"/><path d="M88 146q12 7 24 0" stroke="#C9B3A6" stroke-width="2"/>
@@ -632,7 +635,7 @@ function skinDetail(sub){const p=skinPh(),[sn,sk]=skSeason();
   ${sub==='soir'&&v==='c'?`<div class="hp" style="padding:2px 0 6px"><span class="sk">Ce soir</span> <b>${skinTonight()}</b></div>`:''}
   ${v==='i'?`<div class="hwarn" style="margin:0 0 6px">Jusqu’à cicatrisation : pas d’actifs irritants, pas d’exfoliant, pas de Medicube ni de gua sha.</div>`:''}
   ${v==='e'?`<div class="hp" style="padding:0 0 6px">Les soins indispensables seulement.</div>`:''}
-  ${L.map(skRow).join('')}
+  ${L.map((k,i)=>skRow(k,i,sub)).join('')}
   <details class="sks"><summary><b class="hn">+</b><span class="skm"><span class="ht">Soins localisés</span><span class="hp">Selon les besoins du jour</span></span></summary><div class="skd">${skLoc().map(([b,pr,q,z])=>`<div class="hp" style="padding:5px 0"><b>${b}</b> · ${pr}<br><span class="sk">Quantité</span> ${q} <span class="sk" style="margin-left:6px">Zone</span> ${z}</div>`).join('')}</div></details>
   <div class="hp" style="padding:8px 0"><span class="sk">${sn}</span> ${SK_SEASON[sk]}</div></div>`}
  if(sub==='gs')return `<div class="hair skin">${GUA_SVG}
@@ -713,7 +716,7 @@ const HAIR_STYLE_SVG=(k)=>{const H='#B9967E',F='#FFF6EF',O='stroke="#9A7A66" str
  pince:`${head}<path d="M18 46c4-10 20-10 24 0" fill="${H}" ${O}/><rect x="19" y="40" width="22" height="7" rx="3.5" fill="#BFDCEF" ${O}/><path d="M23 40v7M28 40v7M33 40v7M38 40v7" stroke="#9A7A66" stroke-width="1.2"/>`,
  chignon:`${head}<circle cx="30" cy="52" r="8" fill="${H}" ${O}/><path d="M24 50q6 5 12 0" fill="none" stroke="#9A7A66" stroke-width="1.4"/><rect x="22" y="44" width="16" height="3.6" rx="1.8" fill="#F3B3C3"/>`};
  return `<svg viewBox="0 0 60 92" width="54" height="82" style="flex:none">${S[k]}</svg>`};
-const HSTATE=[['gras','Racines grasses','Routine express'],['sec','Longueurs sèches','Lavage complet avec soin hydratant'],['casse','Cheveux cassants','Réparation intensive'],['elast','Très élastiques','Réparation et manipulation minimale'],['lourd','Cheveux lourds','Moins d’huile et de soins riches'],['terne','Cheveux ternes','Soin léger ; gloss seulement quand ils sont moins fragilisés'],['deform','Boucles déformées','Refresh des boucles'],['friso','Frisottis','Protection légère et définition des boucles'],['irrit','Cuir chevelu irrité','Routine cuir chevelu irrité'],['pell','Pellicules et croûtes','Routine cuir chevelu irrité et avis médical'],['transp','Transpiration importante','Routine sport, après'],['temps','Manque de temps','Routine express'],['depl','Déplacement','Routine voyage']];
+const HSTATE=[['gras','Racines grasses','Routine express'],['sec','Longueurs sèches','Lavage complet avec soin hydratant'],['casse','Cheveux cassants','Réparation intensive'],['elast','Très élastiques','Réparation et manipulation minimale'],['lourd','Cheveux lourds','Moins d’huile et de soins riches'],['terne','Cheveux ternes','Soin léger ; gloss seulement quand ils sont moins fragilisés'],['deform','Boucles déformées','Refresh des boucles'],['friso','Frisottis','Protection légère et définition des boucles'],['irrit','Cuir chevelu irrité','Routine cuir chevelu irrité'],['pell','Pellicules et croûtes','Routine cuir chevelu irrité et avis médical'],['transp','Transpiration importante','Routine sport, après'],['temps','Manque de temps','Routine express']];
 const hState=()=>{const v=S.flags.hairState;return v&&v.d===TODAY?v.s:[]};
 function hairStateBlock(){const st=hState(),sel=HSTATE.filter(x=>st.includes(x[0])),pri=st.includes('irrit')||st.includes('pell');
  return `<div class="hg">État de mes cheveux aujourd’hui</div><div class="pick" style="margin:4px 0 6px;flex-wrap:wrap">${HSTATE.map(([k,n])=>`<button class="txt ${st.includes(k)?'on':''}" style="--d:#EEB87D" data-a="hstate" data-v="${k}">${n}</button>`).join('')}</div>
@@ -1717,6 +1720,8 @@ function wbRow(c){const col=(CARE.find(x=>x[0]===c.sec)||[])[2]||'#EDA5B0',dn=wb
   return `<div class="wbi ${dn?'dn':''}" style="--d:${col}"><div class="wbh"><button class="wbck" data-a="wbchk" data-id="${c.id}" aria-label="${dn?'Annuler':'Fait'}">${dn?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':''}</button>${(S._wbSeq||{})[c.id]?`<b class="wbno">${S._wbSeq[c.id]}</b>`:''}<span class="wbic">${charSvg(c.sub,'ok',34)}</span><button class="wbt" data-a="wbopen" data-id="${c.id}"><span class="wbn">${esc(c.title)}</span>${wbZone(c)==='autre'?`<span class="wbs">${sn}</span>`:''}</button>${c.todo&&!dn?`<button class="wbrm" data-a="wbuntodo" data-id="${c.id}" aria-label="Retirer">Retirer</button>`:''}${det?`<button class="wbch" data-a="wbopen" data-id="${c.id}" aria-label="Détails"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6"/></svg></button>`:''}</div>${det&&open?`<div class="wbd hair">${det}</div>`:''}</div>`}
 function wbSet(){const sv={c:'Complète',e:'Express',i:'Peau irritée'}[skVer()];
   return `<button class="wbset" data-a="wbset"><span>Visage · phase ${skinPh()} · ${sv}</span><span>Cheveux · phase ${hairPh()}</span><span>Corps · phase ${bodyPh()}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>`}
+const wbSteps=()=>S.flags.wbSteps&&S.flags.wbSteps.d===TODAY?S.flags.wbSteps.k:{};
+const wbStepDone=(sub,k)=>(wbSteps()[sub]||[]).includes(k);
 const HAIR_RULES=`<div class="hg">Règles à respecter</div><div class="hp"><b>À suspendre si le cuir chevelu est irrité ou lésé</b> : Glycolic Acid 7 %, sérum de densité, massage araignée, shampoing sec ; coloration à reporter.</div><div class="hp"><b>Règles des fabricants</b> : K18 sans après-shampoing avant, 4 minutes avant tout autre soin ; Olaplex Nº3 et Redken 14 % avant le shampoing.</div><div class="hp"><b>Redondances</b> : un seul soin réparateur principal par lavage (K18, Olaplex ou Redken) ; masque ou après-shampoing, pas les deux ; pas d’accumulation de gloss, laminage et soins intensifs.</div>`;
 const WB_MIN={visage:{matin:5,soir:10,masqueV:15,gs:5,mousse:15,pince:10},cheveux:{repar:30,express:15,complet:40,boucles:15,refresh:5,massage:5,gloss:30,pointes:20,irrite:20,sport:15},complements:1};
 function wbMin(c){if(c.sec==='complements')return 1;if(c.sec==='visage'&&(c.sub==='soir'||c.sub==='matin')){const v=skVer();return c.sub==='soir'?(v==='e'?5:10):(v==='e'?3:5)}
@@ -1740,34 +1745,48 @@ function wbPhaseHint(){const f=S.flags,L=[['skin','Visage',skinPh(),SKIN_PH],['h
     return `<div class="wbhint"><span>${n} : ${Math.round(days/7)} semaine${days>=14?'s':''} en phase ${p} (${P[p][0]}). Passer en phase ${p+1} ?</span><button data-a="wbset">Voir</button><button data-a="wbsnooze" data-v="${k}">Plus tard</button></div>`}
   return ''}
 function wbTonight(){try{const due=S.care.filter(c=>(WB_SECS.includes(c.sec))&&wbDue(c)&&!wbDone(c)&&wbMom(c)==='soir');const n=due.length+wbAdvice('soir',due).filter(o=>!o.done).length,mask=due.some(c=>c.sub==='masqueV'),v={d:TODAY,n,mask};if(JSON.stringify(S.flags.wbTonight)!==JSON.stringify(v))S.flags.wbTonight=v}catch(e){}}
-function moiHTML(){
+const WBZN={visage:'Visage',cheveux:'Cheveux',corps:'Corps',complements:'Compléments',sportm:'Sport',autre:'Autre'};
+const WBZC={visage:'#EDA5B0',cheveux:'#EEB87D',corps:'#E8C08A',complements:'#E6CF84',sportm:'#EBAE6B',autre:'#C9B6D9'};
+function wbStateRec(){const h=S.flags.stHist||{},v={skin:skVer(),body:bState(),hair:hState()},o=h[TODAY];if(JSON.stringify(o)===JSON.stringify(v))return;const n={...h,[TODAY]:v};Object.keys(n).sort().slice(0,-120).forEach(k=>delete n[k]);S.flags.stHist=n}
+function wbCyProp(){const c=S._cy||cyStats();if(!c||!c.day||!c.per||c.per.length<2)return null;const H=S.flags.stHist||{},days=[];
+  c.per.slice(0,-1).forEach(p=>{for(const o of [-1,0,1]){const k=add(p.start,c.day-1+o);if(H[k])days.push(H[k])}});if(days.length<2)return null;
+  const cnt=a=>{const m={};days.forEach(d=>(a(d)||[]).forEach(x=>m[x]=(m[x]||0)+1));return Object.keys(m).filter(x=>m[x]>=Math.ceil(days.length/2))};
+  const skin=cnt(d=>d.skin&&d.skin!=='c'?[d.skin]:[])[0]||null,body=cnt(d=>(d.body||[]).filter(x=>x!=='normale')).filter(x=>!bState().includes(x)),hair=cnt(d=>d.hair).filter(x=>!hState().includes(x));
+  if(skin===skVer())return body.length||hair.length?{skin:null,body,hair}:null;return skin||body.length||hair.length?{skin,body,hair}:null}
+function wbBanners(eta){let h=wbPhaseHint();
+  const pr=S.flags.wbCyAsk!==TODAY&&wbCyProp();if(pr){const L=[pr.skin?{e:'visage en version Express',i:'peau irritée (visage)'}[pr.skin]:'',...pr.body.map(k=>'peau '+(BODY_STATE.find(x=>x[0]===k)||['',k])[1].toLowerCase()),...pr.hair.map(k=>(HSTATE.find(x=>x[0]===k)||['',k])[1].toLowerCase())].filter(Boolean);
+    h+=`<div class="wbhint"><span>Les mois précédents, à ce moment du cycle, tu avais noté : <b>${L.join(', ')}</b>. L’appliquer aujourd’hui ?</span><button data-a="wbcyyes">Oui</button><button data-a="wbcyno">Non</button></div>`}
+  const w=S.flags.wbShort&&S.flags.wbShort.d===TODAY?S.flags.wbShort:null;
+  if(w&&w.ids)h+=`<div class="wbhint"><span>Version courte appliquée : visage en Express, ${w.ids.length} soin${w.ids.length>1?'s':''} déplacé${w.ids.length>1?'s':''} à demain.</span><button data-a="wbshortundo">Annuler</button></div>`;
+  else if(!w&&eta>45)h+=`<div class="wbhint"><span>Soirée chargée (environ ${eta} min). Version courte ?</span><button data-a="wbshort">Oui</button><button data-a="wbshortno">Non merci</button></div>`;
+  return h}
+function moiHTML(){wbStateRec();
   const m=wbMoment(),moms=m==='matin'?['matin','midi']:['soir'];
   const care=S.care.filter(c=>WB_SECS.includes(c.sec)||c.sec==='sportm');
   const due=care.filter(c=>wbDue(c)&&(c.sec==='sportm'||moms.includes(wbMom(c))));
   const adv=wbAdvice(m,due);
   const sun=`<svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#F5DE9A" stroke="#6B5A55" stroke-width="1.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="#E9B949" stroke-width="1.6" stroke-linecap="round"/></svg>`;
   const tabs=[['matin','Matin',sun],['soir','Soir',moonSvg(.25,30)]].map(([k,l,ic])=>`<button class="${m===k?'on':''}" data-a="wbm" data-v="${k}">${ic}${l}</button>`).join('');
-  const left=due.filter(c=>c.sec!=='sportm'&&!wbDone(c)).length+adv.filter(o=>!o.done).length;
   const ORD=['sportm','cheveux','corps','visage','complements','autre'],seq={};let k=0;
-  ORD.forEach(z=>{if(z==='sportm')return;due.filter(c=>wbZone(c)===z&&!wbDone(c)).forEach(c=>{seq[c.id]=++k});adv.filter(o=>o.z===z&&!o.done).forEach(o=>{seq[o.key]=++k})});
+  ORD.forEach(z=>{due.filter(c=>wbZone(c)===z&&!wbDone(c)&&c.sec!=='sportm').forEach(c=>{seq[c.id]=++k});adv.filter(o=>o.z===z&&!o.done).forEach(o=>{seq[o.key]=++k})});
   S._wbSeq=seq;
-  const mins=due.filter(c=>c.sec!=='sportm'&&!wbDone(c)).reduce((a,c)=>a+wbMin(c),0)+adv.filter(o=>!o.done).length*5,eta=mins?Math.max(5,Math.round(mins/5)*5):0;
-  const zones=WBZ.map(([z,zn])=>{
-    const rows=due.filter(c=>wbZone(c)===z).sort((a,b)=>(a.sec==='complements'?(wbMom(a)==='midi')-(wbMom(b)==='midi'):0)||wbDone(a)-wbDone(b));
-    const ad=adv.filter(o=>o.z===z);
-    const later=care.filter(c=>wbZone(c)===z&&!rows.includes(c)&&wbEl(c)&&c.sec!=='sportm'&&c.sec!=='complements'&&(wbOnDemand(c)||moms.includes(wbMom(c)))).sort((a,b)=>wbOnDemand(a)-wbOnDemand(b)||(nextOf(a)<nextOf(b)?-1:1));
-    if(!rows.length&&!ad.length&&!later.length&&z!=='complements')return '';
+  const work=due.filter(c=>c.sec!=='sportm'&&!wbDone(c)),wadv=adv.filter(o=>!o.done&&o.z!=='sportm');
+  const left=work.length+wadv.length+adv.filter(o=>!o.done&&o.z==='sportm').length;
+  const mins=work.reduce((a,c)=>a+wbMin(c),0)+wadv.length*5,eta=mins?Math.max(5,Math.round(mins/5)*5):0;
+  const groups=ORD.map(z=>{
+    const rows=due.filter(c=>wbZone(c)===z).sort((a,b)=>(seq[a.id]||999)-(seq[b.id]||999));const ad=adv.filter(o=>o.z===z);
+    if(!rows.length&&!ad.length)return '';
     const n=rows.filter(c=>!wbDone(c)&&c.sec!=='sportm').length+ad.filter(o=>!o.done).length,tot=rows.filter(c=>c.sec!=='sportm').length+ad.length;
-    if(tot&&!n&&z!=='sportm'&&!(S._wbZopen||{})[z])return `<button class="wbzdone" data-a="wbzopen" data-v="${z}"><span>${zn}</span><b>✓</b><span class="wbzd2">${tot} fait${tot>1?'s':''}</span></button>`;
-    const chip=c=>{const sh=wbShift(c),od=wbOnDemand(c),dt=od?'':sh?'décalé : '+sh:short(nextOf(c)<=TODAY?add(TODAY,1):nextOf(c));return `<button class="wblt" data-a="wbtodo" data-id="${c.id}"><span style="line-height:0">${charSvg(c.sub,'ok',24)}</span><span><b>${esc(c.title)}</b>${dt?`<i>${dt}</i>`:''}</span><em>+</em></button>`};
-    return `<div class="wbz"><div class="wbg">${zn}${n?` <span class="wbcnt">· ${n}</span>`:''}</div>
-      ${rows.map(wbRow).join('')}${ad.map(wbAdvRow).join('')}
-      ${''}${later.length?`<details class="wbl8" ${(S._wbLater||{})[z]?'open':''}><summary data-a="wblater" data-v="${z}">${z==='autre'?'À ajouter quand tu veux':'Plus tard'} · ${later.length}</summary><div class="wblts">${later.map(chip).join('')}</div></details>`:''}${z==='complements'?suppCard():''}</div>`}).join('');
+    if(tot&&!n&&z!=='sportm'&&!(S._wbZopen||{})[z])return `<button class="wbzdone" data-a="wbzopen" data-v="${z}"><span>${WBZN[z]}</span><b>✓</b><span class="wbzd2">${tot} fait${tot>1?'s':''}</span></button>`;
+    return `<div class="wbz"><div class="wbtag" style="--d:${WBZC[z]}" ${z!=='sportm'?`data-lp="wbzall" data-lpv="${z}"`:''}><span>→</span>${WBZN[z]}${z==='sportm'?' <i>si tu en fais</i>':n?` <i>· ${n}</i>`:''}</div>${rows.map(wbRow).join('')}${ad.map(wbAdvRow).join('')}${z==='complements'?suppCard():''}</div>`}).join('');
+  const later=ORD.filter(z=>z!=='sportm'&&z!=='complements').map(z=>{const L=care.filter(c=>wbZone(c)===z&&!due.includes(c)&&wbEl(c)&&(wbOnDemand(c)||moms.includes(wbMom(c)))).sort((a,b)=>wbOnDemand(a)-wbOnDemand(b)||(nextOf(a)<nextOf(b)?-1:1));
+    if(!L.length)return '';const chip=c=>{const sh=wbShift(c),od=wbOnDemand(c),dt=od?'':sh?'décalé : '+sh:short(nextOf(c)<=TODAY?add(TODAY,1):nextOf(c));return `<button class="wblt" data-a="wbtodo" data-id="${c.id}"><span style="line-height:0">${charSvg(c.sub,'ok',24)}</span><span><b>${esc(c.title)}</b>${dt?`<i>${dt}</i>`:''}</span><em>+</em></button>`};
+    return `<details class="wbl8" ${(S._wbLater||{})[z]?'open':''}><summary data-a="wblater" data-v="${z}">${z==='autre'?'À ajouter quand tu veux':'Plus tard · '+WBZN[z]} · ${L.length}</summary><div class="wblts">${L.map(chip).join('')}</div></details>`}).join('');
   return `<div class="scroll" style="padding:4px 18px 150px">
     <div class="wbtop"><div class="wbtabs">${tabs}</div></div>
-    ${wbSet()}
-    ${wbPhaseHint()}<div class="wbsum">${m==='soir'?'Ce soir':'Aujourd’hui'}${left?` · <b>${left} à faire</b> · environ ${eta} min`:' · tout est fait ✨'}</div>
-    ${zones}</div>`}
+    ${wbSet()}${wbBanners(eta)}
+    <div class="wbsum">${m==='soir'?'Ce soir':'Aujourd’hui'}${left?` · <b>${left} à faire</b>${eta?` · environ ${eta} min`:''}`:' · tout est fait ✨'}</div>
+    ${groups}${later?`<div class="wbg" style="font-size:14px">Plus tard</div>${later}`:''}</div>`}
 function soinsHTML(){
   const secs=CARE.map(([id,name],i)=>{const its=S.care.filter(c=>c.sec===id),m=worst(its);
     const nb=id!=='recette'?its.filter(c=>!off(c)&&st(c).m!=='ok').length:0;
@@ -1844,10 +1863,9 @@ function sheetHTML(){
   if(S.sheet==='wbset'){const sv=skVer(),hs=hState(),bs=bState(),ph=(n,cur,a)=>{const nm=i=>a==='skinp'?SKIN_PH[i][0]:a==='hairp'?HAIR_PH[i][0]:BODY_PH[i][0],det=i=>a==='skinp'?`<div class="hp">${SKIN_PH[i][1]}</div>${SKIN_PH[i][2].map(x=>`<div class="hp">· ${x}</div>`).join('')}`:a==='hairp'?HAIR_PH[i][1].map(x=>`<div class="hp">· ${x}</div>`).join(''):`<div class="hp">${BODY_PH[i][1]}</div>`;
       return `<div class="wbphs">${Array.from({length:n},(_,i)=>`<button class="wbph ${cur===i+1?'on':''}" data-a="${a}" data-v="${i+1}"><b>Phase ${i+1}</b> · ${nm(i+1)}</button>`).join('')}</div><div class="wbphd">${det(cur)}</div>`};
     title='Réglages du jour';
-    inner=`<div class="lbl">Visage</div>${ph(3,skinPh(),'skinp')}<div class="pick" style="margin-top:6px">${[['c','Complète'],['e','Express'],['i','Peau irritée']].map(([k,l])=>`<button class="txt ${sv===k?'on':''}" style="--d:#EDA5B0" data-a="skinv" data-v="${k}">${l}</button>`).join('')}</div>
-    <div class="lbl" style="margin-top:14px">Cheveux</div>${ph(3,hairPh(),'hairp')}<div class="pick" style="margin-top:6px">${HSTATE.map(([k,n])=>`<button class="txt ${hs.includes(k)?'on':''}" style="--d:#EEB87D" data-a="hstate" data-v="${k}">${n}</button>`).join('')}</div>
-    <div class="lbl" style="margin-top:14px">Corps</div>${ph(5,bodyPh(),'bodyp')}<div class="pick" style="margin-top:6px">${BODY_STATE.map(([k,n])=>`<button class="txt ${bs.includes(k)?'on':''}" style="--d:#EEB87D" data-a="bstate" data-v="${k}">${n}</button>`).join('')}</div>
-    <div class="meta" style="margin-top:12px">Les phases se choisissent à la main. L’état du jour se remet à zéro chaque matin.</div>`;
+    inner=`<div class="wbsh" style="--d:#EDA5B0">${kw('perso',26)}Visage</div><div class="pick" style="margin-bottom:8px">${[['c','Complète'],['e','Express'],['i','Peau irritée']].map(([k,l])=>`<button class="txt ${sv===k?'on':''}" style="--d:#EDA5B0" data-a="skinv" data-v="${k}">${l}</button>`).join('')}</div>${ph(3,skinPh(),'skinp')}
+    <div class="wbsh" style="--d:#EEB87D">${kw('perso',26)}Cheveux</div>${ph(3,hairPh(),'hairp')}<div class="pick" style="margin-top:6px">${HSTATE.map(([k,n])=>`<button class="txt ${hs.includes(k)?'on':''}" style="--d:#EEB87D" data-a="hstate" data-v="${k}">${n}</button>`).join('')}</div>
+    <div class="wbsh" style="--d:#E8C08A">${kw('perso',26)}Corps</div>${ph(5,bodyPh(),'bodyp')}<div class="pick" style="margin-top:6px">${BODY_STATE.map(([k,n])=>`<button class="txt ${bs.includes(k)?'on':''}" style="--d:#EEB87D" data-a="bstate" data-v="${k}">${n}</button>`).join('')}</div>`;
   } else if(S.sheet==='drnotes'){const D=S.cycle.days||{},ns=Object.keys(D).filter(x=>D[x].sl&&D[x].sl.note).sort().reverse();
     title=`<span style="display:flex;align-items:center;gap:10px">${FOLDSVG}Notes de rêve</span>`;
     inner=ns.length?ns.map(x=>`<button style="display:block;width:100%;text-align:left;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:18px" data-a="drgo" data-v="${x}"><div class="hf" style="font-size:13.5px;margin-bottom:4px">${pd(x).getDate()} ${MON[pd(x).getMonth()]} ${pd(x).getFullYear()}</div><div style="font-size:14px;white-space:pre-wrap;word-break:break-word;color:var(--muted)">${esc(D[x].sl.note)}</div></button>`).join(''):`<div class="meta" style="text-align:center;padding:16px 0">Aucune note pour l’instant</div>`;
@@ -2058,6 +2076,7 @@ document.addEventListener('change',e=>{const el=e.target.closest&&e.target.close
   if(el.classList.contains('din')&&document.activeElement===el){S._pend=1;return}
   S._sheetKeep=true;render()});
 document.addEventListener('focusout',e=>{if(S._pend&&e.target.classList&&e.target.classList.contains('din')){S._pend=0;setTimeout(()=>{if(document.activeElement&&document.activeElement.classList.contains('din'))return;S._sheetKeep=true;render()},60)}});
+(()=>{let t=null;const end=()=>{clearTimeout(t);t=null};document.addEventListener('pointerdown',e=>{const x=e.target.closest('[data-lp]');if(!x)return;end();t=setTimeout(()=>{t=null;S._lpAt=Date.now();x.classList.add('lpok');try{navigator.vibrate&&navigator.vibrate(15)}catch(_){}const b=document.createElement('button');b.dataset.a=x.dataset.lp;b.dataset.v=x.dataset.lpv;b.hidden=true;document.body.appendChild(b);b.click();b.remove()},600)});['pointerup','pointercancel','pointermove'].forEach(n=>document.addEventListener(n,ev=>{if(n==='pointermove'&&t&&Math.abs(ev.movementY)<4)return;end()}))})();
 document.addEventListener('click',e=>{
   const el=e.target.closest('[data-a]');if(!el)return;if(S._swiped&&Date.now()-S._swiped<350)return;
   const a=el.dataset.a,v=el.dataset.v,id=+el.dataset.id;
@@ -2204,6 +2223,18 @@ document.addEventListener('click',e=>{
     case 'wbuntodo':{const c=S.care.find(x=>x.id===id);if(c)delete c.todo;break}
     case 'wbzopen':S._wbZopen=S._wbZopen||{};S._wbZopen[v]=!S._wbZopen[v];break;
     case 'wbsnooze':S.flags[v+'Snooze']=add(TODAY,7);break;
+    case 'wbstep':{e.preventDefault();const [sub,k]=v.split('|'),st=wbSteps(),L=st[sub]||[],nl=L.includes(k)?L.filter(x=>x!==k):L.concat(k);S.flags.wbSteps={d:TODAY,k:{...st,[sub]:nl}};
+      const c=S.care.find(x=>x.sec==='visage'&&x.sub===sub);if(c){const all=skSteps(sub).every(x=>nl.includes(x));
+        if(all&&c.last!==TODAY){c.wbPrev={l:c.last,n:c.next||null,t:!!c.todo,c:c.chk||null};c.last=TODAY;c.chk=TODAY;delete c.next}
+        else if(!all&&c.last===TODAY&&c.wbPrev){c.last=c.wbPrev.l;if(c.wbPrev.n)c.next=c.wbPrev.n;delete c.wbPrev}}
+      S._sheetKeep=true;break}
+    case 'wbzall':{const z=v;S.care.filter(c=>wbZone(c)===z&&wbDue(c)&&!wbDone(c)&&c.sec!=='sportm').forEach(c=>{c.wbPrev={l:c.last,n:c.next||null,t:!!c.todo,c:c.chk||null};c.last=TODAY;c.chk=TODAY;delete c.next;delete c.todo});
+      const V=S.flags.wbV&&S.flags.wbV.d===TODAY?S.flags.wbV.k:[];S.flags.wbV={d:TODAY,k:[...new Set(V.concat(wbAdvice(wbMoment(),[]).filter(o=>o.z===z).map(o=>o.key)))]};break}
+    case 'wbshort':{const ids=[];S.care.filter(c=>wbDue(c)&&!wbDone(c)&&c.sec!=='complements'&&c.sec!=='sportm'&&(c.days||c.freq>1)).forEach(c=>{ids.push([c.id,c.next||null]);c.next=add(TODAY,1)});S.flags.wbShort={d:TODAY,ids,v:(S.flags.skinV&&S.flags.skinV.d===TODAY)?S.flags.skinV.v:null};S.flags.skinV={d:TODAY,v:'e'};break}
+    case 'wbshortno':S.flags.wbShort={d:TODAY,no:1};break;
+    case 'wbshortundo':{const w=S.flags.wbShort;if(w&&w.ids){w.ids.forEach(([id,n])=>{const c=S.care.find(x=>x.id===id);if(c){if(n)c.next=n;else delete c.next}});if(w.v)S.flags.skinV={d:TODAY,v:w.v};else delete S.flags.skinV}S.flags.wbShort={d:TODAY,no:1};break}
+    case 'wbcyyes':{const pr=wbCyProp();if(pr){if(pr.skin)S.flags.skinV={d:TODAY,v:pr.skin};if(pr.body.length)S.flags.bodyState={d:TODAY,s:[...new Set(bState().concat(pr.body))]};if(pr.hair.length)S.flags.hairState={d:TODAY,s:[...new Set(hState().concat(pr.hair))]}}S.flags.wbCyAsk=TODAY;break}
+    case 'wbcyno':S.flags.wbCyAsk=TODAY;break;
     case 'wbtodo':{const c=S.care.find(x=>x.id===id);if(c){c.todo=true;S._wbOpen=S._wbOpen||{};delete S._wbOpen[id]}break}
     case 'wblater':{e.preventDefault();S._wbLater=S._wbLater||{};S._wbLater[v]=!S._wbLater[v];break}
     case 'wbsoins':S._wbSoins=!S._wbSoins;break;
@@ -2997,7 +3028,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='129';
+const APP_VER='130';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
