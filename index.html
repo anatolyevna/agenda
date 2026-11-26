@@ -1258,6 +1258,7 @@ const worst=L0=>{const list=L0.filter(c=>!off(c));return list.some(c=>st(c).m===
 
 const adBg=(list,pct)=>{const cs=[...new Set(list.filter(it=>it.allDay).map(it=>TH[it.theme].d))].slice(0,3).map(d=>`color-mix(in srgb,${d} ${pct}%,var(--card))`);if(!cs.length)return '';if(cs.length===1)return `background:${cs[0]};`;const w=100/cs.length;return `background:linear-gradient(90deg,${cs.map((c,i)=>`${c} ${i*w}% ${(i+1)*w}%`).join(',')});`};
 const SLQ=[['tb','Bien'],['m','Moyen'],['mal','Mal']];
+const DRC={'Rêve doux':'#F4B8C8','Rêve actif':'#F5B47E','Cauchemar':'#9E94B3','Rêve romantique':'#E8829C','Rêve lucide':'#93C9DE','Rêve étrange':'#BBA8E3','Rêve drôle':'#F2D26E','Rêve récurrent':'#A9CE94','Rêve de voyage':'#86C7B8','Rêve nostalgique':'#D2B08E','Rêve agité':'#EC8E84','Pas de souvenir':'#D6CFC9'};
 const DREAMS=['Rêve doux','Rêve actif','Cauchemar','Rêve romantique','Rêve lucide','Rêve étrange','Rêve drôle','Rêve récurrent','Rêve de voyage','Rêve nostalgique','Rêve agité','Pas de souvenir'];
 const sleepSvg=(q,sz)=>{const c={tb:'#B4D29A',b:'#D6E6A8',m:'#F5DE9A',mal:'#F4B3B3'}[q];const I='#4B3D3A';
  const eyes=q==='tb'?`<path d="M6.8 12.4q1.2-1.2 2.4 0M11.2 12.4q1.2-1.2 2.4 0" stroke="${I}" stroke-width="1" fill="none" stroke-linecap="round"/>`
@@ -1268,18 +1269,27 @@ const sleepSvg=(q,sz)=>{const c={tb:'#B4D29A',b:'#D6E6A8',m:'#F5DE9A',mal:'#F4B3
  const deco=q==='tb'?`<path d="M17.2 3.2h2.8l-2.8 3h2.8" stroke="#8FB7D6" stroke-width="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.4 9.6l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z" fill="#F7C35E"/>`:q==='b'?`<path d="M18 4.4h2.2l-2.2 2.4h2.2" stroke="#8FB7D6" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`:q==='mal'?`<path d="M18.6 5.4c.8 1.2 1 2.2.4 2.8-.6.4-1.4 0-1.4-.8 0-.6.4-1.2 1-2z" fill="#A9CBE6"/>`:'';
  return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.6 3.75a9 9 0 1 0 4.8 11.65A7 7 0 0 1 15.6 3.75z" fill="${c}" stroke="#6B5A55" stroke-width="1.3" stroke-linejoin="round"/><g transform="translate(-1.4 0)">${eyes}${mouth}${q!=='mal'?'<ellipse cx="6" cy="14.6" rx=".9" ry=".5" fill="#EDA5B0"/><ellipse cx="13.2" cy="14.6" rx=".9" ry=".5" fill="#EDA5B0"/>':''}</g>${deco}</svg>`};
 const SLQC={tb:'#B4D29A',b:'#D6E6A8',m:'#F5DE9A',mal:'#F4B3B3'};
+function sleepMonth(){const D=S.cycle.days||{},k=S.cyDay,sl=(D[k]&&D[k].sl)||{},ks=Object.keys(D).filter(x=>x.slice(0,7)===S.cyMon&&D[x].sl);
+ const hs=ks.map(x=>D[x].sl.h).filter(h=>typeof h==='number'),avg=hs.length?hs.reduce((a,b)=>a+b,0)/hs.length:null;
+ const qc={};ks.forEach(x=>{const q=D[x].sl.q;if(q)qc[q]=(qc[q]||0)+1});const nq=Object.values(qc).reduce((a,b)=>a+b,0);
+ const dc={};ks.forEach(x=>(D[x].sl.dr||[]).forEach(d=>dc[d]=(dc[d]||0)+1));const topD=Object.keys(dc).sort((a,b)=>dc[b]-dc[a]).slice(0,3);
+ const notes=ks.filter(x=>D[x].sl.note).sort().reverse();
+ const bar=nq?`<div style="display:flex;height:10px;border-radius:5px;overflow:hidden;margin:8px 0 6px">${SLQ.filter(([q])=>qc[q]).map(([q])=>`<i style="flex:${qc[q]};background:${SLQC[q]}"></i>`).join('')}</div><div style="display:flex;flex-wrap:wrap;gap:4px 12px">${SLQ.map(([q,l])=>`<span class="meta" style="display:flex;align-items:center;gap:2px;font-size:12.5px;font-weight:700">${sleepSvg(q,20)}${qc[q]||0}</span>`).join('')}</div>`:'';
+ const month=ks.length?`<div style="display:flex;align-items:baseline;gap:8px"><span class="hf" style="font-size:24px">${avg!==null?hm(Math.round(avg*4)/4):'—'}</span><span class="meta">par nuit</span></div>${bar}${topD.length?`<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 14px">${topD.map(x=>`<span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700" aria-label="${x}"><i style="width:16px;height:16px;border-radius:8px;background:${DRC[x]};flex:none"></i>${dc[x]}</span>`).join('')}</div>`:''}`:'';
+ return month}
+function sleepStats(){const D=S.cycle.days||{},ks=Object.keys(D).filter(x=>x.slice(0,7)===S.cyMon&&D[x].sl);if(!ks.length)return '';return `<div class="cycard"><div class="lbl" style="margin-bottom:8px">Sommeil · ${MON[pd(S.cyMon+'-01').getMonth()]}</div>${sleepMonth()}</div>`}
 function sleepCard(){const D=S.cycle.days||{},k=S.cyDay,sl=(D[k]&&D[k].sl)||{},ks=Object.keys(D).filter(x=>x.slice(0,7)===S.cyMon&&D[x].sl);
  const hs=ks.map(x=>D[x].sl.h).filter(h=>typeof h==='number'),avg=hs.length?hs.reduce((a,b)=>a+b,0)/hs.length:null;
  const qc={};ks.forEach(x=>{const q=D[x].sl.q;if(q)qc[q]=(qc[q]||0)+1});const nq=Object.values(qc).reduce((a,b)=>a+b,0);
  const dc={};ks.forEach(x=>(D[x].sl.dr||[]).forEach(d=>dc[d]=(dc[d]||0)+1));const topD=Object.keys(dc).sort((a,b)=>dc[b]-dc[a]).slice(0,3);
  const notes=ks.filter(x=>D[x].sl.note).sort().reverse();
  const bar=nq?`<div style="display:flex;height:10px;border-radius:5px;overflow:hidden;margin:8px 0 6px">${SLQ.filter(([q])=>qc[q]).map(([q])=>`<i style="flex:${qc[q]};background:${SLQC[q]}"></i>`).join('')}</div><div style="display:flex;flex-wrap:wrap;gap:4px 12px">${SLQ.map(([q,l])=>`<span class="meta" style="display:flex;align-items:center;gap:2px;font-size:12.5px;font-weight:700">${sleepSvg(q,20)}${qc[q]||0}</span>`).join('')}</div>`:'';
- const month=ks.length?`<div style="display:flex;align-items:baseline;gap:8px"><span class="hf" style="font-size:24px">${avg!==null?hm(Math.round(avg*4)/4):'—'}</span><span class="meta">par nuit</span></div>${bar}${topD.length?`<div class="pick" style="margin-top:8px">${topD.map(x=>`<span class="txt on" style="--d:#C4B5E6;display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:999px;font-size:13px">${x} · ${dc[x]}</span>`).join('')}</div>`:''}`:'';
- const dl=k===TODAY?'Aujourd’hui':DOWL[wd(k)]+' '+pd(k).getDate()+' '+MON[pd(k).getMonth()];
- return `<div class="cycard"><div class="hf" style="font-size:17px;margin-bottom:8px">Sommeil</div>${month}
-  <div style="${ks.length?'margin-top:12px;border-top:1px solid var(--line);padding-top:10px':''}"><div class="lbl">${dl}</div>
+ const month=ks.length?`<div style="display:flex;align-items:baseline;gap:8px"><span class="hf" style="font-size:24px">${avg!==null?hm(Math.round(avg*4)/4):'—'}</span><span class="meta">par nuit</span></div>${bar}${topD.length?`<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 14px">${topD.map(x=>`<span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700" aria-label="${x}"><i style="width:16px;height:16px;border-radius:8px;background:${DRC[x]};flex:none"></i>${dc[x]}</span>`).join('')}</div>`:''}`:'';
+ const dl=k===TODAY?'':DOWL[wd(k)]+' '+pd(k).getDate()+' '+MON[pd(k).getMonth()];
+ return `<div class="cycard"><div class="hf" style="font-size:17px;margin-bottom:8px">Sommeil</div>
+  <div>${dl?`<div class="lbl">${dl}</div>`:''}
   <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><select class="din" style="min-width:0;flex:none;width:104px" data-in="cyslh" aria-label="Heures de sommeil"><option value="">—</option>${Array.from({length:19},(_,i)=>3+i*.5).map(h=>`<option value="${h}" ${sl.h===h?'selected':''}>${hm(h)}</option>`).join('')}</select><div class="cyslq">${SLQ.map(([q,l])=>`<button class="${sl.q===q?'on':''}" style="--q:${SLQC[q]}" data-a="cyslq" data-v="${q}" aria-label="${l}">${sleepSvg(q,34)}</button>`).join('')}</div></div>
-  <div class="pick" style="margin-top:10px">${DREAMS.map(x=>`<button class="txt ${(sl.dr||[]).includes(x)?'on':''}" style="--d:#C4B5E6" data-a="cydr" data-v="${esc(x)}">${x}</button>`).join('')}</div>
+  <div class="pick" style="margin-top:10px">${DREAMS.map(x=>`<button class="txt ${(sl.dr||[]).includes(x)?'on':''}" style="--d:${DRC[x]};padding-left:10px" data-a="cydr" data-v="${esc(x)}"><i style="width:10px;height:10px;border-radius:5px;background:${DRC[x]};flex:none"></i>${x}</button>`).join('')}</div>
   <div style="display:flex;gap:8px;align-items:center;margin-top:10px"><textarea id="drnote" placeholder="Note de rêve" rows="2" style="flex:1;min-width:0;min-height:52px;border-radius:16px;border:1px solid var(--line);background:var(--bg);padding:10px 14px;font:inherit;color:var(--ink);resize:none">${esc(sl.note||'')}</textarea><button data-a="drok" style="flex:none;height:32px;padding:0 14px;border-radius:999px;background:#E9E1F6;color:#5E4C7A;font-size:13.5px;font-weight:700">${S._drOk?'Enregistré ✓':'OK'}</button></div></div>
   ${notes.length?`<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">${notes.map(x=>`<button class="row" style="justify-content:flex-start;gap:10px;padding:8px 12px;border-radius:14px;background:var(--bg);text-align:left;width:100%" data-a="cyday" data-v="${x}"><span class="hf" style="font-size:13px;flex:none">${pd(x).getDate()} ${MONS[pd(x).getMonth()]}</span><span class="meta" style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(D[x].sl.note)}</span></button>`).join('')}</div>`:''}</div>`}
 const MOODS=[['sereine','Calme','#F7EBC9'],['joyeuse','Joyeuse','#F8DDB8'],['energique','Énergique','#FBE3C8'],['confiante','Confiante','#F3E2D2'],['caline','Désir','#F6CFC9'],['sensible','Sensible','#E9DDF0'],['fatiguee','Fatiguée','#E3EEF8'],['triste','Triste','#DCEBF6'],['irritable','Irritable','#F4C3C8'],['anxieuse','Anxieuse','#E3EDD9'],['stressee','Stressée','#EDE4F4'],['brouillard','Dans le brouillard','#ECEAE6']];
@@ -1341,20 +1351,20 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
   const cal=`<div class="cycard"><div class="bar" style="margin-bottom:8px"><button class="nav40 ghost" aria-label="Mois précédent" data-a="cymon" data-v="-1">${arrow('M15 18l-6-6 6-6')}</button><div class="hf" style="flex:1;text-align:center;font-size:16px">${MON[m0.getMonth()][0].toUpperCase()+MON[m0.getMonth()].slice(1)} ${m0.getFullYear()}</div><button class="nav40 ghost" aria-label="Mois suivant" data-a="cymon" data-v="1">${arrow('M9 18l6-6-6-6')}</button></div>
     <div class="cygrid">${DL.map(l=>`<span class="meta" style="text-align:center;font-size:11px">${l}</span>`).join('')}${cells}</div>
     <div class="cyleg"><span><i style="background:${PINK}"></i>Règles</span><span><i style="background:#F7E3DE"></i>Prévues</span><span><i style="background:#E3EDD9"></i>Fertile</span><span style="gap:3px">${poopSvg(15,1)}<b style="font-weight:700;color:var(--ink)">${nPoo}</b></span></div></div>`;
-  const dl=k===TODAY?'Aujourd’hui':DOWL[wd(k)]+' '+pd(k).getDate()+' '+MON[pd(k).getMonth()];
+  const dl=k===TODAY?'':DOWL[wd(k)]+' '+pd(k).getDate()+' '+MON[pd(k).getMonth()];
   const flows=FLOWS.map(([v,l])=>`<button class="cyf ${(e.flow||0)===v?'on':''}" data-a="cyflow" data-v="${v}"><span style="display:flex;gap:1px;height:16px;align-items:end">${v?Array.from({length:v},()=>dropSvg(PINK,11)).join(''):dropSvg('#E2D8D2',11)}</span>${l}</button>`).join('');
   const moods=MOODS.map(([id,l])=>`<button class="cym ${(e.mood||[]).includes(id)?'on':''}" data-a="cymood" data-v="${id}">${moodSvg(id,36)}<span>${l}</span></button>`).join('');
   const sl=e.sl||{};
   const syms=SYMS.map(x=>`<button class="txt ${(e.sym||[]).includes(x)?'on':''}" style="--d:#F4C3C8" data-a="cysym" data-v="${esc(x)}">${x}</button>`).join('');
   const hist=[...c.per].reverse().slice(0,6).map(p=>`<button class="row" style="padding:3px 0;width:100%" data-a="cygo" data-v="${p.start}"><span style="font-size:14px;font-weight:600">${shortR(p.start,p.end)}</span><span class="meta">${diff(p.start,p.end)+1} j</span></button>`).join('');
-  return `<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:12px">${top}${cal}${moodRing()}
-    <div class="cycard"><div class="hf" style="font-size:17px;margin-bottom:10px">${dl}</div>
-      <div class="lbl">Règles</div><div class="cyflows">${flows}</div>
-      <div class="lbl" style="margin-top:12px">Humeur</div><div class="cymoods">${moods}</div>
+  return `<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:12px">${top}${cal}
+    <div class="cycard">${dl?`<div class="hf" style="font-size:17px;margin-bottom:10px">${dl}</div>`:''}
+      <div class="cyflows">${flows}</div>
+      <div class="cymoods" style="margin-top:14px">${moods}</div>
       <div class="lbl" style="margin-top:12px;line-height:0"><svg width="30" height="20" viewBox="0 0 36 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#F4C3C8" transform="translate(1 2) scale(.8)"/><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0" stroke="#FFFBF5" stroke-width="1.6" transform="translate(13 4) scale(.8)"/></svg></div><div class="cysex"><button class="cyf ${e.sex?'':'on'}" aria-label="Non" data-a="cysex" data-v="0"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="none" stroke="#CBBDB6" stroke-width="1.8"/></svg></button><button class="cyf ${e.sex?'on':''}" aria-label="Oui" data-a="cysex" data-v="1"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0"/></svg></button></div>
       <div class="lbl" style="margin-top:12px;line-height:0">${poopSvg(24,1)}</div><div class="cysex"><button class="cyf ${e.poo?'':'on'}" aria-label="Non" data-a="cypoo" data-v="0">${poopSvg(22,0)}</button><button class="cyf ${e.poo?'on':''}" aria-label="Oui" data-a="cypoo" data-v="1">${poopSvg(22,1)}</button></div>
-      <div class="lbl" style="margin-top:12px">Symptômes</div><div class="pick">${syms}</div></div>
-    ${sleepCard()}</div>`}
+      <div class="pick" style="margin-top:14px">${syms}</div></div>
+    ${sleepCard()}${moodRing()}${sleepStats()}</div>`}
 const itIcon=(it,sz)=>{if(it.bday)return kw('gateau',sz);if(it.chore){const c=S.chores.find(x=>x.id===it.chore);if(c&&c.sub)return charSvg(c.sub,'ok',Math.round(sz*1.12))}return kw(it.theme,sz)};
 
 /* ---- AnimatedDogMascots : Lila (gauche, plus grande) et le chien noir et feu (droite). Jour 5 h–20 h, nuit 20 h–5 h, heure locale, sans réseau ---- */
@@ -2833,7 +2843,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='111';
+const APP_VER='112';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
