@@ -1336,9 +1336,14 @@ function cyMark(k){const D=(S.cycle&&S.cycle.days)||{};if(D[k]&&D[k].flow>0)retu
 const shortR=(a,b)=>{const A=pd(a),B=pd(b);return A.getMonth()===B.getMonth()?A.getDate()+' – '+B.getDate()+' '+MONS[B.getMonth()]:A.getDate()+' '+MONS[A.getMonth()]+' – '+B.getDate()+' '+MONS[B.getMonth()]};
 const MOONN=['Nouvelle lune','Premier croissant','Premier quartier','Lune gibbeuse croissante','Pleine lune','Lune gibbeuse décroissante','Dernier quartier','Dernier croissant'];
 function moonNow(){const P=29.530588853,ref=Date.UTC(2000,0,6,18,14),age=(((Date.now()-ref)/864e5)%P+P)%P,f=age/P;return {f,name:MOONN[Math.floor(f*8+.5)%8]}}
-function moonSvg(f,sz){const r=21.5,c=24,k=Math.cos(2*Math.PI*f),rx=(r*Math.abs(k)).toFixed(2),wax=f<.5;
+function moonSvg(f,sz){const r=19.45,c=24,k=Math.cos(2*Math.PI*f),rx=(r*Math.abs(k)).toFixed(2),wax=f<.5,ph=Math.floor(f*8+.5)%8,I='#4B3D3A',st=`stroke="${I}" stroke-width="1.3" fill="none" stroke-linecap="round"`;
  const lit=f<.02||f>.98?'':wax?`M${c} ${c-r}A${r} ${r} 0 0 1 ${c} ${c+r}A${rx} ${r} 0 0 ${k>0?0:1} ${c} ${c-r}z`:`M${c} ${c-r}A${r} ${r} 0 0 0 ${c} ${c+r}A${rx} ${r} 0 0 ${k>0?1:0} ${c} ${c-r}z`;
- return `<svg width="${sz}" height="${sz}" viewBox="0 0 48 48" aria-hidden="true"><circle cx="${c}" cy="${c}" r="${r}" fill="#E6DEE8"/>${lit?`<path d="${lit}" fill="#F5DE9A"/>`:''}<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="#6B5A55" stroke-width="1.4"/><path d="M17.6 25.4q1.6 1.4 3.2 0M27.2 25.4q1.6 1.4 3.2 0" stroke="#4B3D3A" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M22.6 29.4q1.4 1.1 2.8 0" stroke="#4B3D3A" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="16" cy="28.6" rx="1.7" ry="1" fill="#EDA5B0"/><ellipse cx="32" cy="28.6" rx="1.7" ry="1" fill="#EDA5B0"/></svg>`}
+ const shut=`<path d="M17.8 25.2q1.5 1.3 3 0M27.2 25.2q1.5 1.3 3 0" ${st}/>`,flat=`<path d="M17.8 25.4h3M27.2 25.4h3" ${st}/>`,dotL=`<circle cx="19.3" cy="25" r="1.15" fill="${I}"/>`,dotR=`<circle cx="28.7" cy="25" r="1.15" fill="${I}"/>`,happy=`<path d="M17.8 25.8q1.5-1.6 3 0M27.2 25.8q1.5-1.6 3 0" ${st}/>`;
+ const sm=`<path d="M22.8 29.2q1.2 1 2.4 0" stroke="${I}" stroke-width="1.2" fill="none" stroke-linecap="round"/>`,big=`<path d="M22.2 28.8q1.8 1.9 3.6 0z" fill="${I}" stroke="${I}" stroke-width=".8" stroke-linejoin="round"/>`,tiny=`<path d="M23.2 29.6h1.6" stroke="${I}" stroke-width="1.1" stroke-linecap="round"/>`;
+ const star=(x,y,s)=>`<path d="M${x} ${y-s}l${s*.3} ${s*.7} ${s*.7} ${s*.3}-${s*.7} ${s*.3}-${s*.3} ${s*.7}-${s*.3}-${s*.7}-${s*.7}-${s*.3} ${s*.7}-${s*.3}z" fill="#F2C14E"/>`;
+ const zz=`<path d="M36.6 6.4h3.2l-3.2 3.4h3.2" stroke="#8FB7D6" stroke-width="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+ const face=[flat+tiny+zz, `<path d="M17.8 25.2q1.5 1.3 3 0" ${st}/>`+dotR+tiny, dotL+dotR+sm, dotL+dotR+big, happy+big+star(40,8,3.2)+star(7.5,12,2.4)+star(41,38,2), dotL+dotR+sm, `<path d="M17.8 25.6q1.5-.8 3 0M27.2 25.6q1.5-.8 3 0" ${st}/>`+sm, shut+sm][ph];
+ return `<svg width="${sz}" height="${sz}" viewBox="0 0 48 48" aria-hidden="true"><circle cx="${c}" cy="${c}" r="${r}" fill="#E6DEE8"/>${lit?`<path d="${lit}" fill="#F5DE9A"/>`:''}<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="#6B5A55" stroke-width="1.4"/>${face}<ellipse cx="16" cy="28.4" rx="1.7" ry="1" fill="#EDA5B0"/><ellipse cx="32" cy="28.4" rx="1.7" ry="1" fill="#EDA5B0"/></svg>`}
 function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#EDA5B0';
   const pct=c.day?Math.min(1,c.day/c.avgC):0,R=58,L=2*Math.PI*R;
   const ring=`<svg width="108" height="108" viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="${R}" fill="none" stroke="#F7E3DE" stroke-width="10"/><circle cx="75" cy="75" r="${R}" fill="none" stroke="${PINK}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(L*pct).toFixed(1)} ${L.toFixed(1)}" transform="rotate(-90 75 75)"/><g transform="translate(31.8 32.5) scale(3.6)">${K.cycle}</g></svg>`;
@@ -2855,7 +2860,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='114';
+const APP_VER='115';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
