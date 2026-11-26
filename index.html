@@ -1552,7 +1552,7 @@ function calHTML(){
   } else {
     const start=monday(fk(new Date(selD.getFullYear(),selD.getMonth(),1)));let cells='';
     for(let i=0;i<42;i++){const k=add(start,i),d=pd(k),th=[...new Set(onDate(k).map(x=>x.theme))];cells+=`<button class="mc ${d.getMonth()!==selD.getMonth()?'out':''} ${k===TODAY?'today':''} ${wd(k)>=5?'we':''} ${(z=>z?'pz'+(k===z[0]||wd(k)===0?' pzs':'')+(k===z[1]||wd(k)===6?' pze':''):'')(PAUSES.find(([a,b])=>k>=a&&k<=b))}" style="${adBg(onDate(k),40)}" data-a="day" data-k="${k}">${(m=>m?`<svg class="cyd" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 .8C3.2 3.6 1.4 5.6 1.4 7.8a3.6 3.6 0 0 0 7.2 0C8.6 5.6 6.8 3.6 5 .8z" fill="${cyCol(m)}" fill-opacity="${m[0]==='p'?1:.4}"/></svg>`:'')(cyMark(k))}<b>${d.getDate()}</b><span class="mdots">${th.sort((a,b)=>(b==='anniv')-(a==='anniv')).slice(0,6).map(t=>t==='anniv'?`<span class="mcake">${kw('gateau',15)}${(a=>a?`<b class="mage">${a}</b>`:'')((onDate(k).find(x=>x.bdA)||{}).bdA)}</span>`:`<i style="--d:${TH[t].d}"></i>`).join('')}</span></button>`}
-    body=`<div style="padding:2px 16px 0"><div class="mgrid">${['Lu','Ma','Mer','Je','Ve','S','D'].map((l,i)=>`<div class="mdow ${i>=5?'we':''}">${l}</div>`).join('')}</div><div class="mgrid">${cells}</div></div>${legend()}`;
+    body=`<div style="padding:0 16px;margin-top:-9px"><div class="mgrid">${['Lu','Ma','Mer','Je','Ve','S','D'].map((l,i)=>`<div class="mdow ${i>=5?'we':''}">${l}</div>`).join('')}</div><div class="mgrid">${cells}</div></div>${legend()}`;
   }
   const arrow=d=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
   return `<div style="padding:0 20px 8px;display:flex;flex-direction:column;gap:10px"><div class="seg ghost">${views}</div>${S.view==='mois'?`<div style="display:flex;justify-content:center;margin:-2px 0 -4px"><button class="bilanb" data-a="bilan">${kw('cd_etoile',20)}Bilan de ${MON[selD.getMonth()]}</button></div>`:''}
@@ -2830,7 +2830,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='108';
+const APP_VER='109';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
