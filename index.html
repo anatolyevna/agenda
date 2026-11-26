@@ -14,7 +14,7 @@
 <script async id="sbjs" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap">
-<style>:root{--nb:calc(env(safe-area-inset-bottom) + 8px)}
+<style>:root{--nb:max(8px,calc(env(safe-area-inset-bottom) - 2px))}
 :root{--bg:#FCF4EB;--card:#FFFBF5;--ink:#4B3D3A;--muted:#7C6A63;--line:#F0E1D4;--acc:#CF6B64;--red:#A9433C;--ok:#9DBF86;--todo:#EFA3B4;--late:#E28F86}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);height:100%;overscroll-behavior:none}
@@ -2830,7 +2830,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='103';
+const APP_VER='104';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
