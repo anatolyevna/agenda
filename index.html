@@ -14,7 +14,7 @@
 <script async id="sbjs" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap">
-<style>:root{--nb:max(8px,calc(env(safe-area-inset-bottom) - 12px))}
+<style>:root{--nb:calc(env(safe-area-inset-bottom) + 8px)}
 :root{--bg:#FCF4EB;--card:#FFFBF5;--ink:#4B3D3A;--muted:#7C6A63;--line:#F0E1D4;--acc:#CF6B64;--red:#A9433C;--ok:#9DBF86;--todo:#EFA3B4;--late:#E28F86}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);height:100%;overscroll-behavior:none}
@@ -1521,7 +1521,8 @@ const FLAG='<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><
 const avantOn=k=>S.items.filter(it=>it.due&&!it.date&&!it.done&&visible(it)&&(k<=it.due?k>=TODAY:k===TODAY));
 const bdAge=(it,k)=>{if(!it.bday||!it.date)return null;const a=(+k.slice(0,4))-(it.by||+it.date.slice(0,4));return a>=1?a:null};
 const onDate=k=>S.items.filter(it=>(it.date===k||(!it.date&&it.due===k)||(it.bday&&it.date&&it.date<k&&it.date.slice(5)===k.slice(5)))&&visible(it)).map(it=>{const a=bdAge(it,k);return a!==null&&a>=0?{...it,title:`${it.title} · ${a} an${a>1?'s':''}`,bdA:a}:it}).sort((a,b)=>(timed(a)?a.start:-1)-(timed(b)?b.start:-1));
-const legend=()=>`<div class="leg">${THEMES.map(t=>{const n=S.items.filter(it=>it.kind==='tache'&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="mx" style="--d:${t.d};position:relative" data-a="goth" data-v="${t.id}"><span class="ic tint">${kw(t.id,22)}</span>${t.name}${n?`<span class="lgn">${n}</span>`:''}</button>`}).join('')}</div>`;
+const legAlign=()=>{const a=document.querySelector('.leg [data-th=autre]'),f=document.querySelector('.leg [data-th=proches]');if(!a||!f)return;a.style.marginLeft='';if(S.view!=='mois')return;if(a.offsetTop>f.offsetTop){const d=f.getBoundingClientRect().left-a.getBoundingClientRect().left;if(d>0)a.style.marginLeft=d+'px'}};
+const legend=()=>`<div class="leg">${THEMES.map(t=>{const n=S.items.filter(it=>it.kind==='tache'&&it.theme===t.id&&!it.done&&visible(it)).length;return `<button class="mx" style="--d:${t.d};position:relative" data-th="${t.id}" data-a="goth" data-v="${t.id}"><span class="ic tint">${kw(t.id,22)}</span>${t.name}${n?`<span class="lgn">${n}</span>`:''}</button>`}).join('')}</div>`;
 
 function calHTML(){
   const views=[['jour','Jour'],['semaine','Semaine'],['mois','Mois']].map(v=>`<button class="${S.view===v[0]?'on':''}" data-a="view" data-v="${v[0]}">${v[1]}</button>`).join('');
@@ -1809,8 +1810,8 @@ function sheetHTML(){
 }
 
 function admCenter(){document.querySelectorAll('.adm').forEach(a=>{a.style.removeProperty('--ns');const r=a.getBoundingClientRect();if(!r.width)return;a.style.setProperty('--ns',Math.round(innerHeight*.56-(r.top+r.height/2))+'px')})}
-function render(){try{renderInner()}finally{persist();requestAnimationFrame(()=>{try{admCenter();decoGuard()}catch(e){}})}}
-addEventListener('resize',()=>{admCenter();decoGuard()});
+function render(){try{renderInner()}finally{persist();requestAnimationFrame(()=>{try{admCenter();decoGuard();legAlign()}catch(e){}})}}
+addEventListener('resize',()=>{admCenter();decoGuard();legAlign()});
 function renderInner(){
   const ph=document.getElementById('phone');
   const se=ph.querySelector('.scroll'),keep=se?se.scrollTop:0,key=S.tab+S.view+S.folder;
@@ -2829,7 +2830,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='101';
+const APP_VER='102';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
