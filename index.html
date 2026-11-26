@@ -132,7 +132,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .wcol .ic{width:36px;height:36px;border-radius:12px}
 /* Mois */
 .mgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
-.mdow{text-align:center;font-size:15px;font-weight:800;color:var(--ink);padding-bottom:7px}
+.mdow{text-align:center;font-size:15px;font-weight:800;color:#937A71;padding-bottom:7px}
 .mc{height:58px;border-radius:14px;border:1px solid var(--line);background:var(--card);padding-top:6px;display:flex;flex-direction:column;align-items:center;gap:4px}
 .mc.we{background:color-mix(in srgb,#C4A8C9 16%,var(--card));border-color:color-mix(in srgb,#C4A8C9 35%,var(--card))}.mc.we b{color:#7E5F86}
 .mdow.we{color:#7E5F86;font-weight:800}
@@ -2830,7 +2830,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='105';
+const APP_VER='106';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
