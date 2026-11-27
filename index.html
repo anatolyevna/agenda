@@ -3226,10 +3226,17 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden){refreshDa
 setInterval(refreshDay,60000);
 loadImgs().then(n=>{if(n)render()});
 housekeeping();
+function goLink(q){try{const P=new URLSearchParams(q||''),g=P.get('go');if(!g)return false;const d=P.get('d');S.sheet='';
+  if(g==='jour'){S.tab='cal';S.view='jour';S.sel=d&&/^\d{4}-\d\d-\d\d$/.test(d)?d:TODAY}
+  else if(g==='soir'||g==='matin'){S.tab='moi';S._wbM={d:TODAY,v:g}}
+  else if(g==='cycle'){S.tab='cycle';S.cyDay=TODAY;S.cyMon=TODAY.slice(0,7)}else return false;return true}catch(e){return false}}
+(()=>{let q=location.search;if(!/[?&]go=/.test(q)){try{const m=JSON.parse(sessionStorage.getItem('ag_go')||'null');if(m&&Date.now()-m.t<60000)q=m.q}catch(e){}}
+  if(goLink(q)){try{sessionStorage.setItem('ag_go',JSON.stringify({q,t:Date.now()}))}catch(e){}if(location.search)history.replaceState(null,'',location.pathname)}})();
+if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=>{const u=e.data&&e.data.go;if(u){const q=u.includes('?')?u.slice(u.indexOf('?')):'';if(goLink(q))render()}});
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='180';
+const APP_VER='181';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{

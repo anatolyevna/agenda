@@ -1,5 +1,5 @@
 /* Service worker : l'agenda fonctionne hors ligne. Les données passent par Supabase (non interceptées). */
-var CACHE='agenda-v180';
+var CACHE='agenda-v181';
 var SHELL=['./','./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png'];
 var LIB='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 var FONTS='https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap';
@@ -28,5 +28,5 @@ self.addEventListener('fetch',function(e){
     e.respondWith(caches.match(r).then(function(hit){var net=fetch(r).then(function(res){if(res&&(res.ok||res.type==='opaque')){var cp=res.clone();caches.open(CACHE).then(function(c){c.put(r,cp)})}return res}).catch(function(){return hit});return hit||net}))}
 });
 self.addEventListener('push',function(e){var d={};try{d=e.data?e.data.json():{}}catch(x){d={title:'Agenda',body:e.data?e.data.text():''}}
-  e.waitUntil(self.registration.showNotification(d.title||'Agenda',{body:d.body||'',tag:d.tag||undefined,icon:'icon-192.png',badge:'icon-192.png',data:{url:'./'}}))});
-self.addEventListener('notificationclick',function(e){e.notification.close();e.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(function(l){for(var i=0;i<l.length;i++){if('focus' in l[i])return l[i].focus()}return clients.openWindow('./')}))});
+  e.waitUntil(self.registration.showNotification(d.title||'Agenda',{body:d.body||'',tag:d.tag||undefined,icon:'icon-192.png',badge:'icon-192.png',data:{url:d.url||'./'}}))});
+self.addEventListener('notificationclick',function(e){e.notification.close();var u=(e.notification.data&&e.notification.data.url)||'./';e.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(function(l){for(var i=0;i<l.length;i++){if('focus' in l[i]){try{l[i].postMessage({go:u})}catch(x){}return l[i].focus()}}return clients.openWindow(u)}))});
