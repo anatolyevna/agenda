@@ -2076,7 +2076,7 @@ function vaultHTML(){
 function sheetHTML(){
   if(!S.sheet)return '';
   let title,inner;
-  const closeBtn=`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit','recettes','recette','lectures','drnotes','wbset'].includes(S.sheet)?'Fermer':S.sheet==='vault'?'Verrouiller':'Annuler'}</button>`;
+  const closeBtn=S.sheet==='vault'?`<button class="vlockb" style="margin:0;flex:none" data-a="close">${kw('cadenas',22)}Verrouiller</button>`:`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit','recettes','recette','lectures','drnotes','wbset'].includes(S.sheet)?'Fermer':S.sheet==='vault'?'Verrouiller':'Annuler'}</button>`;
   if(S.sheet==='wbset'){const sv=skVer(),hs=hState(),bs=bState(),ph=(n,cur,a)=>{const nm=i=>a==='skinp'?SKIN_PH[i][0]:a==='hairp'?HAIR_PH[i][0]:BODY_PH[i][0],det=i=>a==='skinp'?[SKIN_PH[i][1],...SKIN_PH[i][2]]:a==='hairp'?HAIR_PH[i][1]:[BODY_PH[i][1]];
       return `<div class="wbphs"><span class="wbphl">Phase</span>${Array.from({length:n},(_,i)=>`<button class="wbph ${cur===i+1?'on':''}" data-a="${a}" data-v="${i+1}">${i+1}</button>`).join('')}</div><div class="wbphd"><b>${nm(cur)}</b> · ${det(cur).join(' · ')}</div>`};
     title='';
@@ -3294,7 +3294,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='189';
+const APP_VER='190';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
