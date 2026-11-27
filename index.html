@@ -211,6 +211,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .vmsg{min-height:18px;font-size:12.5px;font-weight:700;color:#B3123A}.vpad{display:grid;grid-template-columns:repeat(3,68px);gap:12px}.vpad button{height:68px;border-radius:34px;background:var(--card);border:1px solid var(--line);font-size:24px;font-weight:700;display:grid;place-items:center}.vpad button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .08s,background .08s}.vpad button:active,.vpad button.pr{transform:scale(.9);background:color-mix(in srgb,#CDBEEB 45%,var(--card))}.vdots i{transition:background .1s}.vdots i.pop{animation:vpop .22s ease-out}@keyframes vpop{0%{transform:scale(.6)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
 .vreset{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--muted)}
 .vconf{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 18px 18px;border-radius:22px;background:#FDECEE;border:2px solid #E7A1AE;text-align:center}.vct{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:19px;color:#B3123A}.vcs{font-size:14px;color:#7A3A47;font-weight:600;max-width:300px}.vyes{width:100%;height:50px;border-radius:16px;background:#B3123A;color:#fff;font-size:16px;font-weight:800;margin-top:6px;box-shadow:0 4px 12px rgba(179,18,58,.3)}.vno{width:100%;height:46px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-size:15px;font-weight:700;color:var(--ink)}
+.cfveil{position:absolute;inset:0;z-index:60;background:rgba(60,40,36,.38)}.cfbox{position:absolute;left:22px;right:22px;top:50%;transform:translateY(-50%);z-index:61;display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 18px 18px;border-radius:24px;background:var(--card);border:2px solid var(--line);text-align:center;box-shadow:0 14px 40px rgba(60,40,36,.25);max-width:420px;margin:0 auto}.cfbox.red{background:#FDECEE;border-color:#E7A1AE}.cfbox:not(.red) .vct{color:var(--ink)}.cfbox:not(.red) .vcs{color:var(--muted)}.cfbox:not(.red) .vyes{background:#A898CF;box-shadow:0 4px 12px rgba(120,100,170,.3)}
 .vadd{width:100%;padding:10px;border-radius:16px;border:1.5px solid #CDBEEB;background:color-mix(in srgb,#CDBEEB 18%,var(--card));font-weight:800;font-size:14px;color:#6E5C9A}
 .vform{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:18px;background:color-mix(in srgb,#CDBEEB 14%,var(--card));border:1px solid color-mix(in srgb,#CDBEEB 60%,var(--card))}.vform label{display:flex;flex-direction:column;gap:3px}.vform label span{font-size:12px;font-weight:700;color:var(--muted)}.vform .din{width:100%;box-sizing:border-box}
 .vfb{display:flex;justify-content:flex-end;gap:8px;margin-top:4px}.vfb button{padding:8px 16px;border-radius:999px;font-weight:800;font-size:13.5px;color:var(--muted)}.vfb button.ok{background:#CDBEEB;color:#3F3360}
@@ -2066,6 +2067,9 @@ document.addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.c
 function vLock(){S._vDelId=null;S._vReset=0;VAULT=null;VKEY=null;VSALT=null;S._vD=null;S._vShow={};S._vpin='';S._vpin1='';S._vmsg=''}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&VAULT){vLock();if(S.sheet==='vault')S.sheet='';try{render()}catch(e){}}});
 function vKeypad(){const d=(S._vpin||'').length;return `<div class="vdots">${[0,1,2,3].map(i=>`<i class="${i<d?'on':''}${i===d-1?' pop':''}"></i>`).join('')}</div><div class="vmsg">${S._vmsg||''}</div><div class="vpad">${[1,2,3,4,5,6,7,8,9,'',0,'del'].map(k=>k===''?'<span></span>':`<button data-a="vk" data-v="${k}">${k==='del'?'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B5A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>':k}</button>`).join('')}</div>`}
+let CF=null;
+function appConfirm(o,fn){S._cf=o;CF=fn;render()}
+function cfHTML(){const o=S._cf;return `<div class="cfveil" data-a="cfno"></div><div class="cfbox ${o.red?'red':''}" role="alertdialog">${o.red?'<svg width="46" height="46" viewBox="0 0 48 48"><path d="M24 6 44 40H4z" fill="#FBD9DD" stroke="#B3123A" stroke-width="2.4" stroke-linejoin="round"/><path d="M24 19v10" stroke="#B3123A" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="34.5" r="1.9" fill="#B3123A"/></svg>':`<span style="display:inline-flex;width:52px;height:52px">${ART.reveil}</span>`}<div class="vct">${o.t}</div><div class="vcs">${o.sub||''}</div><button class="vyes" data-a="cfyes">${o.yes||'Confirmer'}</button><button class="vno" data-a="cfno">Annuler</button></div>`}
 function vConfirm(t,sub,yes){return `<div class="vconf"><svg width="46" height="46" viewBox="0 0 48 48"><path d="M24 6 44 40H4z" fill="#FBD9DD" stroke="#B3123A" stroke-width="2.4" stroke-linejoin="round"/><path d="M24 19v10" stroke="#B3123A" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="34.5" r="1.9" fill="#B3123A"/></svg><div class="vct">${t}</div><div class="vcs">${sub}</div><button class="vyes" data-a="${yes}">Supprimer</button><button class="vno" data-a="vno">Annuler</button></div>`}
 function vaultHTML(){
   if(S._vReset)return vConfirm('Tout effacer ?','Tous les mots de passe enregistrés sur cet appareil seront définitivement supprimés. Cette action est irréversible.','vresetyes');
@@ -2220,7 +2224,7 @@ function renderInner(){
     <main>${content}</main>
     ${timerPill()}${S.tab!=='courses'&&S.tab!=='cycle'&&S.tab!=='moi'?`<button class="fab low" aria-label="Ajouter" data-a="add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:''}
     <nav>${(()=>{const pp=S._tabPop;S._tabPop='';return tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}${pp===t[0]?' pop':''}" style="--tc:${t[3]}" data-a="tab" data-v="${t[0]}"><svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true" style="overflow:visible"><g transform="${TABFIT[t[2]]}">${K[t[2]]}</g></svg>${t[1]}</button>`).join('')})()}</nav>
-    ${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
+    ${S._cf?cfHTML():''}${S.toast?`<div class="toast" role="status">${ART.reveil}<span>${esc(S.toast)}</span></div>`:''}
     ${sheetHTML()}`;
   const ns=ph.querySelector('.scroll');
   if(ns){if(S._scrollTo!==undefined){ns.scrollTop=Math.max(0,(S._scrollTo-6)*56);S._scrollTo=undefined}else if(S._key===key)ns.scrollTop=keep;else if(S.tab==='cal'&&S.view==='jour')ns.scrollTop=3*56;}
@@ -2232,7 +2236,7 @@ function renderInner(){
     const r=S.recettes.find(x=>x.id===S.recId);if(!r)return;const pid='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),old=r.photo;IMG[pid]=d;IDB.put(pid,d).catch(()=>{});r.photo=pid;render();sync.pushImg(pid);if(old){sync.delImg(old);IDB.del(old).catch(()=>{})}});
   const nt=document.getElementById('note');if(nt){if(S._focusNote){S._focusNote=false;setTimeout(()=>{nt.focus();nt.setSelectionRange(nt.value.length,nt.value.length)},50)}nt.addEventListener('input',e=>{if(S.D)S.D.note=e.target.value});nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px';nt.addEventListener('input',()=>{nt.style.height='auto';nt.style.height=Math.max(46,nt.scrollHeight+2)+'px'})}
   const rs=document.getElementById('restore');if(rs)rs.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;f.text().then(t=>{let o;try{o=JSON.parse(t)}catch(_){S.toast='Fichier illisible';render();return}if(!o||o.app!=='agenda'||!o.state){S.toast='Ce n’est pas une sauvegarde de l’agenda';render();return}
-    if(!confirm('Remplacer les données actuelles par la sauvegarde du '+String(o.at||'').slice(0,10)+' ?'))return;PKEYS.forEach(k=>{if(o.state[k]!==undefined)S[k]=o.state[k]});S.sheet='';S.toast='Sauvegarde restaurée';render()})});
+    const dt=String(o.at||'').slice(0,10),d2=/^\d{4}-\d\d-\d\d$/.test(dt)?pd(dt).getDate()+' '+MON[pd(dt).getMonth()]+' '+dt.slice(0,4):dt;appConfirm({t:'Remplacer tes données ?',sub:`Toutes les données actuelles de l’agenda seront remplacées par la sauvegarde du ${d2}. Cette action est irréversible.`,yes:'Remplacer',red:1},()=>{PKEYS.forEach(k=>{if(o.state[k]!==undefined)S[k]=o.state[k]});S.sheet='';S.toast='Sauvegarde restaurée';render()})})});
   const drn=document.getElementById('drnote');if(drn)drn.addEventListener('input',e=>{const D=S.cycle.days,k=S.cyDay,en={...(D[k]||{})},sl={...(en.sl||{})},v=e.target.value;if(v.trim())sl.note=v;else delete sl.note;if(Object.keys(sl).length)en.sl=sl;else delete en.sl;const nd={...D};if(Object.keys(en).length)nd[k]=en;else delete nd[k];S.cycle={...S.cycle,days:nd};persist()});
   if(S._focusQned){S._focusQned=false;const qe=document.getElementById('qned');if(qe){qe.focus();qe.setSelectionRange(qe.value.length,qe.value.length);qe.style.height=qe.scrollHeight+'px'}}
   const qn=document.getElementById('qnote');if(qn){const qg=()=>{qn.style.height='auto';qn.style.height=qn.scrollHeight+'px'};qg();qn.addEventListener('input',e=>{S.qnT=e.target.value;qg()});qn.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.querySelector('[data-a=qnadd]').click()}});if(S._focusQn){S._focusQn=false;qn.focus()}}
@@ -2358,7 +2362,7 @@ document.addEventListener('click',e=>{
     case 'tmrstart':{if(!S.D||!S.D.id)break;if(S.timer)tmrClear();const end=Date.now()+20*60e3,ed=new Date(end),nid=S.nextId++;S.items.push({id:nid,kind:'rappel',timer:true,theme:'autre',title:'Minuteur terminé · '+(S.D.title||''),date:fk(ed),start:ed.getHours()+ed.getMinutes()/60});S.timer={end,nid,title:S.D.title||'',task:S.D.id};tmrSave();S.sheet='';break}
     case 'rap20':{if(!S.D)break;const end=Date.now()+20*60e3,ed=new Date(end),st=ed.getHours()+ed.getMinutes()/60,nid=S.nextId++,t=(S.D.title||S.draft||'').trim()||'Minuteur 20 min';
       S.items.push({id:nid,kind:'rappel',title:t,theme:S.D.theme||'autre',date:fk(ed),start:st,end:st+.5,reports:0});S.timer={end,nid,title:t,rappel:1};tmrSave();S.sheet='';break}
-    case 'tmr':{if(tmrLeft()>0&&!confirm('Arrêter le minuteur ?'))return;tmrClear();break}
+    case 'tmr':{if(tmrLeft()>0){appConfirm({t:'Arrêter le minuteur ?',sub:'Le temps restant sera perdu.',yes:'Arrêter'},()=>{tmrClear();render()});return}tmrClear();break}
     case 'qnadd':{const t=(S.qnT||'').trim();if(!t){S._focusQn=true;break}S.notes=[...(S.notes||[]),{id:S.nextId++,t,at:TODAY}];S.qnT='';S._focusQn=true;break}
     case 'qndel':S.qnDel=id;S.sheet='qnconf';break;
     case 'qnyes':S.notes=S.notes.filter(n=>n.id!==S.qnDel);S.sheet='';break;
@@ -2368,6 +2372,8 @@ document.addEventListener('click',e=>{
         if(!vHas()){if(!S._vpin1){S._vpin1=pin;S._vpin='';break}if(S._vpin1!==pin){S._vpin1='';S._vpin='';S._vmsg='Les deux codes sont différents, recommence';break}S._vbusy=1;vCreate(pin).then(()=>{S._vbusy=0;S._vpin='';S._vpin1='';render()}).catch(()=>{S._vbusy=0;S._vpin='';S._vmsg='Erreur, réessaie';render()});break}
         S._vbusy=1;vOpen(pin).then(()=>{S._vbusy=0;S._vpin='';S._vfail=0;render()}).catch(()=>{S._vbusy=0;S._vpin='';S._vfail=(S._vfail||0)+1;if(S._vfail>=5){S._vwait=Date.now()+30000;S._vfail=0;S._vmsg='Trop d’essais, attends 30 secondes'}else S._vmsg='Code incorrect';render()})}
       break}
+    case 'cfyes':{const f=CF;S._cf=null;CF=null;if(f)f();return}
+    case 'cfno':{S._cf=null;CF=null;break}
     case 'vreset':{S._vReset=1;break}
     case 'vresetyes':{try{localStorage.removeItem(VK)}catch(e){}vLock();S._vReset=0;S.toast='Mots de passe effacés';break}
     case 'vno':{S._vReset=0;S._vDelId=null;break}
@@ -2457,7 +2463,7 @@ document.addEventListener('click',e=>{
     case 'bilan':S.sheet='bilan';break;
     case 'bklist':S.sheet='bk';break;
     case 'autobk':S.autoBk=!S.autoBk;try{localStorage.setItem('ag_autobk',S.autoBk?'1':'0')}catch(e){}if(S.autoBk)autoBackup();S._sheetKeep=true;break;
-    case 'bkrestore':{const b=bkList().find(x=>x.d===v);if(!b||!confirm('Revenir à la copie du '+pd(v).getDate()+' '+MONS[pd(v).getMonth()]+' ? Les changements faits depuis seront remplacés.'))return;PKEYS.forEach(k=>{if(b.state[k]!==undefined)S[k]=b.state[k]});S.sheet='';S.toast='Copie restaurée';break}
+    case 'bkrestore':{const b=bkList().find(x=>x.d===v);if(!b)return;appConfirm({t:`Revenir à la copie du ${pd(v).getDate()} ${MON[pd(v).getMonth()]} ?`,sub:'Les changements faits depuis seront remplacés. Cette action est irréversible.',yes:'Restaurer',red:1},()=>{PKEYS.forEach(k=>{if(b.state[k]!==undefined)S[k]=b.state[k]});S.sheet='';S.toast='Copie restaurée';render()});return}
     case 'backup':{const name='agenda-sauvegarde-'+TODAY+'.json',txt=JSON.stringify({app:'agenda',v:APP_VER,at:new Date().toISOString(),state:Object.fromEntries(PKEYS.map(k=>[k,S[k]]))});const blob=new Blob([txt],{type:'application/json'});let file=null;try{file=new File([blob],name,{type:'application/json'})}catch(e){}
       if(file&&navigator.canShare&&navigator.canShare({files:[file]}))navigator.share({files:[file],title:name}).catch(()=>{});else{const l=document.createElement('a');l.href=URL.createObjectURL(blob);l.download=name;document.body.appendChild(l);l.click();setTimeout(()=>{URL.revokeObjectURL(l.href);l.remove()},1500)}return}
     case 'cdic':S.cdIc=v;S._sheetKeep=true;break;
@@ -3303,7 +3309,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='192';
+const APP_VER='193';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
