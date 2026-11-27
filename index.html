@@ -263,7 +263,8 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .bubble{position:relative;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
 .bubble.on{box-shadow:0 0 0 3px color-mix(in srgb,var(--d) 75%,var(--ink))}
 .bubble .nm{font-size:11.5px;font-weight:700;line-height:1.15;max-width:86%}
-.bubble .zn{position:absolute;top:3px;right:3px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--card);color:var(--ink);font-size:11px;font-weight:700;display:grid;place-items:center;box-shadow:0 1px 3px rgba(75,50,45,.16)}
+.bubble .znm{top:0!important;right:0!important;min-width:32px!important;height:32px!important;padding:0 7px!important;border-radius:16px!important;font-family:'Zen Maru Gothic',Nunito,sans-serif;font-size:17px!important;font-weight:700!important;color:#B04A63!important;background:#FFF9F6!important;border:2px solid #F1BDCA;box-shadow:0 3px 8px rgba(176,74,99,.18)!important;line-height:1}
+.zn{position:absolute;top:3px;right:3px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--card);color:var(--ink);font-size:11px;font-weight:700;display:grid;place-items:center;box-shadow:0 1px 3px rgba(75,50,45,.16)}
 .cnt{position:absolute;top:2px;right:2px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--card);font-size:11px;font-weight:800;display:grid;place-items:center;box-shadow:0 1px 4px rgba(75,50,45,.15)}
 
 /* Personnages (ménage, soins) */
@@ -1695,7 +1696,7 @@ setInterval(()=>{if(!S.timer)return;const el=document.getElementById('tmrt'),lef
 const seasonDrop=()=>{const sb=document.getElementById('seasonbg');if(sb){sb.innerHTML='';void sb.offsetWidth;sb.innerHTML=seasonArt();decoGuard()}};setTimeout(seasonDrop,0);let _dropAt=Date.now(),_away=false;const _back=()=>{if(!_away)return;_away=false;if(Date.now()-_dropAt<1500)return;_dropAt=Date.now();seasonDrop()};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')_away=true;else _back()});window.addEventListener('pagehide',()=>{_away=true});window.addEventListener('blur',()=>{_away=true});window.addEventListener('pageshow',()=>{_away=true;_back()});window.addEventListener('focus',_back);
 try{S.autoBk=localStorage.getItem('ag_autobk')!=='0'}catch(e){S.autoBk=true}
 const bkList=()=>{try{return JSON.parse(localStorage.getItem('ag_bk')||'[]')}catch(e){return []}};
-function autoBackup(){if(!S.autoBk)return;const L=bkList();if(L[0]&&L[0].d===TODAY)return;const snap={d:TODAY,state:Object.fromEntries(PKEYS.map(k=>[k,S[k]]))};const N=[snap,...L.filter(b=>b.d!==TODAY)].slice(0,7);for(let n=N.length;n>0;n--){try{localStorage.setItem('ag_bk',JSON.stringify(N.slice(0,n)));break}catch(e){}}}
+function autoBackup(){if(!S.autoBk)return;const lim=add(TODAY,-2),L=bkList(),K=L.filter(b=>b&&b.d>=lim);if(K.length!==L.length){try{localStorage.setItem('ag_bk',JSON.stringify(K))}catch(e){}}if(K[0]&&K[0].d===TODAY)return;const snap={d:TODAY,state:Object.fromEntries(PKEYS.map(k=>[k,S[k]]))};const N=[snap,...K.filter(b=>b.d!==TODAY)].slice(0,3);for(let n=N.length;n>0;n--){try{localStorage.setItem('ag_bk',JSON.stringify(N.slice(0,n)));break}catch(e){}}}
 setTimeout(autoBackup,4000);setInterval(autoBackup,36e5);
 const cdLbl=n=>n===0?'Jour J':'J-'+n;
 const cdUp=()=>(S.cds||[]).filter(c=>c.date>=TODAY).sort((a,b)=>a.date<b.date?-1:1);
@@ -1808,7 +1809,7 @@ const ringPos=n=>LAY[n].p;
 const scatBtn=(i,a,v,id,m,name,extra,pos)=>{const [x,y]=pos[i],sz=LAY[pos.length].z[i];return `<button class="cbw" style="position:absolute;width:120px;left:calc(50% + ${x}px);top:calc(50% + ${y}px);transform:translate(-50%,-50%)" data-a="${a}" data-v="${v}"><span class="bubble cb blob ${m}" style="width:${sz}px;height:${sz}px;border-radius:${BLOBS[i%BLOBS.length]}">${charSvg(id,m,Math.round(sz*.62))}${extra||''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`};
 function menageHTML(){
   const zones=ZONES.map(([id,name])=>{const its=S.chores.filter(c=>c.zone===id),m=its.length?worst(its):'ok',n=its.filter(c=>!off(c)).length;
-    return scatBtn(ZONES.findIndex(z=>z[0]===id),'zone',id,id,m,name,n?`<span class="zn">${n}</span>`:'',ringPos(ZONES.length))}).join('');
+    return scatBtn(ZONES.findIndex(z=>z[0]===id),'zone',id,id,m,name,n?`<span class="zn znm">${n}</span>`:'',ringPos(ZONES.length))}).join('');
   const sg='';const _sg=S.sugg.length?`<button class="cbw" style="width:108px" data-a="suggs"><span class="bubble cb" style="width:98px;height:98px;--d:#EEB87D">${charSvg('idee','ok',62)}</span><span class="lbl2" style="font-size:13.5px">Suggestions</span></button>`:'';
   return `<div class="scroll bigcloud"><div class="cloud scat">${zones}${sg}</div></div>`;
 }
@@ -3236,7 +3237,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='181';
+const APP_VER='182';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
