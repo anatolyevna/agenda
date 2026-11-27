@@ -334,8 +334,8 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .csearch{position:sticky;bottom:-38px;margin:0 -20px -38px;padding:12px 20px 38px;background:var(--bg)}
 /* Météo semaine */
 .wday{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
-.wday .d{width:86px;font-weight:700;font-size:14px}
-.wday .t{margin-left:auto;font-weight:700;font-size:15px}
+.wday .d{font-weight:700;font-size:14px;white-space:nowrap}.wday.today{border:2px solid #A4BED3;padding:7px 13px}.wday .r{display:flex;align-items:center;gap:3px;margin-left:auto;font-size:12.5px;font-weight:700;color:#6F8BA6}.wday .r+.t{margin-left:14px}
+.wday .t{margin-left:auto;font-weight:700;font-size:15px;min-width:64px;text-align:right}
 .wday .t small{font-weight:500;color:var(--muted);margin-left:6px}
 /* Commun */
 .fab.low{bottom:calc(var(--nb) + 78px)!important}.fab{position:absolute;right:20px;bottom:calc(var(--nb) + 86px);width:46px;height:46px;border-radius:23px;background:var(--acc);display:grid;place-items:center;background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 78%,#fff),var(--acc) 60%);box-shadow:0 5px 12px rgba(207,107,100,.34);z-index:5}.fab svg{width:20px;height:20px}
@@ -2015,11 +2015,11 @@ function moiHTML(){wbStateRec();
   const tabs=[['matin','Matin',sun],['soir','Soir',night]].map(([k,l,ic])=>`<button class="${m===k?'on':''}" data-a="wbm" data-v="${k}">${ic}<span class="wbtl"><b>${l}</b>${m===k?`<small>${left?left+' à faire'+(eta?' · '+eta+' min':''):'tout est fait ✨'}</small>`:''}</span></button>`).join('');
   const groups=ORD.map(z=>{
     const rows=due.filter(c=>wbZone(c)===z).sort((a,b)=>(seq[a.id]||999)-(seq[b.id]||999));const ad=adv.filter(o=>o.z===z);
-    if(!rows.length&&!ad.length&&!(z==='autre'&&autreChips))return '';
+    if(!rows.length&&!ad.length&&!(z==='autre'&&autreChips)&&z!=='complements'&&z!=='sportm')return '';
     const n=rows.filter(c=>!wbDone(c)&&c.sec!=='sportm').length+ad.filter(o=>!o.done).length,tot=rows.filter(c=>c.sec!=='sportm').length+ad.length;
     if(tot&&!n&&z!=='sportm'&&z!=='autre'&&!(S._wbZopen||{})[z])return `<button class="wbzdone" style="--d:${WBZC[z]}" data-a="wbzopen" data-v="${z}">${WBZN[z]} <b>✓</b> <span class="wbzd2">${tot} fait${tot>1?'s':''}</span></button>`;
     const TO=(S._wbTag||{})[z],tag=(extra)=>`<button class="wbtag" style="--d:${WBZC[z]}" data-a="wbtag" data-v="${z}" data-lp="wbzall" data-lpv="${z}"><span class="wbti">${charSvg(z==='autre'?'idee':z,'ok',38)}</span><span class="wbtn">${WBZN[z]}</span>${extra||''}</button>`,chev=`<svg class="wbtc" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${TO?180:0}deg)"><path d="M6 9l6 6 6-6"/></svg>`;
-    if(z==='sportm'){const dn=rows.filter(wbDone).length;return `<div class="wbz">${tag((dn?`<b class="wbok">${dn} ✓</b>`:'')+chev)}${TO?`<div class="wbin">${rows.map(wbRow).join('')}</div>`:''}</div>`}
+    if(z==='sportm'){const SO=['yoga','etir','course'],so=c=>{const i=SO.indexOf(c.sub);return i<0?9:i};rows.sort((a,b)=>so(a)-so(b));const dn=rows.filter(wbDone).length;return `<div class="wbz">${tag((dn?`<b class="wbok">${dn} ✓</b>`:'')+chev)}${TO?`<div class="wbin">${rows.map(wbRow).join('')}</div>`:''}</div>`}
     if(z==='complements'){const al=supAlerts(),msg=S._supMsg;S._supMsg='';const SC=S.care.filter(c=>c.sec==='complements'&&supOf(c)).sort((a,b)=>SLOTS.findIndex(s=>s[0]===supOf(a).slot)-SLOTS.findIndex(s=>s[0]===supOf(b).slot));
       const tg=`<label class="spwake"><span>Heure du réveil</span><input class="din" type="time" data-in="supwake" value="${S.flags.wake||'07:00'}"></label><label class="spwake"><span>Heure du coucher</span><input class="din" type="time" data-in="supbed" value="${S.flags.bed||'23:00'}"></label><div class="hp" style="padding:0 0 6px">Les horaires s’adaptent à ces deux heures.</div>${supSuivi()}${msg?`<div class="spmsg">${msg}</div>`:''}<div class="sptg">${SC.map(c=>`<button class="${c.paused?'':'on'}" data-a="suptg" data-id="${c.id}"><span><b>${esc(supOf(c).n)}</b><small>${slotT(supOf(c).slot)} · ${supOf(c).ther?'prescrit':supOf(c).cx?'complexe':'indicatif'}${supOf(c).od||String(c.freq)==='0'?' · si besoin':String(c.freq)==='2'?' · 1 jour sur 2':String(c.freq)==='7'?' · 1 fois par semaine':''}${c.rem!==undefined&&c.rem!==''?' · rappel':''}</small></span><i></i></button>`).join('')}</div>${supAddForm()}`;
       const pon=S.care.filter(c=>c.sec==='complements'&&supOf(c)&&!c.paused&&(supOf(c).od||String(c.freq)==='0')&&!wbDue(c)&&wbMom(c)===m&&(!c.start||c.start<=TODAY)&&(!c.end||c.end>=TODAY));
@@ -2153,7 +2153,7 @@ function sheetHTML(){
       <div class="row" style="padding:8px 16px;background:var(--card);border:1px solid var(--line);border-radius:16px"><span class="meta" style="font-size:13.5px">Seuil Procrastiner</span><select class="din" data-in="seuil" style="min-width:0;width:74px;height:36px;padding:0 8px">${Array.from({length:13},(_,i)=>i+3).map(n=>`<option value="${n}" ${S.seuil===n?'selected':''}>${n}</option>`).join('')}</select></div>`;
   } else if(S.sheet==='meteo'){
     title=esc(W?W.name:'Météo');
-    inner=W?`<div style="display:flex;flex-direction:column;gap:8px">${W.days.map((f,i)=>{const k=f.d;return `<div class="wday">${ART[f.icon](38)}<span class="d">${k===TODAY?'Aujourd’hui':DOWL[wd(k)]+' '+pd(k).getDate()}</span><span class="t">${Math.round(f.max)}°<small>${Math.round(f.min)}°</small></span></div>`}).join('')}</div>`:`<div class="meta">Météo indisponible pour l’instant.</div>`;
+    inner=W?`<div style="display:flex;flex-direction:column;gap:8px">${W.days.map((f,i)=>{const k=f.d;return `<div class="wday${k===TODAY?' today':''}">${ART[f.icon](38)}<span class="d">${k===TODAY?'Aujourd’hui':DOWL[wd(k)]+' '+String(pd(k).getDate()).padStart(2,'0')+'/'+String(pd(k).getMonth()+1).padStart(2,'0')}</span>${typeof f.rain==='number'?`<span class="r"><svg width="11" height="14" viewBox="0 0 12 16"><path d="M6 1C4 5 1.5 7.6 1.5 10.5a4.5 4.5 0 0 0 9 0C10.5 7.6 8 5 6 1z" fill="#A4BED3"/></svg>${Math.round(f.rain)} %</span>`:''}<span class="t">${Math.round(f.max)}°<small>${Math.round(f.min)}°</small></span></div>`}).join('')}</div>`:`<div class="meta">Météo indisponible pour l’instant.</div>`;
   } else if(S.sheet==='catalog'&&S.catRayon==='habituels'){
     const mine=S.courses.filter(c=>!c.done).map(c=>norm(c.name));
     title=`<span style="display:flex;align-items:center;gap:10px"><span class="ic tint" style="--d:#F4C3C8;width:40px;height:40px;border-radius:14px">${kw('habituels',30)}</span>Mes habituels</span>`;
@@ -3227,15 +3227,15 @@ let wBusy=false;
 function getPos(){let c=null;try{c=JSON.parse(localStorage.getItem('ag_pos')||'null')}catch(e){}if(c&&Date.now()-c.t<12*3600e3)return Promise.resolve(c);return new Promise((ok,ko)=>{if(!navigator.geolocation)return c?ok(c):ko();navigator.geolocation.getCurrentPosition(p=>{const v={latitude:p.coords.latitude,longitude:p.coords.longitude,t:Date.now()};try{localStorage.setItem('ag_pos',JSON.stringify(v))}catch(e){}ok(v)},()=>c?ok(c):ko(),{timeout:9000,maximumAge:12*3600e3})})}
 async function geocode(name){const r=await fetch('https://geocoding-api.open-meteo.com/v1/search?count=1&language=fr&name='+encodeURIComponent(name));const j=await r.json();const g=j.results&&j.results[0];if(!g)throw 0;return{lat:g.latitude,lon:g.longitude,name:g.name}}
 async function loadWeather(force){
-  if(wBusy)return;if(!force&&W&&W.city===S.city&&nowMs()-W.at<30*60000&&W.days&&W.days[0]&&W.days[0].d<=TODAY)return;
+  if(wBusy)return;if(!force&&W&&W.city===S.city&&nowMs()-W.at<30*60000&&W.days&&W.days[0]&&W.days[0].d<=TODAY&&W.days[0].rain!==undefined)return;
   wBusy=true;
   try{let loc;
     if(S.city==='Ma position'){try{const c=await getPos();loc={lat:c.latitude,lon:c.longitude,name:'Ma position'}}catch(e){loc=await geocode('Roubaix')}}
     else loc=await geocode(S.city);
-    const u='https://api.open-meteo.com/v1/forecast?latitude='+loc.lat+'&longitude='+loc.lon+'&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max&timezone=auto&forecast_days=7';
+    const u='https://api.open-meteo.com/v1/forecast?latitude='+loc.lat+'&longitude='+loc.lon+'&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=auto&forecast_days=7';
     const j=await (await fetch(u)).json();
     W={city:S.city,name:loc.name==='Ma position'?'Ici':loc.name,cur:j.current.temperature_2m,icon:wIcon(j.current.weather_code),at:nowMs(),
-       days:j.daily.time.map((d,i)=>({d,icon:wIcon(j.daily.weather_code[i]),max:j.daily.temperature_2m_max[i],min:j.daily.temperature_2m_min[i],uv:(j.daily.uv_index_max||[])[i]}))};
+       days:j.daily.time.map((d,i)=>({d,icon:wIcon(j.daily.weather_code[i]),max:j.daily.temperature_2m_max[i],min:j.daily.temperature_2m_min[i],uv:(j.daily.uv_index_max||[])[i],rain:(j.daily.precipitation_probability_max||[])[i]}))};
     try{localStorage.setItem('ag_weather',JSON.stringify(W))}catch(e){}
     render();
   }catch(e){}finally{wBusy=false}
@@ -3301,7 +3301,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='151';
+const APP_VER='152';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
