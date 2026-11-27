@@ -727,7 +727,7 @@ function skinCard(){const p=skinPh(),P=SKIN_PH[p],d=wd(TODAY);
  </details>`}
 function skinApply(p){const g=sub=>S.care.find(c=>c.sec==='visage'&&c.sub===sub);const gs=g('gs'),mq=g('masqueV'),nc=g('mousse');
  if(gs){delete gs.freq;gs.days=[5];gs.moments=['soir'];delete gs.next;if(p<3)gs.paused=true;else gs.paused=false}
- if(mq){delete mq.next;if(p===3){delete mq.freq;mq.days=[2]}else{delete mq.days;mq.freq=7}mq.moments=['soir']}
+ if(mq){delete mq.next;delete mq.freq;mq.days=[2];mq.moments=['soir']}
  if(nc){delete nc.freq;nc.days=[4];nc.moments=['soir'];delete nc.next;nc.paused=p<3}
  const m=g('matin'),s=g('soir');if(m){delete m.days;m.freq=1;m.moments=['matin']}if(s){delete s.days;s.freq=1;s.moments=['soir']}}
 /* ---- Routine cheveux (Bien-être → Cheveux) ---- */
@@ -3233,7 +3233,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='176';
+const APP_VER='177';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
