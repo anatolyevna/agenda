@@ -169,6 +169,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .spfold{display:flex;gap:8px;margin:2px 0 6px}.spfold button{flex:1;min-width:0;display:flex;align-items:center;gap:4px;padding:8px 8px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-weight:800;font-size:13px;letter-spacing:-.1px;color:var(--ink)}.spfold button span{flex:1;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.spfold button.on{background:#FFF7E2;border-color:#EFE0B0}.spfold .chev{flex:none;color:#9A8A82}
 .spgap small{font-size:8px}.spgap{display:inline;margin-left:7px;font-size:9px;font-weight:400;color:#A3123A;opacity:.85}
 .thyin{margin-left:6px;white-space:nowrap}.thyin .thy{margin-top:0;font-size:10px;border-width:1.2px}.thyin .thy>span{padding:1px 5px}.thyin .thy>span+span{border-left-width:1.2px}
+.wbpre{margin:18px 4px;padding:14px 16px;border-radius:18px;background:var(--card);border:1px solid var(--line);text-align:center;font-weight:700;color:var(--muted);font-size:14px}
 .spsep{display:flex;align-items:center;gap:8px;margin:8px 4px 4px;font-size:10.5px;font-weight:600;color:#B5A69D;letter-spacing:.02em}.spsep::after{content:'';flex:1;height:1px;background:#EDE3DA}
 .thy{display:inline-flex;align-self:flex-start;margin-top:3px;border-radius:999px;border:1.5px solid #EDA5B0;overflow:hidden;font-size:12px;font-weight:600;color:var(--muted);vertical-align:middle;white-space:nowrap}.thy>span{padding:2px 9px}.thy>span+span{border-left:1.5px solid #EDA5B0}.thy b{font-weight:800}.thy .on{background:#FBE3E6;color:#B04A63}
 .wbcx .wbh{padding:4px 10px;gap:6px}.wbcx .wbck{width:26px;height:26px}.wbcx .wbic svg{width:26px;height:26px}.wbcx .wbn{font-size:14px}.wbcx .wbi{margin-bottom:5px;border-radius:14px}.wbcx .wbtag{margin:10px 0 6px!important;padding:3px 12px 3px 6px!important;font-size:15px!important}.wbcx .wbti{margin:0!important;line-height:0}.wbcx .wbti svg{width:24px;height:24px}.wbcx .wbtag{min-height:34px}
@@ -1347,6 +1348,7 @@ function persist(){const state={};PKEYS.forEach(k=>{state[k]=S[k];const j=JSON.s
 const nowMs=()=>Date.now();
 const visible=it=>!it.timer&&!(it.done&&it.doneAt&&nowMs()-it.doneAt>864e5);
 function migrate(){if(!S.flags)S.flags={};let ch=false;
+  if(!S.flags.off1&&Array.isArray(S.care)){const st='2026-11-30',y='2026-11-29';S.flags.wbStart=st;S.care.forEach(c=>{if(!['visage','cheveux','corps','sportm','complements'].includes(c.sec))return;if(BODY_IPL[c.hk])return;c.last=y;delete c.next;delete c.chk;delete c.wbPrev});['skinPd','hairPd','bodyPd'].forEach(k=>S.flags[k]=st);['wbV','wbSteps','wbShort','wbShift','wbNew'].forEach(k=>delete S.flags[k]);S.flags.off1=1;ch=true}
   if(!S.flags.cl1){['supLog','supExp','supRem','wake','bed','supCx'].forEach(k=>delete S.flags[k]);if(Array.isArray(S.care))S.care.forEach(c=>{if(c.sec==='complements')['dose','uAmt','uUnit','form','perTake','stock','rem','img','reval','end'].forEach(k=>delete c[k])});S.flags.cl1=1;ch=true}
   if(!S.flags.sup3&&Array.isArray(S.care)){S.care.forEach(c=>{if(c.sec==='complements'&&(c.hk==='fer'||c.hk==='psyl'))c.title=SUPX[c.hk].n});S.flags.sup3=1;ch=true}
   if(!S.flags.sup4&&Array.isArray(S.care)){S.care.forEach(c=>{if(c.sec==='complements'&&c.hk==='mg')c.title=SUPX.mg.n});S.flags.sup4=1;ch=true}
@@ -1877,6 +1879,8 @@ function wbAdvice(m,listed){const out=[],V=S.flags.wbV&&S.flags.wbV.d===TODAY?S.
   if(m==='soir'){
   if(S.care.some(c=>c.sec==='sportm'&&c.last===TODAY)){const h=S.care.find(x=>x.sec==='cheveux'&&x.hk==='sport'),b=BR.sport?{hk:'sport',sec:'corps',sub:'tube'}:null;
     out.push({z:'cheveux',key:'s:a',title:'Après le sport',sub:'Cheveux et corps · ajouté car tu as fait du sport',auto:1,col:'#EBAE6B',ic:'basket',html:(h?`<div class="hg">Cheveux</div>${hairDetail(h)}`:'')+(b?`<div class="hg">Corps</div>${bodyDetail(b)}`:'')})}
+  {const nx=wbPms();if(nx&&S.flags.pmsOk===nx){const bl=skLoc().find(r=>r[0]==='Boutons actifs');if(bl)out.push({z:'visage',key:'p:v',title:'Boutons : soin ciblé',sub:'ajouté selon ton cycle · règles prévues bientôt',auto:1,col:'#EDA5B0',ic:'matin',html:`<div class="hair skin"><div class="hp"><span class="sk">Produit</span> ${bl[1]}</div><div class="hp"><span class="sk">Quantité</span> ${bl[2]}</div><div class="hp" style="padding-bottom:8px"><span class="sk">Zone</span> ${bl[3]}</div></div>`});
+    if(!bState().includes('bout')&&BR.sosbout)out.push({z:'corps',key:'p:b',title:'SOS boutons',sub:'ajouté selon ton cycle · règles prévues bientôt',auto:1,col:'#C9B6E8',ic:'tube',html:bodyDetail({hk:'sosbout',sec:'corps',sub:'tube'})})}}
   if((cyMark(TODAY)||'')[0]==='p'&&BR.regles)out.push({z:'corps',key:'c:r',title:'Confort pendant les règles',sub:'ajouté selon ton cycle',auto:1,col:'#EDA5B0',ic:'serviette',html:bodyDetail({hk:'regles',sec:'corps',sub:'tube'})});
   HSTATE.filter(x=>hState().includes(x[0])).forEach(([k,n,r])=>{const hk=HST_HK[k],c=hk&&S.care.find(x=>x.sec==='cheveux'&&x.hk===hk);if(c&&listed.includes(c))return;if(c&&out.some(o=>o.det===c.id))return;out.push({z:'cheveux',key:'h:'+k,title:r,sub:'ajouté car : '+n.toLowerCase(),col:'#EEB87D',ic:c?icOf(c):'boucles',det:c?c.id:null,html:c?hairDetail(c):''})});
   BODY_STATE.filter(x=>bState().includes(x[0])&&x[0]!=='normale').forEach(([k,n,r])=>{const hk=BSTATE_R[k],c=hk&&S.care.find(x=>x.sec==='corps'&&x.hk===hk);if(c&&listed.includes(c))return;out.push({z:'corps',key:'b:'+k,title:r,sub:'ajouté car : peau '+n.toLowerCase(),col:'#C9B6E8',ic:c?icOf(c):'tube',html:c?bodyDetail(c):hk&&BR[hk]?bodyDetail({hk,sec:'corps',sub:'tube'}):hk?bodyMini(hk):''})});
@@ -1890,7 +1894,7 @@ function wbPhaseHint(){const f=S.flags,L=[['skin','Visage',skinPh(),SKIN_PH],['h
   for(const [k,n,p,P] of L){const d=(WB_PHDUR[k]||{})[p];if(!d)continue;const st=f[k+'Pd'];if(!st)continue;const days=diff(st,TODAY);if(days<d)continue;if(f[k+'Snooze']&&f[k+'Snooze']>TODAY)continue;
     return `<div class="wbhint"><span>${n} : ${Math.round(days/7)} semaine${days>=14?'s':''} en phase ${p} (${P[p][0]}). Passer en phase ${p+1} ?</span><button data-a="wbset">Voir</button><button data-a="wbsnooze" data-v="${k}">Plus tard</button></div>`}
   return ''}
-function wbTonight(){try{const due=S.care.filter(c=>(WB_SECS.includes(c.sec))&&wbDue(c)&&!wbDone(c)&&wbMom(c)==='soir');const n=due.length+wbAdvice('soir',due).filter(o=>!o.done).length,mask=due.some(c=>c.sub==='masqueV'),v={d:TODAY,n,mask};if(JSON.stringify(S.flags.wbTonight)!==JSON.stringify(v))S.flags.wbTonight=v}catch(e){}}
+function wbTonight(){try{if(wbPre()){const v={d:TODAY,n:0,mask:false};if(JSON.stringify(S.flags.wbTonight)!==JSON.stringify(v))S.flags.wbTonight=v;return}const due=S.care.filter(c=>(WB_SECS.includes(c.sec))&&wbDue(c)&&!wbDone(c)&&wbMom(c)==='soir');const n=due.length+wbAdvice('soir',due).filter(o=>!o.done).length,mask=due.some(c=>c.sub==='masqueV'),v={d:TODAY,n,mask};if(JSON.stringify(S.flags.wbTonight)!==JSON.stringify(v))S.flags.wbTonight=v}catch(e){}}
 const WB_IC={cheveux:{refresh:'n_href',express:'n_hexp',complet:'n_hlav',sport:'n_hspo',massage:'n_hmas'},corps:{fermete:'n_ferm',incarnes:'n_inc',express:'n_bexp',complete:'n_bcomp',fraise:'n_fraise',acne:'n_dos',exfo:'n_exfo',ipl_j:'n_iplj',ipl_a:'n_ipla',ipl_m:'n_iplm',cibles:'n_cib'}};
 const icOf=c=>(WB_IC[c.sec]||{})[c.hk]||c.sub;
 function wbMarkNew(sec,before){const after=S.care.filter(c=>c.sec===sec&&wbEl(c)).map(c=>c.id),nw=after.filter(id=>!before.includes(id)),N={...(S.flags.wbNew||{})};nw.forEach(id=>N[id]=TODAY);Object.keys(N).forEach(k=>{if(diff(N[k],TODAY)>=7||!after.includes(+k)&&S.care.some(c=>c.id===+k&&c.sec===sec))delete N[k]});S.flags.wbNew=N}
@@ -1910,7 +1914,10 @@ function wbCyProp(){const c=S._cy||cyStats();if(!c||!c.day||!c.per||c.per.length
   const cnt=a=>{const m={};days.forEach(d=>(a(d)||[]).forEach(x=>m[x]=(m[x]||0)+1));return Object.keys(m).filter(x=>m[x]>=Math.ceil(days.length/2))};
   const skin=cnt(d=>d.skin&&d.skin!=='c'?[d.skin]:[])[0]||null,body=cnt(d=>(d.body||[]).filter(x=>x!=='normale')).filter(x=>!bState().includes(x)),hair=cnt(d=>d.hair).filter(x=>!hState().includes(x));
   if(skin===skVer())return body.length||hair.length?{skin:null,body,hair}:null;return skin||body.length||hair.length?{skin,body,hair}:null}
+const wbPre=()=>!!(S.flags.wbStart&&TODAY<S.flags.wbStart);
+function wbPms(){const c=S._cy||cyStats();if(!c||!c.next)return null;const d=diff(TODAY,c.next);if(d<1||d>5)return null;if((cyMark(TODAY)||'')[0]==='p')return null;return c.next}
 function wbBanners(eta){let h=wbPhaseHint();
+  {const nx=wbPms();if(nx&&S.flags.pmsOk!==nx&&S.flags.pmsNo!==nx){const dd=pd(nx);h+=`<div class="wbhint"><span>Règles prévues le ${dd.getDate()} ${MON[dd.getMonth()]} : la peau a tendance à faire des boutons ces jours-ci. Adapter les routines&nbsp;?</span><button data-a="wbpmsy">Oui</button><button data-a="wbpmsn">Non</button></div>`}}
   const pr=S.flags.wbCyAsk!==TODAY&&wbCyProp();if(pr){const L=[pr.skin?{e:'visage en version Express',i:'peau irritée (visage)'}[pr.skin]:'',...pr.body.map(k=>'peau '+(BODY_STATE.find(x=>x[0]===k)||['',k])[1].toLowerCase()),...pr.hair.map(k=>(HSTATE.find(x=>x[0]===k)||['',k])[1].toLowerCase())].filter(Boolean);
     h+=`<div class="wbhint"><span>Les mois précédents, à ce moment du cycle, tu avais noté : <b>${L.join(', ')}</b>. L’appliquer aujourd’hui ?</span><button data-a="wbcyyes">Oui</button><button data-a="wbcyno">Non</button></div>`}
   const w=S.flags.wbShort&&S.flags.wbShort.d===TODAY?S.flags.wbShort:null;
@@ -1922,8 +1929,9 @@ function wbReward(m){const el=document.createElement('div');el.className='wbrw';
 function moiHTML(){wbStateRec();
   const m=wbMoment(),moms=m==='matin'?['matin','midi']:['soir'];
   const care=S.care.filter(c=>WB_SECS.includes(c.sec)||c.sec==='sportm'||c.sub==='manucure');
-  const due=care.filter(c=>wbDue(c)&&(c.sec==='sportm'||wbZone(c)==='autre'||moms.includes(wbMom(c))));
-  const adv=wbAdvice(m,due);
+  const pre=wbPre();
+  const due=pre?[]:care.filter(c=>wbDue(c)&&(c.sec==='sportm'||wbZone(c)==='autre'||moms.includes(wbMom(c))));
+  const adv=pre?[]:wbAdvice(m,due);
   const sun=`<svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#F5DE9A" stroke="#6B5A55" stroke-width="1.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="#E9B949" stroke-width="1.6" stroke-linecap="round"/></svg>`;
   const night=`<svg width="32" height="30" viewBox="0 0 26 24" aria-hidden="true"><path d="M7 19.5c-2.5 0-4.3-1.8-4.3-4 0-2 1.5-3.6 3.4-3.9.5-2.9 3-5 6-5 2.7 0 5 1.7 5.8 4.1 2.2.2 3.9 2 3.9 4.3 0 2.5-2 4.5-4.5 4.5z" fill="#EEF0F8" stroke="#6B5A55" stroke-width="1.2" stroke-linejoin="round"/><path d="M20.5 2.2l.7 1.6 1.6.7-1.6.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7zM4.2 3.4l.5 1.1 1.1.5-1.1.5-.5 1.1-.5-1.1-1.1-.5 1.1-.5zM24 9.5l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4z" fill="#F2C14E"/></svg>`;
   const ORD=['cheveux','corps','visage','complements','sportm','autre'],seq={};let k=0;
@@ -1935,7 +1943,7 @@ function moiHTML(){wbStateRec();
   const mins=work.filter(c=>wbZone(c)!=='autre').reduce((a,c)=>a+wbMin(c),0)+wadv.length*5,eta=mins?Math.max(5,Math.round(mins/5)*5):0;
   const autreL=care.filter(c=>wbZone(c)==='autre'&&!due.includes(c)&&wbEl(c)).sort((a,b)=>wbOnDemand(a)-wbOnDemand(b)||(nextOf(a)<nextOf(b)?-1:1));
   const autreChips=autreL.length?`<div class="wblts">${autreL.map(c=>`<button class="wblt" data-a="wbtodo" data-id="${c.id}"><span style="line-height:0">${charSvg(icOf(c),'ok',24)}</span><span><b>${esc(c.title)}</b>${wbOnDemand(c)?'':`<i>${short(nextOf(c)<=TODAY?add(TODAY,1):nextOf(c))}</i>`}</span><em>+</em></button>`).join('')}</div>`:'';
-  const tabs=[['matin','Matin',sun],['soir','Soir',night]].map(([k,l,ic])=>`<button class="${m===k?'on':''}" data-a="wbm" data-v="${k}">${ic}<span class="wbtl"><b>${l}</b>${m===k?`<small>${left?left+' à faire'+(eta?' · '+eta+' min':''):'tout est fait ✨'}</small>`:''}</span></button>`).join('');
+  const tabs=[['matin','Matin',sun],['soir','Soir',night]].map(([k,l,ic])=>`<button class="${m===k?'on':''}" data-a="wbm" data-v="${k}">${ic}<span class="wbtl"><b>${l}</b>${m===k&&!pre?`<small>${left?left+' à faire'+(eta?' · '+eta+' min':''):'tout est fait ✨'}</small>`:''}</span></button>`).join('');
   const groups=ORD.map(z=>{
     const rows=due.filter(c=>wbZone(c)===z).sort((a,b)=>(seq[a.id]||999)-(seq[b.id]||999));const ad=adv.filter(o=>o.z===z);
     if(!rows.length&&!ad.length&&!(z==='autre'&&autreChips)&&z!=='complements'&&z!=='sportm')return '';
@@ -1960,8 +1968,8 @@ function moiHTML(){wbStateRec();
     return `<details class="wbl8" ${(S._wbLater||{})[z]?'open':''}><summary data-a="wblater" data-v="${z}">${z==='autre'?'À ajouter quand tu veux':'Plus tard · '+WBZN[z]} · ${L.length}</summary><div class="wblts">${L.map(chip).join('')}</div></details>`}).join('');
   return `<div class="scroll wbcx" style="padding:4px 18px 150px">
     <div class="wbtop"><div class="wbtabs">${tabs}</div></div>
-    ${wbSet()}${wbBanners(eta)}
-    ${groups}</div>`}
+    ${wbSet()}${pre?'':wbBanners(eta)}
+    ${pre?`<div class="wbpre">Début officiel des routines le ${DOWL[wd(S.flags.wbStart)].toLowerCase()} ${pd(S.flags.wbStart).getDate()} ${MON[pd(S.flags.wbStart).getMonth()]}.</div>`:groups}</div>`}
 function soinsHTML(){
   const secs=CARE.map(([id,name],i)=>{const its=S.care.filter(c=>c.sec===id),m=worst(its);
     const nb=id!=='recette'?its.filter(c=>!off(c)&&st(c).m!=='ok').length:0;
@@ -2412,6 +2420,8 @@ document.addEventListener('click',e=>{
     case 'wbshortundo':{const w=S.flags.wbShort;if(w&&w.ids){w.ids.forEach(([id,n])=>{const c=S.care.find(x=>x.id===id);if(c){if(n)c.next=n;else delete c.next}});if(w.v)S.flags.skinV={d:TODAY,v:w.v};else delete S.flags.skinV}delete S.flags.wbShort;break}
     case 'wbcyyes':{const pr=wbCyProp();if(pr){if(pr.skin)S.flags.skinV={d:TODAY,v:pr.skin};if(pr.body.length)S.flags.bodyState={d:TODAY,s:[...new Set(bState().concat(pr.body))]};if(pr.hair.length)S.flags.hairState={d:TODAY,s:[...new Set(hState().concat(pr.hair))]}}S.flags.wbCyAsk=TODAY;break}
     case 'wbcyno':S.flags.wbCyAsk=TODAY;break;
+    case 'wbpmsy':{const nx=wbPms();if(nx)S.flags.pmsOk=nx;break}
+    case 'wbpmsn':{const nx=wbPms();if(nx)S.flags.pmsNo=nx;break}
     case 'wbsport':S._wbSport=!S._wbSport;break;
     case 'supcol':{if(S._lpAt&&Date.now()-S._lpAt<900)break;S._supCol=!S._supCol;if(S._supCol)S._supInfo=false;break}
     case 'supsel':{S._supSel=!S._supSel;break}
@@ -3222,7 +3232,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='174';
+const APP_VER='175';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
