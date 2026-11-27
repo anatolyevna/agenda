@@ -168,7 +168,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .spplus{flex:none;width:22px;height:22px;display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%;border:1.2px solid color-mix(in srgb,var(--d) 80%,#8C6E60);background:rgba(255,255,255,.7);color:#9A8478;margin-left:2px}.spplus svg{display:block}.spplus.on{background:color-mix(in srgb,var(--d) 40%,#fff)}.spar{position:absolute;right:0;top:8px;bottom:8px;width:44px;display:flex;align-items:center;justify-content:center;}.wbtag .spar .wbtc{position:static!important;margin:0!important;right:auto!important}
 .spx{font-size:12.5px}
 .spfold{display:flex;gap:8px;margin:2px 0 6px}.spfold button{flex:1;min-width:0;display:flex;align-items:center;gap:4px;padding:8px 8px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-weight:800;font-size:13px;letter-spacing:-.1px;color:var(--ink)}.spfold button span{flex:1;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.spfold button.on{background:#FFF7E2;border-color:#EFE0B0}.spfold .chev{flex:none;color:#9A8A82}
-.spgap{display:inline;margin-left:8px;font-size:10px;font-weight:400;color:#A3123A;opacity:.85}
+.spgap small{font-size:8px}.spgap{display:inline;margin-left:7px;font-size:9px;font-weight:400;color:#A3123A;opacity:.85}
 .spsep{display:flex;align-items:center;gap:8px;margin:8px 4px 4px;font-size:10.5px;font-weight:600;color:#B5A69D;letter-spacing:.02em}.spsep::after{content:'';flex:1;height:1px;background:#EDE3DA}
 .thy{display:inline-flex;align-self:flex-start;margin-top:3px;border-radius:999px;border:1.5px solid #EDA5B0;overflow:hidden;font-size:12px;font-weight:600;color:var(--muted);vertical-align:middle;white-space:nowrap}.thy>span{padding:2px 9px}.thy>span+span{border-left:1.5px solid #EDA5B0}.thy b{font-weight:800}.thy .on{background:#FBE3E6;color:#B04A63}
 .wbcx .wbh{padding:4px 10px;gap:6px}.wbcx .wbck{width:26px;height:26px}.wbcx .wbic svg{width:26px;height:26px}.wbcx .wbn{font-size:14px}.wbcx .wbi{margin-bottom:5px;border-radius:14px}.wbcx .wbtag{margin:10px 0 6px!important;padding:3px 12px 3px 6px!important;font-size:15px!important}.wbcx .wbti{margin:0!important;line-height:0}.wbcx .wbti svg{width:24px;height:24px}.wbcx .wbtag{min-height:34px}
@@ -1032,7 +1032,7 @@ function supSuivi(){const col=WBZC.complements,dot=(r,lab,big)=>`<span class="sp
   <div class="spsvr"><span>Cette semaine</span><b>${pw===null?'—':pw+' %'}</b></div><div class="spwk">${wk.map((k,i)=>`<div>${dot(k<=TODAY?supRate(k):null,'',1)}<small>${'LMMJVSD'[i]}</small></div>`).join('')}</div>
   <div class="spsvr"><span>Ce mois-ci</span><b>${pm===null?'—':pm+' %'}</b></div><div class="spmo">${'<i></i>'.repeat(pad)}${ms.map(k=>dot(k<=TODAY?supRate(k):null,+k.slice(8))).join('')}</div></div>`}
 function supRemSync(){try{const R=S.care.filter(c=>c.sec==='complements'&&supOf(c)&&!c.paused&&c.rem!==undefined&&c.rem!==''&&!supOf(c).od&&String(c.freq)!=='0').map(c=>({id:c.id,n:supOf(c).n,min:((slotMin(supOf(c).slot)-(+c.rem||0))%1440+1440)%1440,f:String(c.freq||'1'),s:c.start||'',e:c.end||'',l:c.last||''}));if(JSON.stringify(S.flags.supRem||[])!==JSON.stringify(R))S.flags.supRem=R}catch(e){}}
-const SUP_ROWGAP={fer:'Écart 2 h · zinc, sélénium, magnésium, calcium',psyl:'Écart 2 h avant/après'};
+const SUP_ROWGAP={fer:'Écart 2 h · <small>zinc, sélénium, magnésium, calcium</small>',psyl:'Écart 2 h avant/après'};
 const SUP_GAP={fer:'Au moins 2 h avec le zinc, le sélénium et le magnésium',zinc:'Au moins 2 h avec le fer',sel:'Au moins 2 h avec le fer',mg:'Au moins 2 h avec le fer',psyl:'Au moins 2 h avec les autres compléments'};
 const SUP_SEP={reveil:'À jeun',pdj:'Petit-déjeuner',dej:'Déjeuner',entre:'Entre les repas',avd:'Avant le dîner',diner:'Pendant le dîner',soiree:'Au soir',coucher:'Avant le coucher'};
 const thyWE=()=>wd(TODAY)>=5;
@@ -3322,7 +3322,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='169';
+const APP_VER='170';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
