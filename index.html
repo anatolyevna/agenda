@@ -163,7 +163,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .wbtl{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1}.wbtl small{white-space:nowrap;font-size:11px;font-weight:700;opacity:.8;margin-top:2px}.wbtabs button{height:56px!important}
 .wbzdone{justify-content:center!important;margin:10px 0 4px!important;padding:5px 12px!important;border-radius:999px!important;font-size:13px!important;background:color-mix(in srgb,var(--d) 15%,var(--card))!important;border:1px solid color-mix(in srgb,var(--d) 50%,#fff)!important}.wbzdone .wbzd2{margin-left:4px!important}
 .wbmsg{display:flex;flex-direction:column;gap:6px;align-items:center;margin-top:4px}.wbmsg>div{align-self:stretch}
-.wbpend .wbtag{background:color-mix(in srgb,var(--d) 55%,var(--card))!important;box-shadow:0 2px 8px color-mix(in srgb,var(--d) 60%,transparent)!important}.wbpn{flex:none;width:34px;height:34px;display:grid;place-items:center;margin-left:2px;padding:0;border-radius:50%;font-size:17px!important;background:#E8879F;color:#fff!important;font-weight:700;font-family:Nunito,sans-serif;box-shadow:0 2px 6px rgba(232,135,159,.45)}
+.wbpend .wbtag{background:color-mix(in srgb,var(--d) 55%,var(--card))!important;box-shadow:0 2px 8px color-mix(in srgb,var(--d) 60%,transparent)!important}.wbpn{flex:none;width:24px;height:24px;display:grid;place-items:center;margin-left:2px;padding:0;border-radius:50%;font-size:13px!important;background:#B3123A;color:#fff!important;font-weight:700;font-family:Nunito,sans-serif;box-shadow:0 1px 4px rgba(179,18,58,.35)}
 .wbtag{min-height:50px!important}.wbtag .wbti svg{width:40px!important;height:40px!important}.wbcx .wbtag .wbti svg{width:36px!important;height:36px!important}.wbcx .wbtag{min-height:46px!important}.wbbar{height:10px;border-radius:6px;margin:14px 0 8px;background:color-mix(in srgb,var(--d) 75%,#fff);border:1.2px solid color-mix(in srgb,var(--d) 85%,#8C6E60)}.wbcx .wbbar{margin:10px 0 6px}
 .thy{display:inline-flex;align-self:flex-start;margin-top:3px;border-radius:999px;border:1.5px solid #EDA5B0;overflow:hidden;font-size:12px;font-weight:600;color:var(--muted);vertical-align:middle;white-space:nowrap}.thy>span{padding:2px 9px}.thy>span+span{border-left:1.5px solid #EDA5B0}.thy b{font-weight:800}.thy .on{background:#FBE3E6;color:#B04A63}
 .wbcx .wbh{padding:4px 10px;gap:6px}.wbcx .wbck{width:26px;height:26px}.wbcx .wbic svg{width:26px;height:26px}.wbcx .wbn{font-size:14px}.wbcx .wbi{margin-bottom:5px;border-radius:14px}.wbcx .wbtag{margin:10px 0 6px!important;padding:3px 12px 3px 6px!important;font-size:15px!important}.wbcx .wbti{margin:0!important;line-height:0}.wbcx .wbti svg{width:24px;height:24px}.wbcx .wbtag{min-height:34px}
@@ -3305,7 +3305,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='156';
+const APP_VER='157';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
