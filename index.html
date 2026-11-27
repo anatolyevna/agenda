@@ -2126,7 +2126,7 @@ function sheetHTML(){
      +`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${tile(dropSvg('#EDA5B0',26),pers.length?pers.map(p=>shortR(p.start,p.end)).join('<br>'):'—','Règles').replace('<b>','<b style="font-size:15px">')}${tile(topM?moodSvg(topM,36):moodSvg('sereine',36),topM?(MOODS.find(x=>x[0]===topM)||[0,''])[1]:'—','Humeur').replace('<b>','<b style="font-size:15px">')}${tile(poopSvg(34,1),poo,'Cacas')}${tile(sleepSvg('b',34),avgS!==null?hm(Math.round(avgS*4)/4):'—','Sommeil').replace('<b>','<b style="font-size:18px">')}</div>`;
   } else if(S.sheet==='cybilan'){
     const m=S.cyMon,mD=pd(m+'-01'),D=S.cycle.days||{},mk=Object.keys(D).filter(k=>k.slice(0,7)===m&&k<=TODAY).sort(),E=k=>D[k]||{};
-    title='Bilan de '+MON[mD.getMonth()];
+    title='';
     const sec=(h,body)=>`<div class="cybs"><div class="cybh">${h}</div>${body}</div>`,ln=(l,v)=>`<div class="cybl"><span>${l}</span><b>${v}</b></div>`,none='<div class="meta">Rien de noté ce mois-ci.</div>',pl=(n,w,ws)=>n+' '+(n>1?(ws||w+'s'):w);
     const c=S._cy||cyStats(),pers=(c&&c.per||[]).filter(p=>p.start.slice(0,7)===m||p.end.slice(0,7)===m);
     let rg=pers.length?pers.map(p=>ln(shortR(p.start,p.end),pl(diff(p.start,p.end)+1,'jour'))).join(''):'<div class="meta">Pas de règles notées ce mois-ci.</div>';
@@ -2141,7 +2141,7 @@ function sheetHTML(){
     const pY=mk.filter(k=>E(k).poo).length,sx=mk.filter(k=>E(k).sex).length;
     const scnt={};mk.forEach(k=>(E(k).sym||[]).forEach(x=>scnt[x]=(scnt[x]||0)+1));const sy=Object.keys(scnt).sort((a,b)=>scnt[b]-scnt[a]);
     const syB=sy.length?sy.map(x=>ln(x,pl(scnt[x],'jour'))).join(''):'<div class="meta">Aucun symptôme noté ce mois-ci.</div>';
-    inner=`<div class="meta" style="text-align:center;margin-top:-4px">${mk.length?pl(mk.length,'jour renseigné','jours renseignés'):'Aucun jour renseigné'} · ${MON[mD.getMonth()]} ${mD.getFullYear()}</div>`
+    inner=`<div class="meta" style="text-align:center;margin-top:-4px">${mk.length?pl(mk.length,'jour renseigné','jours renseignés'):'Aucun jour renseigné'}</div>`
      +sec(`${dropSvg('#EDA5B0',20)} Règles`,rg)+sec(`${kw('cd_etoile',20)} Sommeil`,slB)+sec(`${moodSvg('sereine',20)} Humeur`,moB)+sec(`<i class="cybdot" style="background:#B5A2E6"></i> Rêves`,drB)
      +sec(`${poopSvg(20,1)} Crottes`,ln('Jours avec',pl(pY,'jour')))+sec(`<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0"/></svg>`,ln('Jours',pl(sx,'jour')))+sec(`<i class="cybdot" style="background:#9CC883"></i> Symptômes`,syB);
   } else if(S.sheet==='cds'){
@@ -3335,7 +3335,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='197';
+const APP_VER='198';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
