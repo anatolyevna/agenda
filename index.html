@@ -1830,11 +1830,12 @@ const ACIDS=['fraise','coudes','brosse'];
 const recent=(c,n)=>c&&c.chk&&diff(c.chk,TODAY)<=n;
 function wbShift(c){
   if(c.sec==='visage'&&c.sub==='masqueV'){const ev=skSteps('soir');if(ev.includes('aza')||ev.includes('booster'))return 'un actif est prévu ce soir';const nc=S.care.find(x=>x.sec==='visage'&&x.sub==='mousse');if(nc&&wbEl(nc)&&nextOf(nc)<=TODAY&&nc.last!==TODAY)return 'nettoyage complet ce soir'}
+  if(c.sec==='corps'&&c.hk==='drainage'&&c.last!==TODAY){const big=S.care.find(x=>x!==c&&x.last!==TODAY&&!x.paused&&((x.sec==='cheveux'&&['complet','repar'].includes(x.hk))||(x.sec==='corps'&&(x.hk==='complete'||BODY_IPL[x.hk])))&&wbMom(x)==='soir'&&wbDue(x));if(big)return 'soirée déjà chargée'}
   if(c.sec==='corps'){const st=bState(),ipl=S.care.filter(x=>x.sec==='corps'&&BODY_IPL[x.hk]&&wbEl(x));
-    if(ACIDS.includes(c.hk)){if(st.includes('irrit')||st.includes('rasee')||st.includes('ipl'))return 'peau irritée, rasée ou traitée';if(ipl.some(x=>recent(x,2)||(nextOf(x)<=TODAY&&x.last!==TODAY)))return 'trop proche d’une séance IPL'}
+    if(ACIDS.includes(c.hk)){const cp=S.care.find(x=>x.sec==='corps'&&x.hk==='complete');if(cp&&!cp.paused&&wbDue(cp))return 'routine complète ce soir';if(c.hk==='brosse'&&S.care.some(x=>x.sec==='corps'&&(x.hk==='fraise'||x.hk==='coudes')&&x.last!==TODAY&&wbDue(x)))return 'acide prévu ce soir';if(st.includes('irrit')||st.includes('rasee')||st.includes('ipl'))return 'peau irritée, rasée ou traitée';if(ipl.some(x=>recent(x,2)||(nextOf(x)<=TODAY&&x.last!==TODAY)))return 'trop proche d’une séance IPL'}
     if(BODY_IPL[c.hk]){if(S.care.some(x=>x.sec==='corps'&&ACIDS.includes(x.hk)&&recent(x,2)))return 'acide ou brossage trop récent';if(st.includes('irrit'))return 'peau irritée'}}
   return ''}
-function wbDue(c){if(!wbEl(c))return false;if(c.sec==='complements'&&c.paused)return false;if(c.sec==='complements'&&supOf(c)){if(c.last===TODAY)return true;if(c.start&&c.start>TODAY)return false;if(c.end&&c.end<TODAY)return false;const f=String(c.freq||'1');if(supOf(c).od||f==='0')return !!c.todo;if(f==='2')return !c.last||diff(c.last,TODAY)>=2;if(f==='7'){const r=c.start||c.last;return !r||diff(r,TODAY)%7===0}return !c.last||c.last<TODAY}if(c.last===TODAY)return true;if(c.todo)return true;if(c.sec==='complements')return c.last<TODAY;if(c.sec==='sportm')return true;if(wbOnDemand(c))return false;if(wbShift(c))return false;return nextOf(c)<=TODAY}
+function wbDue(c){if(!wbEl(c))return false;if(c.sec==='corps'&&c.hk==='soir'&&c.last!==TODAY){const cp=S.care.find(x=>x.sec==='corps'&&x.hk==='complete');if(cp&&!cp.paused&&wbDue(cp))return false}if(c.sec==='complements'&&c.paused)return false;if(c.sec==='complements'&&supOf(c)){if(c.last===TODAY)return true;if(c.start&&c.start>TODAY)return false;if(c.end&&c.end<TODAY)return false;const f=String(c.freq||'1');if(supOf(c).od||f==='0')return !!c.todo;if(f==='2')return !c.last||diff(c.last,TODAY)>=2;if(f==='7'){const r=c.start||c.last;return !r||diff(r,TODAY)%7===0}return !c.last||c.last<TODAY}if(c.last===TODAY)return true;if(c.todo)return true;if(c.sec==='complements')return c.last<TODAY;if(c.sec==='sportm')return true;if(wbOnDemand(c))return false;if(wbShift(c))return false;return nextOf(c)<=TODAY}
 const wbLate=c=>false;
 const wbDone=c=>c.last===TODAY;
 const ZMS={'Épaules':{z:'<path d="M38 26q12-4 24 0l-1 5q-11-3-22 0z"/>',a:['M48 25l-9 2','M52 25l9 2'],h:[46,22],t:'de la nuque vers l’épaule'},
@@ -1894,7 +1895,7 @@ function wbPhaseHint(){const f=S.flags,L=[['skin','Visage',skinPh(),SKIN_PH],['h
   for(const [k,n,p,P] of L){const d=(WB_PHDUR[k]||{})[p];if(!d)continue;const st=f[k+'Pd'];if(!st)continue;const days=diff(st,TODAY);if(days<d)continue;if(f[k+'Snooze']&&f[k+'Snooze']>TODAY)continue;
     return `<div class="wbhint"><span>${n} : ${Math.round(days/7)} semaine${days>=14?'s':''} en phase ${p} (${P[p][0]}). Passer en phase ${p+1} ?</span><button data-a="wbset">Voir</button><button data-a="wbsnooze" data-v="${k}">Plus tard</button></div>`}
   return ''}
-function wbTonight(){try{if(wbPre()){const v={d:TODAY,n:0,mask:false};if(JSON.stringify(S.flags.wbTonight)!==JSON.stringify(v))S.flags.wbTonight=v;return}const due=S.care.filter(c=>(WB_SECS.includes(c.sec))&&wbDue(c)&&!wbDone(c)&&wbMom(c)==='soir');const n=due.length+wbAdvice('soir',due).filter(o=>!o.done).length,mask=due.some(c=>c.sub==='masqueV'),v={d:TODAY,n,mask};if(JSON.stringify(S.flags.wbTonight)!==JSON.stringify(v))S.flags.wbTonight=v}catch(e){}}
+function wbTonight(){try{if(wbPre()){const v={d:TODAY,n:0,mask:false};if(JSON.stringify(S.flags.wbTonight)!==JSON.stringify(v))S.flags.wbTonight=v;return}const due=S.care.filter(c=>(WB_SECS.includes(c.sec))&&c.sec!=='complements'&&wbDue(c)&&!wbDone(c)&&wbMom(c)==='soir');const n=due.length+wbAdvice('soir',due).filter(o=>!o.done).length,mask=due.some(c=>c.sub==='masqueV'),v={d:TODAY,n,mask};if(JSON.stringify(S.flags.wbTonight)!==JSON.stringify(v))S.flags.wbTonight=v}catch(e){}}
 const WB_IC={cheveux:{refresh:'n_href',express:'n_hexp',complet:'n_hlav',sport:'n_hspo',massage:'n_hmas'},corps:{fermete:'n_ferm',incarnes:'n_inc',express:'n_bexp',complete:'n_bcomp',fraise:'n_fraise',acne:'n_dos',exfo:'n_exfo',ipl_j:'n_iplj',ipl_a:'n_ipla',ipl_m:'n_iplm',cibles:'n_cib'}};
 const icOf=c=>(WB_IC[c.sec]||{})[c.hk]||c.sub;
 function wbMarkNew(sec,before){const after=S.care.filter(c=>c.sec===sec&&wbEl(c)).map(c=>c.id),nw=after.filter(id=>!before.includes(id)),N={...(S.flags.wbNew||{})};nw.forEach(id=>N[id]=TODAY);Object.keys(N).forEach(k=>{if(diff(N[k],TODAY)>=7||!after.includes(+k)&&S.care.some(c=>c.id===+k&&c.sec===sec))delete N[k]});S.flags.wbNew=N}
@@ -3227,7 +3228,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='178';
+const APP_VER='179';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
