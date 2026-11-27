@@ -1969,12 +1969,6 @@ function moiHTML(){wbStateRec();
     <div class="wbtop"><div class="wbtabs">${tabs}</div></div>
     ${wbSet()}${pre?'':wbBanners(eta)}
     ${pre?`<div class="wbpre">Début officiel des routines le ${DOWL[wd(S.flags.wbStart)].toLowerCase()} ${pd(S.flags.wbStart).getDate()} ${MON[pd(S.flags.wbStart).getMonth()]}.</div>`:groups}</div>`}
-function soinsHTML(){
-  const secs=CARE.map(([id,name],i)=>{const its=S.care.filter(c=>c.sec===id),m=worst(its);
-    const nb=id!=='recette'?its.filter(c=>!off(c)&&st(c).m!=='ok').length:0;
-    return scatBtn(i,id==='recette'?'recettes':'sec',id,id,m,name,nb?`<span class="zn">${nb}</span>`:'',ringPos(CARE.length))}).join('');
-  return `<div class="scroll bigcloud"><div class="cloud scat">${secs}</div></div>`;
-}
 
 function catAll(){const out=[];RAYONS.forEach(r=>r.cat.forEach(n=>out.push({n,r:r.id})));return out}
 function match(list,q){q=norm(q.trim());if(!q)return list;const s=list.filter(x=>norm(x.n).split(/[ ’'-]/).some(w=>w.startsWith(q))),i=list.filter(x=>!s.includes(x)&&norm(x.n).includes(q));return[...s,...i]}
@@ -3237,7 +3231,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='182';
+const APP_VER='183';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
