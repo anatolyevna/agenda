@@ -2143,7 +2143,7 @@ function sheetHTML(){
     const syB=sy.length?sy.map(x=>ln(x,pl(scnt[x],'jour'))).join(''):'<div class="meta">Aucun symptôme noté ce mois-ci.</div>';
     inner=`<div class="meta" style="text-align:center;margin-top:-4px">${mk.length?pl(mk.length,'jour renseigné','jours renseignés'):'Aucun jour renseigné'} · ${MON[mD.getMonth()]} ${mD.getFullYear()}</div>`
      +sec(`${dropSvg('#EDA5B0',20)} Règles`,rg)+sec(`${kw('cd_etoile',20)} Sommeil`,slB)+sec(`${moodSvg('sereine',20)} Humeur`,moB)+sec(`<i class="cybdot" style="background:#B5A2E6"></i> Rêves`,drB)
-     +sec(`${poopSvg(20,1)} Crottes`,ln('Jours avec',pl(pY,'jour')))+sec(`<i class="cybdot" style="background:#E8708F"></i> Activité sexuelle`,ln('Jours',pl(sx,'jour')))+sec(`<i class="cybdot" style="background:#9CC883"></i> Symptômes`,syB);
+     +sec(`${poopSvg(20,1)} Crottes`,ln('Jours avec',pl(pY,'jour')))+sec(`<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.6-3.4-8-6.2-8-9.8C4 7.6 6 6 8.2 6c1.6 0 3 .9 3.8 2.2C12.8 6.9 14.2 6 15.8 6 18 6 20 7.6 20 10.2c0 3.6-3.4 6.4-8 9.8z" fill="#EDA5B0"/></svg>`,ln('Jours',pl(sx,'jour')))+sec(`<i class="cybdot" style="background:#9CC883"></i> Symptômes`,syB);
   } else if(S.sheet==='cds'){
     title='Comptes à rebours';
     const L=[...(S.cds||[])].sort((a,b)=>a.date<b.date?-1:1);
@@ -3335,7 +3335,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='196';
+const APP_VER='197';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
