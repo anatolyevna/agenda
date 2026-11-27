@@ -1032,7 +1032,7 @@ function supSuivi(){const col=WBZC.complements,dot=(r,lab,big)=>`<span class="sp
   <div class="spsvr"><span>Cette semaine</span><b>${pw===null?'—':pw+' %'}</b></div><div class="spwk">${wk.map((k,i)=>`<div>${dot(k<=TODAY?supRate(k):null,'',1)}<small>${'LMMJVSD'[i]}</small></div>`).join('')}</div>
   <div class="spsvr"><span>Ce mois-ci</span><b>${pm===null?'—':pm+' %'}</b></div><div class="spmo">${'<i></i>'.repeat(pad)}${ms.map(k=>dot(k<=TODAY?supRate(k):null,+k.slice(8))).join('')}</div></div>`}
 function supRemSync(){try{const R=S.care.filter(c=>c.sec==='complements'&&supOf(c)&&!c.paused&&c.rem!==undefined&&c.rem!==''&&!supOf(c).od&&String(c.freq)!=='0').map(c=>({id:c.id,n:supOf(c).n,min:((slotMin(supOf(c).slot)-(+c.rem||0))%1440+1440)%1440,f:String(c.freq||'1'),s:c.start||'',e:c.end||'',l:c.last||''}));if(JSON.stringify(S.flags.supRem||[])!==JSON.stringify(R))S.flags.supRem=R}catch(e){}}
-const SUP_ROWGAP={fer:'Écart 2 h · <small>zinc, sélénium, magnésium, calcium</small>',psyl:'Écart 2 h avant/après'};
+const SUP_ROWGAP={fer:'Écart 2h · <small>zinc, sélénium, magnésium, calcium</small>',psyl:'Écart 2h avant/après'};
 const SUP_GAP={fer:'Au moins 2 h avec le zinc, le sélénium et le magnésium',zinc:'Au moins 2 h avec le fer',sel:'Au moins 2 h avec le fer',mg:'Au moins 2 h avec le fer',psyl:'Au moins 2 h avec les autres compléments'};
 const SUP_SEP={reveil:'À jeun',pdj:'Petit-déjeuner',dej:'Déjeuner',entre:'Entre les repas',avd:'Avant le dîner',diner:'Pendant le dîner',soiree:'Au soir',coucher:'Avant le coucher'};
 const thyWE=()=>wd(TODAY)>=5;
@@ -3322,7 +3322,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='170';
+const APP_VER='171';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
