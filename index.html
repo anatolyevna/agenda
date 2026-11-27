@@ -179,8 +179,19 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .spmsg{margin:4px 0 8px;padding:8px 12px;border-radius:12px;background:#FBE3E6;color:#B04A63;font-size:13px;font-weight:700}
 .spwake{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 4px;font-weight:800;color:var(--ink)}.spwake input{width:110px}
 .sptg button span{display:flex;flex-direction:column;align-items:flex-start;text-align:left}.sptg small{font-size:11px;font-weight:600;color:var(--muted)}
-.spfh{display:flex;gap:12px;align-items:center;margin:8px 0}.spimg{position:relative;flex:none;width:64px;height:64px;border-radius:18px;background:#FBF3E8;border:1px dashed #E2CFC2;display:grid;place-items:center;overflow:hidden;cursor:pointer}.spimg img{width:100%;height:100%;object-fit:cover}.spimg em{position:absolute;bottom:2px;font-style:normal;font-size:9px;font-weight:800;color:var(--muted)}
+.spfh{display:flex;gap:12px;align-items:center;margin:8px 0}.spimg{position:relative;flex:none;width:64px;height:64px;border-radius:18px;background:#FBF3E8;border:1.5px solid #EDE0D6;display:grid;place-items:center;overflow:hidden;cursor:pointer}.spimg img{width:100%;height:100%;object-fit:cover}.spimg em{position:absolute;bottom:2px;font-style:normal;font-size:9px;font-weight:800;color:var(--muted)}
 .spbad{display:inline-block;margin-top:4px;padding:1px 8px;border-radius:999px;background:#EAF2E2;color:#5E8A4A;font-size:11px;font-weight:800}.spbad.th{background:#FBE3E6;color:#B04A63}
+.spcalc{height:36px;display:flex;align-items:center;gap:6px;padding:0 8px;border-radius:12px;background:#F7F1EC;color:var(--ink);font-size:14px;font-weight:800}.spcalc small{font-size:10.5px;color:var(--muted);font-weight:700}
+.spdel{display:block;margin:12px auto 2px;font-size:12.5px;font-weight:800;color:#C0567A;padding:6px 12px}
+.spadd{display:block;width:100%;margin:6px 0 2px;padding:9px;border-radius:14px;border:1.5px solid #E6CF84;color:#9A7A2E;font-weight:800;font-size:13.5px;background:#FFFBEF}
+.spnew{margin:6px 0;padding:10px;border-radius:16px;background:#FFFBEF;border:1.5px solid #EFE0B0}
+.spseg{display:flex;gap:6px;margin:8px 0}.spseg button{flex:1;padding:7px;border-radius:12px;border:1.5px solid #E8DCD4;font-weight:800;font-size:13px;color:var(--muted)}.spseg button.on{border-color:#E6CF84;background:#FBF1CF;color:var(--ink)}
+.spnuts{display:flex;flex-wrap:wrap;gap:5px}.spnuts button{padding:4px 10px;border-radius:999px;border:1.5px solid #E8DCD4;font-size:12px;font-weight:700;color:var(--muted)}.spnuts button.on{border-color:#E6CF84;background:#FBF1CF;color:var(--ink)}
+.spnb{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}.spnb button{padding:7px 14px;border-radius:999px;font-weight:800;font-size:13px;color:var(--muted)}.spnb button.ok{background:#E6CF84;color:#5A4410}
+.spsv{margin:4px 0 10px;padding:10px 12px;border-radius:16px;background:#FFFBEF;border:1.5px solid #EFE0B0}.spsvh{font-weight:800;font-size:13px;color:#9A7A2E;margin-bottom:4px}.spsvr{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;color:var(--muted);font-weight:700}.spsvr b{color:var(--ink)}
+.spwk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:2px 0 6px}.spwk>div{display:flex;flex-direction:column;align-items:center;gap:2px}.spwk small{font-size:10px;font-weight:800;color:var(--muted)}
+.spmo{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:2px;justify-items:center}
+.spd{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:9.5px;font-weight:800;color:var(--ink);background:conic-gradient(var(--d) calc(var(--p)*360deg),#F1E9E1 0)}.spd.b{width:22px;height:22px}
 .spgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.spf{display:flex;flex-direction:column;gap:3px;font-size:11.5px;font-weight:700;color:var(--muted)}.spgrid>*{min-width:0}.spf .din{box-sizing:border-box;width:100%;max-width:100%;min-width:0;height:36px;font-size:14px;padding:0 8px}
 .wbsum{font-size:13px;color:var(--muted);margin:10px 2px 0}.wbsum b{color:#8C6E60;font-weight:800}.wbz{margin-top:6px}
 .wbl8{margin:2px 0 6px}.wbl8 summary{list-style:none;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--muted);padding:6px 4px}.wbl8 summary::-webkit-details-marker{display:none}.wbl8 summary::after{content:' ›'}.wbl8[open] summary::after{content:' ⌄'}
@@ -948,7 +959,7 @@ const SUP={
 const SUP_BILAN=['Calcium','Autres vitamines du groupe B'];
 const SUP_AVOID=['Iode','Ashwagandha','Biotine fortement dosée','Brûleurs de graisse','Multivitamines fortement dosées'];
 /* ---- Compléments v2 ---- */
-const SLOTS=[['reveil','Au réveil, à jeun',0,'matin'],['pdj','Petit-déjeuner',60,'matin'],['dej','Déjeuner',330,'midi'],['entre','Entre les repas',480,'midi'],['avd','Avant le dîner',630,'soir'],['diner','Dîner',750,'soir'],['soiree','Soirée',840,'soir'],['coucher','30 à 60 min avant le coucher',930,'soir']];
+const SLOTS=[['reveil','Au réveil, à jeun',0,'matin'],['pdj','Petit-déjeuner',60,'matin'],['dej','Déjeuner',330,'midi'],['entre','Entre les repas',510,'midi'],['avd','Avant le dîner',660,'soir'],['diner','Dîner',720,'soir'],['soiree','Soirée',840,'soir'],['coucher','30 à 60 min avant le coucher',930,'soir']];
 const SUPX={
  thyro:{n:'L-thyroxine',slot:'reveil',ic:'tab',unit:'µg',ther:1,ben:'Traitement de la thyroïde',ref:'Dosage prescrit',cond:'Avec un verre d’eau, puis attendre 30 à 60 min avant de manger ou de boire du café',inter:'Au moins 4 h d’écart avec le fer, le calcium, le magnésium et les compléments riches en fibres (psyllium, inuline)',ci:'Ne jamais modifier le dosage sans avis médical',nut:['thyro']},
  b9:{n:'Vitamine B9',slot:'pdj',ic:'tab',unit:'µg',ther:1,ben:'Division cellulaire, formation des globules rouges',ref:'400 µg par jour (dose nutritionnelle) · dose thérapeutique selon prescription',cond:'Au petit-déjeuner',inter:'—',ci:'—',nut:['b9'],ul:[1000,'µg','acide folique']},
@@ -968,31 +979,69 @@ const SUPX={
  mela:{n:'Mélatonine',slot:'coucher',ic:'tab',unit:'mg',ben:'Aide à l’endormissement',ref:'0,5 à 1 mg, ponctuellement',cond:'30 à 60 min avant le coucher, si nécessaire. Pas de prise quotidienne automatique',inter:'—',ci:'—',nut:['mela'],od:1}};
 const SUP_IC2={...SUP_ICON,powder:`<svg viewBox="0 0 40 24" width="40" height="24"><path d="M10 9h20l-2 13H12z" fill="#FFFBF7" stroke="#C9A08A" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9c2-5 14-5 16 0z" fill="#F3E1EA" stroke="#C9A08A" stroke-width="1.4"/></svg>`};
 const wakeMin=()=>{const w=S.flags.wake||'07:00',[h,m]=w.split(':').map(Number);return h*60+(m||0)};
-const slotT=k=>{const s=SLOTS.find(x=>x[0]===k);const t=(wakeMin()+(s?s[2]:0))%1440;return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')};
-const supOf=c=>SUPX[c.hk];
-const supDaily=c=>{const a=parseFloat(c.uAmt),n=parseFloat(c.perTake)||1;return isFinite(a)?a*n:null};
+const bedMin=()=>{const w=S.flags.bed||'23:00',[h,m]=w.split(':').map(Number);return h*60+(m||0)};
+const hhmm=t=>{t=((t%1440)+1440)%1440;return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')};
+const slotMin=k=>{if(k==='coucher')return bedMin()-60;const s=SLOTS.find(x=>x[0]===k);return wakeMin()+(s?s[2]:0)};
+const slotT=k=>k==='coucher'?hhmm(bedMin()-60)+'–'+hhmm(bedMin()-30):hhmm(slotMin(k));
+const supOf=c=>c?(SUPX[c.hk]||c.def||null):null;
+const SUP_NUTS=[['b9','Vitamine B9'],['b12','Vitamine B12'],['b6','Vitamine B6'],['d','Vitamine D'],['a','Vitamine A'],['e','Vitamine E'],['k','Vitamine K'],['c','Vitamine C'],['zinc','Zinc'],['sel','Sélénium'],['fer','Fer'],['mg','Magnésium'],['ca','Calcium'],['iode','Iode'],['o3','Oméga-3'],['biot','Biotine'],['coll','Collagène'],['fibre','Fibres']];
+const U2={'µg':1,'mg':1e3,'g':1e6};
+const supConv=(v,from,to,hk)=>{from=(from||'').toLowerCase().replace('μ','µ');to=(to||'').toLowerCase().replace('μ','µ');if(from===to)return v;const D=hk==='d3'||hk==='d';if(from==='ui'&&D&&U2[to])return v/40*1/U2[to];if(to==='ui'&&D&&U2[from])return v*U2[from]*40;if(U2[from]&&U2[to])return v*U2[from]/U2[to];return null};
+const supDose=c=>{const m=String(c.dose||'').replace(/[\s  ]/g,'').replace(',','.').match(/^(\d+(?:\.\d+)?)([a-zA-Zµμ]*)/);return m?{v:parseFloat(m[1]),u:(m[2]||'')}:null};
+const supUnit=c=>c.uUnit||(supOf(c)||{}).unit||'';
+const supCalc=c=>{const d=supDose(c),a=parseFloat(c.uAmt);if(!d||!(a>0))return null;const v=supConv(d.v,d.u||supUnit(c),supUnit(c),c.hk);if(v===null)return null;return Math.round(v/a*100)/100};
+const supNb=c=>{const k=supCalc(c);return k!==null?k:(parseFloat(c.perTake)||1)};
+const supDaily=c=>{const d=supDose(c);if(d){const v=supConv(d.v,d.u||supUnit(c),supUnit(c),c.hk);if(v!==null)return v}const a=parseFloat(c.uAmt);return isFinite(a)?a*(parseFloat(c.perTake)||1):null};
+const supNuts=c=>{const x=supOf(c);return (c.def&&c.def.nut)||(x&&x.nut)||[]};
+const supDays=c=>{if(c.stock===undefined||c.stock===''||+c.stock<0)return null;const f=String(c.freq||'1');return Math.floor(+c.stock/supNb(c))*(f==='2'?2:f==='7'?7:1)};
 function supAlerts(){const A=S.care.filter(c=>c.sec==='complements'&&!c.paused&&supOf(c)),out=[],act=k=>A.find(c=>c.hk===k);
-  A.forEach(c=>{const x=supOf(c),d=supDaily(c);if(x.ul&&d!==null&&(c.uUnit||x.unit)===x.ul[1]&&d>x.ul[0])out.push(`${x.n} : ${d} ${x.ul[1]} par jour dépasse la limite de sécurité européenne (${x.ul[0]} ${x.ul[1]}, ${x.ul[2]}).`);
+  A.forEach(c=>{const x=supOf(c),d0=supDaily(c),d=d0===null||!x.ul?null:supConv(d0,supUnit(c),x.ul[1],c.hk);if(x.ul&&d!==null&&d>x.ul[0])out.push(`${x.n} : ${Math.round(d*10)/10} ${x.ul[1]} par jour dépasse la limite de sécurité européenne (${x.ul[0]} ${x.ul[1]}, ${x.ul[2]}).`);
     if(c.reval&&c.reval<=TODAY)out.push(`${x.n} : date de réévaluation atteinte, la cure n’est pas permanente.`);if(c.end&&c.end<TODAY)out.push(`${x.n} : la cure est terminée depuis le ${short(c.end)}.`);
-    if(c.stock!==undefined&&c.stock!==''&&+c.stock>=0){const per=parseFloat(c.perTake)||1,days=Math.floor(+c.stock/per)*(c.freq==2?2:1);if(days<=7)out.push(`${x.n} : stock pour ${days} jour${days>1?'s':''}.`)}});
-  const seen={};A.forEach(c=>(supOf(c).nut||[]).forEach(n=>{(seen[n]=seen[n]||[]).push(supOf(c).n)}));(S.flags.supCx||[]).forEach(cx=>(cx.nut||[]).forEach(n=>{(seen[n]=seen[n]||[]).push(cx.n)}));
+    const days=supDays(c);if(days!==null&&days<=7)out.push(`${x.n} : stock pour ${days} jour${days>1?'s':''}, pense à en racheter.`)});
+  const seen={};A.forEach(c=>supNuts(c).forEach(n=>{(seen[n]=seen[n]||[]).push(supOf(c).n)}));
+  const fibOf=c=>!!supOf(c).fib||supNuts(c).includes('fibre'),has=(c,k)=>supNuts(c).includes(k),minr=c=>['zinc','sel','mg','ca'].some(k=>has(c,k));
+  A.filter(c=>!supOf(c).od&&String(c.freq)!=='0').forEach((a,i,L)=>L.slice(i+1).forEach(b=>{const gap=Math.abs(slotMin(supOf(a).slot)-slotMin(supOf(b).slot));let need=0;
+    const thy=(p,q)=>has(p,'thyro')&&(has(q,'fer')||has(q,'ca')||has(q,'mg')||fibOf(q));if(thy(a,b)||thy(b,a))need=240;
+    if((has(a,'fer')&&minr(b))||(has(b,'fer')&&minr(a)))need=Math.max(need,120);if(a.hk==='psyl'||b.hk==='psyl')need=Math.max(need,120);
+    if(gap<need){const h=g=>g>=60?Math.floor(g/60)+' h'+(g%60?' '+String(g%60).padStart(2,'0'):''):g+' min';out.push(`Écart trop court : ${supOf(a).n} (${slotT(supOf(a).slot)}) et ${supOf(b).n} (${slotT(supOf(b).slot)}), ${gap?h(gap):'même horaire'} au lieu d’au moins ${h(need)}.`)}}));
   Object.values(seen).filter(v=>v.length>1).forEach(v=>out.push(`Doublon : ${v.join(' et ')} apportent le même nutriment.`));
   return out}
 function supCanOn(c){const x=supOf(c);if(!x)return '';if(x.ther&&!(c.dose||'').trim())return `${x.n} : renseigne d’abord le dosage prescrit dans sa fiche.`;
   if(x.fib){const o=S.care.find(y=>y.sec==='complements'&&!y.paused&&supOf(y)&&supOf(y).fib&&y.id!==c.id);if(o&&o.start&&diff(o.start,TODAY)<14)return `Psyllium et inuline ne s’introduisent pas en même temps : attends encore ${14-diff(o.start,TODAY)} jours.`}
-  const rec=S.care.filter(y=>y.sec==='complements'&&!y.paused&&y.id!==c.id&&y.start&&diff(y.start,TODAY)<7);if(rec.length)return `Un nouveau complément à la fois : ${supOf(rec[0])?supOf(rec[0]).n:rec[0].title} a commencé il y a ${diff(rec[0].start,TODAY)} jour${diff(rec[0].start,TODAY)>1?'s':''}. Attends encore ${7-diff(rec[0].start,TODAY)} jours.`;
+  const rec=S.care.filter(y=>y.sec==='complements'&&!y.paused&&y.id!==c.id&&y.start&&y.start<=TODAY&&diff(y.start,TODAY)<7);if(rec.length)return `Un nouveau complément à la fois : ${supOf(rec[0])?supOf(rec[0]).n:rec[0].title} a commencé il y a ${diff(rec[0].start,TODAY)} jour${diff(rec[0].start,TODAY)>1?'s':''}. Attends encore ${7-diff(rec[0].start,TODAY)} jours.`;
   return ''}
-function supRowSub(c){const x=supOf(c);if(!x)return '';const d=(c.dose||'').trim(),n=parseFloat(c.perTake)||1;const parts=[slotT(x.slot)];if(d)parts.push(d);if(c.perTake)parts.push(`${n} ${c.form||'gélule'}${n>1?'s':''}`);if(c.stock!==undefined&&c.stock!=='')parts.push(`stock ${c.stock}`);
-  const y=add(TODAY,-1),miss=!x.od&&c.last&&c.last<y&&c.start&&c.start<y;return `<span class="wbs">${parts.join(' · ')}${miss?' · <b style="color:#C0567A">oubli d’hier : ne pas doubler</b>':''}</span>`}
+function supRowSub(c){const x=supOf(c);if(!x)return '';const d=(c.dose||'').trim(),n=supNb(c);const parts=[slotT(x.slot)];if(d)parts.push(d);if(c.perTake||supCalc(c)!==null)parts.push(`${String(n).replace('.',',')} ${c.form||'gélule'}${n>1&&c.form!=='g'?'s':''}`);if(c.stock!==undefined&&c.stock!=='')parts.push(`stock ${c.stock}`);
+  const y=add(TODAY,-1),miss=!x.od&&String(c.freq||'1')==='1'&&c.last&&c.last<y&&c.start&&c.start<y;return `<span class="wbs">${parts.join(' · ')}${miss?' · <b style="color:#C0567A">oubli d’hier : ne pas doubler</b>':''}</span>`}
+function supAddForm(){const N=S._supNew||{};if(!N.open)return `<button class="spadd" data-a="supadd">+ Ajouter un complément</button>`;
+  return `<div class="spnew"><div class="spgrid" style="margin-top:0"><label class="spf" style="grid-column:1/-1"><span>Nom</span><input class="din" data-in="supnew" data-k="n" value="${esc(N.n||'')}" placeholder="ex. Multivitamine"></label><label class="spf" style="grid-column:1/-1"><span>Moment</span><select class="din" data-in="supnew" data-k="slot">${SLOTS.map(s=>`<option value="${s[0]}" ${(N.slot||'pdj')===s[0]?'selected':''}>${s[1]}</option>`).join('')}</select></label></div>
+  <div class="spseg"><button class="${N.cx?'':'on'}" data-a="supcx" data-v="0">Simple</button><button class="${N.cx?'on':''}" data-a="supcx" data-v="1">Complexe</button></div>
+  <div class="hp" style="padding:2px 0 4px">${N.cx?'Nutriments contenus, pour détecter les doublons':'Nutriment apporté'}</div><div class="spnuts">${SUP_NUTS.map(([k,l])=>`<button class="${(N.nut||[]).includes(k)?'on':''}" data-a="supnut" data-v="${k}">${l}</button>`).join('')}</div>
+  <div class="spnb"><button data-a="supaddx">Annuler</button><button class="ok" data-a="supadd">Ajouter</button></div></div>`}
+function supLogExp(){const A=S.care.filter(c=>c.sec==='complements'&&supOf(c)&&!c.paused&&!supOf(c).od&&String(c.freq)!=='0'&&wbDue(c)).length,E=S.flags.supExp=S.flags.supExp||{};if(E[TODAY]!==A)E[TODAY]=A;const lim=add(TODAY,-400);Object.keys(E).forEach(k=>{if(k<lim)delete E[k]});const L=S.flags.supLog||{};Object.keys(L).forEach(k=>{if(k<lim)delete L[k]})}
+function supRate(k){const L=(S.flags.supLog||{})[k]||[],e=(S.flags.supExp||{})[k];if(!e)return null;const ids=S.care.filter(c=>c.sec==='complements'&&supOf(c)&&!supOf(c).od&&String(c.freq)!=='0').map(c=>c.id);return Math.min(1,L.filter(i=>ids.includes(i)).length/e)}
+function supSuivi(){const col=WBZC.complements,dot=(r,lab,big)=>`<span class="spd ${big?'b':''}" style="--p:${r===null?0:r};--d:${col}">${lab}</span>`,avg=ks=>{const v=ks.map(supRate).filter(x=>x!==null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length*100):null};
+  const td=supRate(TODAY),L=(S.flags.supLog||{})[TODAY]||[],e=(S.flags.supExp||{})[TODAY]||0;
+  const w0=add(TODAY,-((wd(TODAY)+6)%7)),wk=[0,1,2,3,4,5,6].map(i=>add(w0,i));
+  const m0=TODAY.slice(0,8)+'01',nd=new Date(+TODAY.slice(0,4),+TODAY.slice(5,7),0).getDate(),ms=Array.from({length:nd},(_,i)=>add(m0,i)),pad=(wd(m0)+6)%7;
+  const pw=avg(wk.filter(k=>k<=TODAY)),pm=avg(ms.filter(k=>k<=TODAY));
+  return `<div class="spsv"><div class="spsvh">Suivi</div>
+  <div class="spsvr"><span>Aujourd’hui</span><b>${Math.min(L.length,e)} / ${e} prise${e>1?'s':''}</b></div>
+  <div class="spsvr"><span>Cette semaine</span><b>${pw===null?'—':pw+' %'}</b></div><div class="spwk">${wk.map((k,i)=>`<div>${dot(k<=TODAY?supRate(k):null,'',1)}<small>${'LMMJVSD'[i]}</small></div>`).join('')}</div>
+  <div class="spsvr"><span>Ce mois-ci</span><b>${pm===null?'—':pm+' %'}</b></div><div class="spmo">${'<i></i>'.repeat(pad)}${ms.map(k=>dot(k<=TODAY?supRate(k):null,+k.slice(8))).join('')}</div></div>`}
+function supRemSync(){try{const R=S.care.filter(c=>c.sec==='complements'&&supOf(c)&&!c.paused&&c.rem!==undefined&&c.rem!==''&&!supOf(c).od&&String(c.freq)!=='0').map(c=>({id:c.id,n:supOf(c).n,min:((slotMin(supOf(c).slot)-(+c.rem||0))%1440+1440)%1440,f:String(c.freq||'1'),s:c.start||'',e:c.end||'',l:c.last||''}));if(JSON.stringify(S.flags.supRem||[])!==JSON.stringify(R))S.flags.supRem=R}catch(e){}}
 function supFiche(c){const x=supOf(c);if(!x)return '';const f=(k,l,type,ph)=>`<label class="spf"><span>${l}</span><input class="din" type="${type||'text'}" data-in="supf" data-id="${c.id}" data-k="${k}" value="${esc(c[k]===undefined?'':String(c[k]))}" placeholder="${ph||''}"></label>`;
   const sel=(k,l,opts)=>`<label class="spf"><span>${l}</span><select class="din" data-in="supf" data-id="${c.id}" data-k="${k}">${opts.map(([v,t])=>`<option value="${v}" ${String(c[k]??'')===String(v)?'selected':''}>${t}</option>`).join('')}</select></label>`;
   return `<div class="hair skin spfi">
-  <div class="spfh"><label class="spimg">${c.img?`<img src="${c.img}" alt="">`:SUP_IC2[x.ic]||''}<input type="file" accept="image/*" data-supimg="${c.id}" hidden><em>photo</em></label><div><div class="ht">${x.n}</div><div class="hp">${x.ben}</div><span class="spbad ${x.ther?'th':''}">${x.ther?'dosage prescrit':'dosage indicatif'}</span></div></div>
+  <div class="spfh"><label class="spimg">${c.img?`<img src="${c.img}" alt="">`:SUP_IC2[x.ic]||SUP_IC2.caps||''}<input type="file" accept="image/*" data-supimg="${c.id}" hidden><em>photo</em></label><div><div class="ht">${x.n}</div><div class="hp">${x.ben}</div><span class="spbad ${x.ther?'th':''}">${x.ther?'dosage prescrit':'dosage indicatif'}</span></div></div>
   <div class="hp"><span class="sk">Dosage de référence</span> ${x.ref}</div>
   <div class="hp"><span class="sk">Horaire</span> ${slotT(x.slot)} · ${SLOTS.find(s=>s[0]===x.slot)[1]}</div>
   <div class="hp"><span class="sk">Conditions</span> ${x.cond}</div>
   ${x.inter!=='—'?`<div class="hp"><span class="sk">Interactions</span> ${x.inter}</div>`:''}${x.ci!=='—'?`<div class="hp"><span class="sk">Contre-indications</span> ${x.ci}</div>`:''}
-  <div class="spgrid">${f('dose',x.ther?'Dosage prescrit':'Dosage personnel','text',x.ther?'à renseigner':'ex. 1 000 UI')}${f('uAmt','Principe actif par unité','number')}${sel('uUnit','Unité',[['',x.unit||'—'],['µg','µg'],['mg','mg'],['g','g'],['UI','UI']])}${sel('form','Forme',[['gélule','gélule'],['comprimé','comprimé'],['g','gramme'],['mesure','mesure'],['dose','dose']])}${f('perTake','Nombre par prise','number','1')}${sel('freq','Fréquence',x.od?[['0','Si besoin']]:[['1','Chaque jour'],['2','Tous les 2 jours']])}${f('start','Début','date')}${f('end','Fin de cure','date')}${f('reval','Réévaluation','date')}${f('stock','Stock restant','number')}</div>
+  <div class="spgrid">${f('dose',x.ther?'Dosage prescrit':'Dosage personnel','text',x.ther?'à renseigner':'ex. 1 000 UI')}${f('uAmt','Principe actif par unité','number')}${sel('uUnit','Unité',[['',x.unit||'—'],['µg','µg'],['mg','mg'],['g','g'],['UI','UI']])}${sel('form','Forme',[['gélule','gélule'],['comprimé','comprimé'],['g','gramme'],['mesure','mesure'],['dose','dose']])}${supCalc(c)!==null?`<label class="spf"><span>Nombre par prise</span><div class="spcalc">${String(supCalc(c)).replace('.',',')} <small>calculé</small></div></label>`:f('perTake','Nombre par prise','number','1')}${sel('freq','Fréquence',x.od?[['0','Ponctuel, si besoin']]:[['1','Chaque jour'],['2','Tous les 2 jours'],['7','Une fois par semaine'],['0','Ponctuel, si besoin']])}${f('start','Début','date')}${f('end','Fin de cure','date')}${f('reval','Réévaluation','date')}${f('stock','Stock restant','number')}${sel('rem','Rappel',[['','Aucun'],['0','À l’heure'],['10','10 min avant'],['30','30 min avant']])}</div>
+  ${(()=>{const dd=supDays(c);return dd!==null?`<div class="hp" style="padding-top:8px"><span class="sk">Stock</span> environ ${dd} jour${dd>1?'s':''}, jusqu’au ${short(add(TODAY,dd))}</div>`:''})()}
+  ${c.def&&c.def.nut&&c.def.nut.length?`<div class="hp"><span class="sk">Nutriments</span> ${c.def.nut.map(k=>(SUP_NUTS.find(n=>n[0]===k)||[,k])[1]).join(', ')}</div>`:''}
+  ${(()=>{const L=S.flags.supLog||{},ds=Object.keys(L).filter(k=>k>add(TODAY,-30)&&L[k].includes(c.id)).sort();return `<div class="hp"><span class="sk">Historique</span> ${ds.length?`${ds.length} prise${ds.length>1?'s':''} sur les 30 derniers jours · dernière le ${short(ds[ds.length-1])}`:'aucune prise enregistrée'}</div>`})()}
+  <button class="spdel" data-a="supdel" data-id="${c.id}">Supprimer ce complément</button>
   ${c.hk==='thyro'?'<div class="hp" style="padding-top:6px">Le dosage de la L-thyroxine n’est jamais modifié par l’app.</div>':''}</div>`}
 function suppDetail(c){const x=SUP[c.hk];if(!x)return '';
  return `<div class="hair skin"><div style="display:flex;align-items:center;gap:10px;padding:8px 0">${SUP_ICON[x.ic]}<div><div class="ht">${x.n}</div><div class="hp">${x.o}</div></div></div>
@@ -1842,7 +1891,7 @@ function menageHTML(){
 const WB_SECS=['visage','cheveux','corps','complements'];
 const WBZ=[['visage','Visage'],['cheveux','Cheveux'],['corps','Corps'],['complements','Compléments'],['sportm','Sport'],['autre','Autre']];
 const wbMoment=()=>{if(S._wbM&&S._wbM.d===TODAY)return S._wbM.v;const h=new Date().getHours();return h>=20||h<5?'soir':'matin'};
-const wbMom=c=>{const m=Array.isArray(c.moments)&&c.moments[0];if(c.sec==='cheveux'&&c.hk==='refresh')return 'matin';if(c.sec==='complements'&&SUPX[c.hk]){const sl=SLOTS.find(x=>x[0]===SUPX[c.hk].slot);return sl?sl[3]:'midi'}return c.sec==='complements'?(m||'midi'):(m==='matin'?'matin':'soir')};
+const wbMom=c=>{const m=Array.isArray(c.moments)&&c.moments[0];if(c.sec==='cheveux'&&c.hk==='refresh')return 'matin';if(c.sec==='complements'&&supOf(c)){const sl=SLOTS.find(x=>x[0]===supOf(c).slot);return sl?sl[3]:'midi'}return c.sec==='complements'?(m||'midi'):(m==='matin'?'matin':'soir')};
 const wbOnDemand=c=>(['visage','cheveux','corps'].includes(c.sec)&&ctog(c))||c.sub==='manucure'||c.hk==='pointes';
 const wbZone=c=>wbOnDemand(c)||c.hk==='pointes'?'autre':c.sec;
 const WB_SITU={cheveux:['irrite','sport','voyage'],corps:['express','voyage','sport','exfo','cibles']};
@@ -1860,7 +1909,7 @@ function wbShift(c){
     if(ACIDS.includes(c.hk)){if(st.includes('irrit')||st.includes('rasee')||st.includes('ipl'))return 'peau irritée, rasée ou traitée';if(ipl.some(x=>recent(x,2)||(nextOf(x)<=TODAY&&x.last!==TODAY)))return 'trop proche d’une séance IPL'}
     if(BODY_IPL[c.hk]){if(S.care.some(x=>x.sec==='corps'&&ACIDS.includes(x.hk)&&recent(x,2)))return 'acide ou brossage trop récent';if(st.includes('irrit'))return 'peau irritée'}}
   return ''}
-function wbDue(c){if(!wbEl(c))return false;if(c.sec==='complements'&&c.paused)return false;if(c.sec==='complements'&&SUPX[c.hk]){if(c.last===TODAY)return true;if(SUPX[c.hk].od||String(c.freq)==='0')return !!c.todo;if(String(c.freq)==='2')return !c.last||diff(c.last,TODAY)>=2;return c.last<TODAY}if(c.last===TODAY)return true;if(c.todo)return true;if(c.sec==='complements')return c.last<TODAY;if(c.sec==='sportm')return true;if(wbOnDemand(c))return false;if(wbShift(c))return false;return nextOf(c)<=TODAY}
+function wbDue(c){if(!wbEl(c))return false;if(c.sec==='complements'&&c.paused)return false;if(c.sec==='complements'&&supOf(c)){if(c.last===TODAY)return true;if(c.start&&c.start>TODAY)return false;if(c.end&&c.end<TODAY)return false;const f=String(c.freq||'1');if(supOf(c).od||f==='0')return !!c.todo;if(f==='2')return !c.last||diff(c.last,TODAY)>=2;if(f==='7'){const r=c.start||c.last;return !r||diff(r,TODAY)%7===0}return !c.last||c.last<TODAY}if(c.last===TODAY)return true;if(c.todo)return true;if(c.sec==='complements')return c.last<TODAY;if(c.sec==='sportm')return true;if(wbOnDemand(c))return false;if(wbShift(c))return false;return nextOf(c)<=TODAY}
 const wbLate=c=>false;
 const wbDone=c=>c.last===TODAY;
 const ZMS={'Épaules':{z:'<path d="M38 26q12-4 24 0l-1 5q-11-3-22 0z"/>',a:['M48 25l-9 2','M52 25l9 2'],h:[46,22],t:'de la nuque vers l’épaule'},
@@ -1971,11 +2020,11 @@ function moiHTML(){wbStateRec();
     if(tot&&!n&&z!=='sportm'&&z!=='autre'&&!(S._wbZopen||{})[z])return `<button class="wbzdone" style="--d:${WBZC[z]}" data-a="wbzopen" data-v="${z}">${WBZN[z]} <b>✓</b> <span class="wbzd2">${tot} fait${tot>1?'s':''}</span></button>`;
     const TO=(S._wbTag||{})[z],tag=(extra)=>`<button class="wbtag" style="--d:${WBZC[z]}" data-a="wbtag" data-v="${z}" data-lp="wbzall" data-lpv="${z}"><span class="wbti">${charSvg(z==='autre'?'idee':z,'ok',38)}</span><span class="wbtn">${WBZN[z]}</span>${extra||''}</button>`,chev=`<svg class="wbtc" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${TO?180:0}deg)"><path d="M6 9l6 6 6-6"/></svg>`;
     if(z==='sportm'){const dn=rows.filter(wbDone).length;return `<div class="wbz">${tag((dn?`<b class="wbok">${dn} ✓</b>`:'')+chev)}${TO?`<div class="wbin">${rows.map(wbRow).join('')}</div>`:''}</div>`}
-    if(z==='complements'){const al=supAlerts(),msg=S._supMsg;S._supMsg='';const SC=S.care.filter(c=>c.sec==='complements'&&SUPX[c.hk]).sort((a,b)=>SLOTS.findIndex(s=>s[0]===SUPX[a.hk].slot)-SLOTS.findIndex(s=>s[0]===SUPX[b.hk].slot));
-      const tg=`<label class="spwake"><span>Heure du réveil</span><input class="din" type="time" data-in="supwake" value="${S.flags.wake||'07:00'}"></label><div class="hp" style="padding:0 0 6px">Les horaires s’adaptent à l’heure du réveil.</div>${msg?`<div class="spmsg">${msg}</div>`:''}<div class="sptg">${SC.map(c=>`<button class="${c.paused?'':'on'}" data-a="suptg" data-id="${c.id}"><span><b>${esc(SUPX[c.hk].n)}</b><small>${slotT(SUPX[c.hk].slot)} · ${SUPX[c.hk].ther?'prescrit':'indicatif'}${SUPX[c.hk].od?' · si besoin':''}</small></span><i></i></button>`).join('')}</div>`;
-      const mela=S.care.find(c=>c.hk==='mela'&&!c.paused&&!wbDue(c)&&m==='soir');
-      const byS=SLOTS.map(sl=>{const R2=rows.filter(c=>SUPX[c.hk]&&SUPX[c.hk].slot===sl[0]);return R2.length?`<div class="spslot">${slotT(sl[0])} · ${sl[1]}</div>${R2.map(wbRow).join('')}`:''}).join('')+rows.filter(c=>!SUPX[c.hk]).map(wbRow).join('');
-      return `<div class="wbz">${tag(chev)}${al.length?`<div class="spal">${al.map(a=>`<div>• ${a}</div>`).join('')}</div>`:''}${byS}${mela?`<button class="wblt" data-a="wbtodo" data-id="${mela.id}"><span style="line-height:0">${SUP_IC2.tab}</span><span><b>Mélatonine</b><i>si besoin, ${slotT('coucher')}</i></span><em>+</em></button>`:''}${TO?`<div class="wbin wbinfo hair">${tg}${suppCard().replace(/^<details[^>]*><summary>[\s\S]*?<\/summary>/,'').replace(/<\/details>\s*$/,'')}</div>`:''}</div>`}
+    if(z==='complements'){const al=supAlerts(),msg=S._supMsg;S._supMsg='';const SC=S.care.filter(c=>c.sec==='complements'&&supOf(c)).sort((a,b)=>SLOTS.findIndex(s=>s[0]===supOf(a).slot)-SLOTS.findIndex(s=>s[0]===supOf(b).slot));
+      const tg=`<label class="spwake"><span>Heure du réveil</span><input class="din" type="time" data-in="supwake" value="${S.flags.wake||'07:00'}"></label><label class="spwake"><span>Heure du coucher</span><input class="din" type="time" data-in="supbed" value="${S.flags.bed||'23:00'}"></label><div class="hp" style="padding:0 0 6px">Les horaires s’adaptent à ces deux heures.</div>${supSuivi()}${msg?`<div class="spmsg">${msg}</div>`:''}<div class="sptg">${SC.map(c=>`<button class="${c.paused?'':'on'}" data-a="suptg" data-id="${c.id}"><span><b>${esc(supOf(c).n)}</b><small>${slotT(supOf(c).slot)} · ${supOf(c).ther?'prescrit':supOf(c).cx?'complexe':'indicatif'}${supOf(c).od||String(c.freq)==='0'?' · si besoin':String(c.freq)==='2'?' · 1 jour sur 2':String(c.freq)==='7'?' · 1 fois par semaine':''}${c.rem!==undefined&&c.rem!==''?' · rappel':''}</small></span><i></i></button>`).join('')}</div>${supAddForm()}`;
+      const pon=S.care.filter(c=>c.sec==='complements'&&supOf(c)&&!c.paused&&(supOf(c).od||String(c.freq)==='0')&&!wbDue(c)&&wbMom(c)===m&&(!c.start||c.start<=TODAY)&&(!c.end||c.end>=TODAY));
+      const byS=SLOTS.map(sl=>{const R2=rows.filter(c=>supOf(c)&&supOf(c).slot===sl[0]);return R2.length?`<div class="spslot">${slotT(sl[0])} · ${sl[1]}</div>${R2.map(wbRow).join('')}`:''}).join('')+rows.filter(c=>!supOf(c)).map(wbRow).join('');
+      return `<div class="wbz">${tag(chev)}${al.length?`<div class="spal">${al.map(a=>`<div>• ${a}</div>`).join('')}</div>`:''}${byS}${pon.map(p=>`<button class="wblt" data-a="wbtodo" data-id="${p.id}"><span style="line-height:0">${SUP_IC2[supOf(p).ic]||SUP_IC2.tab}</span><span><b>${esc(supOf(p).n)}</b><i>si besoin, ${slotT(supOf(p).slot)}</i></span><em>+</em></button>`).join('')}${TO?`<div class="wbin wbinfo hair">${tg}${suppCard().replace(/^<details[^>]*><summary>[\s\S]*?<\/summary>/,'').replace(/<\/details>\s*$/,'')}</div>`:''}</div>`}
     if(false){const si=suppCard().replace(/^<details[^>]*><summary>[\s\S]*?<\/summary>/,'').replace(/<\/details>\s*$/,'');return `<div class="wbz">${tag(chev)}${rows.map(wbRow).join('')}${TO?`<div class="wbin wbinfo hair">${si}</div>`:''}</div>`}
     if(z==='autre')return `<div class="wbz">${tag(chev)}${rows.map(wbRow).join('')}${TO?`<div class="wbin">${autreChips}</div>`:''}</div>`;
     return `<div class="wbz">${tag()}${rows.map(wbRow).join('')}${ad.map(wbAdvRow).join('')}</div>`}).join('');
@@ -2179,7 +2228,7 @@ function sheetHTML(){
 }
 
 function admCenter(){document.querySelectorAll('.adm').forEach(a=>{a.style.removeProperty('--ns');const r=a.getBoundingClientRect();if(!r.width)return;a.style.setProperty('--ns',Math.round(innerHeight*.56-(r.top+r.height/2))+'px')})}
-function render(){try{if(S.care&&S.flags)wbTonight();renderInner()}finally{persist();requestAnimationFrame(()=>{try{admCenter();decoGuard();legAlign()}catch(e){}})}}
+function render(){try{if(S.care&&S.flags){wbTonight();supLogExp();supRemSync()}renderInner()}finally{persist();requestAnimationFrame(()=>{try{admCenter();decoGuard();legAlign()}catch(e){}})}}
 addEventListener('resize',()=>{admCenter();decoGuard();legAlign()});if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{try{legAlign()}catch(e){}});
 function renderInner(){
   const ph=document.getElementById('phone');
@@ -2264,6 +2313,8 @@ document.addEventListener('change',e=>{const fi=e.target.closest&&e.target.close
   const tH=x=>{if(!x)return null;const q=x.split(':').map(Number);return Math.min(23.75,Math.max(5,q[0]+(q[1]||0)/60))};
   if(a==='supf'){const c=S.care.find(x=>x.id===+el.dataset.id);if(c){const k=el.dataset.k;if(v==='')delete c[k];else c[k]=['uAmt','perTake','stock'].includes(k)?+v:v;render()}return}
   if(a==='supwake'){if(v){S.flags.wake=v;render()}return}
+  if(a==='supbed'){if(v){S.flags.bed=v;render()}return}
+  if(a==='supnew'){S._supNew=S._supNew||{};S._supNew[el.dataset.k]=v;return}
   if(a==='ddate'){if(v)S.D.date=v}
   if(a==='dby'){S.D.by=v;return}
   if(a==='halt'){S._skOpen='h'+el.dataset.k;S.flags.hairAlt={...(S.flags.hairAlt||{}),[el.dataset.k]:v};render();return}
@@ -2452,12 +2503,17 @@ document.addEventListener('click',e=>{
     case 'spgo':{if(v==='yoga'){const r=yogaSeq();spPlay(r.seq.map(k=>{const x=r.Y[k];return {p:x[2][0],n:x[1],c:x[7][0],sec:r.hold}}),'Yoga')}else{const r=strSeq();spPlay(r.list.map(x=>({p:x[2][0],n:x[1],c:x[7].join(' · '),sec:r.hold})),'Étirements')}return}
     case 'stdur':S._stDur=+v;S._sheetKeep=true;break;
     case 'suptg':{const c=S.care.find(x=>x.id===id);if(!c)break;if(c.paused){const why=supCanOn(c);if(why){S._supMsg=why;break}c.paused=false;if(!c.start)c.start=TODAY;if(!c.reval)c.reval=add(c.start,90)}else c.paused=true;break}
+    case 'supadd':{S._supNew=S._supNew||{};if(S._supNew.open){const N=S._supNew,n=(N.n||'').trim();if(!n){S._supMsg='Donne un nom au complément.';break}const mx=Math.max(0,...S.care.map(c=>c.id||0))+1;S.care.push({id:mx,sec:'complements',sub:'gelule',hk:'cx'+mx,title:n,paused:true,freq:'1',last:add(TODAY,-1),def:{n,slot:N.slot||'pdj',ic:'caps',unit:'mg',ben:N.cx?'Complexe ajouté':'Complément ajouté',ref:'À renseigner selon le produit',cond:SLOTS.find(s=>s[0]===(N.slot||'pdj'))[1],inter:'—',ci:'—',nut:N.nut||[],cx:N.cx?1:0}});S._supNew={};S._supMsg=`${n} est ajouté, en pause.`}else S._supNew={open:1,slot:'pdj',nut:[]};break}
+    case 'supaddx':{S._supNew={};break}
+    case 'supnut':{const N=S._supNew=S._supNew||{};N.nut=N.nut||[];const k=el.dataset.v;N.nut=N.nut.includes(k)?N.nut.filter(x=>x!==k):[...N.nut,k];break}
+    case 'supcx':{const N=S._supNew=S._supNew||{};N.cx=el.dataset.v==='1';break}
+    case 'supdel':{const c=S.care.find(x=>x.id===id);if(c&&confirm(`Supprimer ${supOf(c)?supOf(c).n:c.title} ?`)){S.care=S.care.filter(x=>x.id!==id)}break}
     case 'wbtodo':{const c=S.care.find(x=>x.id===id);if(c){c.todo=true;S._wbOpen=S._wbOpen||{};delete S._wbOpen[id]}break}
     case 'wblater':{e.preventDefault();S._wbLater=S._wbLater||{};S._wbLater[v]=!S._wbLater[v];break}
     case 'wbsoins':S._wbSoins=!S._wbSoins;break;
     case 'wbset':S.sheet='wbset';if(v)S._wbSetZ=v;break;
     case 'wbopen':{const c=S.care.find(x=>x.id===id);if(c){S._wbOpen=S._wbOpen||{};const cur=S._wbOpen[id];S._wbOpen[id]=!(cur===undefined?false:cur)}break}
-    case 'wbchk':{const c=S.care.find(x=>x.id===id);if(!c)break;if(c.sec==='complements'&&c.stock!==undefined&&c.stock!==''){const per=parseFloat(c.perTake)||1;c.stock=Math.max(0,+c.stock+(c.last===TODAY?per:-per))}if(c.last===TODAY&&c.wbPrev){c.last=c.wbPrev.l;if(c.wbPrev.n)c.next=c.wbPrev.n;if(c.wbPrev.t)c.todo=true;c.chk=c.wbPrev.c;if(!c.chk)delete c.chk;delete c.wbPrev}else if(c.last!==TODAY){c.wbPrev={l:c.last,n:c.next||null,t:!!c.todo,c:c.chk||null};c.last=TODAY;c.chk=TODAY;delete c.next;delete c.todo}if(S._wbOpen)delete S._wbOpen[id];break}
+    case 'wbchk':{const c=S.care.find(x=>x.id===id);if(!c)break;if(c.sec==='complements'){const L=S.flags.supLog=S.flags.supLog||{},d=L[TODAY]=L[TODAY]||[];if(c.last===TODAY)L[TODAY]=d.filter(i=>i!==c.id);else if(!d.includes(c.id))d.push(c.id)}if(c.sec==='complements'&&c.stock!==undefined&&c.stock!==''){const per=supNb(c);c.stock=Math.max(0,Math.round((+c.stock+(c.last===TODAY?per:-per))*100)/100)}if(c.last===TODAY&&c.wbPrev){c.last=c.wbPrev.l;if(c.wbPrev.n)c.next=c.wbPrev.n;if(c.wbPrev.t)c.todo=true;c.chk=c.wbPrev.c;if(!c.chk)delete c.chk;delete c.wbPrev}else if(c.last!==TODAY){c.wbPrev={l:c.last,n:c.next||null,t:!!c.todo,c:c.chk||null};c.last=TODAY;c.chk=TODAY;delete c.next;delete c.todo}if(S._wbOpen)delete S._wbOpen[id];break}
     case 'cyhist':S._cyHist=!S._cyHist;break;
     case 'drok':{const t=document.getElementById('drnote');if(t)t.blur();persist();S._drOk=1;clearTimeout(window._drT);window._drT=setTimeout(()=>{S._drOk=0;render()},1600);break}
     case 'cyslq':case 'cydr':{const D=S.cycle.days,k=S.cyDay,e={...(D[k]||{})},sl={...(e.sl||{})};
@@ -3245,7 +3301,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='150';
+const APP_VER='151';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
