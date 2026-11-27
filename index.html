@@ -1349,6 +1349,7 @@ const nowMs=()=>Date.now();
 const visible=it=>!it.timer&&!(it.done&&it.doneAt&&nowMs()-it.doneAt>864e5);
 function migrate(){if(!S.flags)S.flags={};let ch=false;
   if(!S.flags.off1&&Array.isArray(S.care)){const st='2026-11-30',y='2026-11-29';S.flags.wbStart=st;S.care.forEach(c=>{if(!['visage','cheveux','corps','sportm','complements'].includes(c.sec))return;if(BODY_IPL[c.hk])return;c.last=y;delete c.next;delete c.chk;delete c.wbPrev});['skinPd','hairPd','bodyPd'].forEach(k=>S.flags[k]=st);['wbV','wbSteps','wbShort','wbShift','wbNew'].forEach(k=>delete S.flags[k]);S.flags.off1=1;ch=true}
+  if(!S.flags.mask1&&Array.isArray(S.care)){S.care.forEach(c=>{if(c.sec==='visage'&&c.sub==='masqueV'){c.days=[2];delete c.next}});S.flags.mask1=1;ch=true}
   if(!S.flags.cl1){['supLog','supExp','supRem','wake','bed','supCx'].forEach(k=>delete S.flags[k]);if(Array.isArray(S.care))S.care.forEach(c=>{if(c.sec==='complements')['dose','uAmt','uUnit','form','perTake','stock','rem','img','reval','end'].forEach(k=>delete c[k])});S.flags.cl1=1;ch=true}
   if(!S.flags.sup3&&Array.isArray(S.care)){S.care.forEach(c=>{if(c.sec==='complements'&&(c.hk==='fer'||c.hk==='psyl'))c.title=SUPX[c.hk].n});S.flags.sup3=1;ch=true}
   if(!S.flags.sup4&&Array.isArray(S.care)){S.care.forEach(c=>{if(c.sec==='complements'&&c.hk==='mg')c.title=SUPX.mg.n});S.flags.sup4=1;ch=true}
@@ -3232,7 +3233,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='175';
+const APP_VER='176';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
