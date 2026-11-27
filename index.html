@@ -185,7 +185,6 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .sptg{display:flex;flex-direction:column;gap:4px;margin:8px 0 4px}.sptg button{display:flex;align-items:center;justify-content:space-between;padding:6px 4px;font-size:14px;font-weight:700;color:var(--muted)}.sptg button.on{color:var(--ink)}.sptg i{width:40px;height:24px;border-radius:12px;background:#E6DDD8;position:relative;transition:background .2s}.sptg i::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:9px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .2s}.sptg button.on i{background:#B4D29A}.sptg button.on i::after{left:19px}
 .sptg button span{display:flex;flex-direction:column;align-items:flex-start;text-align:left}.sptg small{font-size:11px;font-weight:600;color:var(--muted)}
 .wbsum{font-size:13px;color:var(--muted);margin:10px 2px 0}.wbsum b{color:#8C6E60;font-weight:800}.wbz{margin-top:6px}
-.wbl8{margin:2px 0 6px}.wbl8 summary{list-style:none;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--muted);padding:6px 4px}.wbl8 summary::-webkit-details-marker{display:none}.wbl8 summary::after{content:' ›'}.wbl8[open] summary::after{content:' ⌄'}
 .wblts{display:flex;flex-direction:column;gap:6px}.wblt{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:14px;background:var(--card);border:1px dashed var(--line);text-align:left}.wblt span:nth-child(2){flex:1;display:flex;flex-direction:column;font-size:13px}.wblt i{font-style:normal;font-size:11px;color:var(--muted)}.wblt em{font-style:normal;font-weight:800;color:#C98A3E;font-size:18px}
 .wbtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 10px}.wbtabs{display:flex;gap:10px;background:none;padding:0}.wbtabs button{display:inline-flex;align-items:center;gap:8px;height:50px;padding:0 14px;border-radius:18px;font-size:16px;font-weight:800;color:var(--muted);background:var(--card);border:1.5px solid var(--line);box-shadow:0 3px 0 #EADBD2}.wbtabs button[data-v=matin]{background:#FFFBEF;border-color:#F2E6BF;box-shadow:0 3px 0 #EDE1BC}.wbtabs button[data-v=soir]{background:#F4F4FA;border-color:#DCDDEC;box-shadow:0 3px 0 #D4D5E6}.wbtabs button[data-v=matin].on{background:#FBEDB8;border-color:#E9D28A;color:var(--ink);box-shadow:0 3px 0 #DCC27A}.wbtabs button[data-v=soir].on{background:#D9DCF0;border-color:#AEB4D8;color:#3D4366;box-shadow:0 3px 0 #9DA3CB}.wbsoinsb{height:36px;padding:0 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--muted)}.wbback{margin:4px 18px 0;height:34px;padding:0 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--muted)}
 .wbset{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;padding:8px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:11.5px;color:var(--muted);font-weight:600;text-align:left;margin-bottom:4px}.wbset svg{margin-left:auto}
@@ -1961,12 +1960,8 @@ function moiHTML(){wbStateRec();
       const fold=`<div class="spfold"><button class="${DO?'on':''}" data-a="supdos">${kw('perso',20)}<span>Mes compléments</span>${chv(DO)}</button><button class="${SE?'on':''}" data-a="supsel">${kw('perso',20)}<span>Ma sélection</span>${chv(SE)}</button></div>${DO?`<div class="wbin wbinfo hair">${suppCard().replace(/^<details[^>]*><summary>[\s\S]*?<\/summary>/,'').replace(/<\/details>\s*$/,'')}</div>`:''}${SE?`<div class="wbin wbinfo hair">${tgIn}</div>`:''}`;
       if(CO)return `<div class="wbz">${tg2}</div>`;
       return `<div class="wbz">${tg2}${fold}${R3.map((c,i)=>{const sl=(supOf(c)||{}).slot,pv=i?(supOf(R3[i-1])||{}).slot:null;return (sl&&sl!==pv?`<div class="spsep"><span>${SUP_SEP[sl]||''}</span></div>`:'')+wbRow(c)}).join('')}${pon.map(p=>`<button class="wblt" data-a="wbtodo" data-id="${p.id}"><span style="line-height:0">${SUP_IC2[supOf(p).ic]||SUP_IC2.tab}</span><span><b>${esc(supOf(p).n)}</b><i>si besoin</i></span><em>+</em></button>`).join('')}</div>`}
-    if(false){const si=suppCard().replace(/^<details[^>]*><summary>[\s\S]*?<\/summary>/,'').replace(/<\/details>\s*$/,'');return `<div class="wbz">${tag(chev)}${rows.map(wbRow).join('')}${TO?`<div class="wbin wbinfo hair">${si}</div>`:''}</div>`}
     if(z==='autre'){const pn=rows.filter(c=>!wbDone(c)).length;return `<div class="wbz${pn?' wbpend':''}">${tag((pn?`<span class="wbpn">${pn}</span>`:'')+chev)}${TO?`${rows.map(wbRow).join('')}<div class="wbin">${autreChips}</div>`:''}</div>`}
     return `<div class="wbz"><div class="wbbar" style="--d:${WBZC[z]}" data-lp="wbzall" data-lpv="${z}"></div>${rows.map(wbRow).join('')}${ad.map(wbAdvRow).join('')}</div>`}).join('');
-  const later='';const _unused=ORD.filter(z=>false).map(z=>{const L=care.filter(c=>wbZone(c)===z&&!due.includes(c)&&wbEl(c)&&(wbOnDemand(c)||moms.includes(wbMom(c)))).sort((a,b)=>wbOnDemand(a)-wbOnDemand(b)||(nextOf(a)<nextOf(b)?-1:1));
-    if(!L.length)return '';const chip=c=>{const sh=wbShift(c),od=wbOnDemand(c),dt=od?'':sh?'décalé : '+sh:short(nextOf(c)<=TODAY?add(TODAY,1):nextOf(c));return `<button class="wblt" data-a="wbtodo" data-id="${c.id}"><span style="line-height:0">${charSvg(icOf(c),'ok',24)}</span><span><b>${esc(c.title)}</b>${dt?`<i>${dt}</i>`:''}</span><em>+</em></button>`};
-    return `<details class="wbl8" ${(S._wbLater||{})[z]?'open':''}><summary data-a="wblater" data-v="${z}">${z==='autre'?'À ajouter quand tu veux':'Plus tard · '+WBZN[z]} · ${L.length}</summary><div class="wblts">${L.map(chip).join('')}</div></details>`}).join('');
   return `<div class="scroll wbcx" style="padding:4px 18px 150px">
     <div class="wbtop"><div class="wbtabs">${tabs}</div></div>
     ${wbSet()}${pre?'':wbBanners(eta)}
@@ -2441,7 +2436,6 @@ document.addEventListener('click',e=>{
     case 'stdur':S._stDur=+v;S._sheetKeep=true;break;
     case 'suptg':{const c=S.care.find(x=>x.id===id);if(!c)break;if(c.paused){c.paused=false;if(!c.start)c.start=TODAY;if(!c.reval)c.reval=add(c.start,90)}else c.paused=true;break}
     case 'wbtodo':{const c=S.care.find(x=>x.id===id);if(c){c.todo=true;S._wbOpen=S._wbOpen||{};delete S._wbOpen[id]}break}
-    case 'wblater':{e.preventDefault();S._wbLater=S._wbLater||{};S._wbLater[v]=!S._wbLater[v];break}
     case 'wbsoins':S._wbSoins=!S._wbSoins;break;
     case 'wbset':S.sheet='wbset';if(v)S._wbSetZ=v;break;
     case 'wbopen':{const c=S.care.find(x=>x.id===id);if(c){S._wbOpen=S._wbOpen||{};const cur=S._wbOpen[id];S._wbOpen[id]=!(cur===undefined?false:cur)}break}
@@ -3233,7 +3227,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='177';
+const APP_VER='178';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
