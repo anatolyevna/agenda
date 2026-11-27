@@ -961,7 +961,7 @@ const KFG=(d,W)=>{const ol='#6E4E44',sk='#FCE3D4',skF='#EBC7B5',top='#F3B3C3',bo
  const armSv=a=>L(a.p,7.4,a.b?skF:sk)+(a.h===false?'':hand(a.p[a.p.length-1],a.b?skF:sk));
  const upper=`<g transform="translate(0 ${d.dy||0})">${back.map(armSv).join('')}${torso}${head}${front.map(armSv).join('')}</g>`;
  const body=`${legs.map(l=>L(l,10,bot)).join('')}${feet.map(f=>foot(...f)).join('')}${d.lean?`<g transform="rotate(${d.lean} 60 68)">${upper}</g>`:upper}`;
- return `<svg viewBox="0 -6 120 126" width="${W}" height="${Math.round(W*126/120)}" style="flex:none;overflow:visible"><defs><marker id="kga" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E08A5E"/></marker></defs><path d="M6 109H114" stroke="#E9DCD2" stroke-width="2" stroke-linecap="round"/>${body}${(d.ar||[]).map(ar).join('')}${(d.lb||[]).map(x=>lbl(60,117,x[2])).join('')}</svg>`};
+ return `<svg viewBox="0 -6 120 126" width="${W}" height="${Math.round(W*126/120)}" style="flex:none;overflow:visible"><defs><marker id="kga" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E08A5E"/></marker></defs>${d.noground?'':'<path d="M6 109H114" stroke="#E9DCD2" stroke-width="2" stroke-linecap="round"/>'}${body}${(d.ar||[]).map(ar).join('')}${(d.lb||[]).map(x=>lbl(60,117,x[2])).join('')}</svg>`};
 const FG={
  armsUp:{arms:[{p:[[48,39],[45,20],[47,4]]},{p:[[72,39],[75,20],[73,4]]}],lb:[[95,20,'bras tendus','middle']]},
  neck:{tilt:-18,closed:1,arms:[{p:[[48,39],[38,22],[47,10]]},{p:[[72,39],[76,54],[75,66]]}],ar:['M28 26q-4 8 2 14'],lb:[[22,50,'oreille vers l’épaule','middle']]},
@@ -975,6 +975,9 @@ const FG={
  side:{lean:-16,arms:[{p:[[48,39],[50,18],[60,4]]},{p:[[72,39],[72,18],[61,4]]}],ar:['M84 12q8 10 4 22'],lb:[[98,48,'pencher sur le côté','middle']]},
  hips:{arms:[{p:[[48,39],[40,52],[51,64]]},{p:[[72,39],[80,52],[69,64]]}],ar:['M38 76a26 8 0 1 0 44 0'],lb:[[60,95,'grands cercles','middle']]},
  butterfly:{dy:36,closed:1,arms:[{p:[[48,39],[46,56],[56,68]]},{p:[[72,39],[74,56],[64,68]]}],legs:[[[54,104],[28,98],[55,106]],[[66,104],[92,98],[65,106]]],feet:[[56,106,90],[64,106,-90]],ar:['M24 90v8','M96 90v8'],lb:[[0,0,'plantes des pieds jointes']]},
+ adductor:{dy:36,closed:1,arms:[{p:[[48,39],[44,56],[48,70]]},{p:[[72,39],[76,56],[72,70]]}],legs:[[[54,104],[30,104],[10,104]],[[66,104],[90,104],[110,104]]],feet:[[8,100,90],[112,100,-90]],lb:[[0,0,'jambes écartées, mains au sol devant']]},
+ twist:{noground:1,tilt:-28,closed:1,arms:[{p:[[48,39],[28,39],[8,39]]},{p:[[72,39],[92,39],[112,39]]}],legs:[[[54,68],[84,76],[76,98]],[[64,68],[92,84],[84,104]]],feet:[[74,101,40],[82,107,40]],ar:['M100 66q10 10 2 22','M34 18q-8 2-10 10'],lb:[[0,0,'genoux d’un côté, tête de l’autre']]},
+ warrior2:{arms:[{p:[[48,39],[28,39],[8,38]]},{p:[[72,39],[92,39],[112,38]]}],legs:[[[54,68],[30,82],[28,104]],[[66,68],[84,86],[98,104]]],feet:[[24,106,0],[100,106,10]],tilt:-6,lb:[[0,0,'genou avant au-dessus de la cheville']]},
  tree:{closed:1,arms:[{p:[[48,39],[44,14],[59,-3]]},{p:[[72,39],[76,14],[61,-3]]}],legs:[[[54,68],[38,80],[53,86]],[[66,68],[67,86],[67,103]]],feet:[[54,87,80],[69,106,8]],lb:[[28,96,'pied contre la cuisse','middle']]}};
 const KFRONT=(kind,W)=>{const ol='#6E4E44',sk='#FCE3D4',top='#F3B3C3',bot='#B9A4E0';
  const L=(pts,w,c)=>`<path d="M${pts.map(p=>p.join(' ')).join('L')}" stroke="${ol}" stroke-width="${w+2.8}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M${pts.map(p=>p.join(' ')).join('L')}" stroke="${c}" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
@@ -1020,12 +1023,12 @@ const POSE_=(()=>{const p=(H,N,P,Le,Lh,Re,Rh,Lk,Lf,Rk,Rf,x={})=>Object.assign({H
  cow:p([28,66],[36,76],[78,74],[36,90],[36,106],[34,90],[34,106],[80,104],[100,106],[78,104],[98,106],{C:[57,88],mat:1}),
  sphinx:p([36,74],[44,88],[78,100],[44,104],[28,105],[46,104],[30,106],[94,103],[108,104],[92,104],[106,105],{mat:1,prone:1}),
  butterfly:p([60,46],[60,60],[60,92],[48,80],[56,100],[72,80],[64,100],[36,98],[57,103],[84,98],[63,103],{mat:1,fg:'butterfly'}),
- twist:p([16,98],[28,100],[60,100],[30,88],[22,78],[40,104],[52,106],[74,84],[68,102],[78,86],[72,103],{mat:1,closed:1}),
+ twist:p([16,98],[28,100],[60,100],[30,88],[22,78],[40,104],[52,106],[74,84],[68,102],[78,86],[72,103],{mat:1,closed:1,fg:'twist'}),
  corpse:p([14,99],[26,101],[62,102],[36,105],[48,106],[38,106],[50,107],[82,103],[102,103],[80,104],[100,104],{mat:1,closed:1}),
  dog:p([30,94],[38,82],[66,54],[32,94],[24,106],[30,94],[22,106],[82,80],[98,106],[80,80],[96,106],{mat:1}),
  cobra:p([32,64],[42,78],[78,100],[44,92],[44,106],[42,92],[42,106],[94,103],[108,104],[92,104],[106,105],{mat:1,prone:1}),
  warrior1:p([58,24],[58,38],[58,74],[54,24],[56,8],[62,24],[60,8],[38,86],[30,106],[76,90],[94,106]),
- warrior2:p([60,26],[60,40],[60,74],[42,40],[24,40],[78,40],[96,40],[40,86],[34,106],[80,90],[94,106],{far:'R'}),
+ warrior2:p([60,26],[60,40],[60,74],[42,40],[24,40],[78,40],[96,40],[40,86],[34,106],[80,90],[94,106],{far:'R',fg:'warrior2'}),
  tree:p([60,22],[60,36],[60,68],[52,30],[58,18],[68,30],[62,18],[58,88],[58,106],[76,80],[61,86],{fg:'tree'}),
  bridge:p([14,100],[26,101],[62,78],[38,104],[50,106],[40,105],[52,107],[80,82],[84,106],[78,83],[82,107],{mat:1}),
  lunge:p([52,46],[54,60],[64,90],[52,44],[52,28],[56,44],[56,28],[42,86],[38,106],[84,102],[104,104],{mat:1}),
@@ -1058,7 +1061,7 @@ const POSE_=(()=>{const p=(H,N,P,Le,Lh,Re,Rh,Lk,Lf,Rk,Rf,x={})=>Object.assign({H
  figure4:p([18,98],[30,100],[62,100],[42,104],[54,105],[44,103],[56,104],[80,80],[94,105],[72,74],[84,84],{mat:1,closed:1}),
  quad:p([60,22],[60,36],[60,68],[52,52],[50,66],[66,54],[58,72],[56,88],[56,106],[60,88],[56,74]),
  hamstring:p([42,48],[44,62],[46,96],[56,76],[78,96],[58,78],[80,98],[70,96],[100,98],[56,90],[50,104],{mat:1}),
- adductor:p([60,46],[60,60],[60,92],[48,80],[56,100],[72,80],[64,100],[36,98],[57,103],[84,98],[63,103],{mat:1,arrows:['M36 90v8','M84 90v8']}),
+ adductor:p([60,46],[60,60],[60,92],[48,80],[56,100],[72,80],[64,100],[36,98],[57,103],[84,98],[63,103],{mat:1,arrows:['M36 90v8','M84 90v8'],fg:'adductor'}),
  footStretch:p([60,40],[60,54],[60,90],[52,72],[54,90],[68,72],[66,90],[50,104],[72,104],[70,104],[78,104],{mat:1}),
  cooldown:p([64,24],[62,38],[60,68],[64,52],[68,64],[56,52],[52,64],[66,88],[70,106],[54,88],[50,106]),
  badLean:p([74,32],[68,44],[58,70],[70,56],[78,50],[56,58],[52,68],[72,80],[70,96],[50,88],[38,98],{mark:'<g stroke="#D9425E" stroke-width="3" stroke-linecap="round"><path d="M96 14l12 12M108 14l-12 12"/></g>'}),
@@ -3142,7 +3145,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='144';
+const APP_VER='145';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
