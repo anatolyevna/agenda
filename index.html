@@ -37,6 +37,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .tint{background:color-mix(in srgb,var(--d) 31%,var(--card));color:color-mix(in srgb,var(--d) 50%,var(--ink))}
 .ic{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:11px}
 header{align-items:center;position:relative}.seasonbg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.seasonbg i{position:absolute;opacity:.62;line-height:0;will-change:transform;animation-name:fallY;animation-timing-function:cubic-bezier(.2,.65,.3,1);animation-fill-mode:both}.seasonbg b{display:block;line-height:0;will-change:transform;transform:rotate(var(--r));animation-name:flutter;animation-timing-function:ease-in-out;animation-fill-mode:both}@keyframes fallY{from{transform:translate3d(0,-110vh,0)}to{transform:translate3d(0,0,0)}}@keyframes flutter{0%{transform:translate3d(-16px,0,0) rotate(calc(var(--r) - 60deg))}25%{transform:translate3d(16px,0,0) rotate(calc(var(--r) + 25deg))}50%{transform:translate3d(-12px,0,0) rotate(calc(var(--r) - 30deg))}75%{transform:translate3d(6px,0,0) rotate(calc(var(--r) + 10deg))}100%{transform:translate3d(0,0,0) rotate(var(--r))}}.dl1{display:flex;align-items:center;gap:7px}.dtxt .cdp span{font-size:11.5px;color:#B65A6E;font-weight:800;white-space:nowrap}.dtxt .cdp i{font-size:10px}.cdp{flex:none;display:inline-flex;align-items:center;gap:3px;height:20px;padding:0 7px 0 3px;border-radius:10px;background:color-mix(in srgb,#E8798F 9%,var(--card));border:1px solid color-mix(in srgb,#E8798F 22%,var(--card));font-size:11px;font-weight:800;color:#B65A6E;font-family:Nunito,sans-serif}.bilanb{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px 0 8px;border-radius:18px;background:color-mix(in srgb,#F7E3A1 40%,var(--card));border:1px solid color-mix(in srgb,#E3C478 45%,var(--card));font-size:14px;font-weight:700;color:var(--ink)}
+.cybs{display:flex;flex-direction:column;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:20px}.cybh{display:flex;align-items:center;gap:8px;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:16px;margin-bottom:2px}.cybl{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:2px 0}.cybl span{color:var(--muted);font-weight:600}.cybl b{text-align:right}.cybchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.cybchips span{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 5px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:13px;font-weight:600}.cybchips i,.cybdot{display:inline-block;width:12px;height:12px;border-radius:6px;flex:none}.cybchips span:has(i){padding-left:9px}
 .btile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 6px;background:var(--card);border:1px solid var(--line);border-radius:20px;text-align:center}.btile b{font-family:Nunito,sans-serif;font-size:26px;font-weight:800;line-height:1}.btile span{font-size:12px;color:var(--muted);font-weight:600}
 .cdp i{font-style:normal;font-weight:700;color:var(--muted);font-size:10.5px}
 header{padding:calc(env(safe-area-inset-top) + 4px) 12px 8px 16px;display:flex;align-items:center;gap:8px}
@@ -1553,7 +1554,8 @@ function cycleHTML(){const c=S._cy,D=S.cycle.days,k=S.cyDay,e=D[k]||{},PINK='#ED
   const sl=e.sl||{};
   const syms=SYMS.map(x=>`<button class="txt ${(e.sym||[]).includes(x)?'on':''}" style="--d:#F4C3C8" data-a="cysym" data-v="${esc(x)}">${x}</button>`).join('');
   const hist=[...c.per].reverse().slice(0,6).map(p=>`<button class="row" style="padding:3px 0;width:100%" data-a="cygo" data-v="${p.start}"><span style="font-size:14px;font-weight:600">${shortR(p.start,p.end)}</span><span class="meta">${diff(p.start,p.end)+1} j</span></button>`).join('');
-  return `<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:12px">${top}${cal}
+  const cyb=`<div style="display:flex;justify-content:center;margin:-2px 0"><button class="bilanb" data-a="cybilan">${kw('cd_etoile',20)}Bilan de ${MON[pd(S.cyMon+'-01').getMonth()]}</button></div>`;
+  return `<div class="scroll" style="padding:4px 20px 150px;display:flex;flex-direction:column;gap:12px">${top}${cyb}${cal}
     <div class="cycard">${dl?`<div class="hf" style="font-size:17px;margin-bottom:10px">${dl}</div>`:''}
       <div class="cyflows">${flows}</div>
       <div class="cymoods" style="margin-top:14px">${moods}</div>
@@ -2089,7 +2091,7 @@ function vaultHTML(){
 function sheetHTML(){
   if(!S.sheet)return '';
   let title,inner;
-  const closeBtn=S.sheet==='vault'?`<button class="vlockb" style="margin:0;flex:none" data-a="close">${kw('cadenas',22)}Verrouiller</button>`:`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit','recettes','recette','lectures','drnotes','wbset'].includes(S.sheet)?'Fermer':S.sheet==='vault'?'Verrouiller':'Annuler'}</button>`;
+  const closeBtn=S.sheet==='vault'?`<button class="vlockb" style="margin:0;flex:none" data-a="close">${kw('cadenas',22)}Verrouiller</button>`:`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit','recettes','recette','lectures','drnotes','wbset','cybilan'].includes(S.sheet)?'Fermer':S.sheet==='vault'?'Verrouiller':'Annuler'}</button>`;
   if(S.sheet==='wbset'){const sv=skVer(),hs=hState(),bs=bState(),ph=(n,cur,a)=>{const nm=i=>a==='skinp'?SKIN_PH[i][0]:a==='hairp'?HAIR_PH[i][0]:BODY_PH[i][0],det=i=>a==='skinp'?[SKIN_PH[i][1],...SKIN_PH[i][2]]:a==='hairp'?HAIR_PH[i][1]:[BODY_PH[i][1]];
       return `<div class="wbphs"><span class="wbphl">Phase</span>${Array.from({length:n},(_,i)=>`<button class="wbph ${cur===i+1?'on':''}" data-a="${a}" data-v="${i+1}">${i+1}</button>`).join('')}</div><div class="wbphd"><b>${nm(cur)}</b> · ${det(cur).join(' · ')}</div>`};
     title='';
@@ -2122,6 +2124,26 @@ function sheetHTML(){
     inner=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${tile(kw('taches',34),done.length,'Tâches faites')}${tile(kw('calendrier',34),evs.length,'Événements')}${tile(kw('menage',34),chores,'Ménage')}${tile(ART.escargot.replace('width="24" height="18"','width="40" height="30"'),reps,'Reports')}</div>`
      +(tops.length?`<div class="btile" style="flex-direction:row;justify-content:space-around">${tops.map(t=>`<span style="display:flex;flex-direction:column;align-items:center;gap:2px">${kw(t,30)}<b style="font-size:18px">${tc[t]}</b></span>`).join('')}</div>`:'')
      +`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${tile(dropSvg('#EDA5B0',26),pers.length?pers.map(p=>shortR(p.start,p.end)).join('<br>'):'—','Règles').replace('<b>','<b style="font-size:15px">')}${tile(topM?moodSvg(topM,36):moodSvg('sereine',36),topM?(MOODS.find(x=>x[0]===topM)||[0,''])[1]:'—','Humeur').replace('<b>','<b style="font-size:15px">')}${tile(poopSvg(34,1),poo,'Cacas')}${tile(sleepSvg('b',34),avgS!==null?hm(Math.round(avgS*4)/4):'—','Sommeil').replace('<b>','<b style="font-size:18px">')}</div>`;
+  } else if(S.sheet==='cybilan'){
+    const m=S.cyMon,mD=pd(m+'-01'),D=S.cycle.days||{},mk=Object.keys(D).filter(k=>k.slice(0,7)===m&&k<=TODAY).sort(),E=k=>D[k]||{};
+    title='Bilan de '+MON[mD.getMonth()];
+    const sec=(h,body)=>`<div class="cybs"><div class="cybh">${h}</div>${body}</div>`,ln=(l,v)=>`<div class="cybl"><span>${l}</span><b>${v}</b></div>`,none='<div class="meta">Rien de noté ce mois-ci.</div>',pl=(n,w,ws)=>n+' '+(n>1?(ws||w+'s'):w);
+    const c=S._cy||cyStats(),pers=(c&&c.per||[]).filter(p=>p.start.slice(0,7)===m||p.end.slice(0,7)===m);
+    let rg=pers.length?pers.map(p=>ln(shortR(p.start,p.end),pl(diff(p.start,p.end)+1,'jour'))).join(''):'<div class="meta">Pas de règles notées ce mois-ci.</div>';
+    if(c&&c.next)rg+=ln('Prochaines règles prévues',pd(c.next).getDate()+' '+MON[pd(c.next).getMonth()]);
+    const sl=mk.map(k=>E(k).sl).filter(x=>x&&(typeof x.h==='number'||x.q)),hs=sl.map(x=>x.h).filter(h=>typeof h==='number'),hm2=h=>{const H=Math.floor(h),M=Math.round((h-H)*60);return H+' h'+(M?' '+String(M).padStart(2,'0'):'')};
+    const qc={};sl.forEach(x=>{if(x.q)qc[x.q]=(qc[x.q]||0)+1});
+    const slB=sl.length?ln('Nuits notées',sl.length)+(hs.length?ln('Durée moyenne',hm2(hs.reduce((a,b)=>a+b,0)/hs.length))+ln('Plus courte · plus longue',hm2(Math.min(...hs))+' · '+hm2(Math.max(...hs))):'')+SLQ.filter(q=>qc[q[0]]).map(q=>ln('Qualité : '+q[1].toLowerCase(),pl(qc[q[0]],'nuit'))).join(''):none;
+    const mc={};mk.forEach(k=>(E(k).mood||[]).forEach(x=>mc[x]=(mc[x]||0)+1));const mo=Object.keys(mc).filter(x=>MOODS.find(y=>y[0]===x)).sort((a,b)=>mc[b]-mc[a]);
+    const moB=mo.length?`<div class="cybchips">${mo.map(x=>`<span>${moodSvg(x,26)}${(MOODS.find(y=>y[0]===x)||[])[1]} <b>${mc[x]}</b></span>`).join('')}</div>`:none;
+    const dc={};let dn=0,dnote=0;mk.forEach(k=>{const s2=E(k).sl;if(s2&&s2.dr&&s2.dr.length){dn++;s2.dr.forEach(x=>dc[x]=(dc[x]||0)+1)}if(s2&&s2.note)dnote++});const dt=Object.keys(dc).sort((a,b)=>dc[b]-dc[a]);
+    const drB=dn?ln('Nuits avec un rêve noté',dn)+(dnote?ln('Notes de rêves',dnote):'')+`<div class="cybchips">${dt.map(x=>`<span><i style="background:${DRC[x]||'#ccc'}"></i>${x} <b>${dc[x]}</b></span>`).join('')}</div>`:none;
+    const pY=mk.filter(k=>E(k).poo).length,sx=mk.filter(k=>E(k).sex).length;
+    const scnt={};mk.forEach(k=>(E(k).sym||[]).forEach(x=>scnt[x]=(scnt[x]||0)+1));const sy=Object.keys(scnt).sort((a,b)=>scnt[b]-scnt[a]);
+    const syB=sy.length?sy.map(x=>ln(x,pl(scnt[x],'jour'))).join(''):'<div class="meta">Aucun symptôme noté ce mois-ci.</div>';
+    inner=`<div class="meta" style="text-align:center;margin-top:-4px">${mk.length?pl(mk.length,'jour renseigné','jours renseignés'):'Aucun jour renseigné'} · ${MON[mD.getMonth()]} ${mD.getFullYear()}</div>`
+     +sec(`${dropSvg('#EDA5B0',20)} Règles`,rg)+sec(`${kw('cd_etoile',20)} Sommeil`,slB)+sec(`${moodSvg('sereine',20)} Humeur`,moB)+sec(`<i class="cybdot" style="background:#B5A2E6"></i> Rêves`,drB)
+     +sec(`${poopSvg(20,1)} Crottes`,ln('Jours avec',pl(pY,'jour')))+sec(`<i class="cybdot" style="background:#E8708F"></i> Activité sexuelle`,ln('Jours',pl(sx,'jour')))+sec(`<i class="cybdot" style="background:#9CC883"></i> Symptômes`,syB);
   } else if(S.sheet==='cds'){
     title='Comptes à rebours';
     const L=[...(S.cds||[])].sort((a,b)=>a.date<b.date?-1:1);
@@ -2464,6 +2486,7 @@ document.addEventListener('click',e=>{
     case 'settings':S.sheet='settings';break;
     case 'cds':S.sheet='cds';break;
     case 'bilan':S.sheet='bilan';break;
+    case 'cybilan':S.sheet='cybilan';break;
     case 'bklist':S.sheet='bk';break;
     case 'autobk':S.autoBk=!S.autoBk;try{localStorage.setItem('ag_autobk',S.autoBk?'1':'0')}catch(e){}if(S.autoBk)autoBackup();S._sheetKeep=true;break;
     case 'bkrestore':{const b=bkList().find(x=>x.d===v);if(!b)return;appConfirm({t:`Revenir à la copie du ${pd(v).getDate()} ${MON[pd(v).getMonth()]} ?`,sub:'Les changements faits depuis seront remplacés. Cette action est irréversible.',yes:'Restaurer',red:1},()=>{PKEYS.forEach(k=>{if(b.state[k]!==undefined)S[k]=b.state[k]});S.sheet='';S.toast='Copie restaurée';render()});return}
@@ -3312,7 +3335,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='195';
+const APP_VER='196';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
