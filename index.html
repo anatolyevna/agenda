@@ -206,6 +206,17 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .sw.minor{margin-left:24px}
 .qn{display:flex;gap:8px;align-items:flex-end}.qn textarea{resize:none;overflow:hidden;line-height:1.4;padding:13px 16px!important;display:block}.qn input,.qn textarea{flex:1;min-width:0;min-height:50px;border-radius:18px;border:1px solid var(--line);background:var(--card);padding:0 16px;font:inherit;color:var(--ink)}.qn button{flex:none;width:50px;height:50px;border-radius:18px;background:#E3C478;display:grid;place-items:center}
 .qnc{display:flex;align-items:center;gap:8px;padding:12px 10px 12px 16px;border-radius:20px;background:color-mix(in srgb,#F7E3A1 30%,var(--card));border:1px solid color-mix(in srgb,#F7E3A1 70%,var(--card))}.qnto{flex:none;display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 10px 0 5px;border-radius:17px;background:var(--card);border:1px solid var(--line);font-size:12.5px;font-weight:700}.qnic{width:38px;padding:0;justify-content:center;gap:0}.qned:focus{outline:none;border-color:#DDBB5C}.qned{width:100%;box-sizing:border-box;font:inherit;font-size:15px;font-weight:600;border-radius:12px;border:1.5px solid #E6CF84;background:var(--card);padding:6px 8px;resize:none;color:var(--ink)}
+.vfold{width:100%;display:flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;margin-bottom:10px;border-radius:20px;background:color-mix(in srgb,#CDBEEB 26%,var(--card));border:1px solid color-mix(in srgb,#CDBEEB 70%,var(--card));font-weight:800;font-size:15px;text-align:left}.vfold span{flex:1}
+.vlock{display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 0 10px}.vdots{display:flex;gap:16px;margin:10px 0 2px}.vdots i{width:14px;height:14px;border-radius:7px;border:1.8px solid #A898CF}.vdots i.on{background:#A898CF}
+.vmsg{min-height:18px;font-size:12.5px;font-weight:700;color:#B3123A}.vpad{display:grid;grid-template-columns:repeat(3,68px);gap:12px}.vpad button{height:68px;border-radius:34px;background:var(--card);border:1px solid var(--line);font-size:24px;font-weight:700;display:grid;place-items:center}.vpad button:active{background:color-mix(in srgb,#CDBEEB 35%,var(--card))}
+.vreset{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.vadd{width:100%;padding:10px;border-radius:16px;border:1.5px solid #CDBEEB;background:color-mix(in srgb,#CDBEEB 18%,var(--card));font-weight:800;font-size:14px;color:#6E5C9A}
+.vform{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:18px;background:color-mix(in srgb,#CDBEEB 14%,var(--card));border:1px solid color-mix(in srgb,#CDBEEB 60%,var(--card))}.vform label{display:flex;flex-direction:column;gap:3px}.vform label span{font-size:12px;font-weight:700;color:var(--muted)}.vform .din{width:100%;box-sizing:border-box}
+.vfb{display:flex;justify-content:flex-end;gap:8px;margin-top:4px}.vfb button{padding:8px 16px;border-radius:999px;font-weight:800;font-size:13.5px;color:var(--muted)}.vfb button.ok{background:#CDBEEB;color:#3F3360}
+.vcard{padding:10px 12px 12px 16px;border-radius:18px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;gap:6px}.vtop{display:flex;align-items:center;gap:8px}.vtop b{flex:1;font-size:15.5px}
+.vrow{display:flex;align-items:center;gap:8px;font-size:14px}.vrow .sk{flex:none;width:92px}.vval{flex:1;min-width:0;overflow-wrap:anywhere}.vpw{font-family:ui-monospace,Menlo,monospace;letter-spacing:.5px}
+.vbtn{flex:none;padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;font-weight:700;background:var(--bg)}
+.vlockb{display:flex;align-items:center;justify-content:center;gap:6px;margin:6px auto 0;padding:8px 16px;border-radius:999px;font-weight:800;font-size:13.5px;color:#6E5C9A}
 .qnx{flex:none;width:32px;height:32px;border-radius:16px;color:var(--muted);font-size:18px}
 .folders{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 20px 12px}
 .fold{border-radius:22px;padding:8px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;--p:12%;opacity:.85}
@@ -430,6 +441,7 @@ function fs(x,y,m){if(m==='sleep')return `<path d="M${x-3.2} ${y-.3}q.9.8 1.8 0M
  if(m==='todo')return `<circle cx="${x-2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><circle cx="${x+2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><ellipse cx="${x}" cy="${y+1.7}" rx=".75" ry=".85" fill="#4B3D3A"/>${blush}`;
  return `<circle cx="${x-2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><circle cx="${x+2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><path d="M${x-1.05} ${y+1.3}q1.05 .95 2.1 0" stroke="#4B3D3A" stroke-width=".9" fill="none" stroke-linecap="round"/>${blush}`}
 const K={
+ cadenas:`<path d="M8 10.6V8a4 4 0 0 1 8 0v2.6" fill="none" stroke="#6B5A55" stroke-width="1.5" stroke-linecap="round"/><rect x="5" y="10.2" width="14" height="10.6" rx="3" fill="#CDBEEB" stroke="#6B5A55" stroke-width="1.3"/><circle cx="10" cy="14.6" r=".75" fill="#6B5A55"/><circle cx="14" cy="14.6" r=".75" fill="#6B5A55"/><path d="M11.2 16.3q.8.7 1.6 0" stroke="#6B5A55" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="8.6" cy="16.1" r=".7" fill="#F3B3C3"/><circle cx="15.4" cy="16.1" r=".7" fill="#F3B3C3"/>`,
  crayon:`<g transform="rotate(-35 12 12)"><rect x="8.4" y="2.6" width="7.2" height="13.4" rx="1.6" fill="#F7E3A1" stroke="#6B5A55" stroke-width="1.2"/><path d="M8.4 6.2h7.2" stroke="#6B5A55" stroke-width="1.2"/><rect x="8.4" y="2.6" width="7.2" height="3.6" rx="1.6" fill="#F3B3C3" stroke="#6B5A55" stroke-width="1.2"/><path d="M8.4 16h7.2L12 21.6z" fill="#F6E7D4" stroke="#6B5A55" stroke-width="1.2" stroke-linejoin="round"/><path d="M11.1 20h1.8L12 21.6z" fill="#6B5A55"/><circle cx="10.6" cy="10.4" r=".75" fill="#6B5A55"/><circle cx="13.4" cy="10.4" r=".75" fill="#6B5A55"/><path d="M11.2 12.1q.8.7 1.6 0" stroke="#6B5A55" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="9.9" cy="11.6" r=".6" fill="#F3B3C3"/><circle cx="14.1" cy="11.6" r=".6" fill="#F3B3C3"/></g>`,
  habituels:`<path d="M5 9.4h14l-1.4 10a2 2 0 0 1-2 1.7H8.4a2 2 0 0 1-2-1.7z" fill="#FBE0DB" ${ks}/><path d="M8 9.4c0-3 1.8-5 4-5s4 2 4 5" fill="none" ${ks}/><path d="M12 6.2c-.6-1-2.2-.8-2.2.5 0 1 1.2 1.8 2.2 2.4 1-.6 2.2-1.4 2.2-2.4 0-1.3-1.6-1.5-2.2-.5z" fill="#E8A094"/>`+fs(12,15),
  travail:`<path d="M3.5 18.5l1.5-2.5h14l1.5 2.5z" fill="#EEF3F8" ${ks}/><rect x="4" y="4.5" width="16" height="11.5" rx="2.5" fill="#DCE8F4" ${ks}/>`+fs(12,10.3),
@@ -1789,7 +1801,7 @@ function tasksHTML(){
     body=bdTop+list.map(taskCard).join('');
     if(!list.length&&!bdTop)body=`<div class="empty" style="opacity:.75;position:absolute;left:0;right:0;top:0;bottom:96px;justify-content:center;padding:0">${AnimatedDogMascots(300)}</div>`;
   } else if(S.folder==='notes'){
-    body=`<div class="qn"><textarea id="qnote" rows="1" placeholder="Note rapide" autocomplete="off">${esc(S.qnT||'')}</textarea><button aria-label="Ajouter" data-a="qnadd"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>`
+    body=`<button class="vfold" data-a="vopen">${kw('cadenas',34)}<span>Mots de passe</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="qn"><textarea id="qnote" rows="1" placeholder="Note rapide" autocomplete="off">${esc(S.qnT||'')}</textarea><button aria-label="Ajouter" data-a="qnadd"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>`
       +[...(S.notes||[])].reverse().map(n=>`<div class="qnc"><div style="flex:1;min-width:0">${S._qnEd===n.id?`<textarea class="qned" id="qned" data-in="qnedit" data-id="${n.id}" rows="2">${esc(n.t)}</textarea>`:`<div style="font-size:15px;font-weight:600;white-space:pre-wrap;word-break:break-word">${esc(n.t)}</div>`}<div class="meta" style="font-size:12px;margin-top:2px">${pd(n.at).getDate()} ${MONS[pd(n.at).getMonth()]}</div></div><button class="qnto qnic" aria-label="Modifier" data-a="qned" data-id="${n.id}">${kw('crayon',24)}</button><button class="qnto qnic" aria-label="Mettre dans À faire" data-a="qnto" data-id="${n.id}">${kw('afaire',24)}</button><button class="qnx" aria-label="Supprimer" data-a="qndel" data-id="${n.id}">×</button></div>`).join('');
   } else if(S.folder==='urgent'){
     list.sort((a,b)=>(!!a.done-!!b.done)||(urgLevel(b)-urgLevel(a)));body=list.map(taskCard).join('');
@@ -2040,10 +2052,31 @@ async function enablePush(){try{const perm=await Notification.requestPermission(
   const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID)});
   const ok=await sync.savePush(sub.toJSON());S.pushOn=!!ok;S.toast=ok?'Notifications activées':'Connexion nécessaire pour activer';}catch(e){S.toast='Activation impossible'}
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>{S.toast='';render()},3200);render()}
+/* ---- Coffre mots de passe : chiffré (AES-GCM, clé dérivée du code), stocké uniquement sur cet appareil ---- */
+let VAULT=null,VKEY=null,VSALT=null;
+const VK='ag_vault',b64e=u=>btoa(String.fromCharCode(...new Uint8Array(u))),b64d=t=>Uint8Array.from(atob(t),c=>c.charCodeAt(0));
+const vHas=()=>{try{return !!localStorage.getItem(VK)}catch(e){return false}};
+async function vDerive(pin,salt){const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:310000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function vSave(){const iv=crypto.getRandomValues(new Uint8Array(12)),ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},VKEY,new TextEncoder().encode(JSON.stringify(VAULT)));localStorage.setItem(VK,JSON.stringify({s:b64e(VSALT),i:b64e(iv),d:b64e(ct)}))}
+async function vOpen(pin){const o=JSON.parse(localStorage.getItem(VK));const salt=b64d(o.s),key=await vDerive(pin,salt);const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(o.i)},key,b64d(o.d));VAULT=JSON.parse(new TextDecoder().decode(pt));VKEY=key;VSALT=salt}
+async function vCreate(pin){VSALT=crypto.getRandomValues(new Uint8Array(16));VKEY=await vDerive(pin,VSALT);VAULT=[];await vSave()}
+function vLock(){VAULT=null;VKEY=null;VSALT=null;S._vD=null;S._vShow={};S._vpin='';S._vpin1='';S._vmsg=''}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&VAULT){vLock();if(S.sheet==='vault')S.sheet='';try{render()}catch(e){}}});
+function vKeypad(){const d=(S._vpin||'').length;return `<div class="vdots">${[0,1,2,3].map(i=>`<i class="${i<d?'on':''}"></i>`).join('')}</div><div class="vmsg">${S._vmsg||''}</div><div class="vpad">${[1,2,3,4,5,6,7,8,9,'',0,'del'].map(k=>k===''?'<span></span>':`<button data-a="vk" data-v="${k}">${k==='del'?'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B5A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>':k}</button>`).join('')}</div>`}
+function vaultHTML(){
+  if(!VAULT){const setup=!vHas();const lbl=setup?(S._vpin1?'Confirme ton code':'Choisis un code à 4 chiffres'):'Entre ton code';
+    return `<div class="vlock">${kw('cadenas',64)}<div class="hf" style="font-size:16px;margin-top:6px">${lbl}</div>${setup?'<div class="meta" style="font-size:12.5px;text-align:center;max-width:280px">Tes mots de passe restent chiffrés sur cet appareil uniquement. Sans le code, ils ne peuvent pas être récupérés.</div>':''}${vKeypad()}${!setup?'<button class="vreset" data-a="vreset">Code oublié ? Tout effacer</button>':''}</div>`}
+  const D=S._vD,sh=S._vShow||{};
+  const form=D?`<div class="vform"><label><span>Site</span><input class="din" data-in="vf" data-k="site" value="${esc(D.site||'')}" placeholder="ex. Volotea, Ameli…" autocomplete="off"></label><label><span>Identifiant ou mail</span><input class="din" data-in="vf" data-k="user" value="${esc(D.user||'')}" autocomplete="off" autocapitalize="off"></label><label><span>Mot de passe</span><input class="din" data-in="vf" data-k="pass" value="${esc(D.pass||'')}" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label><span>Note</span><input class="din" data-in="vf" data-k="note" value="${esc(D.note||'')}" placeholder="facultatif" autocomplete="off"></label><div class="vfb"><button data-a="vcancel">Annuler</button><button class="ok" data-a="vsave">Enregistrer</button></div></div>`:`<button class="vadd" data-a="vnew">+ Ajouter</button>`;
+  const L=[...VAULT].sort((a,b)=>(a.site||'').localeCompare(b.site||'','fr'));
+  return form+(L.length?L.map(e=>`<div class="vcard"><div class="vtop"><b>${esc(e.site||'Sans nom')}</b><button class="qnto qnic" aria-label="Modifier" data-a="vedit" data-id="${e.id}">${kw('crayon',22)}</button><button class="qnx" aria-label="Supprimer" data-a="vdel" data-id="${e.id}">×</button></div>
+    ${e.user?`<div class="vrow"><span class="sk">Identifiant</span><span class="vval">${esc(e.user)}</span><button class="vbtn" data-a="vcopy" data-id="${e.id}" data-v="user">Copier</button></div>`:''}
+    <div class="vrow"><span class="sk">Mot de passe</span><span class="vval vpw">${sh[e.id]?esc(e.pass||''):'••••••••'}</span><button class="vbtn" data-a="veye" data-id="${e.id}">${sh[e.id]?'Masquer':'Voir'}</button><button class="vbtn" data-a="vcopy" data-id="${e.id}" data-v="pass">Copier</button></div>
+    ${e.note?`<div class="vrow"><span class="sk">Note</span><span class="vval">${esc(e.note)}</span></div>`:''}</div>`).join(''):(D?'':'<div class="meta" style="text-align:center;padding:18px 0">Aucun mot de passe enregistré.</div>'))+`<button class="vlockb" data-a="vlock">${kw('cadenas',22)}Verrouiller</button>`}
 function sheetHTML(){
   if(!S.sheet)return '';
   let title,inner;
-  const closeBtn=`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit','recettes','recette','lectures','drnotes','wbset'].includes(S.sheet)?'Fermer':'Annuler'}</button>`;
+  const closeBtn=`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit','recettes','recette','lectures','drnotes','wbset','vault'].includes(S.sheet)?'Fermer':'Annuler'}</button>`;
   if(S.sheet==='wbset'){const sv=skVer(),hs=hState(),bs=bState(),ph=(n,cur,a)=>{const nm=i=>a==='skinp'?SKIN_PH[i][0]:a==='hairp'?HAIR_PH[i][0]:BODY_PH[i][0],det=i=>a==='skinp'?[SKIN_PH[i][1],...SKIN_PH[i][2]]:a==='hairp'?HAIR_PH[i][1]:[BODY_PH[i][1]];
       return `<div class="wbphs"><span class="wbphl">Phase</span>${Array.from({length:n},(_,i)=>`<button class="wbph ${cur===i+1?'on':''}" data-a="${a}" data-v="${i+1}">${i+1}</button>`).join('')}</div><div class="wbphd"><b>${nm(cur)}</b> · ${det(cur).join(' · ')}</div>`};
     title='';
@@ -2054,6 +2087,8 @@ function sheetHTML(){
   } else if(S.sheet==='drnotes'){const D=S.cycle.days||{},ns=Object.keys(D).filter(x=>D[x].sl&&D[x].sl.note).sort().reverse();
     title=`<span style="display:flex;align-items:center;gap:10px">${FOLDSVG}Notes de rêve</span>`;
     inner=ns.length?ns.map(x=>`<button style="display:block;width:100%;text-align:left;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:18px" data-a="drgo" data-v="${x}"><div class="hf" style="font-size:13.5px;margin-bottom:4px">${pd(x).getDate()} ${MON[pd(x).getMonth()]} ${pd(x).getFullYear()}</div><div style="font-size:14px;white-space:pre-wrap;word-break:break-word;color:var(--muted)">${esc(D[x].sl.note)}</div></button>`).join(''):`<div class="meta" style="text-align:center;padding:16px 0">Aucune note pour l’instant</div>`;
+  } else if(S.sheet==='vault'){
+    title=`<span style="display:flex;align-items:center;gap:10px">${kw('cadenas',36)}Mots de passe</span>`;inner=vaultHTML();
   } else if(S.sheet==='qnconf'){
     const n=(S.notes||[]).find(x=>x.id===S.qnDel);
     title=`<span style="display:flex;align-items:center;gap:10px">${kw('notes',40)}Supprimer cette note ?</span>`;
@@ -2248,6 +2283,7 @@ let SWO=null;
 document.addEventListener('change',e=>{
   const el=e.target.closest&&e.target.closest('[data-in]');if(!el)return;const v=el.value,a=el.dataset.in;
   const tH=x=>{if(!x)return null;const q=x.split(':').map(Number);return Math.min(23.75,Math.max(5,q[0]+(q[1]||0)/60))};
+  if(a==='vf'){if(S._vD)S._vD[el.dataset.k]=v;return}
   if(a==='qnedit'){const n=(S.notes||[]).find(x=>x.id===+el.dataset.id);if(n&&v.trim()){n.t=v.trim();persist()}return}
   if(a==='ddate'){if(v)S.D.date=v}
   if(a==='dby'){S.D.by=v;return}
@@ -2320,6 +2356,22 @@ document.addEventListener('click',e=>{
     case 'qnadd':{const t=(S.qnT||'').trim();if(!t){S._focusQn=true;break}S.notes=[...(S.notes||[]),{id:S.nextId++,t,at:TODAY}];S.qnT='';S._focusQn=true;break}
     case 'qndel':S.qnDel=id;S.sheet='qnconf';break;
     case 'qnyes':S.notes=S.notes.filter(n=>n.id!==S.qnDel);S.sheet='';break;
+    case 'vopen':{vLock();S.sheet='vault';break}
+    case 'vk':{const v=el.dataset.v;if(S._vbusy)break;if(v==='del'){S._vpin=(S._vpin||'').slice(0,-1);break}if((S._vpin||'').length>=4)break;if(S._vwait&&Date.now()<S._vwait){S._vmsg='Patiente quelques secondes';break}S._vpin=(S._vpin||'')+v;S._vmsg='';
+      if(S._vpin.length===4){const pin=S._vpin;
+        if(!vHas()){if(!S._vpin1){S._vpin1=pin;S._vpin='';break}if(S._vpin1!==pin){S._vpin1='';S._vpin='';S._vmsg='Les deux codes sont différents, recommence';break}S._vbusy=1;vCreate(pin).then(()=>{S._vbusy=0;S._vpin='';S._vpin1='';render()}).catch(()=>{S._vbusy=0;S._vpin='';S._vmsg='Erreur, réessaie';render()});break}
+        S._vbusy=1;vOpen(pin).then(()=>{S._vbusy=0;S._vpin='';S._vfail=0;render()}).catch(()=>{S._vbusy=0;S._vpin='';S._vfail=(S._vfail||0)+1;if(S._vfail>=5){S._vwait=Date.now()+30000;S._vfail=0;S._vmsg='Trop d’essais, attends 30 secondes'}else S._vmsg='Code incorrect';render()})}
+      break}
+    case 'vreset':{if(confirm('Effacer tous les mots de passe enregistrés sur cet appareil ? Cette action est définitive.')){try{localStorage.removeItem(VK)}catch(e){}vLock()}break}
+    case 'vnew':{if(!VAULT)break;S._vD={};break}
+    case 'vedit':{if(!VAULT)break;const e=VAULT.find(x=>x.id===id);if(e)S._vD={...e};break}
+    case 'vcancel':{S._vD=null;break}
+    case 'vsave':{if(!VAULT||!S._vD)break;document.querySelectorAll('[data-in=vf]').forEach(i=>{S._vD[i.dataset.k]=i.value});const D=S._vD;if(!(D.site||'').trim()&&!(D.pass||'').trim()){S.toast='Ajoute au moins un site ou un mot de passe';break}
+      if(D.id){VAULT=VAULT.map(x=>x.id===D.id?{...D}:x)}else{VAULT.push({...D,id:Date.now()})}S._vD=null;vSave().then(()=>{S.toast='Enregistré';render()}).catch(()=>{S.toast='Erreur d’enregistrement';render()});break}
+    case 'vdel':{if(!VAULT)break;const e=VAULT.find(x=>x.id===id);if(e&&confirm(`Supprimer ${e.site||'ce mot de passe'} ?`)){VAULT=VAULT.filter(x=>x!==e);vSave().then(()=>render())}break}
+    case 'veye':{S._vShow={...(S._vShow||{}),[id]:!(S._vShow||{})[id]};break}
+    case 'vcopy':{const e=VAULT&&VAULT.find(x=>x.id===id);if(e){const t=e[el.dataset.v]||'';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{S.toast='Copié';render()}).catch(()=>{S.toast='Copie impossible';render()})}break}
+    case 'vlock':{vLock();S.sheet='';break}
     case 'qned':{if(S._qnEd===id){const ta=document.getElementById('qned'),n=S.notes.find(x=>x.id===id);if(ta&&n&&ta.value.trim())n.t=ta.value.trim();S._qnEd=null}else{S._qnEd=id;S._focusQned=true}break}
     case 'qnto':{const n=S.notes.find(x=>x.id===id);if(!n)break;S.items.push({id:S.nextId++,kind:'tache',title:n.t,theme:'autre',folder:'afaire',reports:0});S.notes=S.notes.filter(x=>x!==n);S.toast='Ajoutée dans À faire';break}
     case 'add':{if(S.tab==='taches'&&S.folder==='notes'){S._focusQn=true;break}S.draft='';if(S.tab==='moi'){S.draftSec=S.sheet==='sec'&&S.secId?S.secId:(S.draftSec||'visage');S.draftSub=pickList()[0][0]}else S.draftSub='arrosage';S.draftFreq=7;S.draftZone=S.zoneId||'salon';
@@ -2462,7 +2514,7 @@ document.addEventListener('click',e=>{
       else if(v==='lec'){S.lectures=S.lectures.filter(x=>x.id!==id);S._sheetKeep=true}SWO=null;break}
     case 'notif':enablePush();return;
     case 'notiftest':sync.testPush().then(r=>{S.toast=r&&r.sent?'Essai envoyé':'Essai non envoyé';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{S.toast='';render()},3200);render()});return;
-    case 'close':case 'close-veil':if(S.sheet==='chore'&&S.sheetList==='care'){const c=S.care.find(x=>x.id===S.sheetId);if(c&&c.sec){S.secId=c.sec;S.sheet='sec';break}}S.sheet=S.sheet==='recette'?'recettes':S.sheet==='lectures'?'sec':(S.sheet==='edit'&&S.backZone&&S.zoneId&&S.tab==='menage')?'zone':'';S.backZone=0;break;
+    case 'close':case 'close-veil':if(S.sheet==='vault')vLock();if(S.sheet==='chore'&&S.sheetList==='care'){const c=S.care.find(x=>x.id===S.sheetId);if(c&&c.sec){S.secId=c.sec;S.sheet='sec';break}}S.sheet=S.sheet==='recette'?'recettes':S.sheet==='lectures'?'sec':(S.sheet==='edit'&&S.backZone&&S.zoneId&&S.tab==='menage')?'zone':'';S.backZone=0;break;
     case 'zone':S.backZone=0;S.sheet='zone';S.zoneId=v;break;
     case 'hour':S.draftHour=Math.min(22.5,Math.max(5,S.draftHour+0.5*(+v)));break;
     case 'freq':S.draftFreq=+v;break;
@@ -3242,7 +3294,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='187';
+const APP_VER='188';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
