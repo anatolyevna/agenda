@@ -2023,7 +2023,7 @@ function moiHTML(){wbStateRec();
   const work=due.filter(c=>c.sec!=='sportm'&&!wbDone(c)),wadv=adv.filter(o=>!o.done&&o.z!=='sportm');
   {const k2=TODAY+m,tot=due.filter(c=>c.sec!=='sportm').length+adv.length,nl=work.length+wadv.length;if(S._wbLeft&&S._wbLeft.k===k2&&S._wbLeft.n>0&&nl===0&&tot>0)setTimeout(()=>wbReward(m),250);S._wbLeft={k:k2,n:nl}}
   const left=work.length+wadv.length+adv.filter(o=>!o.done&&o.z==='sportm').length;
-  const mins=work.reduce((a,c)=>a+wbMin(c),0)+wadv.length*5,eta=mins?Math.max(5,Math.round(mins/5)*5):0;
+  const mins=work.filter(c=>wbZone(c)!=='autre').reduce((a,c)=>a+wbMin(c),0)+wadv.length*5,eta=mins?Math.max(5,Math.round(mins/5)*5):0;
   const autreL=care.filter(c=>wbZone(c)==='autre'&&!due.includes(c)&&wbEl(c)).sort((a,b)=>wbOnDemand(a)-wbOnDemand(b)||(nextOf(a)<nextOf(b)?-1:1));
   const autreChips=autreL.length?`<div class="wblts">${autreL.map(c=>`<button class="wblt" data-a="wbtodo" data-id="${c.id}"><span style="line-height:0">${charSvg(icOf(c),'ok',24)}</span><span><b>${esc(c.title)}</b>${wbOnDemand(c)?'':`<i>${short(nextOf(c)<=TODAY?add(TODAY,1):nextOf(c))}</i>`}</span><em>+</em></button>`).join('')}</div>`:'';
   const tabs=[['matin','Matin',sun],['soir','Soir',night]].map(([k,l,ic])=>`<button class="${m===k?'on':''}" data-a="wbm" data-v="${k}">${ic}<span class="wbtl"><b>${l}</b>${m===k?`<small>${left?left+' à faire'+(eta?' · '+eta+' min':''):'tout est fait ✨'}</small>`:''}</span></button>`).join('');
@@ -3323,7 +3323,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='172';
+const APP_VER='173';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
