@@ -28,7 +28,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;paddin
 .page{display:block}
 .phone{width:100%;max-width:760px;margin:0 auto;height:100vh;height:100dvh;background:transparent;position:relative;z-index:1;overflow:hidden;display:flex;flex-direction:column;font-family:Nunito,sans-serif}
 @media (min-width:700px) and (orientation:portrait){.bigcloud .scat{flex:1 1 auto;min-height:620px}.phone .bigcloud{padding-bottom:110px}.scat .cbw[style*='--px']{left:var(--px)!important;top:var(--py)!important}}
-@media (min-width:700px){.leg{justify-content:center}}
+
 @media (min-width:1000px) and (orientation:landscape){.phone{zoom:1.12;max-width:calc(100vw / 1.12 - 48px);height:calc(100vh / 1.12);height:calc(100dvh / 1.12)}.bigcloud .scat{--sx:2.6;flex:1 1 auto;min-height:380px}.phone .bigcloud{padding-bottom:110px}.scat .cbw[style*='--lx']{left:var(--lx)!important;top:var(--ly)!important}header{justify-content:center;gap:44px;padding-right:56px;padding-left:56px}header>div:first-child{margin-right:0!important}header .dnum{font-size:84px}header .dtxt b{font-size:32px}header .dtxt span{font-size:24px}header .wx{flex:0 1 420px}header .gear{position:absolute;right:18px;top:50%;transform:translateY(-50%)}}
 .hf{font-family:"Zen Maru Gothic",sans-serif;font-weight:700}
 .nf{font-family:Nunito,sans-serif;font-weight:700}
@@ -205,7 +205,8 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .tmr{position:absolute;left:16px;bottom:calc(var(--nb) + 86px);z-index:6;display:inline-flex;align-items:center;gap:6px;height:46px;padding:0 16px 0 8px;border-radius:23px;background:var(--card);border:1.5px solid color-mix(in srgb,#F4B8B8 55%,var(--card));box-shadow:0 4px 12px rgba(75,50,45,.12);font-family:Nunito,sans-serif;font-size:17px;font-weight:800;color:var(--ink)}.tmr.done{background:color-mix(in srgb,#C4B5E6 25%,var(--card));border-color:#C4B5E6}
 .sw.minor{margin-left:24px}
 .qn{display:flex;gap:8px;align-items:flex-end}.qn textarea{resize:none;overflow:hidden;line-height:1.4;padding:13px 16px!important;display:block}.qn input,.qn textarea{flex:1;min-width:0;min-height:50px;border-radius:18px;border:1px solid var(--line);background:var(--card);padding:0 16px;font:inherit;color:var(--ink)}.qn button{flex:none;width:50px;height:50px;border-radius:18px;background:#E3C478;display:grid;place-items:center}
-.qnc{display:flex;align-items:center;gap:8px;padding:12px 10px 12px 16px;border-radius:20px;background:color-mix(in srgb,#F7E3A1 30%,var(--card));border:1px solid color-mix(in srgb,#F7E3A1 70%,var(--card))}.qnto{flex:none;display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 10px 0 5px;border-radius:17px;background:var(--card);border:1px solid var(--line);font-size:12.5px;font-weight:700}.qnx{flex:none;width:32px;height:32px;border-radius:16px;color:var(--muted);font-size:18px}
+.qnc{display:flex;align-items:center;gap:8px;padding:12px 10px 12px 16px;border-radius:20px;background:color-mix(in srgb,#F7E3A1 30%,var(--card));border:1px solid color-mix(in srgb,#F7E3A1 70%,var(--card))}.qnto{flex:none;display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 10px 0 5px;border-radius:17px;background:var(--card);border:1px solid var(--line);font-size:12.5px;font-weight:700}.qnic{width:38px;padding:0;justify-content:center;gap:0}.qned:focus{outline:none;border-color:#DDBB5C}.qned{width:100%;box-sizing:border-box;font:inherit;font-size:15px;font-weight:600;border-radius:12px;border:1.5px solid #E6CF84;background:var(--card);padding:6px 8px;resize:none;color:var(--ink)}
+.qnx{flex:none;width:32px;height:32px;border-radius:16px;color:var(--muted);font-size:18px}
 .folders{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 20px 12px}
 .fold{border-radius:22px;padding:8px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;--p:12%;opacity:.85}
 .fold.on{--p:34%;opacity:1;box-shadow:0 0 0 2px color-mix(in srgb,var(--d) 75%,var(--ink))}
@@ -383,6 +384,8 @@ nav button:not(.on) svg{filter:saturate(.85);opacity:.95}
 .adt{height:44px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:14px;font-weight:600;color:var(--muted)}
 .adt.on{background:color-mix(in srgb,var(--acc) 30%,var(--card));border-color:var(--acc);color:var(--ink)}
 .daterow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+
+@media (min-width:700px){.leg{justify-content:center}.wcol .ic{width:54px;height:54px;border-radius:17px}.wcol .ic>svg:first-child{width:40px;height:40px}.wcol b{font-size:24px}.wcol small{font-size:12.5px}.mc b{font-size:19px}.mc{gap:7px;padding-top:9px}.mdots{gap:5px;max-width:64px}.mdots i{width:12px;height:12px;border-radius:6px}.mcake svg{width:32px;height:32px}.cyd{width:11px!important;height:13px!important;margin-left:-5.5px!important;bottom:5px!important}}
 </style>
 </head>
 <body>
@@ -427,6 +430,7 @@ function fs(x,y,m){if(m==='sleep')return `<path d="M${x-3.2} ${y-.3}q.9.8 1.8 0M
  if(m==='todo')return `<circle cx="${x-2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><circle cx="${x+2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><ellipse cx="${x}" cy="${y+1.7}" rx=".75" ry=".85" fill="#4B3D3A"/>${blush}`;
  return `<circle cx="${x-2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><circle cx="${x+2.3}" cy="${y-.2}" r=".95" fill="#4B3D3A"/><path d="M${x-1.05} ${y+1.3}q1.05 .95 2.1 0" stroke="#4B3D3A" stroke-width=".9" fill="none" stroke-linecap="round"/>${blush}`}
 const K={
+ crayon:`<g transform="rotate(-35 12 12)"><rect x="8.4" y="2.6" width="7.2" height="13.4" rx="1.6" fill="#F7E3A1" stroke="#6B5A55" stroke-width="1.2"/><path d="M8.4 6.2h7.2" stroke="#6B5A55" stroke-width="1.2"/><rect x="8.4" y="2.6" width="7.2" height="3.6" rx="1.6" fill="#F3B3C3" stroke="#6B5A55" stroke-width="1.2"/><path d="M8.4 16h7.2L12 21.6z" fill="#F6E7D4" stroke="#6B5A55" stroke-width="1.2" stroke-linejoin="round"/><path d="M11.1 20h1.8L12 21.6z" fill="#6B5A55"/><circle cx="10.6" cy="10.4" r=".75" fill="#6B5A55"/><circle cx="13.4" cy="10.4" r=".75" fill="#6B5A55"/><path d="M11.2 12.1q.8.7 1.6 0" stroke="#6B5A55" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="9.9" cy="11.6" r=".6" fill="#F3B3C3"/><circle cx="14.1" cy="11.6" r=".6" fill="#F3B3C3"/></g>`,
  habituels:`<path d="M5 9.4h14l-1.4 10a2 2 0 0 1-2 1.7H8.4a2 2 0 0 1-2-1.7z" fill="#FBE0DB" ${ks}/><path d="M8 9.4c0-3 1.8-5 4-5s4 2 4 5" fill="none" ${ks}/><path d="M12 6.2c-.6-1-2.2-.8-2.2.5 0 1 1.2 1.8 2.2 2.4 1-.6 2.2-1.4 2.2-2.4 0-1.3-1.6-1.5-2.2-.5z" fill="#E8A094"/>`+fs(12,15),
  travail:`<path d="M3.5 18.5l1.5-2.5h14l1.5 2.5z" fill="#EEF3F8" ${ks}/><rect x="4" y="4.5" width="16" height="11.5" rx="2.5" fill="#DCE8F4" ${ks}/>`+fs(12,10.3),
  sport:`<path d="M2.6 5.6h18.8" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5"/><rect x="2.3" y="3.3" width="2.2" height="4.6" rx=".8" fill="#A99790" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><rect x="19.5" y="3.3" width="2.2" height="4.6" rx=".8" fill="#A99790" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><path d="M7.6 13.4 6.6 6.2M16.4 13.4l1-7.2" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.6"/><circle cx="6.6" cy="5.8" r="1.2" fill="#FFF3E6" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><circle cx="17.4" cy="5.8" r="1.2" fill="#FFF3E6" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><path d="M12 9.6c4.6 0 7 3.4 7 7.2 0 3-2.4 4.4-7 4.4s-7-1.4-7-4.4c0-3.8 2.4-7.2 7-7.2z" fill="#FFF3E6" stroke="#6B5A55" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><circle cx="10.3" cy="15.6" r=".75" fill="#4B3D3A"/><circle cx="13.7" cy="15.6" r=".75" fill="#4B3D3A"/><path d="M11.3 17q.7 .6 1.4 0" stroke="#4B3D3A" stroke-width=".7" fill="none" stroke-linecap="round"/><ellipse cx="9.1" cy="17" rx=".9" ry=".5" fill="#EDA5B0"/><ellipse cx="14.9" cy="17" rx=".9" ry=".5" fill="#EDA5B0"/>`,
@@ -1786,7 +1790,7 @@ function tasksHTML(){
     if(!list.length&&!bdTop)body=`<div class="empty" style="opacity:.75;position:absolute;left:0;right:0;top:0;bottom:96px;justify-content:center;padding:0">${AnimatedDogMascots(300)}</div>`;
   } else if(S.folder==='notes'){
     body=`<div class="qn"><textarea id="qnote" rows="1" placeholder="Note rapide" autocomplete="off">${esc(S.qnT||'')}</textarea><button aria-label="Ajouter" data-a="qnadd"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFBF5" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>`
-      +[...(S.notes||[])].reverse().map(n=>`<div class="qnc"><div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:600;white-space:pre-wrap;word-break:break-word">${esc(n.t)}</div><div class="meta" style="font-size:12px;margin-top:2px">${pd(n.at).getDate()} ${MONS[pd(n.at).getMonth()]}</div></div><button class="qnto" data-a="qnto" data-id="${n.id}">${kw('afaire',20)}À faire</button><button class="qnx" aria-label="Supprimer" data-a="qndel" data-id="${n.id}">×</button></div>`).join('');
+      +[...(S.notes||[])].reverse().map(n=>`<div class="qnc"><div style="flex:1;min-width:0">${S._qnEd===n.id?`<textarea class="qned" id="qned" data-in="qnedit" data-id="${n.id}" rows="2">${esc(n.t)}</textarea>`:`<div style="font-size:15px;font-weight:600;white-space:pre-wrap;word-break:break-word">${esc(n.t)}</div>`}<div class="meta" style="font-size:12px;margin-top:2px">${pd(n.at).getDate()} ${MONS[pd(n.at).getMonth()]}</div></div><button class="qnto qnic" aria-label="Modifier" data-a="qned" data-id="${n.id}">${kw('crayon',24)}</button><button class="qnto qnic" aria-label="Mettre dans À faire" data-a="qnto" data-id="${n.id}">${kw('afaire',24)}</button><button class="qnx" aria-label="Supprimer" data-a="qndel" data-id="${n.id}">×</button></div>`).join('');
   } else if(S.folder==='urgent'){
     list.sort((a,b)=>(!!a.done-!!b.done)||(urgLevel(b)-urgLevel(a)));body=list.map(taskCard).join('');
     if(!list.length)body=`<div class="empty" style="opacity:.75;position:absolute;left:0;right:0;top:0;bottom:96px;justify-content:center;padding:0">${AnimatedDogMascots(300)}</div>`;
@@ -2189,6 +2193,7 @@ function renderInner(){
   const rs=document.getElementById('restore');if(rs)rs.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;f.text().then(t=>{let o;try{o=JSON.parse(t)}catch(_){S.toast='Fichier illisible';render();return}if(!o||o.app!=='agenda'||!o.state){S.toast='Ce n’est pas une sauvegarde de l’agenda';render();return}
     if(!confirm('Remplacer les données actuelles par la sauvegarde du '+String(o.at||'').slice(0,10)+' ?'))return;PKEYS.forEach(k=>{if(o.state[k]!==undefined)S[k]=o.state[k]});S.sheet='';S.toast='Sauvegarde restaurée';render()})});
   const drn=document.getElementById('drnote');if(drn)drn.addEventListener('input',e=>{const D=S.cycle.days,k=S.cyDay,en={...(D[k]||{})},sl={...(en.sl||{})},v=e.target.value;if(v.trim())sl.note=v;else delete sl.note;if(Object.keys(sl).length)en.sl=sl;else delete en.sl;const nd={...D};if(Object.keys(en).length)nd[k]=en;else delete nd[k];S.cycle={...S.cycle,days:nd};persist()});
+  if(S._focusQned){S._focusQned=false;const qe=document.getElementById('qned');if(qe){qe.focus();qe.setSelectionRange(qe.value.length,qe.value.length);qe.style.height=qe.scrollHeight+'px'}}
   const qn=document.getElementById('qnote');if(qn){const qg=()=>{qn.style.height='auto';qn.style.height=qn.scrollHeight+'px'};qg();qn.addEventListener('input',e=>{S.qnT=e.target.value;qg()});qn.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.querySelector('[data-a=qnadd]').click()}});if(S._focusQn){S._focusQn=false;qn.focus()}}
   const cdt=document.getElementById('cdt');if(cdt)cdt.addEventListener('input',e=>{S.cdT=e.target.value});
   const inp=document.getElementById('titre');if(inp)inp.addEventListener('input',e=>{S.draft=e.target.value;if(S.D)S.D.title=e.target.value});
@@ -2243,6 +2248,7 @@ let SWO=null;
 document.addEventListener('change',e=>{
   const el=e.target.closest&&e.target.closest('[data-in]');if(!el)return;const v=el.value,a=el.dataset.in;
   const tH=x=>{if(!x)return null;const q=x.split(':').map(Number);return Math.min(23.75,Math.max(5,q[0]+(q[1]||0)/60))};
+  if(a==='qnedit'){const n=(S.notes||[]).find(x=>x.id===+el.dataset.id);if(n&&v.trim()){n.t=v.trim();persist()}return}
   if(a==='ddate'){if(v)S.D.date=v}
   if(a==='dby'){S.D.by=v;return}
   if(a==='halt'){S._skOpen='h'+el.dataset.k;S.flags.hairAlt={...(S.flags.hairAlt||{}),[el.dataset.k]:v};render();return}
@@ -2314,6 +2320,7 @@ document.addEventListener('click',e=>{
     case 'qnadd':{const t=(S.qnT||'').trim();if(!t){S._focusQn=true;break}S.notes=[...(S.notes||[]),{id:S.nextId++,t,at:TODAY}];S.qnT='';S._focusQn=true;break}
     case 'qndel':S.qnDel=id;S.sheet='qnconf';break;
     case 'qnyes':S.notes=S.notes.filter(n=>n.id!==S.qnDel);S.sheet='';break;
+    case 'qned':{if(S._qnEd===id){const ta=document.getElementById('qned'),n=S.notes.find(x=>x.id===id);if(ta&&n&&ta.value.trim())n.t=ta.value.trim();S._qnEd=null}else{S._qnEd=id;S._focusQned=true}break}
     case 'qnto':{const n=S.notes.find(x=>x.id===id);if(!n)break;S.items.push({id:S.nextId++,kind:'tache',title:n.t,theme:'autre',folder:'afaire',reports:0});S.notes=S.notes.filter(x=>x!==n);S.toast='Ajoutée dans À faire';break}
     case 'add':{if(S.tab==='taches'&&S.folder==='notes'){S._focusQn=true;break}S.draft='';if(S.tab==='moi'){S.draftSec=S.sheet==='sec'&&S.secId?S.secId:(S.draftSec||'visage');S.draftSub=pickList()[0][0]}else S.draftSub='arrosage';S.draftFreq=7;S.draftZone=S.zoneId||'salon';
       if(S.tab==='menage'||S.tab==='moi'){S.sheet='add';break}
@@ -3235,7 +3242,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='186';
+const APP_VER='187';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
