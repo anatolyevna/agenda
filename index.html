@@ -2069,7 +2069,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 function vKeypad(){const d=(S._vpin||'').length;return `<div class="vdots">${[0,1,2,3].map(i=>`<i class="${i<d?'on':''}${i===d-1?' pop':''}"></i>`).join('')}</div><div class="vmsg">${S._vmsg||''}</div><div class="vpad">${[1,2,3,4,5,6,7,8,9,'',0,'del'].map(k=>k===''?'<span></span>':`<button data-a="vk" data-v="${k}">${k==='del'?'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B5A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>':k}</button>`).join('')}</div>`}
 let CF=null;
 function appConfirm(o,fn){S._cf=o;CF=fn;render()}
-function cfHTML(){const o=S._cf;return `<div class="cfveil" data-a="cfno"></div><div class="cfbox ${o.red?'red':''}" role="alertdialog">${o.red?'<svg width="46" height="46" viewBox="0 0 48 48"><path d="M24 6 44 40H4z" fill="#FBD9DD" stroke="#B3123A" stroke-width="2.4" stroke-linejoin="round"/><path d="M24 19v10" stroke="#B3123A" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="34.5" r="1.9" fill="#B3123A"/></svg>':`<span style="display:inline-flex;width:52px;height:52px">${ART.reveil}</span>`}<div class="vct">${o.t}</div><div class="vcs">${o.sub||''}</div><button class="vyes" data-a="cfyes">${o.yes||'Confirmer'}</button><button class="vno" data-a="cfno">Annuler</button></div>`}
+function cfHTML(){const o=S._cf;return `<div class="cfveil" data-a="cfno"></div><div class="cfbox ${o.red?'red':''}" role="alertdialog">${o.red?'<svg width="46" height="46" viewBox="0 0 48 48"><path d="M24 6 44 40H4z" fill="#FBD9DD" stroke="#B3123A" stroke-width="2.4" stroke-linejoin="round"/><path d="M24 19v10" stroke="#B3123A" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="34.5" r="1.9" fill="#B3123A"/></svg>':tmrFace(false,52)}<div class="vct">${o.t}</div><div class="vcs">${o.sub||''}</div><button class="vyes" data-a="cfyes">${o.yes||'Confirmer'}</button><button class="vno" data-a="cfno">Annuler</button></div>`}
 function vConfirm(t,sub,yes){return `<div class="vconf"><svg width="46" height="46" viewBox="0 0 48 48"><path d="M24 6 44 40H4z" fill="#FBD9DD" stroke="#B3123A" stroke-width="2.4" stroke-linejoin="round"/><path d="M24 19v10" stroke="#B3123A" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="34.5" r="1.9" fill="#B3123A"/></svg><div class="vct">${t}</div><div class="vcs">${sub}</div><button class="vyes" data-a="${yes}">Supprimer</button><button class="vno" data-a="vno">Annuler</button></div>`}
 function vaultHTML(){
   if(S._vReset)return vConfirm('Tout effacer ?','Tous les mots de passe enregistrés sur cet appareil seront définitivement supprimés. Cette action est irréversible.','vresetyes');
@@ -3309,7 +3309,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='193';
+const APP_VER='194';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
