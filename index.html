@@ -2067,16 +2067,16 @@ function vaultHTML(){
   if(!VAULT){const setup=!vHas();const lbl=setup?(S._vpin1?'Confirme ton code':'Choisis un code à 4 chiffres'):'Entre ton code';
     return `<div class="vlock">${kw('cadenas',64)}<div class="hf" style="font-size:16px;margin-top:6px">${lbl}</div>${setup?'<div class="meta" style="font-size:12.5px;text-align:center;max-width:280px">Tes mots de passe restent chiffrés sur cet appareil uniquement. Sans le code, ils ne peuvent pas être récupérés.</div>':''}${vKeypad()}${!setup?'<button class="vreset" data-a="vreset">Code oublié ? Tout effacer</button>':''}</div>`}
   const D=S._vD,sh=S._vShow||{};
-  const form=D?`<div class="vform"><label><span>Site</span><input class="din" data-in="vf" data-k="site" value="${esc(D.site||'')}" placeholder="ex. Volotea, Ameli…" autocomplete="off"></label><label><span>Identifiant ou mail</span><input class="din" data-in="vf" data-k="user" value="${esc(D.user||'')}" autocomplete="off" autocapitalize="off"></label><label><span>Mot de passe</span><input class="din" data-in="vf" data-k="pass" value="${esc(D.pass||'')}" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label><span>Note</span><input class="din" data-in="vf" data-k="note" value="${esc(D.note||'')}" placeholder="facultatif" autocomplete="off"></label><div class="vfb"><button data-a="vcancel">Annuler</button><button class="ok" data-a="vsave">Enregistrer</button></div></div>`:`<button class="vadd" data-a="vnew">+ Ajouter</button>`;
+  const form=D?`<div class="vform"><label><span>Site</span><input class="din" data-in="vf" data-k="site" value="${esc(D.site||'')}"  autocomplete="off"></label><label><span>Identifiant ou mail</span><input class="din" data-in="vf" data-k="user" value="${esc(D.user||'')}" autocomplete="off" autocapitalize="off"></label><label><span>Mot de passe</span><input class="din" data-in="vf" data-k="pass" value="${esc(D.pass||'')}" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label><span>Note</span><input class="din" data-in="vf" data-k="note" value="${esc(D.note||'')}"  autocomplete="off"></label><div class="vfb"><button data-a="vcancel">Annuler</button><button class="ok" data-a="vsave">Enregistrer</button></div></div>`:`<button class="vadd" data-a="vnew">+ Ajouter</button>`;
   const L=[...VAULT].sort((a,b)=>(a.site||'').localeCompare(b.site||'','fr'));
   return form+(L.length?L.map(e=>`<div class="vcard"><div class="vtop"><b>${esc(e.site||'Sans nom')}</b><button class="qnto qnic" aria-label="Modifier" data-a="vedit" data-id="${e.id}">${kw('crayon',22)}</button><button class="qnx" aria-label="Supprimer" data-a="vdel" data-id="${e.id}">×</button></div>
     ${e.user?`<div class="vrow"><span class="sk">Identifiant</span><span class="vval">${esc(e.user)}</span><button class="vbtn" data-a="vcopy" data-id="${e.id}" data-v="user">Copier</button></div>`:''}
     <div class="vrow"><span class="sk">Mot de passe</span><span class="vval vpw">${sh[e.id]?esc(e.pass||''):'••••••••'}</span><button class="vbtn" data-a="veye" data-id="${e.id}">${sh[e.id]?'Masquer':'Voir'}</button><button class="vbtn" data-a="vcopy" data-id="${e.id}" data-v="pass">Copier</button></div>
-    ${e.note?`<div class="vrow"><span class="sk">Note</span><span class="vval">${esc(e.note)}</span></div>`:''}</div>`).join(''):(D?'':'<div class="meta" style="text-align:center;padding:18px 0">Aucun mot de passe enregistré.</div>'))+`<button class="vlockb" data-a="vlock">${kw('cadenas',22)}Verrouiller</button>`}
+    ${e.note?`<div class="vrow"><span class="sk">Note</span><span class="vval">${esc(e.note)}</span></div>`:''}</div>`).join(''):(D?'':'<div class="meta" style="text-align:center;padding:18px 0">Aucun mot de passe enregistré.</div>'))+``}
 function sheetHTML(){
   if(!S.sheet)return '';
   let title,inner;
-  const closeBtn=`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit','recettes','recette','lectures','drnotes','wbset','vault'].includes(S.sheet)?'Fermer':'Annuler'}</button>`;
+  const closeBtn=`<button class="ghost" style="height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;flex:none" data-a="close">${['catalog','meteo','chore','sec','zone','suggs','edit','recettes','recette','lectures','drnotes','wbset'].includes(S.sheet)?'Fermer':S.sheet==='vault'?'Verrouiller':'Annuler'}</button>`;
   if(S.sheet==='wbset'){const sv=skVer(),hs=hState(),bs=bState(),ph=(n,cur,a)=>{const nm=i=>a==='skinp'?SKIN_PH[i][0]:a==='hairp'?HAIR_PH[i][0]:BODY_PH[i][0],det=i=>a==='skinp'?[SKIN_PH[i][1],...SKIN_PH[i][2]]:a==='hairp'?HAIR_PH[i][1]:[BODY_PH[i][1]];
       return `<div class="wbphs"><span class="wbphl">Phase</span>${Array.from({length:n},(_,i)=>`<button class="wbph ${cur===i+1?'on':''}" data-a="${a}" data-v="${i+1}">${i+1}</button>`).join('')}</div><div class="wbphd"><b>${nm(cur)}</b> · ${det(cur).join(' · ')}</div>`};
     title='';
@@ -2199,7 +2199,7 @@ function sheetHTML(){
 }
 
 function admCenter(){document.querySelectorAll('.adm').forEach(a=>{a.style.removeProperty('--ns');const r=a.getBoundingClientRect();if(!r.width)return;a.style.setProperty('--ns',Math.round(innerHeight*.56-(r.top+r.height/2))+'px')})}
-function render(){try{if(S.care&&S.flags){wbTonight()}renderInner()}finally{persist();requestAnimationFrame(()=>{try{admCenter();decoGuard();legAlign()}catch(e){}})}}
+function render(){try{if(S.care&&S.flags){wbTonight()}if(S.toast&&S.toast!==S._toastShown){S._toastShown=S.toast;clearTimeout(window._tT);window._tT=setTimeout(()=>{S.toast='';S._toastShown='';render()},2500);try{navigator.vibrate&&navigator.vibrate(30)}catch(e){}}else if(!S.toast)S._toastShown='';renderInner()}finally{persist();requestAnimationFrame(()=>{try{admCenter();decoGuard();legAlign()}catch(e){}})}}
 addEventListener('resize',()=>{admCenter();decoGuard();legAlign()});if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{try{legAlign()}catch(e){}});
 function renderInner(){
   const ph=document.getElementById('phone');
@@ -3294,7 +3294,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='188';
+const APP_VER='189';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
