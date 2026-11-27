@@ -2028,7 +2028,7 @@ function moiHTML(){wbStateRec();
     const TO=(S._wbTag||{})[z],tag=(extra)=>`<button class="wbtag" style="--d:${WBZC[z]}" data-a="wbtag" data-v="${z}" data-lp="wbzall" data-lpv="${z}"><span class="wbti">${charSvg(z==='autre'?'idee':z,'ok',38)}</span><span class="wbtn">${WBZN[z]}</span>${extra||''}</button>`,chev=`<svg class="wbtc" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${TO?180:0}deg)"><path d="M6 9l6 6 6-6"/></svg>`;
     if(z==='sportm'){const SO=['yoga','etir','course'],so=c=>{const i=SO.indexOf(c.sub);return i<0?9:i};rows.sort((a,b)=>so(a)-so(b));const dn=rows.filter(wbDone).length;return `<div class="wbz">${tag((dn?`<b class="wbok">${dn} ✓</b>`:'')+chev)}${TO?`<div class="wbin">${rows.map(wbRow).join('')}</div>`:''}</div>`}
     if(z==='complements'){const al=supAlerts(),SC=S.care.filter(c=>c.sec==='complements'&&supOf(c)).sort((a,b)=>SLOTS.findIndex(s=>s[0]===supOf(a).slot)-SLOTS.findIndex(s=>s[0]===supOf(b).slot));
-      const tg=`<div class="sptg">${SC.map(c=>`<button class="${c.paused?'':'on'}" data-a="suptg" data-id="${c.id}"><span>${esc(supOf(c).n)}</span><i></i></button>`).join('')}</div>`;const si=tg+suppCard().replace(/^<details[^>]*>/,`<details class="hair spdos" ${S._supDos?'open':''}>`).replace('<summary>','<summary data-a="supdos">');
+      const tg=`<details class="hair spdos" ${S._supSel?'open':''}><summary data-a="supsel">${kw('perso',22)}<span>Ma sélection</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="sptg">${SC.map(c=>`<button class="${c.paused?'':'on'}" data-a="suptg" data-id="${c.id}"><span>${esc(supOf(c).n)}</span><i></i></button>`).join('')}</div></details>`;const si=tg+suppCard().replace(/^<details[^>]*>/,`<details class="hair spdos" ${S._supDos?'open':''}>`).replace('<summary>','<summary data-a="supdos">');
       const pon=S.care.filter(c=>c.sec==='complements'&&supOf(c)&&!c.paused&&(supOf(c).od||String(c.freq)==='0')&&!wbDue(c)&&wbMom(c)===m);
       const R3=rows.slice().sort((a,b)=>SLOTS.findIndex(s=>s[0]===(supOf(a)||{}).slot)-SLOTS.findIndex(s=>s[0]===(supOf(b)||{}).slot));
       const CO=!!S._supCol,IN=!!S._supInfo,ch2=`<svg class="wbtc" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9A8A82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${CO?0:180}deg)"><path d="M6 9l6 6 6-6"/></svg>`;
@@ -2500,6 +2500,7 @@ document.addEventListener('click',e=>{
     case 'wbcyno':S.flags.wbCyAsk=TODAY;break;
     case 'wbsport':S._wbSport=!S._wbSport;break;
     case 'supcol':{if(S._lpAt&&Date.now()-S._lpAt<900)break;S._supCol=!S._supCol;if(S._supCol)S._supInfo=false;break}
+    case 'supsel':{e.preventDefault();S._supSel=!S._supSel;break}
     case 'supdos':{e.preventDefault();S._supDos=!S._supDos;break}
     case 'supinfo':{S._supInfo=!S._supInfo;if(S._supInfo)S._supCol=false;break}
     case 'wbtag':{if(S._lpAt&&Date.now()-S._lpAt<900)break;S._wbTag=S._wbTag||{};S._wbTag[v]=!S._wbTag[v];break}
@@ -3313,7 +3314,7 @@ housekeeping();
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='161';
+const APP_VER='162';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
