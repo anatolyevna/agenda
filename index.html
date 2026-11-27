@@ -27,6 +27,7 @@ input,textarea,select{font-size:16px!important}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
 .page{display:block}
 .phone{width:100%;max-width:760px;margin:0 auto;height:100vh;height:100dvh;background:transparent;position:relative;z-index:1;overflow:hidden;display:flex;flex-direction:column;font-family:Nunito,sans-serif}
+@media (min-width:1000px) and (orientation:landscape){.phone{zoom:1.12;max-width:calc(100vw / 1.12 - 48px);height:calc(100vh / 1.12);height:calc(100dvh / 1.12)}.scat{--sx:2.6}header{justify-content:center;gap:44px;padding-right:56px;padding-left:56px}header>div:first-child{margin-right:0!important}header .dnum{font-size:84px}header .dtxt b{font-size:32px}header .dtxt span{font-size:24px}header .wx{flex:0 1 420px}header .gear{position:absolute;right:18px;top:50%;transform:translateY(-50%)}}
 .hf{font-family:"Zen Maru Gothic",sans-serif;font-weight:700}
 .nf{font-family:Nunito,sans-serif;font-weight:700}
 .mx{background:color-mix(in srgb,var(--d) var(--p,17%),var(--card));border:1px solid color-mix(in srgb,var(--d) 38%,var(--card))}
@@ -1806,7 +1807,7 @@ const BLOBS=['62% 38% 56% 44%/46% 58% 42% 54%','42% 58% 38% 62%/58% 42% 60% 40%'
 const LAY={6:{p:[[-88,-196],[86,-166],[-118,-30],[112,-2],[-72,134],[92,164]],z:[124,114,118,122,116,120]},
  8:{p:[[-105,-245],[85,-215],[-135,-90],[30,-75],[140,40],[-80,70],[40,190],[-125,235]],z:[100,94,96,100,92,98,96,94]}};
 const ringPos=n=>LAY[n].p;
-const scatBtn=(i,a,v,id,m,name,extra,pos)=>{const [x,y]=pos[i],sz=LAY[pos.length].z[i];return `<button class="cbw" style="position:absolute;width:120px;left:calc(50% + ${x}px);top:calc(50% + ${y}px);transform:translate(-50%,-50%)" data-a="${a}" data-v="${v}"><span class="bubble cb blob ${m}" style="width:${sz}px;height:${sz}px;border-radius:${BLOBS[i%BLOBS.length]}">${charSvg(id,m,Math.round(sz*.62))}${extra||''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`};
+const scatBtn=(i,a,v,id,m,name,extra,pos)=>{const [x,y]=pos[i],sz=LAY[pos.length].z[i];return `<button class="cbw" style="position:absolute;width:120px;left:calc(50% + ${x}px * var(--sx,1));top:calc(50% + ${y}px);transform:translate(-50%,-50%)" data-a="${a}" data-v="${v}"><span class="bubble cb blob ${m}" style="width:${sz}px;height:${sz}px;border-radius:${BLOBS[i%BLOBS.length]}">${charSvg(id,m,Math.round(sz*.62))}${extra||''}</span><span class="lbl2" style="font-size:13.5px">${name}</span></button>`};
 function menageHTML(){
   const zones=ZONES.map(([id,name])=>{const its=S.chores.filter(c=>c.zone===id),m=its.length?worst(its):'ok',n=its.filter(c=>!off(c)).length;
     return scatBtn(ZONES.findIndex(z=>z[0]===id),'zone',id,id,m,name,n?`<span class="zn znm">${n}</span>`:'',ringPos(ZONES.length))}).join('');
@@ -3231,7 +3232,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=
 render();
 loadWeather();
 (function waitLib(n){if(window.supabase&&window.supabase.createClient)sync.boot();else if(n<60)setTimeout(()=>waitLib(n+1),250);else{authed()?hideGate():showGate()}})(0);
-const APP_VER='183';
+const APP_VER='184';
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 function checkUpdate(){if(location.protocol!=='https:'||!navigator.onLine)return;
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
